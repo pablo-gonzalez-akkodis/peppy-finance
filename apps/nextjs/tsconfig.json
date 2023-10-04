@@ -1,0 +1,44 @@
+{
+  "extends": "../../tsconfig.json",
+  // "compilerOptions": {
+  //   "target": "es5",
+  //   "lib": ["dom", "dom.iterable", "esnext"],
+  //   "allowJs": true,
+  //   "strict": true,
+  //   "forceConsistentCasingInFileNames": true,
+  //   "noEmit": true,
+  //   "esModuleInterop": true,
+  //   "module": "esnext",
+  //   "moduleResolution": "node",
+  //   "resolveJsonModule": true,
+  //   "isolatedModules": true,
+  //   "jsx": "preserve",
+  //   "skipLibCheck": true
+  //   "incremental": true
+  // },
+  // FIXME: I had removed "**/*.ts", "**/*.tsx" in order to build the project! (Type error: Type parameter declaration expected: export declare function formatAbi<const TAbi extends Abi | readonly unknown[]>(abi: TAbi): FormatAbi<TAbi>;)
+  "include": ["next-env.d.ts","**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "assets/*": ["./assets/*"],
+      "components/*": ["./components/*"],
+      "constants/*": ["./constants/*"],
+      "connection/*": ["./connection/*"],
+      "hooks/*": ["./hooks/*"],
+      "lib/*": ["./lib/*"],
+      "state": ["./state"],
+      "state/*": ["./state/*"],
+      "theme": ["./theme"],
+      "theme/*": ["./theme/*"],
+      "utils/*": ["./utils/*"],
+      "types/*": ["./types/*"],
+      "@symmio-client/core/*": ["../../packages/core/src/*"]
+    },
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "jsx": "preserve",
+    "skipLibCheck": true
+  }
+}
+

@@ -1,0 +1,134 @@
+import { useMemo } from "react";
+import styled from "styled-components";
+
+import { BN_ZERO, formatAmount, toBN } from "@symmio-client/core/utils/numbers";
+import { OrderType } from "@symmio-client/core/types/trade";
+import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+
+import useDebounce from "@symmio-client/core/lib/hooks/useDebounce";
+import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import {
+  useActiveMarket,
+  useLimitPrice,
+  useOrderType,
+} from "@symmio-client/core/state/trade/hooks";
+import useTradePage, {
+  useLockedValues,
+  useNotionalValue,
+} from "@symmio-client/core/hooks/useTradePage";
+
+import InfoItem from "components/InfoItem";
+import { Column } from "components/Column";
+import { RowBetween, RowEnd } from "components/Row";
+import { useLeverage } from "@symmio-client/core/state/user/hooks";
+
+const Wrapper = styled(Column)`
+  padding: 0px;
+  gap: 16px;
+`;
+
+const PositionWrap = styled(RowBetween)`
+  font-size: 12px;
+  font-weight: 400;
+  padding: 0px 3px;
+  white-space: nowrap;
+  color: ${({ theme }) => theme.text3};
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: 10px;
+  `};
+`;
+
+const PositionValue = styled(RowEnd)`
+  gap: 4px;
+  font-size: 12px;
+  color: ${({ theme }) => theme.text3};
+  & > * {
+    &:last-child {
+      font-weight: 500;
+      color: ${({ theme }) => theme.text0};
+    }
+  }
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    font-size: 10px;
+  `};
+`;
+
+export default function TradeOverview() {
+  const { chainId } = useActiveWagmi();
+  const market = useActiveMarket();
+  const collateralCurrency = getTokenWithFallbackChainId(
+    COLLATERAL_TOKEN,
+    chainId
+  );
+  const limitPrice = useLimitPrice();
+  const orderType = useOrderType();
+
+  const { price: markPrice, formattedAmounts } = useTradePage();
+
+  const price = useMemo(
+    () => (orderType === OrderType.MARKET ? markPrice : limitPrice),
+    [orderType, markPrice, limitPrice]
+  );
+
+  const quantityAsset = useMemo(
+    () =>
+      toBN(formattedAmounts[1]).isNaN() ? BN_ZERO : toBN(formattedAmounts[1]),
+    [formattedAmounts]
+  );
+  const notionalValue = useNotionalValue(quantityAsset.toString(), price);
+  const { cva, lf } = useLockedValues(notionalValue);
+  const tradingFee = useMemo(
+    () =>
+      market?.tradingFee
+        ? toBN(notionalValue).times(market.tradingFee).toString()
+        : "0",
+    [notionalValue, market]
+  );
+  const userLeverage = useLeverage();
+  const debouncedLeverage = useDebounce(userLeverage, 10) as number;
+
+  return (
+    <>
+      <Wrapper>
+        <PositionWrap>
+          <div>Position Value:</div>
+          <PositionValue>
+            <div>{`${
+              toBN(formattedAmounts[0]).isNaN()
+                ? "0"
+                : toBN(formattedAmounts[0]).toFormat()
+            } x ${debouncedLeverage} =`}</div>
+            <div>
+              {`${
+                toBN(formattedAmounts[0]).isNaN() ||
+                toBN(debouncedLeverage).isNaN()
+                  ? 0
+                  : toBN(formattedAmounts[0])
+                      .times(debouncedLeverage)
+                      .toFormat()
+              } ${collateralCurrency?.symbol}`}
+            </div>
+          </PositionValue>
+        </PositionWrap>
+
+        <InfoItem
+          label="Maintenance Margin (CVA):"
+          amount={`${
+            !toBN(cva).isNaN() && !toBN(lf).isNaN()
+              ? formatAmount(toBN(cva).plus(lf))
+              : "0"
+          } ${collateralCurrency?.symbol}`}
+          // tooltip="Maintenance Margin"
+        />
+        <InfoItem
+          label="Platform Fee:"
+          amount={`${
+            !toBN(tradingFee).isNaN() ? formatAmount(tradingFee) : "0"
+          } ${collateralCurrency?.symbol}`}
+          // tooltip="Platform Fee"
+        />
+      </Wrapper>
+    </>
+  );
+}

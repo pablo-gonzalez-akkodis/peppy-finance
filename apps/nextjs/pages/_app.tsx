@@ -1,0 +1,58 @@
+import React from "react";
+import { WagmiConfig } from "wagmi";
+import dynamic from "next/dynamic";
+import type { AppProps } from "next/app";
+import store, { ReduxProvider, persistor } from "@symmio-client/core/state";
+import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
+import { getWagmiConfig } from "@symmio-client/core/utils/wagmi";
+import { PersistGate } from "redux-persist/integration/react";
+import ThemeProvider, { ThemedGlobalStyle } from "theme";
+import { ModalProvider } from "styled-react-modal";
+import { Toaster } from "react-hot-toast";
+import { ModalBackground } from "components/Modal";
+import Layout from "components/Layout";
+import Popups from "components/Popups";
+import { BlockNumberProvider } from "@symmio-client/core/lib/hooks/useBlockNumber";
+
+const Updaters = dynamic(() => import("@symmio-client/core/state/updaters"), {
+  ssr: false,
+});
+
+const { wagmiConfig, chains, initialChain } = getWagmiConfig();
+
+export default function MyApp({ Component, pageProps }: AppProps) {
+  return (
+    <ReduxProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider
+            chains={chains}
+            initialChain={initialChain}
+            showRecentTransactions={true}
+            theme={darkTheme({
+              accentColor: "#AEE3FA",
+              accentColorForeground: "#151A1F",
+              borderRadius: "small",
+              fontStack: "system",
+              overlayBlur: "small",
+            })}
+          >
+            <ThemeProvider>
+              <ThemedGlobalStyle />
+              <ModalProvider backgroundComponent={ModalBackground}>
+                <Toaster position="bottom-center" />
+                <BlockNumberProvider>
+                  <Popups />
+                  <Updaters />
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </BlockNumberProvider>
+              </ModalProvider>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </PersistGate>
+    </ReduxProvider>
+  );
+}

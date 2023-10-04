@@ -1,0 +1,6 @@
+.next
+.vercel
+
+# dotenv environment variables file
+.env
+.env.development

@@ -1,0 +1,73 @@
+import styled from "styled-components";
+
+import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+import { useModalOpen } from "@symmio-client/core/state/application/hooks";
+
+import Column from "components/Column";
+
+import TradeOverview from "components/App/TradePanel/TradeOverview";
+import PositionTypeTab from "components/App/TradePanel/PositionTypeTab";
+
+import OpenPositionModal from "components/ReviewModal/OpenPositionModal";
+import AmountsPanel from "./AmountsPanel";
+import OrderTypeTab from "./OrderTypeTab";
+import MinPositionInfo from "./MinPositionInfo";
+import TradeActionButtons from "./TradeActionButton";
+
+// import { useAddPopup } from 'state/application/hooks'
+// import { LastSeenAction, NotificationDetails, NotificationType } from 'state/notifications/types'
+
+const Wrapper = styled.div`
+  width: 100%;
+  max-width: 480px;
+  border-radius: 4px;
+  height: 635px;
+  overflow: scroll;
+  background: ${({ theme }) => theme.bg0};
+  & > * {
+    &:first-child {
+      border-radius: 0px;
+      & > * {
+        &:first-child {
+          border-bottom-left-radius: 0;
+        }
+        &:last-child {
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+  }
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+  max-width: unset;
+`};
+`;
+
+const Container = styled(Column)`
+  padding: 12px;
+  gap: 20px;
+  border-radius: 4px;
+  /* overflow-x: hidden; // for some reason this panel can overflow horizontally */
+  & > * {
+    &:first-child {
+      margin-top: 8px;
+    }
+  }
+`;
+
+export default function TradePanel() {
+  const showTradeInfoModal = useModalOpen(ApplicationModal.OPEN_POSITION);
+
+  return (
+    <Wrapper>
+      <OrderTypeTab />
+      <Container>
+        <PositionTypeTab />
+        <AmountsPanel />
+        <MinPositionInfo />
+        <TradeActionButtons />
+        <TradeOverview />
+      </Container>
+      {showTradeInfoModal && <OpenPositionModal />}
+    </Wrapper>
+  );
+}
