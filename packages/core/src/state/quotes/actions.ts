@@ -1,4 +1,4 @@
-import { Quote } from "@symmio-client/core/types/quote";
+import { Quote } from "../../types/quote";
 import { createAction } from "@reduxjs/toolkit";
 
 export const addQuote = createAction<{ id: number }>("quotes/addQuote");

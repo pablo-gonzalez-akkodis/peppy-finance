@@ -1,4 +1,4 @@
-import { SupportedHedgerId } from "@symmio-client/core/constants/hedgers";
+import { SupportedHedgerId } from "../constants/hedgers";
 import { Market } from "./market";
 
 export interface OpenInterest {

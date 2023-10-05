@@ -3,7 +3,7 @@ import {
   AppThunkDispatch,
   useAppDispatch,
   useAppSelector,
-} from "@symmio-client/core/state";
+} from "..";
 
 import {
   MarketDataMap,
@@ -16,12 +16,12 @@ import { updateWebSocketStatus, updatePrices, updateDepth } from "./actions";
 import {
   DEFAULT_HEDGER,
   getHedgerInfo,
-} from "@symmio-client/core/constants/hedgers";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import useDebounce from "@symmio-client/core/lib/hooks/useDebounce";
+} from "../../constants/hedgers";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
+import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
+import useDebounce from "../../lib/hooks/useDebounce";
 import { getMarketsInfo } from "./thunks";
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 
 export function useMarketsStatus(): ApiState {
   const marketsStatus: ApiState = useAppSelector(

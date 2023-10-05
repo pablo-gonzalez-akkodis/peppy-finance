@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
-import { Market } from "@symmio-client/core/types/market";
-import { OpenInterest } from "@symmio-client/core/types/hedger";
+import { makeHttpRequest } from "../../utils/http";
+import { Market } from "../../types/market";
+import { OpenInterest } from "../../types/hedger";
 import {
   DepthResponse,
   ErrorMessages,

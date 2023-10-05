@@ -1,5 +1,5 @@
-import { ApiState } from "@symmio-client/core/types/api";
-import { Quote } from "@symmio-client/core/types/quote";
+import { ApiState } from "../../types/api";
+import { Quote } from "../../types/quote";
 
 export interface QuotesState {
   history: { [chainId: number]: Quote[] };

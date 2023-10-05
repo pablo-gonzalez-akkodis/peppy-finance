@@ -4,7 +4,7 @@ import {
   useContractRead,
   useContractReads,
 } from "wagmi";
-import { useContract } from "@symmio-client/core/lib/hooks/contract";
+import { useContract } from "./contract";
 
 /**
  * TODO

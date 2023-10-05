@@ -1,44 +1,37 @@
 import { useCallback, useMemo } from "react";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import {
-  COLLATERAL_ADDRESS,
-  PARTY_B_WHITELIST,
-} from "@symmio-client/core/constants/addresses";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
+import { COLLATERAL_ADDRESS, PARTY_B_WHITELIST } from "../constants/addresses";
 import {
   DEFAULT_PRECISION,
   LIMIT_ORDER_DEADLINE,
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
-} from "@symmio-client/core/constants/misc";
-import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
-import {
-  OrderType,
-  TradeState,
-  PositionType,
-} from "@symmio-client/core/types/trade";
-import { useCurrency } from "@symmio-client/core/lib/hooks/useTokens";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
+} from "../constants/misc";
+import { FALLBACK_CHAIN_ID } from "../constants/chains";
+import { makeHttpRequest } from "../utils/http";
+import { OrderType, TradeState, PositionType } from "../types/trade";
+import { useCurrency } from "../lib/hooks/useTokens";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
+import { useHedgerInfo } from "../state/hedger/hooks";
 import {
   useActiveAccountAddress,
   useLeverage,
   useSlippageTolerance,
-} from "@symmio-client/core/state/user/hooks";
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
+} from "../state/user/hooks";
+import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   TradeTransactionInfo,
   TransactionType,
-} from "@symmio-client/core/state/transactions/types";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+} from "../state/transactions/types";
+import { ConstructCallReturnType } from "../types/web3";
 import {
   useActiveMarketId,
   useActiveMarketPrice,
   useLockedPercentages,
   useOrderType,
   usePositionType,
-} from "@symmio-client/core/state/trade/hooks";
+} from "../state/trade/hooks";
 
 import {
   removeTrailingZeros,
@@ -48,27 +41,27 @@ import {
   BN_ZERO,
   fromWei,
   toWeiBN,
-} from "@symmio-client/core/utils/numbers";
+} from "../utils/numbers";
 import {
   createTransactionCallback,
   TransactionCallbackState,
-} from "@symmio-client/core/utils/web3";
+} from "../utils/web3";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "../hooks/useMarkets";
 import {
   useDiamondContract,
   useMultiAccountContract,
-} from "@symmio-client/core/hooks/useContract";
-import { useMultiAccountable } from "@symmio-client/core/hooks/useMultiAccountable";
+} from "../hooks/useContract";
+import { useMultiAccountable } from "../hooks/useMultiAccountable";
 import useTradePage, {
   useLockedCVA,
   useLockedLF,
   useLockedMM,
   useMaxInterestRate,
   useNotionalValue,
-} from "@symmio-client/core/hooks/useTradePage";
-import { SendOrCloseQuoteClient } from "@symmio-client/core/lib/muon";
-import { useSingleUpnlAndPriceSig } from "@symmio-client/core/hooks/useMuonSign";
+} from "../hooks/useTradePage";
+import { SendOrCloseQuoteClient } from "../lib/muon";
+import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
 import { encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 

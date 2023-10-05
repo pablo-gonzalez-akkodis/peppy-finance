@@ -1,9 +1,9 @@
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 import {
   Account,
   AccountUpnl,
   UserPartyAStatType,
-} from "@symmio-client/core/types/user";
+} from "../../types/user";
 
 export enum ConnectionStatus {
   OPEN,

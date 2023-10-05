@@ -1,24 +1,24 @@
 import { useCallback } from "react";
 import { shallowEqual } from "react-redux";
 
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
+import { makeHttpRequest } from "../../utils/http";
 import {
   BALANCE_HISTORY_ITEMS_NUMBER,
   CHECK_IS_WHITE_LIST,
-} from "@symmio-client/core/constants/misc";
+} from "../../constants/misc";
 import {
   Account,
   UserPartyAStatDetail,
   initialUserPartyAStatDetail,
-} from "@symmio-client/core/types/user";
-import { ApiState } from "@symmio-client/core/types/api";
+} from "../../types/user";
+import { ApiState } from "../../types/api";
 import { BalanceHistoryData, ConnectionStatus } from "./types";
 import { getBalanceHistory } from "./thunks";
 import {
   AppThunkDispatch,
   useAppDispatch,
   useAppSelector,
-} from "@symmio-client/core/state";
+} from "..";
 
 import {
   updateUserSlippageTolerance,
@@ -28,8 +28,8 @@ import {
   updateUserExpertMode,
   updateUpnlWebSocketStatus as updateUpnlWebSocketStatus,
 } from "./actions";
-import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
-import useDebounce from "@symmio-client/core/lib/hooks/useDebounce";
+import { useHedgerInfo } from "../hedger/hooks";
+import useDebounce from "../../lib/hooks/useDebounce";
 
 export function useIsDarkMode(): boolean {
   const { userDarkMode, matchesDarkMode } = useAppSelector(

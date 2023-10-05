@@ -1,6 +1,6 @@
-import { ApiState } from "@symmio-client/core/types/api";
-import { OpenInterest } from "@symmio-client/core/types/hedger";
-import { Market } from "@symmio-client/core/types/market";
+import { ApiState } from "../../types/api";
+import { OpenInterest } from "../../types/hedger";
+import { Market } from "../../types/market";
 
 export enum ConnectionStatus {
   OPEN,

@@ -1,32 +1,29 @@
 import { useCallback, useMemo } from "react";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import {
-  CloseQuote,
-  CloseQuoteMessages,
-} from "@symmio-client/core/types/trade";
+import { Quote } from "../types/quote";
+import { CloseQuote, CloseQuoteMessages } from "../types/trade";
 
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
+import { useTransactionAdder } from "../state/transactions/hooks";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import {
   CancelQuoteTransactionInfo,
   TransactionType,
-} from "@symmio-client/core/state/transactions/types";
+} from "../state/transactions/types";
 import {
   TransactionCallbackState,
   createTransactionCallback,
-} from "@symmio-client/core/utils/web3";
+} from "../utils/web3";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "../hooks/useMarkets";
 import {
   useDiamondContract,
   useMultiAccountContract,
-} from "@symmio-client/core/hooks/useContract";
-import { useMultiAccountable } from "@symmio-client/core/hooks/useMultiAccountable";
+} from "../hooks/useContract";
+import { useMultiAccountable } from "../hooks/useMultiAccountable";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 
 export function useCancelQuote(
   quote: Quote | null,

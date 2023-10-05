@@ -5,11 +5,11 @@ import {
   LIMIT_ORDER_DEADLINE,
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
-} from "@symmio-client/core/constants/misc";
+} from "../constants/misc";
 import {
   createTransactionCallback,
   TransactionCallbackState,
-} from "@symmio-client/core/utils/web3";
+} from "../utils/web3";
 import {
   BN_ZERO,
   formatPrice,
@@ -19,38 +19,38 @@ import {
   toBN,
   toWei,
   toWeiBN,
-} from "@symmio-client/core/utils/numbers";
-import { Quote } from "@symmio-client/core/types/quote";
+} from "../utils/numbers";
+import { Quote } from "../types/quote";
 import {
   OrderType,
   PositionType,
   TradeState,
-} from "@symmio-client/core/types/trade";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
+} from "../types/trade";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
 import {
   useActiveAccountAddress,
   useSlippageTolerance,
-} from "@symmio-client/core/state/user/hooks";
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
+} from "../state/user/hooks";
+import { useMarketData } from "../state/hedger/hooks";
+import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   TradeTransactionInfo,
   TransactionType,
-} from "@symmio-client/core/state/transactions/types";
+} from "../state/transactions/types";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "../hooks/useMarkets";
 import {
   useDiamondContract,
   useMultiAccountContract,
-} from "@symmio-client/core/hooks/useContract";
-import { useMultiAccountable } from "@symmio-client/core/hooks/useMultiAccountable";
-import { SendOrCloseQuoteClient } from "@symmio-client/core/lib/muon";
-import { useSingleUpnlAndPriceSig } from "@symmio-client/core/hooks/useMuonSign";
+} from "../hooks/useContract";
+import { useMultiAccountable } from "../hooks/useMultiAccountable";
+import { SendOrCloseQuoteClient } from "../lib/muon";
+import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 
 export function useClosePosition(
   quote: Quote | null,

@@ -1,8 +1,8 @@
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
+import { ChainInfo } from "../constants/chainInfo";
 import {
   FALLBACK_CHAIN_ID,
   SupportedChainId,
-} from "@symmio-client/core/constants/chains";
+} from "../constants/chains";
 
 export enum ExplorerDataType {
   TRANSACTION = "transaction",

@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { toBN } from "./numbers";
 
 export function getMultipleBN(result: any): BigNumber[] {
   if (!result || !result.length) return [];

@@ -2,9 +2,9 @@ import { useMemo } from "react";
 import { Token } from "@uniswap/sdk-core";
 import BigNumber from "bignumber.js";
 
-import { BN_TEN, toBN } from "@symmio-client/core/utils/numbers";
+import { BN_TEN, toBN } from "../../utils/numbers";
 
-import { useERC20Contract } from "@symmio-client/core/hooks/useContract";
+import { useERC20Contract } from "../../hooks/useContract";
 import { Address } from "viem";
 import { useContractRead } from "wagmi";
 

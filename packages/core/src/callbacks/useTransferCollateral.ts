@@ -4,28 +4,28 @@ import BigNumber from "bignumber.js";
 import {
   createTransactionCallback,
   TransactionCallbackState,
-} from "@symmio-client/core/utils/web3";
-import { formatPrice } from "@symmio-client/core/utils/numbers";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { TransferTab } from "@symmio-client/core/types/transfer";
+} from "../utils/web3";
+import { formatPrice } from "../utils/numbers";
+import { COLLATERAL_TOKEN } from "../constants/tokens";
+import { getTokenWithFallbackChainId } from "../utils/token";
+import { TransferTab } from "../types/transfer";
 
-import { useActiveAccount } from "@symmio-client/core/state/user/hooks";
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
+import { useActiveAccount } from "../state/user/hooks";
+import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   TransactionType,
   TransferCollateralTransactionInfo,
-} from "@symmio-client/core/state/transactions/types";
+} from "../state/transactions/types";
 
-import { DeallocateCollateralClient } from "@symmio-client/core/lib/muon";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
+import { DeallocateCollateralClient } from "../lib/muon";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import {
   useDiamondContract,
   useMultiAccountContract,
-} from "@symmio-client/core/hooks/useContract";
-import { useDeallocateSign } from "@symmio-client/core/hooks/useDeallocateSign";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+} from "../hooks/useContract";
+import { useDeallocateSign } from "../hooks/useDeallocateSign";
+import { ConstructCallReturnType } from "../types/web3";
 import { Address, encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 

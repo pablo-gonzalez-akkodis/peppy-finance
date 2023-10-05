@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
+import { makeHttpRequest } from "../../utils/http";
 import { NotificationResponse, NotificationDetails } from "./types";
 import { groupingNotification, toNotification } from "./updater";
 

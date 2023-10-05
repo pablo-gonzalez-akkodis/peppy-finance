@@ -3,9 +3,9 @@ import find from "lodash/find";
 import unionBy from "lodash/unionBy";
 
 import { QuotesState } from "./types";
-import { Quote } from "@symmio-client/core/types/quote";
+import { Quote } from "../../types/quote";
 
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 import {
   addPending,
   addPosition,

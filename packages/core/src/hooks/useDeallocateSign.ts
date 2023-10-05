@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 
-import { toWei } from "@symmio-client/core/utils/numbers";
+import { toWei } from "../utils/numbers";
 
-import { useAccountUpnl } from "@symmio-client/core/state/user/hooks";
+import { useAccountUpnl } from "../state/user/hooks";
 import { Address } from "viem";
 
 export function useDeallocateSign() {

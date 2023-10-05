@@ -2,7 +2,7 @@ import {
   OrderType,
   PositionType,
   InputField,
-} from "@symmio-client/core/types/trade";
+} from "../../types/trade";
 
 export interface TradeState {
   marketId: number | undefined;

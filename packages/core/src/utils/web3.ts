@@ -3,10 +3,10 @@ import { UserRejectedRequestError } from "viem";
 import { ContractFunctionRevertedError, BaseError } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
-import { TransactionInfo } from "@symmio-client/core/state/transactions/types";
-import { useContract } from "@symmio-client/core/lib/hooks/contract";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+import { useTransactionAdder } from "../state/transactions/hooks";
+import { TransactionInfo } from "../state/transactions/types";
+import { useContract } from "../lib/hooks/contract";
+import { ConstructCallReturnType } from "../types/web3";
 import { toBN } from "./numbers";
 
 export function calculateGasMargin(value: bigint): bigint {

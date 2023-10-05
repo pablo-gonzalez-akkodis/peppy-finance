@@ -1,10 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { useAppSelector, useAppDispatch } from "@symmio-client/core/state";
+import { useAppSelector, useAppDispatch } from "..";
 import uniqWith from "lodash/uniqWith";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import { ApiState } from "@symmio-client/core/types/api";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { Quote } from "../../types/quote";
+import { ApiState } from "../../types/api";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import {
   addQuote,
   addQuoteToHistory,
@@ -13,7 +13,7 @@ import {
   setPendings,
   setQuoteDetail,
 } from "./actions";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
+import { useActiveAccountAddress } from "../user/hooks";
 
 // returns all the histories
 export function useHistoryQuotes(): {

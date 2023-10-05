@@ -1,5 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 import { ConnectionStatus, UserState } from "./types";
 
 import {

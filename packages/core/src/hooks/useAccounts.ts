@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { Address, useContractRead } from "wagmi";
 
-import { Account } from "@symmio-client/core/types/user";
+import { Account } from "../types/user";
 import { useMultiAccountContract } from "./useContract";
-import { useIsWhiteList } from "@symmio-client/core/state/user/hooks";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useIsWhiteList } from "../state/user/hooks";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 
 export function useUserAccounts() {
   const { account } = useActiveWagmi();

@@ -3,10 +3,10 @@ import { useCallback, useEffect } from "react";
 import {
   RETRY_OPTIONS_BY_CHAIN_ID,
   DEFAULT_RETRY_OPTIONS,
-} from "@symmio-client/core/constants/misc";
-import useBlockNumber from "@symmio-client/core/lib/hooks/useBlockNumber";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { retry, RetryableError } from "@symmio-client/core/utils/retry";
+} from "../../../constants/misc";
+import useBlockNumber from "../useBlockNumber";
+import useActiveWagmi from "../useActiveWagmi";
+import { retry, RetryableError } from "../../../utils/retry";
 import { Address, usePublicClient } from "wagmi";
 import { TransactionReceipt } from "viem";
 interface Transaction {

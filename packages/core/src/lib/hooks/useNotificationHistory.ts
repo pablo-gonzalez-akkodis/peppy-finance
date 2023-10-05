@@ -1,7 +1,7 @@
 import { useCallback, useEffect } from "react";
 
-import { useAppDispatch } from "@symmio-client/core/state";
-import { updateTimestamp } from "@symmio-client/core/state/notifications/actions";
+import { useAppDispatch } from "../../state";
+import { updateTimestamp } from "../../state/notifications/actions";
 
 export default function useNotificationHistory() {
   // save timestamp when enter the page

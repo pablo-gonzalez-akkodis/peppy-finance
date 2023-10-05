@@ -1,7 +1,7 @@
 import { DeallocateClient } from "./client/deallocate";
 import { QuotesClient } from "./client/quotes";
 
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { WEB_SETTING } from "../../config";
 
 export const SendOrCloseQuoteClient = QuotesClient.createInstance(
   WEB_SETTING.muonEnabled

@@ -1,5 +1,5 @@
 import { createReducer, current } from "@reduxjs/toolkit";
-import { DEFAULT_HEDGER } from "@symmio-client/core/constants/hedgers";
+import { DEFAULT_HEDGER } from "../../constants/hedgers";
 import { ConnectionStatus, HedgerState } from "./types";
 
 import {
@@ -16,7 +16,7 @@ import {
   getNotionalCap,
   getPriceRange,
 } from "./thunks";
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 
 const initialState: HedgerState = {
   hedgerId: DEFAULT_HEDGER?.id,

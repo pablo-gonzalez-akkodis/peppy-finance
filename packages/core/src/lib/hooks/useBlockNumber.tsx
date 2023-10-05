@@ -8,8 +8,8 @@ import React, {
   useState,
 } from "react";
 
-import useIsWindowVisible from "@symmio-client/core/lib/hooks/useIsWindowVisible";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useIsWindowVisible from "./useIsWindowVisible";
+import useActiveWagmi from "./useActiveWagmi";
 import { usePublicClient } from "wagmi";
 import { watchBlockNumber } from "@wagmi/core";
 

@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { Currency, Token } from "@uniswap/sdk-core";
-import { useERC20Contract } from "@symmio-client/core/hooks/useContract";
+import { useERC20Contract } from "../../hooks/useContract";
 import { useERC20Allowance } from "./useERC20Allowance";
-import { calculateGasMargin } from "@symmio-client/core/utils/web3";
+import { calculateGasMargin } from "../../utils/web3";
 import BigNumber from "bignumber.js";
-import { BN_TEN } from "@symmio-client/core/utils/numbers";
+import { BN_TEN } from "../../utils/numbers";
 import { Address, useContractRead } from "wagmi";
-import { MAX_UINT256 } from "@symmio-client/core/constants/misc";
+import { MAX_UINT256 } from "../../constants/misc";
 import useWagmi from "./useWagmi";
 
 export enum ApprovalState {

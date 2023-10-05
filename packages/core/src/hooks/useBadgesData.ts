@@ -1,8 +1,8 @@
-import { Quote } from "@symmio-client/core/types/quote";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { BN_ZERO, toBN } from "@symmio-client/core/utils/numbers";
+import { Quote } from "../types/quote";
+import { PositionType } from "../types/trade";
+import { BN_ZERO, toBN } from "../utils/numbers";
 
-import { useHistoryQuotes } from "@symmio-client/core/state/quotes/hooks";
+import { useHistoryQuotes } from "../state/quotes/hooks";
 
 export function useMax20ClosedQuotes() {
   const { quotes: closed } = useHistoryQuotes();

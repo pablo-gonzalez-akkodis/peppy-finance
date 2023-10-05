@@ -4,8 +4,8 @@ import useWebSocket from "react-use-websocket";
 import { JsonValue } from "react-use-websocket/dist/lib/types";
 
 import { getNotifications } from "./thunks";
-import { L2_TXN_DISMISS_MS } from "@symmio-client/core/constants/misc";
-import { AppThunkDispatch, useAppDispatch } from "@symmio-client/core/state";
+import { L2_TXN_DISMISS_MS } from "../../constants/misc";
+import { AppThunkDispatch, useAppDispatch } from "..";
 import {
   NotificationResponse,
   ActionStatus,
@@ -14,12 +14,12 @@ import {
   NotificationType,
 } from "./types";
 
-import useNotificationHistory from "@symmio-client/core/lib/hooks/useNotificationHistory";
+import useNotificationHistory from "../../lib/hooks/useNotificationHistory";
 
-import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
-import { useAddPopup } from "@symmio-client/core/state/application/hooks";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
+import { useHedgerInfo } from "../hedger/hooks";
+import { useActiveAccountAddress } from "../user/hooks";
+import { useAddPopup } from "../application/hooks";
+import { useIsAccountWhiteList } from "../../hooks/useAccounts";
 import {
   useLastUpdateTimestamp,
   useSetNewNotificationFlag,

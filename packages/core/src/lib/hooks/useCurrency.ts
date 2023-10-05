@@ -3,19 +3,19 @@ import { Currency, Token } from "@uniswap/sdk-core";
 import { useContractReads } from "wagmi";
 import { toBytes, hexToString } from "viem";
 
-import { TOKEN_SHORTHANDS } from "@symmio-client/core/constants/tokens";
-import { isSupportedChain } from "@symmio-client/core/constants/chains";
-import { DEFAULT_ERC20_DECIMALS } from "@symmio-client/core/utils/token";
-import { isAddress } from "@symmio-client/core/utils/validate";
-import { supportedChainId } from "@symmio-client/core/utils/supportedChainId";
-import { getSingleWagmiResult } from "@symmio-client/core/utils/multicall";
+import { TOKEN_SHORTHANDS } from "../../constants/tokens";
+import { isSupportedChain } from "../../constants/chains";
+import { DEFAULT_ERC20_DECIMALS } from "../../utils/token";
+import { isAddress } from "../../utils/validate";
+import { supportedChainId } from "../../utils/supportedChainId";
+import { getSingleWagmiResult } from "../../utils/multicall";
 
 import useWagmi from "./useWagmi";
 import {
   useBytes32TokenContract,
   useERC20Contract,
-} from "@symmio-client/core/hooks/useContract";
-import useNativeCurrency from "@symmio-client/core/lib/hooks/useNativeCurrency";
+} from "../../hooks/useContract";
+import useNativeCurrency from "./useNativeCurrency";
 
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/;

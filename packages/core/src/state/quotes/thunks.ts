@@ -1,15 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
-import { getOrderHistoryApolloClient } from "@symmio-client/core/apollo/client/orderHistory";
-import { ORDER_HISTORY_DATA } from "@symmio-client/core/apollo/queries";
+import { getOrderHistoryApolloClient } from "../../apollo/client/orderHistory";
+import { ORDER_HISTORY_DATA } from "../../apollo/queries";
 import { SubGraphData } from "./types";
-import { Quote } from "@symmio-client/core/types/quote";
-import { OrderType } from "@symmio-client/core/types/trade";
-import { fromWei } from "@symmio-client/core/utils/numbers";
+import { Quote } from "../../types/quote";
+import { OrderType } from "../../types/trade";
+import { fromWei } from "../../utils/numbers";
 import {
   getPositionTypeByIndex,
   getQuoteStateByIndex,
-} from "@symmio-client/core/hooks/useQuotes";
+} from "../../hooks/useQuotes";
 
 // import { ItemsPerPage } from "components/App/UserPanel/PaginateTable";
 // TODO: this parameter should be gotten from frontend

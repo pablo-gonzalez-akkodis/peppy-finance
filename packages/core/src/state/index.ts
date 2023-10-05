@@ -16,7 +16,7 @@ import {
 } from "react-redux";
 
 import reducer from "./reducer";
-import crossBrowserListener from "@symmio-client/core/utils/reduxPersistListener";
+import crossBrowserListener from "../utils/reduxPersistListener";
 
 const PERSISTED_KEYS: string[] = ["user", "transactions"];
 

@@ -1,4 +1,4 @@
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { SupportedChainId } from "../../constants/chains";
 import { createApolloClient } from "./index";
 
 const fantomClient = createApolloClient(

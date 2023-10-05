@@ -1,10 +1,10 @@
 import { useCallback } from "react";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
+import { useActiveAccountAddress } from "../state/user/hooks";
 import { useMultiAccountContract, useDiamondContract } from "./useContract";
-import { GLOBAL_MULTI_ACCOUNTABLE_PAUSED } from "@symmio-client/core/constants/misc";
+import { GLOBAL_MULTI_ACCOUNTABLE_PAUSED } from "../constants/misc";
 import { Address, encodeFunctionData } from "viem";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
+import { ConstructCallReturnType } from "../types/web3";
+import useWagmi from "../lib/hooks/useWagmi";
 import { ContractFunctionRevertedError, BaseError } from "viem";
 import { toast } from "react-hot-toast";
 

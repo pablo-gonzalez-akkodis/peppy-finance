@@ -1,15 +1,15 @@
 import { useMemo } from "react";
 
-import { toBN } from "@symmio-client/core/utils/numbers";
-import { WEB_SETTING } from "@symmio-client/core/config";
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
+import { toBN } from "../utils/numbers";
+import { WEB_SETTING } from "../config";
+import { ConnectionStatus } from "../state/user/types";
 
 import {
   useAccountPartyAStat,
   useAccountUpnl,
   useActiveAccount,
   useUpnlWebSocketStatus,
-} from "@symmio-client/core/state/user/hooks";
+} from "../state/user/hooks";
 
 export interface Emoji {
   symbol: string;

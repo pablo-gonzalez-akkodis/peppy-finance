@@ -1,6 +1,6 @@
 import { useRef } from "react";
 // import { Address } from "viem";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
+import useWagmi from "./useWagmi";
 
 /* export default function useActiveWagmi() {
   const context = useWagmi()
