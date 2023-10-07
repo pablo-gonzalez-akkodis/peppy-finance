@@ -42,7 +42,9 @@ export function QuotesUpdater(): null {
     if (account && chainId)
       return autoRefresh(
         () =>
-          thunkDispatch(getHistory({ account, chainId, first: 8, skip: 0 })),
+          thunkDispatch(
+            getHistory({ account, chainId, first: 8, skip: 0, ItemsPerPage: 7 })
+          ),
         3000
       );
   }, [account, chainId, thunkDispatch]);

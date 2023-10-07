@@ -1,7 +1,3 @@
-## Emergency Changes
-
-- should change structure of getting ItemsPerPage in sdk( now import this parameter from UI)
-
 ## Future feature
 
 - Support additional and custom chain( building your own chain object that inherits the **AddressMap** type)
@@ -9,13 +5,12 @@
 
 ## Future improvement Changes
 
-- Remove @symmio-client/core/ from the beginning of all import sentences in core packages merely
-- Check the code structure of useIsHavePendingTransaction in the file packages/core/src/state/transactions/hooks.ts
-- change the structure of icon folder definition and usage
+- Check the code structure of `useIsHavePendingTransaction` in the file packages/core/src/state/transactions/hooks.ts
+- change the structure of `icon folder` definition and usage
 - Clean nextjs code
-- Remove extra Debounced Variables
-- Check the windowVisible variable in /core/src/state/user/updater.tsx
-- ReWrite the Fixme tag in project
+- Remove extra `Debounced` Variables
+- Check the `windowVisible` variable in /core/src/state/user/updater.tsx
+- ReWrite the `FIXME` tag in project
 - Update typescript version
 - Remove /src from import package of core in nextjs
 - Suggest package path importing in nextjs
