@@ -1,19 +1,19 @@
 import { Abi } from "viem";
 import { erc20ABI, erc721ABI } from "wagmi";
-import { useContract } from "@symmio-client/core/lib/hooks/contract";
+import { useContract } from "../lib/hooks/contract";
 import {
   COLLATERAL_ABI,
   DIAMOND_ABI,
   ERC20_BYTES32_ABI,
   MULTICALL3_ABI,
   MULTI_ACCOUNT_ABI,
-} from "@symmio-client/core/constants/abi";
+} from "../constants/abi";
 import {
   COLLATERAL_ADDRESS,
   DIAMOND_ADDRESS,
   MULTI_ACCOUNT_ADDRESS,
   MULTICALL3_ADDRESS,
-} from "@symmio-client/core/constants/addresses";
+} from "../constants/addresses";
 
 /* ###################################
                         CloverField

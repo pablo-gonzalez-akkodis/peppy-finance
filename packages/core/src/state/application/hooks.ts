@@ -1,13 +1,13 @@
 import { useCallback, useMemo } from "react";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
-import { DEFAULT_TXN_DISMISS_MS } from "@symmio-client/core/constants/misc";
+import { DEFAULT_TXN_DISMISS_MS } from "../../constants/misc";
 import {
   AppState,
   useAppDispatch,
   useAppSelector,
-} from "@symmio-client/core/state";
+} from "..";
 import { addPopup, removePopup, setOpenModal } from "./actions";
 import { ApplicationModal, Popup, PopupContent, PopupList } from "./reducer";
 

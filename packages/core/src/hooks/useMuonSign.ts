@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
-import { toWei } from "@symmio-client/core/utils/numbers";
+import { toWei } from "../utils/numbers";
 import {
   SingleUpnlAndPriceSig,
   SchnorrerSign,
-} from "@symmio-client/core/types/muon";
+} from "../types/muon";
 
-import { useAccountUpnl } from "@symmio-client/core/state/user/hooks";
+import { useAccountUpnl } from "../state/user/hooks";
 import { Address } from "viem";
 
 // this sign is for send quote and request to close position

@@ -3,17 +3,14 @@ import BigNumber from "bignumber.js";
 import { Currency } from "@uniswap/sdk-core";
 
 // FIXME: why export form another file?
-export { ApprovalState } from "@symmio-client/core/lib/hooks/useApproval";
-import {
-  ApprovalState,
-  useApproval,
-} from "@symmio-client/core/lib/hooks/useApproval";
+export { ApprovalState } from "./useApproval";
+import { ApprovalState, useApproval } from "./useApproval";
 
 import {
   useHasPendingApproval,
   useTransactionAdder,
-} from "@symmio-client/core/state/transactions/hooks";
-import { TransactionType } from "@symmio-client/core/state/transactions/types";
+} from "../../state/transactions/hooks";
+import { TransactionType } from "../../state/transactions/types";
 import useWagmi from "./useWagmi";
 
 function useGetAndTrackApproval(

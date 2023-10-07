@@ -1,6 +1,6 @@
-import { OpenInterest } from "@symmio-client/core/types/hedger";
-import { Hedger } from "@symmio-client/core/types/hedger";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { OpenInterest } from "../types/hedger";
+import { Hedger } from "../types/hedger";
+import { SupportedChainId } from "./chains";
 
 export enum SupportedHedgerId {
   CLOVER_FIELD = "Cloverfield", //start from 1 to avid falsy condition

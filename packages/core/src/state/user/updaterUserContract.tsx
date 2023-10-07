@@ -1,9 +1,9 @@
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useAccountPartyAStat, useActiveAccountAddress } from "./hooks";
-import { usePartyAStats } from "@symmio-client/core/hooks/usePartyAStats";
+import { usePartyAStats } from "../../hooks/usePartyAStats";
 import { useEffect, useState } from "react";
 import { updateAccountPartyAStat } from "./actions";
-import { useAppDispatch } from "@symmio-client/core/state";
+import { useAppDispatch } from "..";
 import isEqual from "lodash/isEqual";
 
 export function UpdaterUserContract(): null {

@@ -1,10 +1,10 @@
-import { getRemainingTime } from "@symmio-client/core/utils/time";
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { getRemainingTime } from "../utils/time";
+import { toBN } from "../utils/numbers";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
+} from "../state/user/hooks";
 
 export default function useIsCooldownActive() {
   const activeAccountAddress = useActiveAccountAddress();

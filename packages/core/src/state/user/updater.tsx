@@ -4,19 +4,19 @@ import {
   AppDispatch,
   AppThunkDispatch,
   useAppDispatch,
-} from "@symmio-client/core/state";
+} from "..";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import useIsWindowVisible from "@symmio-client/core/lib/hooks/useIsWindowVisible";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
+import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
 
-import { AccountUpnl } from "@symmio-client/core/types/user";
-import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
+import { AccountUpnl } from "../../types/user";
+import { useHedgerInfo } from "../hedger/hooks";
 
 import { updateAccountUpnl, updateMatchesDarkMode } from "./actions";
 import { useActiveAccountAddress, useSetUpnlWebSocketStatus } from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
+import { useIsAccountWhiteList } from "../../hooks/useAccounts";
 import { ConnectionStatus } from "./types";
 
 export function UserUpdater(): null {

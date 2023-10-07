@@ -2,15 +2,15 @@ import {
   RoundMode,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
+} from "../utils/numbers";
 import {
   DEFAULT_PRICE_RANGE_BOUND,
   PRICE_RANGE_BOUNDS_BY_CHAIN_ID,
-} from "@symmio-client/core/constants/misc";
-import { useMarketDepth } from "@symmio-client/core/state/hedger/hooks";
+} from "../constants/misc";
+import { useMarketDepth } from "../state/hedger/hooks";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
 export default function useBidAskPrice(
   name?: string,

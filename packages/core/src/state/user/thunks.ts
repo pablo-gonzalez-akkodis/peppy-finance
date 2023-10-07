@@ -1,12 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getBalanceHistoryApolloClient } from "@symmio-client/core/apollo/client/balanceHistory";
+import { getBalanceHistoryApolloClient } from "../../apollo/client/balanceHistory";
 import {
   BALANCE_CHANGES_DATA,
   TOTAL_DEPOSITS_AND_WITHDRAWALS,
-} from "@symmio-client/core/apollo/queries";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
+} from "../../apollo/queries";
+import { makeHttpRequest } from "../../utils/http";
 import { BalanceHistoryData, DepositWithdrawalsData } from "./types";
-import { BALANCE_HISTORY_ITEMS_NUMBER } from "@symmio-client/core/constants/misc";
+import { BALANCE_HISTORY_ITEMS_NUMBER } from "../../constants/misc";
 
 export const getIsWhiteList = createAsyncThunk(
   "user/getWalletWhitelist",

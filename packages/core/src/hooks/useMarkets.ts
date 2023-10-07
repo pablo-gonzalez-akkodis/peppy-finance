@@ -3,12 +3,12 @@ import { useSelect, SelectSearchOption } from "react-select-search";
 import Fuse from "fuse.js";
 import find from "lodash/find";
 
-import { useFavorites } from "@symmio-client/core/state/user/hooks";
-import { Market } from "@symmio-client/core/types/market";
+import { useFavorites } from "../state/user/hooks";
+import { Market } from "../types/market";
 import {
   useErrorMessages,
   useMarkets,
-} from "@symmio-client/core/state/hedger/hooks";
+} from "../state/hedger/hooks";
 
 export function useMarket(id: number | undefined): Market | undefined {
   const markets = useMarkets();

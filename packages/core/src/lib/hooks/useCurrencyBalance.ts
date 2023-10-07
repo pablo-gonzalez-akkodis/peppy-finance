@@ -2,17 +2,17 @@ import { useMemo } from "react";
 import JSBI from "jsbi";
 import { Currency, CurrencyAmount, Token } from "@uniswap/sdk-core";
 
-import { useMultiCall3Contract } from "@symmio-client/core/hooks/useContract";
+import { useMultiCall3Contract } from "../../hooks/useContract";
 import {
   useMultipleContractSingleData,
   useSingleContractMultipleData,
-} from "@symmio-client/core/lib/hooks/multicall";
+} from "./multicall";
 
-import { isAddress } from "@symmio-client/core/utils/validate";
+import { isAddress } from "../../utils/validate";
 import { erc20ABI } from "wagmi";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
-import { getSingleWagmiResult } from "@symmio-client/core/utils/multicall";
-import { nativeOnChain } from "@symmio-client/core/utils/token";
+import useWagmi from "./useWagmi";
+import { getSingleWagmiResult } from "../../utils/multicall";
+import { nativeOnChain } from "../../utils/token";
 
 /**
  * Returns a map of the given addresses to their eventually consistent ETH balances.

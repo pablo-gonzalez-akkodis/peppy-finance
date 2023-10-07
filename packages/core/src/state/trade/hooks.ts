@@ -1,19 +1,19 @@
 import { useCallback, useMemo } from "react";
 // import { toast } from 'react-hot-toast'
 
-import { useAppDispatch, useAppSelector } from "@symmio-client/core/state";
+import { useAppDispatch, useAppSelector } from "..";
 import {
   InputField,
   OrderType,
   PositionType,
-} from "@symmio-client/core/types/trade";
-import { BN_ZERO, formatPrice, toBN } from "@symmio-client/core/utils/numbers";
-import { Market } from "@symmio-client/core/types/market";
+} from "../../types/trade";
+import { BN_ZERO, formatPrice, toBN } from "../../utils/numbers";
+import { Market } from "../../types/market";
 
 import {
   useHedgerInfo,
   useMarketData,
-} from "@symmio-client/core/state/hedger/hooks";
+} from "../hedger/hooks";
 import {
   updateOrderType,
   updateLimitPrice,
@@ -24,8 +24,8 @@ import {
   updateLockedPercentages,
 } from "./actions";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
+import { useMarket } from "../../hooks/useMarkets";
+import { makeHttpRequest } from "../../utils/http";
 
 export function useActiveMarketId(): number | undefined {
   const marketId = useAppSelector((state) => state.trade.marketId);

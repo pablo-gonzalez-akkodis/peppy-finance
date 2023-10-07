@@ -1,4 +1,4 @@
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
+import { makeHttpRequest } from "../../../utils/http";
 import { MUON_BASE_URL } from "../config";
 
 export class MuonClient {

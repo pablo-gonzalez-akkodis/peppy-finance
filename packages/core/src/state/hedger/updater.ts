@@ -3,17 +3,14 @@ import isEmpty from "lodash/isEmpty";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { JsonValue } from "react-use-websocket/dist/lib/types";
 
-import { useAppDispatch, AppThunkDispatch } from "@symmio-client/core/state";
-import useIsWindowVisible from "@symmio-client/core/lib/hooks/useIsWindowVisible";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import { autoRefresh, retry } from "@symmio-client/core/utils/retry";
-import {
-  HedgerInfo,
-  getKeyFromValue,
-} from "@symmio-client/core/constants/hedgers";
+import { useAppDispatch, AppThunkDispatch } from "..";
+import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
+import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
+import { autoRefresh, retry } from "../../utils/retry";
+import { HedgerInfo, getKeyFromValue } from "../../constants/hedgers";
 
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 import {
   ConnectionStatus,
   MarketDataMap as PricesType,
@@ -29,16 +26,16 @@ import {
   useMarketNotionalCap,
   useSetDepth,
   useMarkets,
-} from "@symmio-client/core/state/hedger/hooks";
+} from "./hooks";
 import {
   getMarkets,
   getMarketsDepth,
   getNotionalCap,
   getPriceRange,
 } from "./thunks";
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
-import { Hedger } from "@symmio-client/core/types/hedger";
-import { Market } from "@symmio-client/core/types/market";
+import { useActiveMarket } from "../trade/hooks";
+import { Hedger } from "../../types/hedger";
+import { Market } from "../../types/market";
 
 export function HedgerUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();

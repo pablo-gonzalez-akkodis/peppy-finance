@@ -1,13 +1,13 @@
 import { Token, WETH9 } from "@uniswap/sdk-core";
-import { duplicateTokenByAddressMap } from "@symmio-client/core/utils/token";
+import { duplicateTokenByAddressMap } from "../utils/token";
 import {
   USDC_ADDRESS,
   WRAPPED_NATIVE_ADDRESS,
   COLLATERAL_ADDRESS,
   COLLATERAL_DECIMALS,
   COLLATERAL_SYMBOL,
-} from "@symmio-client/core/constants/addresses";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+} from "./addresses";
+import { SupportedChainId } from "./chains";
 
 /* =====================================
                              TOKENS

@@ -1,4 +1,4 @@
-import { TransferTab } from "@symmio-client/core/types/transfer";
+import { TransferTab } from "../../types/transfer";
 
 export enum LastSeenAction {
   SEND_QUOTE = "SendQuote",

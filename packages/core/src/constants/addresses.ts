@@ -1,9 +1,5 @@
-import {
-  AddressMap,
-  DecimalMap,
-  SymbolMap,
-} from "@symmio-client/core/utils/address";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { AddressMap, DecimalMap, SymbolMap } from "../utils/address";
+import { SupportedChainId } from "./chains";
 import { Address } from "viem";
 
 /* ###################################

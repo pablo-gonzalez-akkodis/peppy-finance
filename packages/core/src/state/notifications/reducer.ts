@@ -15,7 +15,7 @@ import {
 // import { FailureType, LastSeenAction, NotificationDetails, NotificationType } from './types'
 import { NotificationDetails, NotificationType } from "./types";
 import { getNotifications } from "./thunks";
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "../../types/api";
 
 // export interface NotificationState {
 //   [hedgerId: number]: {

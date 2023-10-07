@@ -1,23 +1,23 @@
 import { useMemo } from "react";
 
-import { useSingleContractMultipleMethods } from "@symmio-client/core/lib/hooks/multicall";
-import { OrderType, PositionType } from "@symmio-client/core/types/trade";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { BN_ZERO, fromWei, toBN } from "@symmio-client/core/utils/numbers";
+import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
+import { OrderType, PositionType } from "../types/trade";
+import { Quote, QuoteStatus } from "../types/quote";
+import { BN_ZERO, fromWei, toBN } from "../utils/numbers";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
+} from "../state/user/hooks";
 import {
   NotificationDetails,
   NotificationType,
-} from "@symmio-client/core/state/notifications/types";
-import { usePartialFillNotifications } from "@symmio-client/core/state/notifications/hooks";
+} from "../state/notifications/types";
+import { usePartialFillNotifications } from "../state/notifications/hooks";
 
-import { useDiamondContract } from "@symmio-client/core/hooks/useContract";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
+import { useDiamondContract } from "./useContract";
+import { useMarket } from "./useMarkets";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import useBidAskPrice from "./useBidAskPrice";
 
 export function getPositionTypeByIndex(x: number): PositionType {

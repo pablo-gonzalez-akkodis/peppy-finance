@@ -1,18 +1,15 @@
-import { COLLATERAL_ADDRESS } from "@symmio-client/core/constants/addresses";
-import { useToken } from "@symmio-client/core/lib/hooks/useTokens";
-import { useSingleContractMultipleMethods } from "@symmio-client/core/lib/hooks/multicall";
+import { COLLATERAL_ADDRESS } from "../constants/addresses";
+import { useToken } from "../lib/hooks/useTokens";
+import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
 
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import { useTokenBalance } from "@symmio-client/core/lib/hooks/useCurrencyBalance";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
+import { useTokenBalance } from "../lib/hooks/useCurrencyBalance";
 
-import { fromWei } from "@symmio-client/core/utils/numbers";
-import {
-  getMultipleBN,
-  getSingleWagmiResult,
-} from "@symmio-client/core/utils/multicall";
+import { fromWei } from "../utils/numbers";
+import { getMultipleBN, getSingleWagmiResult } from "../utils/multicall";
 
-import { useDiamondContract } from "@symmio-client/core/hooks/useContract";
-import { UserPartyAStatDetail } from "@symmio-client/core/types/user";
+import { useDiamondContract } from "./useContract";
+import { UserPartyAStatDetail } from "../types/user";
 
 //TODO why its not covered by useMemo
 //we converted all BigNumbers to string to avoid spurious rerenders

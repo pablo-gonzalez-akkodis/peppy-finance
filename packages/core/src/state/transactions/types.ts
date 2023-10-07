@@ -2,8 +2,8 @@ import {
   CloseQuote,
   PositionType,
   TradeState,
-} from "@symmio-client/core/types/trade";
-import { TransferTab } from "@symmio-client/core/types/transfer";
+} from "../../types/trade";
+import { TransferTab } from "../../types/transfer";
 
 export interface SerializableTransactionReceipt {
   to: string;

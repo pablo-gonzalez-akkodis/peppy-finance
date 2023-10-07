@@ -1,10 +1,10 @@
-import { toWei } from "@symmio-client/core/utils/numbers";
+import { toWei } from "../../../utils/numbers";
 import { APP_NAME } from "../config";
 import { MuonClient } from "./base";
 import {
   SchnorrerSign,
   SingleUpnlAndPriceSig,
-} from "@symmio-client/core/types/muon";
+} from "../../../types/muon";
 import { Address } from "viem";
 
 export class QuotesClient extends MuonClient {

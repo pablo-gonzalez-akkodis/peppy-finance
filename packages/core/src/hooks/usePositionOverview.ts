@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from "react";
 import find from "lodash/find";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import { BN_ZERO, toBN } from "@symmio-client/core/utils/numbers";
-import { IQuotesInfo } from "@symmio-client/core/types/quotesOverview";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { useMarkets, usePrices } from "@symmio-client/core/state/hedger/hooks";
+import { Quote } from "../types/quote";
+import { BN_ZERO, toBN } from "../utils/numbers";
+import { IQuotesInfo } from "../types/quotesOverview";
+import { PositionType } from "../types/trade";
+import { useMarkets, usePrices } from "../state/hedger/hooks";
 
 export function usePositionValue(quotes: Quote[]): IQuotesInfo {
   const markets = useMarkets();

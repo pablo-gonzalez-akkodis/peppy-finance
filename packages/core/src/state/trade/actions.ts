@@ -3,7 +3,7 @@ import {
   InputField,
   OrderType,
   PositionType,
-} from "@symmio-client/core/types/trade";
+} from "../../types/trade";
 import { TradeState } from "./types";
 
 export const setTradeState = createAction<TradeState>("trade/setTradeState");

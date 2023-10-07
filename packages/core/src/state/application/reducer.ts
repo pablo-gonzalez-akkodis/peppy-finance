@@ -1,7 +1,7 @@
 import { createReducer, nanoid } from "@reduxjs/toolkit";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import { NotificationDetails } from "@symmio-client/core/state/notifications/types";
-import { TransactionInfo } from "@symmio-client/core/state/transactions/types";
+import { SupportedChainId } from "../../constants/chains";
+import { NotificationDetails } from "../notifications/types";
+import { TransactionInfo } from "../transactions/types";
 
 import {
   addPopup,

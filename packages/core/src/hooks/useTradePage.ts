@@ -4,24 +4,24 @@ import BigNumber from "bignumber.js";
 import {
   DEFAULT_PRECISION,
   MAX_PENDINGS_POSITIONS_NUMBER,
-} from "@symmio-client/core/constants/misc";
+} from "../constants/misc";
 import {
   removeTrailingZeros,
   RoundMode,
   toBN,
-} from "@symmio-client/core/utils/numbers";
+} from "../utils/numbers";
 import {
   InputField,
   OrderType,
   ErrorState,
   PositionType,
-} from "@symmio-client/core/types/trade";
+} from "../types/trade";
 import {
   useMarketNotionalCap,
   useMarketOpenInterest,
   useMarketPriceRange,
-} from "@symmio-client/core/state/hedger/hooks";
-import { useLeverage } from "@symmio-client/core/state/user/hooks";
+} from "../state/hedger/hooks";
+import { useLeverage } from "../state/user/hooks";
 import {
   useActiveMarket,
   useActiveMarketPrice,
@@ -31,9 +31,9 @@ import {
   usePositionType,
   useInputField,
   useTypedValue,
-} from "@symmio-client/core/state/trade/hooks";
+} from "../state/trade/hooks";
 
-import { usePendingsQuotes } from "@symmio-client/core/state/quotes/hooks";
+import { usePendingsQuotes } from "../state/quotes/hooks";
 import useAccountData from "./useAccountData";
 
 export default function useTradePage(): {

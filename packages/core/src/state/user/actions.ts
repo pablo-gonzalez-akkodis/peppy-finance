@@ -1,11 +1,11 @@
 import { createAction } from "@reduxjs/toolkit";
-import { ConnectionStatus } from "@symmio-client/core/state/hedger/types";
+import { ConnectionStatus } from "../hedger/types";
 
 import {
   Account,
   AccountUpnl,
   UserPartyAStatDetail,
-} from "@symmio-client/core/types/user";
+} from "../../types/user";
 
 export const updateMatchesDarkMode = createAction<{ matchesDarkMode: boolean }>(
   "user/updateMatchesDarkMode"

@@ -1,5 +1,5 @@
-import { RetryOptions } from "@symmio-client/core/utils/retry";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { RetryOptions } from "../utils/retry";
+import { SupportedChainId } from "./chains";
 
 export const APP_URL = "https://cloverfield.exchange";
 export const APP_NAME = "CloverField";

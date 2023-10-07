@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { AppThunkDispatch, useAppDispatch } from "@symmio-client/core/state";
+import { AppThunkDispatch, useAppDispatch } from "..";
 import find from "lodash/find";
 import isEqual from "lodash/isEqual";
 
@@ -7,7 +7,7 @@ import {
   useGetPendingIds,
   useGetPositions,
   useGetQuoteByIds,
-} from "@symmio-client/core/hooks/useQuotes";
+} from "../../hooks/useQuotes";
 import {
   addQuoteToHistory,
   removeQuote,
@@ -20,12 +20,12 @@ import {
   usePendingsQuotes,
   usePositionsQuotes,
 } from "./hooks";
-import { QuoteStatus } from "@symmio-client/core/types/quote";
-import usePrevious from "@symmio-client/core/lib/hooks/usePrevious";
-import { autoRefresh } from "@symmio-client/core/utils/retry";
+import { QuoteStatus } from "../../types/quote";
+import usePrevious from "../../lib/hooks/usePrevious";
+import { autoRefresh } from "../../utils/retry";
 import { getHistory } from "./thunks";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
+import { useActiveAccountAddress } from "../user/hooks";
+import useWagmi from "../../lib/hooks/useWagmi";
 
 export function QuotesUpdater(): null {
   const dispatch = useAppDispatch();

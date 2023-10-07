@@ -1,18 +1,18 @@
 import React, { useCallback, useMemo } from "react";
 
-import LibUpdater from "@symmio-client/core/lib/hooks/transactions/updater";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import LibUpdater from "../../lib/hooks/transactions/updater";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
-import { useAppDispatch, useAppSelector } from "@symmio-client/core/state";
-import { useAddPopup } from "@symmio-client/core/state/application/hooks";
-import { L2_CHAIN_IDS } from "@symmio-client/core/constants/chains";
+import { useAppDispatch, useAppSelector } from "..";
+import { useAddPopup } from "../application/hooks";
+import { L2_CHAIN_IDS } from "../../constants/chains";
 import {
   DEFAULT_TXN_DISMISS_MS,
   L2_TXN_DISMISS_MS,
-} from "@symmio-client/core/constants/misc";
+} from "../../constants/misc";
 
 import { checkedTransaction, finalizeTransaction } from "./actions";
-import { useSetNewNotificationFlag } from "@symmio-client/core/state/notifications/hooks";
+import { useSetNewNotificationFlag } from "../notifications/hooks";
 import { TransactionReceipt } from "viem";
 
 export function TransactionUpdater() {

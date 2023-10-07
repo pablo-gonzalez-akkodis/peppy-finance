@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { ChainInfo } from "../../constants/chainInfo";
+import { SupportedChainId } from "../../constants/chains";
 import useWagmi from "./useWagmi";
 import { useSwitchNetwork } from "wagmi";
 

@@ -3,21 +3,21 @@ import { useCallback, useMemo } from "react";
 import {
   createTransactionCallback,
   TransactionCallbackState,
-} from "@symmio-client/core/utils/web3";
+} from "../utils/web3";
 
 // import { useExpertMode } from 'state/user/hooks'
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import { useTransactionAdder } from "@symmio-client/core/state/transactions/hooks";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
+import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
+import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   AddAccountTransactionInfo,
   TransactionType,
-} from "@symmio-client/core/state/transactions/types";
+} from "../state/transactions/types";
 
-import { useMultiAccountContract } from "@symmio-client/core/hooks/useContract";
+import { useMultiAccountContract } from "../hooks/useContract";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { encodeFunctionData } from "viem";
-import { ConstructCallReturnType } from "@symmio-client/core/types/web3";
+import { ConstructCallReturnType } from "../types/web3";
 import { useWalletClient } from "wagmi";
 
 export function useAddAccountToContract(accountName: string): {

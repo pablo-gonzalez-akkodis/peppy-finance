@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { Abi, getContract } from "viem";
 import { Address, WalletClient, usePublicClient, useWalletClient } from "wagmi";
-import { AddressZero } from "@symmio-client/core/constants/misc";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
+import { AddressZero } from "../../constants/misc";
+import useWagmi from "./useWagmi";
 
 export function useContract<T extends Abi>(
   addressOrAddressMap:

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
 import find from "lodash/find";
 
-import { useAppDispatch, useAppSelector } from "@symmio-client/core/state";
+import { useAppDispatch, useAppSelector } from "..";
 import { NotificationDetails } from "./types";
 import {
   addReadNotification,

@@ -5,18 +5,14 @@ import {
   COLLATERAL_TOKEN,
   USDC_TOKEN,
   WRAPPED_NATIVE_CURRENCY,
-} from "@symmio-client/core/constants/tokens";
+} from "../constants/tokens";
 import {
   FALLBACK_CHAIN_ID,
   SupportedChainId,
   SUPPORTED_CHAIN_IDS,
   V3_CHAIN_IDS,
-} from "@symmio-client/core/constants/chains";
-import {
-  AddressMap,
-  DecimalMap,
-  SymbolMap,
-} from "@symmio-client/core/utils/address";
+} from "../constants/chains";
+import { AddressMap, DecimalMap, SymbolMap } from "./address";
 
 export const NATIVE_CHAIN_ID = "NATIVE";
 export const DEFAULT_ERC20_DECIMALS = 18;

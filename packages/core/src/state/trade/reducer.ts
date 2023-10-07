@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { InputField, PositionType, OrderType } from '@symmio-client/core/types/trade'
+import { InputField, PositionType, OrderType } from "../../types/trade"
 import {
   setTradeState,
   updateOrderType,

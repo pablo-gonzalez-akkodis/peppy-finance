@@ -1,12 +1,12 @@
 import { useCallback, useMemo } from "react";
 import { Token } from "@uniswap/sdk-core";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
-import { useAppDispatch, useAppSelector } from "@symmio-client/core/state";
+import { useAppDispatch, useAppSelector } from "..";
 import { addTransaction } from "./actions";
 import { TransactionDetails, TransactionInfo, TransactionType } from "./types";
-import useWagmi from "@symmio-client/core/lib/hooks/useWagmi";
+import useWagmi from "../../lib/hooks/useWagmi";
 
 export interface TransactionResponseLight {
   hash: string;

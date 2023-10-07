@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { NativeCurrency, Token } from "@uniswap/sdk-core";
 
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import { nativeOnChain } from "@symmio-client/core/utils/token";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { SupportedChainId } from "../../constants/chains";
+import { nativeOnChain } from "../../utils/token";
+import useActiveWagmi from "./useActiveWagmi";
 
 export default function useNativeCurrency(): NativeCurrency | Token {
   const { chainId } = useActiveWagmi();
