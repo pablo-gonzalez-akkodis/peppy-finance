@@ -64,7 +64,9 @@ export default function UserPanel(): JSX.Element | null {
     const first = ItemsPerPage + 1;
     if (skip + first < closed.length) return;
     if (account && chainId && hasMoreHistory)
-      thunkDispatch(getHistory({ account, chainId, first, skip }));
+      thunkDispatch(
+        getHistory({ account, chainId, first, skip, ItemsPerPage })
+      );
   }
 
   const positionQuotes: Quote[] = useMemo(() => {

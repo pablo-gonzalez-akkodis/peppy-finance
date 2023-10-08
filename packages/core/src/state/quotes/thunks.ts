@@ -11,11 +11,6 @@ import {
   getQuoteStateByIndex,
 } from "../../hooks/useQuotes";
 
-// import { ItemsPerPage } from "components/App/UserPanel/PaginateTable";
-// TODO: this parameter should be gotten from frontend
-// FIXME:  fix this parameter
-const ItemsPerPage = 7;
-
 function toQuoteFromGraph(entity: SubGraphData) {
   return {
     id: Number(entity.quoteId),
@@ -54,11 +49,13 @@ export const getHistory = createAsyncThunk(
     chainId,
     skip,
     first,
+    ItemsPerPage,
   }: {
     account: string;
     chainId: number;
     skip: number;
     first: number;
+    ItemsPerPage: number;
   }) => {
     if (!account) {
       throw new Error("account is undefined");
