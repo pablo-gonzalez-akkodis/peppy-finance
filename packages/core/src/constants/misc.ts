@@ -57,13 +57,14 @@ export const MARKET_ORDER_DEADLINE = 300; // 5 minutes
 // export const MARKET_ORDER_DEADLINE = 10 // 5 minutes
 export const LIMIT_ORDER_DEADLINE = 311040120; // 10 years
 
-export const CVA_PERCENTAGE = 10;
-export const MM_PERCENTAGE = 75;
+export const CVA_PERCENTAGE = 5;
+export const MM_PERCENTAGE = 80;
 export const LF_PERCENTAGE = 15;
 
 export const MAX_LEVERAGE_VALUE = 40;
 export const MIN_LEVERAGE_VALUE = 1;
 
+export const SUB_GRAPH_CHAIN_ID = SupportedChainId.BSC;
 export const MAX_PENDINGS_POSITIONS_NUMBER = 10;
 export const BALANCE_HISTORY_ITEMS_NUMBER = 10;
 

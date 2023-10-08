@@ -1,9 +1,8 @@
 import { AddressMap, DecimalMap, SymbolMap } from "../utils/address";
 import { SupportedChainId } from "./chains";
-import { Address } from "viem";
 
 /* ###################################
-                      CloverField
+                      Thena
 ################################### */
 
 export const COLLATERAL_SYMBOL: SymbolMap = {
@@ -36,18 +35,23 @@ export const DIAMOND_ADDRESS: AddressMap = {
 
 export const MULTI_ACCOUNT_ADDRESS: AddressMap = {
   [SupportedChainId.FANTOM]: "0x0937bC09b8D073E4F1abE85470969475f714Ca6c",
-  [SupportedChainId.BSC]: "0x10Acc15db0d432280bE4885DaE65e1cC76DA3C54",
+  [SupportedChainId.BSC]: "0x75c539eFB5300234e5DaA684502735Fc3886e8b4",
   [SupportedChainId.BSC_TESTNET]: "0x50e5DB721FE6fFDD12a324f9d29EF5d077a395ed",
   [SupportedChainId.BASE]: "0x8Ccbc812394fDF26c58F3837aB419fbc315656C3",
 };
 
-export const PARTY_B_WHITELIST: { [chainId: number]: readonly Address[] } = {
+export const PARTY_B_WHITELIST: { [chainId: number]: string[] } = {
   [SupportedChainId.FANTOM]: ["0x3eA3400D474B73941dda97d182a8aA80165f952e"],
-  [SupportedChainId.BSC]: ["0x62ad8dE6740314677F06723a7A07797aE5082Dbb"],
+  [SupportedChainId.BSC]: ["0x62B0db9E73e17Bc090D80c2C0A2414B9A42037F3"],
   [SupportedChainId.BSC_TESTNET]: [
     "0x9a36a8e34412beF35c08f9b4ED7dC763b4E2c108",
   ],
   [SupportedChainId.BASE]: ["0xED85c23e307E0f40Cc38D6AA42fe25E0A5D07EA7"],
+};
+
+export const SIGNATURE_STORE_ADDRESS: AddressMap = {
+  [SupportedChainId.FANTOM]: "0x6B6f6A6CCdB4Df5cc462096bEAdFd609D8e281d1",
+  [SupportedChainId.BSC]: "0x6EA2EffEB3F0F2582DF5aD52cbe847FA50B628B2",
 };
 
 /* ###################################
