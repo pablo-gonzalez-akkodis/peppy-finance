@@ -1,5 +1,6 @@
 import { AddressMap, DecimalMap, SymbolMap } from "../utils/address";
 import { SupportedChainId } from "./chains";
+import { Address } from "viem";
 
 /* ###################################
                       Thena
@@ -40,7 +41,7 @@ export const MULTI_ACCOUNT_ADDRESS: AddressMap = {
   [SupportedChainId.BASE]: "0x8Ccbc812394fDF26c58F3837aB419fbc315656C3",
 };
 
-export const PARTY_B_WHITELIST: { [chainId: number]: string[] } = {
+export const PARTY_B_WHITELIST: { [chainId: number]: readonly Address[] } = {
   [SupportedChainId.FANTOM]: ["0x3eA3400D474B73941dda97d182a8aA80165f952e"],
   [SupportedChainId.BSC]: ["0x62B0db9E73e17Bc090D80c2C0A2414B9A42037F3"],
   [SupportedChainId.BSC_TESTNET]: [
