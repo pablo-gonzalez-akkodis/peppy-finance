@@ -21,3 +21,5 @@
 - Check `utils/numbers.js` (and some other utils files) client side functions
 - Remove `useDebounce` from the code( when its not necessary)
 - Double check `BlockNumberProvider`, is it really necessary?
+- change the structure of addresses in the repository. should change the `constants/addresses`, `apollo/client/balanceHistory`, `apollo/client/orderHistory` and `constants/hedgers` to class based format
+- get the contract addresses as a config from client.
