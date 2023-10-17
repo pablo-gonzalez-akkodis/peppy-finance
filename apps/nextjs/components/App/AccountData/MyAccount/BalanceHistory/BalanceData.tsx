@@ -79,7 +79,6 @@ export default function BalanceData() {
   // }
 
   return (
-    // FIXME: WTF is this(InfiniteScroll)?
     <ScrollableDiv dataLength={positionsLength} id="scrollableDiv">
       {/*Put the scroll bar always on the bottom*/}
       <InfiniteScroll

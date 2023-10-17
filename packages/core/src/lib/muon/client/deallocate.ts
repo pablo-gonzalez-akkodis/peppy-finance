@@ -1,6 +1,7 @@
 import { Address } from "viem";
 import { APP_NAME } from "../config";
 import { MuonClient } from "./base";
+import { toast } from "react-hot-toast";
 
 export class DeallocateClient extends MuonClient {
   constructor(app?: string) {
@@ -75,8 +76,7 @@ export class DeallocateClient extends MuonClient {
       return { success: true, signature };
     } catch (error) {
       console.error(error);
-      // FIXME: change the handling error strategy
-      // toast.error("Unable to get response from muon");
+      toast.error("Unable to get response from muon");
       return { success: false, error };
     }
   }

@@ -6,7 +6,8 @@ export function createApolloClient(uri: string) {
       uri,
     }),
     ssrMode: typeof window === "undefined",
-    connectToDevTools: typeof window !== "undefined", // FixMe: && process.NODE_ENV === "development"
+    connectToDevTools:
+      typeof window !== "undefined" && process.env.NODE_ENV === "development",
     cache: new InMemoryCache(),
   });
 }

@@ -1,10 +1,6 @@
 import { useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
-import {
-  AppDispatch,
-  AppThunkDispatch,
-  useAppDispatch,
-} from "..";
+import { AppDispatch, AppThunkDispatch, useAppDispatch } from "..";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";

@@ -1,9 +1,6 @@
 import { useCallback } from "react";
 import BigNumber from "bignumber.js";
 import { Currency } from "@uniswap/sdk-core";
-
-// FIXME: why export form another file?
-export { ApprovalState } from "./useApproval";
 import { ApprovalState, useApproval } from "./useApproval";
 
 import {
