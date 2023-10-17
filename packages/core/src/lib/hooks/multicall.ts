@@ -81,11 +81,12 @@ export function useMultipleContractSingleData(
   callInputs: Narrow<UseContractReadConfig["args"]>,
   option?: UseContractReadConfig
 ) {
+  // TODO: fix any type
   const configs = addresses.map((address, i) => ({
     address: address as `0x{string}`,
     abi,
     functionName,
-    args: callInputs && callInputs[i] ? [...[callInputs[i]]] : [],
+    args: (callInputs && callInputs[i] ? callInputs[i] : []) as any,
   }));
 
   return useContractReads({ contracts: configs, watch: true, ...{ option } });

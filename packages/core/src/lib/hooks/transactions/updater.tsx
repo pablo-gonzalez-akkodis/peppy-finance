@@ -55,10 +55,8 @@ export default function Updater({
   // const fastForwardBlockNumber = useFastForwardBlockNumber()
 
   const getReceipt = useCallback(
-    (hash: string) => {
+    (hash: string, retryOptions) => {
       if (!provider || !chainId) throw new Error("No provider or chainId");
-      const retryOptions =
-        RETRY_OPTIONS_BY_CHAIN_ID[chainId] ?? DEFAULT_RETRY_OPTIONS;
       return retry(
         () =>
           provider
@@ -78,11 +76,12 @@ export default function Updater({
 
   useEffect(() => {
     if (!chainId || !provider || !lastBlockNumber) return;
-
+    const retryOptions =
+      RETRY_OPTIONS_BY_CHAIN_ID[chainId] ?? DEFAULT_RETRY_OPTIONS;
     const cancels = Object.keys(pendingTransactions)
       .filter((hash) => shouldCheck(lastBlockNumber, pendingTransactions[hash]))
       .map((hash) => {
-        const { promise, cancel } = getReceipt(hash);
+        const { promise, cancel } = getReceipt(hash, retryOptions);
         promise
           .then((receipt) => {
             if (receipt) {

@@ -111,22 +111,21 @@ export function useHasPendingApproval(
 // return whether has a pending transaction
 // FIXME: check the logic of this function with Mali
 export function useIsHavePendingTransaction() {
-  // const { account } = useActiveWagmi();
-  // const allTransactions = useAllTransactions();
-  // const sortedRecentTransactions = useMemo(() => {
-  //   const txs = Object.values(allTransactions);
-  //   return txs
-  //     .filter(isTransactionRecent)
-  //     .sort(
-  //       (a: TransactionDetails, b: TransactionDetails) =>
-  //         b.addedTime - a.addedTime
-  //     )
-  //     .filter((tx) => tx.from == account);
-  // }, [allTransactions, account]);
+  const { account } = useActiveWagmi();
+  const allTransactions = useAllTransactions();
+  const sortedRecentTransactions = useMemo(() => {
+    const txs = Object.values(allTransactions);
+    return txs
+      .filter(isTransactionRecent)
+      .sort(
+        (a: TransactionDetails, b: TransactionDetails) =>
+          b.addedTime - a.addedTime
+      )
+      .filter((tx) => tx.from == account);
+  }, [allTransactions, account]);
 
-  // const pending = sortedRecentTransactions
-  //   .filter((tx) => !tx.receipt)
-  //   .map((tx) => tx.hash);
-  // return useMemo(() => pending.length > 0, [pending.length])
-  return false;
+  const pending = sortedRecentTransactions
+    .filter((tx) => !tx.receipt)
+    .map((tx) => tx.hash);
+  return useMemo(() => pending.length > 0, [pending.length]);
 }

@@ -23,11 +23,11 @@ export interface DataMap {
 const HEDGER_DATA_MAP: DataMap = {
   [SupportedChainId.FANTOM]: {
     domain: "hedger.deus.finance",
-    clientName: "CLOVERFIELD",
+    clientName: "THENA",
   },
   [SupportedChainId.BSC]: {
-    domain: "alpha-hedger.rasa.capital",
-    clientName: "CLOVERFIELD",
+    domain: "alpha-hedger2.rasa.capital",
+    clientName: "THENA",
   },
 };
 
@@ -40,7 +40,7 @@ export const HedgerInfo = duplicateHedgerInfo(
 export const DEFAULT_HEDGER = {
   apiUrl: "https://fapi.binance.com/",
   webSocketUrl: "wss://fstream.binance.com/stream",
-  baseUrl: "https://alpha-hedger.rasa.capital",
+  baseUrl: "https://alpha-hedger2.rasa.capital",
   webSocketUpnlUrl: "",
   webSocketNotificationUrl: "",
   defaultMarketId: 1,
