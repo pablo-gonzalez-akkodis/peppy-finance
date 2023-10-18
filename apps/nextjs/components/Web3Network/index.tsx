@@ -11,6 +11,7 @@ import ImageWithFallback from "components/ImageWithFallback";
 import { isMobile } from "react-device-detect";
 import { NetworksModal } from "./NetworksModal";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
+import { getChainLogo } from "utils/chainLogo";
 
 const Container = styled.div`
   display: inline-flex;
@@ -62,7 +63,7 @@ export default function Web3Network() {
     <>
       <Button onClick={onClickButton}>
         <ImageWithFallback
-          src={Chain.logoUrl}
+          src={getChainLogo(chainId)}
           alt={Chain.label}
           width={25}
           height={25}
@@ -88,7 +89,7 @@ export default function Web3Network() {
 
       <Button onClick={onClickButton} width={isMultiChain ? "52px" : undefined}>
         <ImageWithFallback
-          src={Chain.logoUrl}
+          src={getChainLogo(chainId)}
           alt={Chain.label}
           width={28}
           height={28}

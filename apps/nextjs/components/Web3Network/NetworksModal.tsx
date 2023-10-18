@@ -15,6 +15,7 @@ import { Row } from "components/Row";
 import { Card } from "components/Card";
 import { Modal as ModalBody } from "components/Modal";
 import ImageWithFallback from "components/ImageWithFallback";
+import { getChainLogo } from "utils/chainLogo";
 
 const ModalWrapper = styled(Card)`
   padding: 0.6rem;
@@ -119,7 +120,7 @@ export function NetworksModal({
             >
               <Logo>
                 <ImageWithFallback
-                  src={Chain.logoUrl}
+                  src={getChainLogo(chain)}
                   alt={Chain.label}
                   width={28}
                   height={28}

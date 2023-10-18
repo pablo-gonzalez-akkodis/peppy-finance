@@ -7,11 +7,7 @@
 
 - change the structure of `icon folder` definition and usage
 - Clean nextjs code
-- Remove /src from import package of core in nextjs
-- Suggest package path importing in nextjs
 - Add previous account code to sdk project
-- Review the importing of next in the file of symmio-client/packages/core/src/constants/chainInfo.ts
-- We add `"noImplicitAny": false`, to tsconfig.json file. Recheck that this parameter is harmful or not.
 - Update packages (e.g. recharts)
 - Check `utils/numbers.js` (and some other utils files) client side functions
 - Double check `BlockNumberProvider`, is it really necessary?
@@ -22,3 +18,5 @@
 - use wagmi multicall
 - redesign the structure of checking pending transactions and use watch transaction wagmi
 - remove commented code in project
+- remove environment variable from sdk code. should get this param from client. search `process.env.` in packages directory
+- remove `any` type in sdk

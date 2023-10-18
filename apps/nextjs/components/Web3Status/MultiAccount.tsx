@@ -41,6 +41,7 @@ import AccountUpnl from "components/App/AccountData/AccountUpnl";
 import ImageWithFallback from "components/ImageWithFallback";
 import Badge from "./Badge";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
+import { getChainLogo } from "utils/chainLogo";
 
 const Container = styled.div`
   display: inline-flex;
@@ -295,7 +296,7 @@ export default function MultiAccount() {
       return (
         <NetworkButton onClick={() => rpcChangerCallback(FALLBACK_CHAIN_ID)}>
           <ImageWithFallback
-            src={Chain.logoUrl}
+            src={getChainLogo(chainId)}
             alt={Chain.label}
             width={28}
             height={28}
