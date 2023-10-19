@@ -5,7 +5,6 @@
 
 ## Future improvement Changes
 
-- Check the code structure of `useIsHavePendingTransaction` in the file packages/core/src/state/transactions/hooks.ts
 - change the structure of `icon folder` definition and usage
 - Clean nextjs code
 - Remove extra `Debounced` Variables
@@ -23,3 +22,7 @@
 - Double check `BlockNumberProvider`, is it really necessary?
 - change the structure of addresses in the repository. should change the `constants/addresses`, `apollo/client/balanceHistory`, `apollo/client/orderHistory` and `constants/hedgers` to class based format
 - get the contract addresses as a config from client.
+- resolve bug: when speedup pending transaction cause change the hash of transaction and cause error in site
+- resolve all error in console
+- use wagmi multicall
+- redesign the structure of checking pending transactions

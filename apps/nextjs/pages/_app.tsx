@@ -13,7 +13,7 @@ import { ModalBackground } from "components/Modal";
 import Layout from "components/Layout";
 import Popups from "components/Popups";
 import { BlockNumberProvider } from "@symmio-client/core/lib/hooks/useBlockNumber";
-
+import { setUseWhatChange } from "@simbathesailor/use-what-changed";
 const Updaters = dynamic(() => import("@symmio-client/core/state/updaters"), {
   ssr: false,
 });
@@ -21,6 +21,9 @@ const Updaters = dynamic(() => import("@symmio-client/core/state/updaters"), {
 const { wagmiConfig, chains, initialChain } = getWagmiConfig();
 
 export default function MyApp({ Component, pageProps }: AppProps) {
+  if (process.env.NODE_ENV === "development") {
+    setUseWhatChange(true);
+  }
   return (
     <ReduxProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
