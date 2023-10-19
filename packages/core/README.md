@@ -7,7 +7,6 @@
 
 - change the structure of `icon folder` definition and usage
 - Clean nextjs code
-- Update typescript version
 - Remove /src from import package of core in nextjs
 - Suggest package path importing in nextjs
 - Add previous account code to sdk project
