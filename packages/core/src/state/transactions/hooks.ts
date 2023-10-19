@@ -109,7 +109,6 @@ export function useHasPendingApproval(
 }
 
 // return whether has a pending transaction
-// FIXME: check the logic of this function with Mali
 export function useIsHavePendingTransaction() {
   const { account } = useActiveWagmi();
   const allTransactions = useAllTransactions();

@@ -1,12 +1,9 @@
 import { toWei } from "../../../utils/numbers";
 import { APP_NAME } from "../config";
 import { MuonClient } from "./base";
-import {
-  SchnorrerSign,
-  SingleUpnlAndPriceSig,
-} from "../../../types/muon";
+import { SchnorrerSign, SingleUpnlAndPriceSig } from "../../../types/muon";
 import { Address } from "viem";
-
+import { toast } from "react-hot-toast";
 export class QuotesClient extends MuonClient {
   constructor(app?: string) {
     super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A_withSymbolPrice" });
@@ -83,8 +80,7 @@ export class QuotesClient extends MuonClient {
       return { success: true, signature };
     } catch (error) {
       console.error(error);
-      // FIXME: change the handling error strategy
-      // toast.error("Unable to get response from muon");
+      toast.error("Unable to get response from muon");
       return { success: false, error };
     }
   }

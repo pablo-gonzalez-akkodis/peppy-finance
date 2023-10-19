@@ -16,7 +16,7 @@
   //   "skipLibCheck": true
   //   "incremental": true
   // },
-  // FIXME: I had removed "**/*.ts", "**/*.tsx" in order to build the project! (Type error: Type parameter declaration expected: export declare function formatAbi<const TAbi extends Abi | readonly unknown[]>(abi: TAbi): FormatAbi<TAbi>;)
+
   "include": ["next-env.d.ts","**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {

@@ -7,8 +7,6 @@
 
 - change the structure of `icon folder` definition and usage
 - Clean nextjs code
-- Check the `windowVisible` variable in /core/src/state/user/updater.tsx
-- ReWrite the `FIXME` tag in project
 - Update typescript version
 - Remove /src from import package of core in nextjs
 - Suggest package path importing in nextjs
@@ -23,4 +21,5 @@
 - resolve bug: when speedup pending transaction cause change the hash of transaction and cause error in site
 - resolve all error in console
 - use wagmi multicall
-- redesign the structure of checking pending transactions
+- redesign the structure of checking pending transactions and use watch transaction wagmi
+- remove commented code in project

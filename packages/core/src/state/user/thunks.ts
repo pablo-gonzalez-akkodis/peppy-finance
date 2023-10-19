@@ -61,7 +61,7 @@ export const getBalanceHistory = createAsyncThunk(
     if (!chainId) {
       throw new Error("chainId is empty");
     }
-
+    console.log("cleint", chainId);
     try {
       const client = getBalanceHistoryApolloClient(chainId);
       if (!client) return {};
@@ -80,7 +80,12 @@ export const getBalanceHistory = createAsyncThunk(
       if (balanceChanges.length !== BALANCE_HISTORY_ITEMS_NUMBER) {
         hasMore = false;
       }
-
+      hasMore = true;
+      console.log("balanceChan", balanceChanges, account, {
+        account: account.toLowerCase(),
+        first,
+        skip,
+      });
       return { result: balanceChanges, hasMore };
     } catch (error) {
       console.error(error);

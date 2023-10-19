@@ -24,11 +24,8 @@ import {
   useAccountPartyAStat,
   useActiveAccountAddress,
 } from "@symmio-client/core/state/user/hooks";
-
-import {
-  ApprovalState,
-  useApproveCallback,
-} from "@symmio-client/core/lib/hooks/useApproveCallback";
+import { useApproveCallback } from "@symmio-client/core/lib/hooks/useApproveCallback";
+import { ApprovalState } from "@symmio-client/core/lib/hooks/useApproval";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { Modal } from "components/Modal";
