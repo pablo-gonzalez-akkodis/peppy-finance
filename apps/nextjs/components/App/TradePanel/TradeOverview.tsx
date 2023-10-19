@@ -6,7 +6,6 @@ import { OrderType } from "@symmio-client/core/types/trade";
 import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
-import useDebounce from "@symmio-client/core/lib/hooks/useDebounce";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
@@ -86,7 +85,6 @@ export default function TradeOverview() {
     [notionalValue, market]
   );
   const userLeverage = useLeverage();
-  const debouncedLeverage = useDebounce(userLeverage, 10) as number;
 
   return (
     <>
@@ -98,15 +96,12 @@ export default function TradeOverview() {
               toBN(formattedAmounts[0]).isNaN()
                 ? "0"
                 : toBN(formattedAmounts[0]).toFormat()
-            } x ${debouncedLeverage} =`}</div>
+            } x ${userLeverage} =`}</div>
             <div>
               {`${
-                toBN(formattedAmounts[0]).isNaN() ||
-                toBN(debouncedLeverage).isNaN()
+                toBN(formattedAmounts[0]).isNaN() || toBN(userLeverage).isNaN()
                   ? 0
-                  : toBN(formattedAmounts[0])
-                      .times(debouncedLeverage)
-                      .toFormat()
+                  : toBN(formattedAmounts[0]).times(userLeverage).toFormat()
               } ${collateralCurrency?.symbol}`}
             </div>
           </PositionValue>
