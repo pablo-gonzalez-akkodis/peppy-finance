@@ -1,11 +1,9 @@
-import { StaticImageData } from "next/legacy/image";
 import { SupportedChainId } from "./chains";
 
 interface Info {
   chainId: string;
   chainName: string;
   label: string;
-  logoUrl: StaticImageData;
   nativeCurrency: {
     name: string;
     symbol: string;
@@ -20,7 +18,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x1",
     chainName: "Ethereum Mainnet",
     label: "Ethereum",
-    logoUrl: require("/public/static/images/networks/mainnet.svg"),
     nativeCurrency: {
       name: "ETH",
       symbol: "ETH",
@@ -33,7 +30,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x3",
     chainName: "Ropsten Testnet",
     label: "Ropsten",
-    logoUrl: require("/public/static/images/networks/mainnet.svg"),
     nativeCurrency: {
       name: "Ropsten Ether",
       symbol: "ropETH",
@@ -46,7 +42,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x4",
     chainName: "Rinkeby Testnet",
     label: "Rinkeby",
-    logoUrl: require("/public/static/images/networks/mainnet.svg"),
     nativeCurrency: {
       name: "ETH",
       symbol: "ETH",
@@ -59,7 +54,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x38",
     chainName: "BNB Smart Chain",
     label: "BNB",
-    logoUrl: require("/public/static/images/networks/binance.svg"),
     nativeCurrency: {
       name: "BNB",
       symbol: "BNB",
@@ -72,7 +66,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x61",
     chainName: "Binance Smart Chain Testnet",
     label: "Test BSC",
-    logoUrl: require("/public/static/images/networks/binance.svg"),
     nativeCurrency: {
       name: "tBNB",
       symbol: "tBNB",
@@ -86,7 +79,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x89",
     chainName: "Matic Mainnet",
     label: "Polygon",
-    logoUrl: require("/public/static/images/networks/polygon.svg"),
     nativeCurrency: {
       name: "MATIC",
       symbol: "Matic",
@@ -99,7 +91,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0xfa",
     chainName: "Fantom Opera",
     label: "Fantom",
-    logoUrl: require("/public/static/images/networks/fantom.svg"),
     nativeCurrency: {
       name: "FTM",
       symbol: "FTM",
@@ -112,7 +103,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0xA4B1",
     chainName: "Arbitrum",
     label: "Arbitrum",
-    logoUrl: require("/public/static/images/networks/arbitrum.png"),
     nativeCurrency: {
       name: "Ethereum",
       symbol: "ETH",
@@ -125,7 +115,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
     chainId: "0x2105",
     chainName: "Base",
     label: "Base",
-    logoUrl: require("/public/static/images/networks/base.png"),
     nativeCurrency: {
       name: "Ethereum",
       symbol: "ETH",

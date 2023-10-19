@@ -14,6 +14,7 @@ import { MainButton } from "components/Button";
 import { SwitchWallet } from "components/Icons";
 import GradientButton from "components/Button/GradientButton";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
+import { getChainLogo } from "utils/chainLogo";
 
 const IconWrap = styled.div`
   position: absolute;
@@ -73,7 +74,7 @@ export function InvalidContext() {
           >
             <IconWrap>
               <Image
-                src={fallbackChainInfo.logoUrl}
+                src={getChainLogo(FALLBACK_CHAIN_ID)}
                 alt={fallbackChainInfo.label}
                 width={24}
                 height={24}
