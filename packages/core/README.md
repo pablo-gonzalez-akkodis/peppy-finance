@@ -22,3 +22,4 @@
 - remove `any` type in sdk
 - remove `console.log` from sdk
 - restructure the hedging address and get addresses from client
+- change the name of project from "symm-client" to 'symmio-frontend-sdk'
