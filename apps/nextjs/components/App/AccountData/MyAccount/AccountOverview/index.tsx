@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 import useAccountData from "@symmio-client/core/hooks/useAccountData";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { formatAmount } from "@symmio-client/core/utils/numbers";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -31,6 +31,7 @@ export default function AccountOverview() {
     maintenanceMargin,
     loading: accountLoading,
   } = useAccountData();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

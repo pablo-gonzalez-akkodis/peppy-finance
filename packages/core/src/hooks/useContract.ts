@@ -9,25 +9,28 @@ import {
   MULTI_ACCOUNT_ABI,
 } from "../constants/abi";
 import {
-  COLLATERAL_ADDRESS,
-  DIAMOND_ADDRESS,
-  MULTI_ACCOUNT_ADDRESS,
-  MULTICALL3_ADDRESS,
-} from "../constants/addresses";
+  useCollateralAddress,
+  useDiamondAddress,
+  useMultiAccountAddress,
+  useMultiCallAddress,
+} from "../state/chains/hooks";
 
 /* ###################################
                         CloverField
 ################################### */
 
 export function useCollateralContract() {
+  const COLLATERAL_ADDRESS = useCollateralAddress();
   return useContract(COLLATERAL_ADDRESS, COLLATERAL_ABI);
 }
 
 export function useDiamondContract() {
+  const DIAMOND_ADDRESS = useDiamondAddress();
   return useContract(DIAMOND_ADDRESS, DIAMOND_ABI);
 }
 
 export function useMultiAccountContract(): ReturnType<typeof useContract> {
+  const MULTI_ACCOUNT_ADDRESS = useMultiAccountAddress();
   return useContract(MULTI_ACCOUNT_ADDRESS, MULTI_ACCOUNT_ABI);
 }
 
@@ -50,5 +53,6 @@ export function useBytes32TokenContract(tokenAddress?: string) {
 }
 
 export function useMultiCall3Contract() {
+  const MULTICALL3_ADDRESS = useMultiCallAddress();
   return useContract(MULTICALL3_ADDRESS, MULTICALL3_ABI);
 }

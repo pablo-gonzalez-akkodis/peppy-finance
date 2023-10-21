@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
 import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import {
   RoundMode,
   formatPrice,
@@ -23,6 +23,7 @@ import InfoItem from "components/InfoItem";
 export default function MinPositionInfo() {
   const { chainId } = useActiveWagmi();
   const setTypedValue = useSetTypedValue();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

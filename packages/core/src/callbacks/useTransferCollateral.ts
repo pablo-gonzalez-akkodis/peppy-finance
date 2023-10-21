@@ -6,7 +6,7 @@ import {
   TransactionCallbackState,
 } from "../utils/web3";
 import { formatPrice } from "../utils/numbers";
-import { COLLATERAL_TOKEN } from "../constants/tokens";
+import { useCollateralToken } from "../constants/tokens";
 import { getTokenWithFallbackChainId } from "../utils/token";
 import { TransferTab } from "../types/transfer";
 
@@ -42,6 +42,7 @@ export function useTransferCollateral(
   const MultiAccountContract = useMultiAccountContract();
   const activeAccount = useActiveAccount();
   const isSupportedChainId = useSupportedChainId();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

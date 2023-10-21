@@ -8,7 +8,7 @@ import {
   formatPrice,
   toBN,
 } from "@symmio-client/core/utils/numbers";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 import {
@@ -149,7 +149,7 @@ export default function AccountOverview({
     accountHealthData: { health: accountHealth, healthColor, healthEmoji },
     availableForOrder,
   } = useAccountData();
-
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

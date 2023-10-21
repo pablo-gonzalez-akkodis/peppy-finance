@@ -3,7 +3,7 @@ import { Currency, Token } from "@uniswap/sdk-core";
 import { useContractReads } from "wagmi";
 import { toBytes, hexToString } from "viem";
 
-import { TOKEN_SHORTHANDS } from "../../constants/tokens";
+import { useTokenShorthand } from "../../constants/tokens";
 import { isSupportedChain } from "../../constants/chains";
 import { DEFAULT_ERC20_DECIMALS } from "../../utils/token";
 import { isAddress } from "../../utils/validate";
@@ -158,6 +158,7 @@ export function useCurrencyFromMap(
       (currencyId?.toUpperCase() === "ETH" ||
         currencyId?.toUpperCase() === "FTM")
   );
+  const TOKEN_SHORTHANDS = useTokenShorthand();
 
   const shorthandMatchAddress = useMemo(() => {
     const chain = supportedChainId(chainId);
@@ -165,7 +166,7 @@ export function useCurrencyFromMap(
     return chain && currencyId
       ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain]
       : undefined;
-  }, [chainId, currencyId]);
+  }, [TOKEN_SHORTHANDS, chainId, currencyId]);
 
   const token = useTokenFromMapOrNetwork(
     tokens,

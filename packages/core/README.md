@@ -20,3 +20,5 @@
 - remove commented code in project
 - remove environment variable from sdk code. should get this param from client. search `process.env.` in packages directory
 - remove `any` type in sdk
+- change the structure of passing token addresses between function(address with chainId -> just use address of active chainId)
+- remove `console.log` from sdk

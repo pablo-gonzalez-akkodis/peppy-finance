@@ -6,7 +6,6 @@ import DEPOSIT_ICON from "/public/static/images/etc/BalanceHistory/Deposit.svg";
 import WITHDRAW_ICON from "/public/static/images/etc/BalanceHistory/Withdraw.svg";
 import DEALLOCATE_ICON from "/public/static/images/etc/BalanceHistory/Deallocate.svg";
 
-import { COLLATERAL_DECIMALS } from "@symmio-client/core/constants/addresses";
 import { BN_TEN, formatAmount, toBN } from "@symmio-client/core/utils/numbers";
 import { formatTimestamp } from "@symmio-client/core/utils/time";
 import { ExplorerDataType } from "@symmio-client/core/utils/explorers";
@@ -21,6 +20,7 @@ import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import { Row, RowStart } from "components/Row";
 import { ExplorerLink } from "components/Link";
 import ShimmerAnimation from "components/ShimmerAnimation";
+import { useCollateralDecimal } from "@symmio-client/core/state/chains/hooks";
 
 interface HistoryItemInputs {
   data: BalanceHistoryData;
@@ -86,6 +86,7 @@ export default function BalanceItem({
   loading,
 }: HistoryItemInputs): JSX.Element {
   const { chainId } = useActiveWagmi();
+  const COLLATERAL_DECIMALS = useCollateralDecimal();
   const isDeposit = type === BalanceHistoryType.DEPOSIT_PARTY_A;
   const iconMap: { [type: string]: any } = {
     [BalanceHistoryType.DEPOSIT_PARTY_A]: DEPOSIT_ICON,

@@ -1,4 +1,4 @@
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { PositionType } from "@symmio-client/core/types/trade";
 import { toBN } from "@symmio-client/core/utils/numbers";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
@@ -21,6 +21,7 @@ export default function LimitPricePanel(): JSX.Element | null {
   const market = useActiveMarket();
   const positionType = usePositionType();
   const setLimitPrice = useSetLimitPrice();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { toBN } from "@symmio-client/core/utils/numbers";
 
 import { PositionType } from "@symmio-client/core/types/trade";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -62,6 +62,7 @@ export default function MarketPanel() {
   const { chainId } = useActiveWagmi();
   const market = useActiveMarket();
   const positionType = usePositionType();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

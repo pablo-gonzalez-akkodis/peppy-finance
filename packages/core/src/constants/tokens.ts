@@ -1,45 +1,48 @@
 import { Token, WETH9 } from "@uniswap/sdk-core";
 import { duplicateTokenByAddressMap } from "../utils/token";
-import {
-  USDC_ADDRESS,
-  WRAPPED_NATIVE_ADDRESS,
-  COLLATERAL_ADDRESS,
-  COLLATERAL_DECIMALS,
-  COLLATERAL_SYMBOL,
-} from "./addresses";
 import { SupportedChainId } from "./chains";
+import {
+  useCollateralAddress,
+  useCollateralSymbol,
+  useCollateralDecimal,
+  useUSDCAddress,
+  useV3Ids,
+} from "../state/chains/hooks";
+import { ChainInfo } from "./chainInfo";
 
 /* =====================================
                              TOKENS
 ===================================== */
 
-export const USDC_TOKEN = duplicateTokenByAddressMap(
-  USDC_ADDRESS,
-  6,
-  "USDC",
-  "USDC"
-);
+export function useUSDCToken() {
+  const USDC_ADDRESS = useUSDCAddress();
+  return duplicateTokenByAddressMap(USDC_ADDRESS, 6, "USDC", "USDC");
+}
 
-export const COLLATERAL_TOKEN = duplicateTokenByAddressMap(
-  COLLATERAL_ADDRESS,
-  6,
-  COLLATERAL_SYMBOL,
-  COLLATERAL_SYMBOL,
-  COLLATERAL_DECIMALS
-);
+export function useCollateralToken() {
+  const COLLATERAL_ADDRESS = useCollateralAddress();
+  const COLLATERAL_SYMBOL = useCollateralSymbol();
+  const COLLATERAL_DECIMALS = useCollateralDecimal();
+  return duplicateTokenByAddressMap(
+    COLLATERAL_ADDRESS,
+    6,
+    COLLATERAL_SYMBOL,
+    COLLATERAL_SYMBOL,
+    COLLATERAL_DECIMALS
+  );
+}
 
-//todo: remove it
-export const TOKEN_SHORTHANDS: {
-  [shorthand: string]: { [chainId in SupportedChainId]?: string };
-} = {
-  USDC: {
-    [SupportedChainId.MAINNET]: USDC_TOKEN[SupportedChainId.MAINNET].address,
-    [SupportedChainId.ARBITRUM]: USDC_TOKEN[SupportedChainId.ARBITRUM].address,
-    [SupportedChainId.BASE]: USDC_TOKEN[SupportedChainId.BASE].address,
-    [SupportedChainId.POLYGON]: USDC_TOKEN[SupportedChainId.POLYGON].address,
-    [SupportedChainId.RINKEBY]: USDC_TOKEN[SupportedChainId.RINKEBY].address,
-  },
-};
+export function useTokenShorthand() {
+  const USDC_TOKEN = useUSDCToken();
+  const v3_ids = useV3Ids();
+  const tmpStruct = v3_ids?.reduce((acc, id) => {
+    acc[id] = USDC_TOKEN[id]?.address;
+    return acc;
+  }, {});
+  return {
+    USDC: tmpStruct,
+  };
+}
 
 /* =====================================
                              WRAPPED TOKENS
@@ -50,42 +53,42 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
 
     [SupportedChainId.ARBITRUM]: new Token(
       SupportedChainId.ARBITRUM,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.ARBITRUM],
+      ChainInfo[SupportedChainId.ARBITRUM].WRAPPED_NATIVE_ADDRESS,
       18,
       "WETH",
       "Wrapped Ether"
     ),
     [SupportedChainId.BASE]: new Token(
       SupportedChainId.BASE,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.BASE],
+      ChainInfo[SupportedChainId.BASE].WRAPPED_NATIVE_ADDRESS,
       18,
       "WETH",
       "Wrapped Ether"
     ),
     [SupportedChainId.POLYGON]: new Token(
       SupportedChainId.POLYGON,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.POLYGON],
+      ChainInfo[SupportedChainId.POLYGON].WRAPPED_NATIVE_ADDRESS,
       18,
       "WMATIC",
       "Wrapped MATIC"
     ),
     [SupportedChainId.FANTOM]: new Token(
       SupportedChainId.FANTOM,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.FANTOM],
+      ChainInfo[SupportedChainId.FANTOM].WRAPPED_NATIVE_ADDRESS,
       18,
       "WFTM",
       "Wrapped Fantom"
     ),
     [SupportedChainId.BSC]: new Token(
       SupportedChainId.BSC,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.BSC],
+      ChainInfo[SupportedChainId.BSC].WRAPPED_NATIVE_ADDRESS,
       18,
       "WBNB",
       "Wrapped BNB"
     ),
     [SupportedChainId.BSC_TESTNET]: new Token(
       SupportedChainId.BSC_TESTNET,
-      WRAPPED_NATIVE_ADDRESS[SupportedChainId.BSC_TESTNET],
+      ChainInfo[SupportedChainId.BSC_TESTNET].WRAPPED_NATIVE_ADDRESS,
       18,
       "tBNB",
       "test BNB"
