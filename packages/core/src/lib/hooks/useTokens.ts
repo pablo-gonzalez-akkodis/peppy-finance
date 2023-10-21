@@ -6,10 +6,7 @@ import { getCombinedTokens } from "../../utils/token";
 import { useCurrencyFromMap, useTokenFromMapOrNetwork } from "./useCurrency";
 import useActiveWagmi from "./useActiveWagmi";
 import { AddressMap } from "../../utils/address";
-import {
-  useUSDCToken,
-  useCollateralToken,
-} from "@symmio-client/core/constants/tokens";
+import { useUSDCToken, useCollateralToken } from "../../constants/tokens";
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWagmi();
