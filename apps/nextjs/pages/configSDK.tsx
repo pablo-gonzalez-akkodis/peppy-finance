@@ -5,9 +5,8 @@ import { contractInfo } from "constants/chains/addresses";
 import { ClientChain } from "constants/chains/chains";
 import { AbisInfo } from "constants/chains/abi";
 
-export default function EmptyComponent() {
+export default function ConfigSDKComponent() {
   const setConfigCallBack = useSetSdkConfig();
-
   useEffect(() => {
     setConfigCallBack({
       chains: contractInfo,

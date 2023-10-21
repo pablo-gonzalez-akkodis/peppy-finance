@@ -27,13 +27,13 @@ export interface AbisType {
 export interface ChainsState {
   readonly chains: { [chainId: number]: ChainType };
   readonly V3_CHAIN_IDS: number[];
-  readonly Abis: AbisType;
+  readonly contract_ABIs: AbisType;
 }
 
 const initialState: ChainsState = {
   chains: {},
   V3_CHAIN_IDS: [],
-  Abis: {
+  contract_ABIs: {
     COLLATERAL_ABI: {},
     DIAMOND_ABI: {},
     ERC20_BYTES32_ABI: {},
@@ -47,6 +47,6 @@ export default createReducer(initialState, (builder) =>
     const { chains, V3_CHAIN_IDS, Abis } = payload;
     state.chains = chains;
     state.V3_CHAIN_IDS = V3_CHAIN_IDS;
-    state.Abis = { ...Abis };
+    state.contract_ABIs = { ...Abis };
   })
 );

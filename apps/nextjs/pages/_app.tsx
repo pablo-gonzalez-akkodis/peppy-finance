@@ -13,7 +13,7 @@ import { ModalBackground } from "components/Modal";
 import Layout from "components/Layout";
 import Popups from "components/Popups";
 import { BlockNumberProvider } from "@symmio-client/core/lib/hooks/useBlockNumber";
-import EmptyComponent from "./emptyComponent";
+import ConfigSDKComponent from "./configSDK";
 import { setUseWhatChange } from "@simbathesailor/use-what-changed";
 
 const Updaters = dynamic(() => import("@symmio-client/core/state/updaters"), {
@@ -50,7 +50,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 <BlockNumberProvider>
                   <Popups />
                   <Updaters />
-                  <EmptyComponent />
+                  <ConfigSDKComponent />
                   <Layout>
                     <Component {...pageProps} />
                   </Layout>
