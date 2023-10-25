@@ -12,7 +12,7 @@ import {
 } from "@symmio-client/core/state/transactions/types";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { TradeState } from "@symmio-client/core/types/trade";
 import { TransferTab } from "@symmio-client/core/types/transfer";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -91,7 +91,7 @@ export function TransferBalanceSummary({
 }): JSX.Element {
   const { chainId } = useActiveWagmi();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

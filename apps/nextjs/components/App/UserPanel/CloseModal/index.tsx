@@ -21,7 +21,7 @@ import {
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import { MARKET_PRICE_COEFFICIENT } from "@symmio-client/core/constants/misc";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { calculateString, calculationPattern } from "utils/calculationalString";
 
 import {
@@ -113,7 +113,7 @@ export default function CloseModal({
   const { accountAddress: account } = useActiveAccount() || {};
   const { CVA, MM, LF, openedPrice, marketId, positionType } = quote || {};
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

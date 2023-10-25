@@ -6,7 +6,7 @@ import GRADIENT_CLOVERFIELD_LOGO from "/public/static/images/etc/GradientCloverf
 
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { truncateAddress } from "@symmio-client/core/utils/address";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { useAddAccountToContract } from "@symmio-client/core/callbacks/useMultiAccount";
@@ -155,7 +155,8 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   const userWhitelisted = useIsAccountWhiteList();
   // const [acceptRiskValue, setAcceptRiskValue] = useState(false)
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

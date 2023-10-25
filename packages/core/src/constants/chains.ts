@@ -23,8 +23,6 @@ export function isSupportedChain(
   return !!chainId && !!SupportedChainId[chainId];
 }
 
-export const V3_CHAIN_IDS = [SupportedChainId.FANTOM, SupportedChainId.BSC];
-
 export const APP_CHAINS = [fantom, bsc];
 
 export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;

@@ -6,9 +6,9 @@ import {
   FALLBACK_CHAIN_ID,
   SupportedChainId,
   SUPPORTED_CHAIN_IDS,
-  V3_CHAIN_IDS,
 } from "../constants/chains";
 import { AddressMap, DecimalMap, SymbolMap } from "./address";
+import { useV3Ids } from "../state/chains/hooks";
 
 export const NATIVE_CHAIN_ID = "NATIVE";
 export const DEFAULT_ERC20_DECIMALS = 18;
@@ -56,11 +56,12 @@ export function duplicateTokenByAddressMap(
     }, {});
 }
 
-export function getTokenWithFallbackChainId(
+export function useGetTokenWithFallbackChainId(
   tokenMap: TokenMap,
   chainId: number | undefined
 ): Token {
-  if (chainId && V3_CHAIN_IDS.includes(chainId)) return tokenMap[chainId];
+  const v3_ids = useV3Ids();
+  if (chainId && v3_ids.includes(chainId)) return tokenMap[chainId];
   return tokenMap[FALLBACK_CHAIN_ID];
 }
 

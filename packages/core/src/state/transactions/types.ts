@@ -1,8 +1,4 @@
-import {
-  CloseQuote,
-  PositionType,
-  TradeState,
-} from "../../types/trade";
+import { CloseQuote, PositionType, TradeState } from "../../types/trade";
 import { TransferTab } from "../../types/transfer";
 
 export interface SerializableTransactionReceipt {
@@ -92,6 +88,7 @@ export interface TransactionDetails {
   lastCheckedBlockNumber?: number;
   addedTime: number;
   confirmedTime?: number;
+  waitForReceipt?: boolean;
   from: string;
   info: TransactionInfo;
 }

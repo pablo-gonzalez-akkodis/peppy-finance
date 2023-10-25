@@ -6,6 +6,7 @@ import {
   clearAllTransactions,
   checkedTransaction,
   finalizeTransaction,
+  updateTransaction,
 } from "./actions";
 
 const now = () => new Date().getTime();
@@ -36,6 +37,17 @@ export default createReducer(initialState, (builder) =>
         };
         txs[hash] = { hash, info, from, summary, addedTime: now() };
         state[chainId] = txs;
+      }
+    )
+    .addCase(
+      updateTransaction,
+      (state, { payload: { chainId, ...restParameter } }) => {
+        console.log("updateee", chainId, restParameter);
+        if (!chainId) return;
+
+        const txs = state[chainId];
+        const hash = restParameter["hash"];
+        txs[hash] = restParameter;
       }
     )
     .addCase(clearAllTransactions, (transactions, { payload: { chainId } }) => {

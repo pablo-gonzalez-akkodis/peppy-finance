@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { formatAmount } from "@symmio-client/core/utils/numbers";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import useAccountData from "@symmio-client/core/hooks/useAccountData";
@@ -50,7 +50,7 @@ export default function AccountBalance() {
   const { allocatedBalance, lockedMM } =
     useAccountPartyAStat(activeAccountAddress);
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

@@ -7,7 +7,7 @@ import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
 import { PositionType } from "@symmio-client/core/types/trade";
 import { formatTimestamp } from "@symmio-client/core/utils/time";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import {
   formatAmount,
   toBN,
@@ -94,7 +94,7 @@ export default function OpenedQuoteDetails({
   const { symbol, name, asset, pricePrecision } = useMarket(marketId) || {};
   const { ask: askPrice, bid: bidPrice } = useBidAskPrice(name, pricePrecision);
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

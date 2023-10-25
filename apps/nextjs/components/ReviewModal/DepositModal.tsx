@@ -9,7 +9,7 @@ import {
   BN_ZERO,
   formatPrice,
 } from "@symmio-client/core/utils/numbers";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 
 import { TransferTab } from "@symmio-client/core/types/transfer";
@@ -120,7 +120,7 @@ export default function DepositModal() {
     [MULTI_ACCOUNT_ADDRESS, chainId]
   );
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

@@ -14,11 +14,7 @@ import {
 import { ApiState } from "../../types/api";
 import { BalanceHistoryData, ConnectionStatus } from "./types";
 import { getBalanceHistory } from "./thunks";
-import {
-  AppThunkDispatch,
-  useAppDispatch,
-  useAppSelector,
-} from "..";
+import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
 
 import {
   updateUserSlippageTolerance,

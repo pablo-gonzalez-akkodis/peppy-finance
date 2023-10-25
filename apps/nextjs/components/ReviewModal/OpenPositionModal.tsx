@@ -10,7 +10,7 @@ import {
 } from "@symmio-client/core/constants/misc";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { OrderType, PositionType } from "@symmio-client/core/types/trade";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 import { useLeverage } from "@symmio-client/core/state/user/hooks";
 import { usePositionType } from "@symmio-client/core/state/trade/hooks";
@@ -127,7 +127,7 @@ export default function OpenPositionModal({
   const toggleModal = useToggleOpenPositionModal();
   const modalOpen = useModalOpen(ApplicationModal.OPEN_POSITION);
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

@@ -1,10 +1,4 @@
 {
   "extends": "../../tsconfig.json",
 
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "@symmio-client/core/*": ["src/*"]
-    }
-  }
 }
