@@ -1,10 +1,7 @@
-import { bsc, fantom } from "wagmi/chains";
-
 export enum SupportedChainId {
   MAINNET = 1,
   ROPSTEN = 3,
   RINKEBY = 4,
-
   BSC = 56,
   BASE = 8453,
   BSC_TESTNET = 97,
@@ -22,8 +19,6 @@ export function isSupportedChain(
 ): chainId is SupportedChainId {
   return !!chainId && !!SupportedChainId[chainId];
 }
-
-export const APP_CHAINS = [fantom, bsc];
 
 export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;
 
