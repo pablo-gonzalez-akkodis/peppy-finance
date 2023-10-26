@@ -21,4 +21,5 @@
 - change the name of project from "symm-client" to 'symmio-frontend-sdk'
 - refactor deposit/withdraw modal( use different modal. now use same component)
 - checking project license with managers
-- talking about server for rpc forward to hidden apikey
+- talking about server for rpc forward to hidden apiKey
+- move appropriate parameter in constant folder to client
