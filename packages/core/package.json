@@ -27,7 +27,6 @@
     "redux-persist": "^6.0.0",
     "tiny-invariant": "^1.2.0",
     "viem": "1.16.2",
-    "wagmi": "1.4.3",
     "fuse.js": "^3.4.5",
     "react-select-search": "^4.1.6",
     "dayjs": "^1.11.7"
@@ -37,6 +36,9 @@
     "clean": "rimraf ./dist",
     "compile": "tsc -p tsconfig.build.json",
     "prepublishOnly": "yarn run build"
+  },
+  "peerDependencies": {
+    "wagmi": "1.4.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.178",

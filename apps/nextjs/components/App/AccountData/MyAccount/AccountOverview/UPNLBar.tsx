@@ -4,7 +4,7 @@ import { Token } from "@uniswap/sdk-core";
 
 import { formatAmount, fromWei, toBN } from "@symmio-client/core/utils/numbers";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { ConnectionStatus } from "@symmio-client/core/state/user/types";
 
 import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
@@ -35,6 +35,7 @@ const UPNLText = styled.p`
 
 export default function UPNLBar() {
   const { chainId } = useActiveWagmi();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

@@ -5,7 +5,7 @@ import { mix } from "polished";
 import { WEB_SETTING } from "@symmio-client/core/config";
 
 import { calculateString, calculationPattern } from "utils/calculationalString";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import {
   DEFAULT_PRECISION,
   MAX_LEVERAGE_VALUE,
@@ -85,7 +85,7 @@ const LeverageInput = styled(InputAmount)`
 `;
 export default function AmountsPanel() {
   const { chainId } = useActiveWagmi();
-
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

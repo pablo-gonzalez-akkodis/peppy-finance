@@ -10,7 +10,7 @@ import {
 } from "@symmio-client/core/utils/numbers";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { TransferTab } from "@symmio-client/core/types/transfer";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 
 import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
 import {
@@ -101,7 +101,7 @@ export default function WithdrawModal() {
 
   const { callback: transferBalanceCallback, error: transferBalanceError } =
     useTransferCollateral(typedAmount, TransferTab.DEALLOCATE);
-
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

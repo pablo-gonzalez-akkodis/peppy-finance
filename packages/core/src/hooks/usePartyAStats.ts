@@ -1,4 +1,3 @@
-import { COLLATERAL_ADDRESS } from "../constants/addresses";
 import { useToken } from "../lib/hooks/useTokens";
 import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
 
@@ -10,6 +9,7 @@ import { getMultipleBN, getSingleWagmiResult } from "../utils/multicall";
 
 import { useDiamondContract } from "./useContract";
 import { UserPartyAStatDetail } from "../types/user";
+import { useCollateralAddress } from "../state/chains/hooks";
 
 //TODO why its not covered by useMemo
 //we converted all BigNumbers to string to avoid spurious rerenders
@@ -18,7 +18,7 @@ export function usePartyAStats(
 ): UserPartyAStatDetail {
   const isSupportedChainId = useSupportedChainId();
   const DiamondContract = useDiamondContract();
-
+  const COLLATERAL_ADDRESS = useCollateralAddress();
   const cToken = useToken(COLLATERAL_ADDRESS);
 
   const partyAStatsCallsFirstCall = isSupportedChainId

@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 
 import GRADIENT_CLOVERFIELD_LOGO from "/public/static/images/etc/GradientCloverfield.svg";
 
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { truncateAddress } from "@symmio-client/core/utils/address";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -154,6 +154,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   const [, setTxHash] = useState("");
   const userWhitelisted = useIsAccountWhiteList();
   // const [acceptRiskValue, setAcceptRiskValue] = useState(false)
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

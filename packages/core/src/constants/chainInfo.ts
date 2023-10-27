@@ -11,6 +11,7 @@ interface Info {
   };
   rpcUrl: string;
   blockExplorerUrl: string;
+  WRAPPED_NATIVE_ADDRESS: string;
 }
 
 export const ChainInfo: { [chainId: number]: Info } = {
@@ -25,6 +26,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://mainnet.infura.io/v3/",
     blockExplorerUrl: "https://etherscan.io",
+    WRAPPED_NATIVE_ADDRESS: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
   },
   [SupportedChainId.ROPSTEN]: {
     chainId: "0x3",
@@ -37,6 +39,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://ropsten.infura.io/v3/",
     blockExplorerUrl: "https://ropsten.etherscan.io",
+    WRAPPED_NATIVE_ADDRESS: "",
   },
   [SupportedChainId.RINKEBY]: {
     chainId: "0x4",
@@ -49,6 +52,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://rinkeby.infura.io/v3/",
     blockExplorerUrl: "https://rinkeby.etherscan.io",
+    WRAPPED_NATIVE_ADDRESS: "0xc778417E063141139Fce010982780140Aa0cD5Ab",
   },
   [SupportedChainId.BSC]: {
     chainId: "0x38",
@@ -61,6 +65,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://bsc-dataseed1.binance.org",
     blockExplorerUrl: "https://bscscan.com",
+    WRAPPED_NATIVE_ADDRESS: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
   },
   [SupportedChainId.BSC_TESTNET]: {
     chainId: "0x61",
@@ -74,6 +79,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     rpcUrl: "https://bsc-testnet.public.blastapi.io",
     // rpcUrl: 'https://data-seed-prebsc-1-s3.binance.org:8545/',
     blockExplorerUrl: "https://testnet.bscscan.com/",
+    WRAPPED_NATIVE_ADDRESS: "0x5b3e2bc1da86ff6235d9ead4504d598cae77dbcb",
   },
   [SupportedChainId.POLYGON]: {
     chainId: "0x89",
@@ -86,6 +92,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://polygon-rpc.com",
     blockExplorerUrl: "https://polygonscan.com",
+    WRAPPED_NATIVE_ADDRESS: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
   },
   [SupportedChainId.FANTOM]: {
     chainId: "0xfa",
@@ -98,6 +105,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://rpc.ftm.tools",
     blockExplorerUrl: "https://ftmscan.com",
+    WRAPPED_NATIVE_ADDRESS: "0x21be370D5312f44cB42ce377BC9b8a0cEF1A4C83",
   },
   [SupportedChainId.ARBITRUM]: {
     chainId: "0xA4B1",
@@ -110,6 +118,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://arb1.arbitrum.io/rpc",
     blockExplorerUrl: "https://arbiscan.io",
+    WRAPPED_NATIVE_ADDRESS: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
   },
   [SupportedChainId.BASE]: {
     chainId: "0x2105",
@@ -122,6 +131,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://mainnet.base.org",
     blockExplorerUrl: "https://basescan.org/",
+    WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
   },
 };
 

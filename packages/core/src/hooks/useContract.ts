@@ -1,33 +1,38 @@
 import { Abi } from "viem";
 import { erc20ABI, erc721ABI } from "wagmi";
 import { useContract } from "../lib/hooks/contract";
+
 import {
-  COLLATERAL_ABI,
-  DIAMOND_ABI,
-  ERC20_BYTES32_ABI,
-  MULTICALL3_ABI,
-  MULTI_ACCOUNT_ABI,
-} from "../constants/abi";
-import {
-  COLLATERAL_ADDRESS,
-  DIAMOND_ADDRESS,
-  MULTI_ACCOUNT_ADDRESS,
-  MULTICALL3_ADDRESS,
-} from "../constants/addresses";
+  useCollateralAddress,
+  useDiamondAddress,
+  useMultiAccountAddress,
+  useMultiCallAddress,
+  useCollateralABI,
+  useDiamondABI,
+  useMultiAccountABI,
+  useERC20BYTES20ABI,
+  useMulticall3ABI,
+} from "../state/chains/hooks";
 
 /* ###################################
                         CloverField
 ################################### */
 
 export function useCollateralContract() {
+  const COLLATERAL_ADDRESS = useCollateralAddress();
+  const COLLATERAL_ABI = useCollateralABI();
   return useContract(COLLATERAL_ADDRESS, COLLATERAL_ABI);
 }
 
 export function useDiamondContract() {
+  const DIAMOND_ADDRESS = useDiamondAddress();
+  const DIAMOND_ABI = useDiamondABI();
   return useContract(DIAMOND_ADDRESS, DIAMOND_ABI);
 }
 
 export function useMultiAccountContract(): ReturnType<typeof useContract> {
+  const MULTI_ACCOUNT_ADDRESS = useMultiAccountAddress();
+  const MULTI_ACCOUNT_ABI = useMultiAccountABI();
   return useContract(MULTI_ACCOUNT_ADDRESS, MULTI_ACCOUNT_ABI);
 }
 
@@ -46,9 +51,12 @@ export function useERC721Contract(
 }
 
 export function useBytes32TokenContract(tokenAddress?: string) {
+  const ERC20_BYTES32_ABI = useERC20BYTES20ABI();
   return useContract(tokenAddress, ERC20_BYTES32_ABI);
 }
 
 export function useMultiCall3Contract() {
+  const MULTICALL3_ADDRESS = useMultiCallAddress();
+  const MULTICALL3_ABI = useMulticall3ABI();
   return useContract(MULTICALL3_ADDRESS, MULTICALL3_ABI);
 }

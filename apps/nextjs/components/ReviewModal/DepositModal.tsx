@@ -2,7 +2,6 @@ import React, { useCallback, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { toast } from "react-hot-toast";
 
-import { MULTI_ACCOUNT_ADDRESS } from "@symmio-client/core/constants/addresses";
 import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
 import {
   toBN,
@@ -11,7 +10,7 @@ import {
   formatPrice,
 } from "@symmio-client/core/utils/numbers";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 
 import { TransferTab } from "@symmio-client/core/types/transfer";
 import {
@@ -37,6 +36,7 @@ import { CustomInputBox2 } from "components/InputBox";
 import { Close as CloseIcon } from "components/Icons";
 import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
 import { Row, RowBetween, RowStart } from "components/Row";
+import { useMultiAccountAddress } from "@symmio-client/core/state/chains/hooks";
 
 const Wrapper = styled.div`
   display: flex;
@@ -114,11 +114,12 @@ export default function DepositModal() {
   const { callback: transferBalanceCallback, error: transferBalanceError } =
     useTransferCollateral(typedAmount, TransferTab.DEPOSIT);
   // const { callback: mintCallback, error: mintCallbackError } = useMintCollateral()
-
+  const MULTI_ACCOUNT_ADDRESS = useMultiAccountAddress();
   const spender = useMemo(
     () => MULTI_ACCOUNT_ADDRESS[chainId ?? FALLBACK_CHAIN_ID],
-    [chainId]
+    [MULTI_ACCOUNT_ADDRESS, chainId]
   );
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

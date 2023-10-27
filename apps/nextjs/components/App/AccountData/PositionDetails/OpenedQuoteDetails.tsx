@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
 import { PositionType } from "@symmio-client/core/types/trade";
 import { formatTimestamp } from "@symmio-client/core/utils/time";
@@ -93,6 +93,7 @@ export default function OpenedQuoteDetails({
   } = quote;
   const { symbol, name, asset, pricePrecision } = useMarket(marketId) || {};
   const { ask: askPrice, bid: bidPrice } = useBidAskPrice(name, pricePrecision);
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

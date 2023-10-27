@@ -10,7 +10,7 @@ import {
   TransferCollateralTransactionInfo,
   MintTransactionInfo,
 } from "@symmio-client/core/state/transactions/types";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { TradeState } from "@symmio-client/core/types/trade";
@@ -90,6 +90,7 @@ export function TransferBalanceSummary({
   status?: string;
 }): JSX.Element {
   const { chainId } = useActiveWagmi();
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
@@ -113,6 +114,7 @@ export function MintSummary({
   info: MintTransactionInfo;
   status?: string;
 }): JSX.Element {
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralSymbol = COLLATERAL_TOKEN[FALLBACK_CHAIN_ID].symbol ?? "";
 
   return (

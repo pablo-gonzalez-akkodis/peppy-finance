@@ -21,11 +21,7 @@ import {
   toWeiBN,
 } from "../utils/numbers";
 import { Quote } from "../types/quote";
-import {
-  OrderType,
-  PositionType,
-  TradeState,
-} from "../types/trade";
+import { OrderType, PositionType, TradeState } from "../types/trade";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
 import {

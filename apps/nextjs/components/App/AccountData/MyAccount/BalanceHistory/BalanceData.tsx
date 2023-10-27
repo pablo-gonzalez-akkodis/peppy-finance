@@ -3,7 +3,7 @@ import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 
 import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { BALANCE_HISTORY_ITEMS_NUMBER } from "@symmio-client/core/constants/misc";
 
 import {
@@ -44,6 +44,7 @@ export default function BalanceData() {
   const activeAccountAddress = useActiveAccountAddress();
   const getBalanceHistory = useGetBalanceHistoryCallback();
   const [skip, setSkip] = useState<number>(BALANCE_HISTORY_ITEMS_NUMBER);
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

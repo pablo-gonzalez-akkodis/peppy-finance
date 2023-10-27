@@ -16,7 +16,6 @@ export const ChainInfo: { [chainId: number]: StaticImageData } = {
 };
 
 export function getChainLogo(chainId: number | undefined): any {
-  console.log(chainId);
   if (chainId && isSupportedChain(chainId)) {
     return ChainInfo[chainId];
   }

@@ -5,7 +5,7 @@ import WITHDRAW_USDT_ICON from "/public/static/images/etc/WithdrawFUSDT.svg";
 import DEPOSIT_USDC_ICON from "/public/static/images/etc/DepositUSDC.svg";
 import WITHDRAW_USDC_ICON from "/public/static/images/etc/WithdrawUSDC.svg";
 
-import { COLLATERAL_TOKEN } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { SupportedChainId } from "@symmio-client/core/constants/chains";
 import { Account } from "@symmio-client/core/types/user";
 import { TransferTab } from "@symmio-client/core/types/transfer";
@@ -26,6 +26,7 @@ export default function TransferCollateralCard({
 }): JSX.Element {
   const { chainId } = useActiveWagmi();
   const { modifyTime, transferAmount, transferType } = notification;
+  const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = getTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId

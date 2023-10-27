@@ -1,11 +1,7 @@
 import { Ether, NativeCurrency, Token, Currency } from "@uniswap/sdk-core";
 import invariant from "tiny-invariant";
 
-import {
-  COLLATERAL_TOKEN,
-  USDC_TOKEN,
-  WRAPPED_NATIVE_CURRENCY,
-} from "../constants/tokens";
+import { WRAPPED_NATIVE_CURRENCY } from "../constants/tokens";
 import {
   FALLBACK_CHAIN_ID,
   SupportedChainId,
@@ -140,8 +136,7 @@ export function nativeOnChain(chainId: number): NativeCurrency | Token {
   return (cachedNativeCurrency[chainId] = nativeCurrency);
 }
 
-export function getCombinedTokens(): TokenAddressMap {
-  const tokenList = [COLLATERAL_TOKEN, USDC_TOKEN];
+export function getCombinedTokens(tokenList): TokenAddressMap {
   const combinedToken: TokenAddressMap = {};
   for (let i = 0; i < tokenList.length; i++) {
     const token = tokenList[i];

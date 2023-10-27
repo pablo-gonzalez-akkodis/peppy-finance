@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from "react";
 
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
-import { COLLATERAL_ADDRESS, PARTY_B_WHITELIST } from "../constants/addresses";
 import {
   DEFAULT_PRECISION,
   LIMIT_ORDER_DEADLINE,
@@ -64,6 +63,10 @@ import { SendOrCloseQuoteClient } from "../lib/muon";
 import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
 import { encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import {
+  useCollateralAddress,
+  usePartyBWhitelistAddress,
+} from "../state/chains/hooks";
 
 export function useSentQuoteCallback(): {
   state: TransactionCallbackState;
@@ -81,7 +84,7 @@ export function useSentQuoteCallback(): {
   const DiamondContract = useDiamondContract();
   const MultiAccountContract = useMultiAccountContract();
   const functionName = "sendQuote";
-
+  const COLLATERAL_ADDRESS = useCollateralAddress();
   const collateralCurrency = useCurrency(
     chainId ? COLLATERAL_ADDRESS[chainId] : undefined
   );
@@ -135,9 +138,10 @@ export function useSentQuoteCallback(): {
   const maxInterestRate = useMaxInterestRate(notionalValue);
   const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
   const { baseUrl } = useHedgerInfo() || {};
+  const PARTY_B_WHITELIST = usePartyBWhitelistAddress();
   const partyBWhiteList = useMemo(
-    () => PARTY_B_WHITELIST[chainId ?? FALLBACK_CHAIN_ID],
-    [chainId]
+    () => [PARTY_B_WHITELIST[chainId ?? FALLBACK_CHAIN_ID]],
+    [PARTY_B_WHITELIST, chainId]
   );
 
   const getSignature = useCallback(async () => {

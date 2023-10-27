@@ -6,16 +6,20 @@ import { getCombinedTokens } from "../../utils/token";
 import { useCurrencyFromMap, useTokenFromMapOrNetwork } from "./useCurrency";
 import useActiveWagmi from "./useActiveWagmi";
 import { AddressMap } from "../../utils/address";
+import { useUSDCToken, useCollateralToken } from "../../constants/tokens";
 
 export function useAllTokens(): { [address: string]: Token } {
   const { chainId } = useActiveWagmi();
+  const COLLATERAL_TOKEN = useCollateralToken();
+  const USDC_TOKEN = useUSDCToken();
   return useMemo(() => {
     if (chainId) {
-      const combinedTokens = getCombinedTokens();
+      const tokenList = [COLLATERAL_TOKEN, USDC_TOKEN];
+      const combinedTokens = getCombinedTokens(tokenList);
       return combinedTokens[chainId] ?? {};
     }
     return {};
-  }, [chainId]);
+  }, [COLLATERAL_TOKEN, USDC_TOKEN, chainId]);
 }
 
 // undefined if invalid or does not exist
