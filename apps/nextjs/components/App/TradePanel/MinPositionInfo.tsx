@@ -8,7 +8,7 @@ import {
   formatPrice,
   toBN,
 } from "@symmio-client/core/utils/numbers";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { InputField } from "@symmio-client/core/types/trade";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -24,7 +24,7 @@ export default function MinPositionInfo() {
   const { chainId } = useActiveWagmi();
   const setTypedValue = useSetTypedValue();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

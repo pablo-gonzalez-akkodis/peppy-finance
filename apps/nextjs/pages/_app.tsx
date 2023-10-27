@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import type { AppProps } from "next/app";
 import store, { ReduxProvider, persistor } from "@symmio-client/core/state";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
-import { getWagmiConfig } from "@symmio-client/core/utils/wagmi";
+import { getWagmiConfig } from "utils/wagmi";
 import { PersistGate } from "redux-persist/integration/react";
 import ThemeProvider, { ThemedGlobalStyle } from "theme";
 import { ModalProvider } from "styled-react-modal";

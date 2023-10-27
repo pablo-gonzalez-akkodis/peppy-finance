@@ -3,10 +3,7 @@ import styled from "styled-components";
 import { Z_INDEX } from "theme";
 
 import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import {
-  SupportedChainId,
-  V3_CHAIN_IDS,
-} from "@symmio-client/core/constants/chains";
+import { SupportedChainId } from "@symmio-client/core/constants/chains";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
@@ -16,6 +13,7 @@ import { Card } from "components/Card";
 import { Modal as ModalBody } from "components/Modal";
 import ImageWithFallback from "components/ImageWithFallback";
 import { getChainLogo } from "utils/chainLogo";
+import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
 
 const ModalWrapper = styled(Card)`
   padding: 0.6rem;
@@ -94,6 +92,7 @@ export function NetworksModal({
   const { chainId } = useActiveWagmi();
   const rpcChangerCallback = useRpcChangerCallback();
   const callBackFlag = useRef(false);
+  const v3_ids = useV3Ids();
 
   const handleClick = (chainId: SupportedChainId) => {
     rpcChangerCallback(chainId);
@@ -110,7 +109,7 @@ export function NetworksModal({
   function getInnerContent() {
     return (
       <div>
-        {V3_CHAIN_IDS.map((chain: SupportedChainId, index) => {
+        {v3_ids.map((chain: SupportedChainId, index) => {
           const Chain = ChainInfo[chain];
           return (
             <Network

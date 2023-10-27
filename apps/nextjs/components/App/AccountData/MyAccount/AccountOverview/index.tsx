@@ -12,7 +12,7 @@ import InfoItem from "components/InfoItem";
 import { DefaultContainer } from "../styles";
 import AccountHealth from "./AccountHealth";
 import UPNLBar from "./UPNLBar";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 const Container = styled(DefaultContainer)`
   padding-bottom: 16px;
@@ -32,7 +32,7 @@ export default function AccountOverview() {
     loading: accountLoading,
   } = useAccountData();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

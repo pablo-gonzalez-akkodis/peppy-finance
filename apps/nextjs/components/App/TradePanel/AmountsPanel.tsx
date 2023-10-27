@@ -11,7 +11,7 @@ import {
   MAX_LEVERAGE_VALUE,
   MIN_LEVERAGE_VALUE,
 } from "@symmio-client/core/constants/misc";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { formatPrice, toBN } from "@symmio-client/core/utils/numbers";
 import { InputField, OrderType } from "@symmio-client/core/types/trade";
 
@@ -86,7 +86,7 @@ const LeverageInput = styled(InputAmount)`
 export default function AmountsPanel() {
   const { chainId } = useActiveWagmi();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

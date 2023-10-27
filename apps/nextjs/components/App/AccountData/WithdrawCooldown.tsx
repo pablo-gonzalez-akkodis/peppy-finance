@@ -7,7 +7,7 @@ import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import { TransferTab } from "@symmio-client/core/types/transfer";
 import { getRemainingTime } from "@symmio-client/core/utils/time";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import {
   formatCurrency,
   formatPrice,
@@ -67,7 +67,7 @@ export default function WithdrawCooldown({
   const { accountBalance, withdrawCooldown, cooldownMA } =
     useAccountPartyAStat(activeAccountAddress);
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

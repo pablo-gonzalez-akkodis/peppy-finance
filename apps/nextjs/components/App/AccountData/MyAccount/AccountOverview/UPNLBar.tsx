@@ -3,7 +3,7 @@ import styled, { useTheme } from "styled-components";
 import { Token } from "@uniswap/sdk-core";
 
 import { formatAmount, fromWei, toBN } from "@symmio-client/core/utils/numbers";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { ConnectionStatus } from "@symmio-client/core/state/user/types";
 
@@ -36,7 +36,7 @@ const UPNLText = styled.p`
 export default function UPNLBar() {
   const { chainId } = useActiveWagmi();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

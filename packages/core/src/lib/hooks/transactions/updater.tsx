@@ -1,14 +1,10 @@
 import { useCallback, useEffect } from "react";
-
-import {
-  RETRY_OPTIONS_BY_CHAIN_ID,
-  DEFAULT_RETRY_OPTIONS,
-} from "../../../constants/misc";
 import useBlockNumber from "../useBlockNumber";
 import useActiveWagmi from "../useActiveWagmi";
-import { retry, RetryableError } from "../../../utils/retry";
 import { Address, usePublicClient } from "wagmi";
 import { TransactionReceipt } from "viem";
+import { waitForTransaction } from "@wagmi/core";
+
 interface Transaction {
   addedTime: number;
   receipt?: unknown;
@@ -55,34 +51,23 @@ export default function Updater({
   // const fastForwardBlockNumber = useFastForwardBlockNumber()
 
   const getReceipt = useCallback(
-    (hash: string, retryOptions) => {
+    (hash: string) => {
       if (!provider || !chainId) throw new Error("No provider or chainId");
-      return retry(
-        () =>
-          provider
-            .getTransactionReceipt({ hash: hash as Address })
-            .then((receipt) => {
-              if (receipt === null) {
-                console.debug(`Retrying transaction receipt for ${hash}`);
-                throw new RetryableError();
-              }
-              return receipt;
-            }),
-        retryOptions
-      );
+      return waitForTransaction({
+        hash: hash as Address,
+        onReplaced: (transaction) => console.log("OnReplace", transaction),
+      });
     },
     [chainId, provider]
   );
 
   useEffect(() => {
     if (!chainId || !provider || !lastBlockNumber) return;
-    const retryOptions =
-      RETRY_OPTIONS_BY_CHAIN_ID[chainId] ?? DEFAULT_RETRY_OPTIONS;
     const cancels = Object.keys(pendingTransactions)
       .filter((hash) => shouldCheck(lastBlockNumber, pendingTransactions[hash]))
       .map((hash) => {
-        const { promise, cancel } = getReceipt(hash, retryOptions);
-        promise
+        const resultReceipt = getReceipt(hash);
+        resultReceipt
           .then((receipt) => {
             if (receipt) {
               // fastForwardBlockNumber(Number(receipt.blockNumber))
@@ -92,6 +77,7 @@ export default function Updater({
             }
           })
           .catch((error) => {
+            console.log("error reciept", error);
             if (!error.isCancelledError) {
               console.warn(
                 `Failed to get transaction receipt for ${hash}`,
@@ -99,7 +85,7 @@ export default function Updater({
               );
             }
           });
-        return cancel;
+        return () => {};
       });
 
     return () => {

@@ -7,7 +7,6 @@ import { useTokenShorthand } from "../../constants/tokens";
 import { isSupportedChain } from "../../constants/chains";
 import { DEFAULT_ERC20_DECIMALS } from "../../utils/token";
 import { isAddress } from "../../utils/validate";
-import { supportedChainId } from "../../utils/supportedChainId";
 import { getSingleWagmiResult } from "../../utils/multicall";
 
 import useWagmi from "./useWagmi";
@@ -16,6 +15,7 @@ import {
   useERC20Contract,
 } from "../../hooks/useContract";
 import useNativeCurrency from "./useNativeCurrency";
+import { useV3Ids } from "../../state/chains/hooks";
 
 // parse a name or symbol from a token response
 const BYTES32_REGEX = /^0x[a-fA-F0-9]{64}$/;
@@ -159,14 +159,17 @@ export function useCurrencyFromMap(
         currencyId?.toUpperCase() === "FTM")
   );
   const TOKEN_SHORTHANDS = useTokenShorthand();
-
+  const v3_ids = useV3Ids();
   const shorthandMatchAddress = useMemo(() => {
-    const chain = supportedChainId(chainId);
+    const chain =
+      typeof chainId === "number" && v3_ids.includes(chainId)
+        ? chainId
+        : undefined;
     //TODO
     return chain && currencyId
       ? TOKEN_SHORTHANDS[currencyId.toUpperCase()]?.[chain]
       : undefined;
-  }, [TOKEN_SHORTHANDS, chainId, currencyId]);
+  }, [TOKEN_SHORTHANDS, chainId, currencyId, v3_ids]);
 
   const token = useTokenFromMapOrNetwork(
     tokens,

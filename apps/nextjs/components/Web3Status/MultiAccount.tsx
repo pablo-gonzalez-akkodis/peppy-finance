@@ -8,10 +8,7 @@ import { useConnect } from "wagmi";
 import { useAppDispatch } from "@symmio-client/core/state";
 import { truncateAddress } from "@symmio-client/core/utils/address";
 import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import {
-  FALLBACK_CHAIN_ID,
-  V3_CHAIN_IDS,
-} from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
 import { WEB_SETTING } from "@symmio-client/core/config";
 
 import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
@@ -42,6 +39,7 @@ import ImageWithFallback from "components/ImageWithFallback";
 import Badge from "./Badge";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { getChainLogo } from "utils/chainLogo";
+import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
 
 const Container = styled.div`
   display: inline-flex;
@@ -221,7 +219,7 @@ export default function MultiAccount() {
 
   const [clickAccounts, setClickAccounts] = useState(false);
   const [createAccountModal, setCreateAccountModal] = useState(false);
-
+  const v3_ids = useV3Ids();
   const Chain = ChainInfo[FALLBACK_CHAIN_ID];
 
   const { error } = useConnect();
@@ -246,8 +244,8 @@ export default function MultiAccount() {
 
   const showCallbackError: boolean = useMemo(() => {
     if (!chainId || !account) return false;
-    return !V3_CHAIN_IDS.includes(chainId);
-  }, [chainId, account]);
+    return !v3_ids.includes(chainId);
+  }, [chainId, account, v3_ids]);
 
   const { openAccountModal } = useAccountModal();
 

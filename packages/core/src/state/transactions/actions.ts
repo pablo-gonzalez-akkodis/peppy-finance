@@ -1,6 +1,10 @@
 import { createAction } from "@reduxjs/toolkit";
 
-import { SerializableTransactionReceipt, TransactionInfo } from "./types";
+import {
+  SerializableTransactionReceipt,
+  TransactionDetails,
+  TransactionInfo,
+} from "./types";
 
 export const addTransaction = createAction<{
   chainId: number;
@@ -22,3 +26,7 @@ export const checkedTransaction = createAction<{
   hash: string;
   blockNumber: number;
 }>("transactions/checkedTransaction");
+
+export const updateTransaction = createAction<
+  TransactionDetails & { chainId: number }
+>("transactions/updateTransaction");

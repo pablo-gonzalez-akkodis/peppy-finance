@@ -9,7 +9,7 @@ import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { SupportedChainId } from "@symmio-client/core/constants/chains";
 import { Account } from "@symmio-client/core/types/user";
 import { TransferTab } from "@symmio-client/core/types/transfer";
-import { getTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { NotificationDetails } from "@symmio-client/core/state/notifications/types";
@@ -27,7 +27,7 @@ export default function TransferCollateralCard({
   const { chainId } = useActiveWagmi();
   const { modifyTime, transferAmount, transferType } = notification;
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

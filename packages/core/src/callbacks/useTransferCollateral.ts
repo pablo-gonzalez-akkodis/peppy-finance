@@ -7,7 +7,7 @@ import {
 } from "../utils/web3";
 import { formatPrice } from "../utils/numbers";
 import { useCollateralToken } from "../constants/tokens";
-import { getTokenWithFallbackChainId } from "../utils/token";
+import { useGetTokenWithFallbackChainId } from "../utils/token";
 import { TransferTab } from "../types/transfer";
 
 import { useActiveAccount } from "../state/user/hooks";
@@ -43,7 +43,7 @@ export function useTransferCollateral(
   const activeAccount = useActiveAccount();
   const isSupportedChainId = useSupportedChainId();
   const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = getTokenWithFallbackChainId(
+  const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );

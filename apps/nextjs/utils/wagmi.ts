@@ -12,8 +12,8 @@ import {
   safeWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
-import { APP_CHAINS } from "../constants/chains";
-import { APP_NAME } from "../constants/misc";
+import { APP_CHAINS } from "constants/chains/chains";
+import { APP_NAME } from "@symmio-client/core/constants/misc";
 
 export const getWagmiConfig = () => {
   if (!process.env.NEXT_PUBLIC_INFURA_KEY) {
@@ -74,7 +74,7 @@ export const getWagmiConfig = () => {
       ],
     },
   ]);
-
+  console.log("connector", connectors);
   return {
     wagmiConfig: createConfig({
       autoConnect: true,

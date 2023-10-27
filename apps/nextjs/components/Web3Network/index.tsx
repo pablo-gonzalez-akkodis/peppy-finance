@@ -5,13 +5,13 @@ import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { NavButton } from "components/Button";
-import { V3_CHAIN_IDS } from "@symmio-client/core/constants/chains";
 import { ChevronDown } from "components/Icons";
 import ImageWithFallback from "components/ImageWithFallback";
 import { isMobile } from "react-device-detect";
 import { NetworksModal } from "./NetworksModal";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 import { getChainLogo } from "utils/chainLogo";
+import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
 
 const Container = styled.div`
   display: inline-flex;
@@ -42,7 +42,8 @@ const Chevron = styled(ChevronDown)<{ open: boolean }>`
 
 export default function Web3Network() {
   const ref = useRef(null);
-  const isMultiChain = V3_CHAIN_IDS.length > 1;
+  const v3_ids = useV3Ids();
+  const isMultiChain = v3_ids.length > 1;
   const { account, chainId } = useActiveWagmi();
   const [networksModal, toggleNetworksModal] = useState(false);
   useOnOutsideClick(ref, () => toggleNetworksModal(false));
@@ -55,7 +56,7 @@ export default function Web3Network() {
     return chainId && chainId in ChainInfo ? ChainInfo[chainId] : null;
   }, [chainId]);
 
-  if (!account || !chainId || !Chain || !V3_CHAIN_IDS.includes(chainId)) {
+  if (!account || !chainId || !Chain || !v3_ids.includes(chainId)) {
     return null;
   }
 
