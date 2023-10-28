@@ -1,8 +1,5 @@
 import { ChainInfo } from "../constants/chainInfo";
-import {
-  FALLBACK_CHAIN_ID,
-  SupportedChainId,
-} from "../constants/chains";
+import { FALLBACK_CHAIN_ID, SupportedChainId } from "../constants/chains";
 
 export enum ExplorerDataType {
   TRANSACTION = "transaction",

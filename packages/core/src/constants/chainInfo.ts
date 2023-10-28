@@ -1,3 +1,4 @@
+import { Address } from "viem";
 import { SupportedChainId } from "./chains";
 
 interface Info {
@@ -11,7 +12,7 @@ interface Info {
   };
   rpcUrl: string;
   blockExplorerUrl: string;
-  WRAPPED_NATIVE_ADDRESS: string;
+  WRAPPED_NATIVE_ADDRESS: Address;
 }
 
 export const ChainInfo: { [chainId: number]: Info } = {
@@ -39,7 +40,7 @@ export const ChainInfo: { [chainId: number]: Info } = {
     },
     rpcUrl: "https://ropsten.infura.io/v3/",
     blockExplorerUrl: "https://ropsten.etherscan.io",
-    WRAPPED_NATIVE_ADDRESS: "",
+    WRAPPED_NATIVE_ADDRESS: "0x",
   },
   [SupportedChainId.RINKEBY]: {
     chainId: "0x4",

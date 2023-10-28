@@ -34,7 +34,7 @@ export const getWagmiConfig = () => {
   ],
    */
   const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
-  const { chains, publicClient } = configureChains(
+  const { chains, publicClient, webSocketPublicClient } = configureChains(
     APP_CHAINS,
     [
       infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_KEY }),
@@ -74,12 +74,12 @@ export const getWagmiConfig = () => {
       ],
     },
   ]);
-  console.log("connector", connectors);
   return {
     wagmiConfig: createConfig({
       autoConnect: true,
       connectors,
       publicClient,
+      webSocketPublicClient,
     }),
     chains,
     initialChain: chains[0],
