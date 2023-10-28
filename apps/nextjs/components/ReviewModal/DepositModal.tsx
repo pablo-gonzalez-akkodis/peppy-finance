@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { toast } from "react-hot-toast";
 
-import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import {
   toBN,
   formatAmount,

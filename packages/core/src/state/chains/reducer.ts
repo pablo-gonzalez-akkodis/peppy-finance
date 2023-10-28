@@ -27,12 +27,14 @@ export interface AbisType {
 export interface ChainsState {
   readonly chains: { [chainId: number]: ChainType };
   readonly V3_CHAIN_IDS: number[];
+  readonly FALLBACK_CHAIN_ID: number;
   readonly contract_ABIs: AbisType;
 }
 
 const initialState: ChainsState = {
   chains: {},
   V3_CHAIN_IDS: [],
+  FALLBACK_CHAIN_ID: 1,
   contract_ABIs: {
     COLLATERAL_ABI: {},
     DIAMOND_ABI: {},
@@ -44,9 +46,10 @@ const initialState: ChainsState = {
 
 export default createReducer(initialState, (builder) =>
   builder.addCase(setChains, (state, { payload }) => {
-    const { chains, V3_CHAIN_IDS, Abis } = payload;
+    const { chains, V3_CHAIN_IDS, contract_ABIs, FALLBACK_CHAIN_ID } = payload;
     state.chains = chains;
     state.V3_CHAIN_IDS = V3_CHAIN_IDS;
-    state.contract_ABIs = { ...Abis };
+    state.contract_ABIs = { ...contract_ABIs };
+    state.FALLBACK_CHAIN_ID = FALLBACK_CHAIN_ID;
   })
 );

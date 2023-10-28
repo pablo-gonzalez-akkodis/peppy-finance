@@ -4,7 +4,7 @@ import Image from "next/legacy/image";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
-import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
 
 import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";

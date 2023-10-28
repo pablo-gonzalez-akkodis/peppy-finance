@@ -5,6 +5,7 @@ import {
   ExplorerDataType,
   getExplorerLink,
 } from "@symmio-client/core/utils/explorers";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 
 function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
   const { target } = event.currentTarget;
@@ -122,7 +123,7 @@ export const ExplorerLink = ({
 }) => {
   return (
     <ExternalLink
-      href={getExplorerLink(chainId, type, value)}
+      href={getExplorerLink(chainId, type, value, FALLBACK_CHAIN_ID)}
       onClick={handleClickExternalLink}
       {...rest}
     >

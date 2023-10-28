@@ -7,7 +7,7 @@ import {
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
 } from "../constants/misc";
-import { FALLBACK_CHAIN_ID } from "../constants/chains";
+import { useFallbackChainId } from "../state/chains/hooks";
 import { makeHttpRequest } from "../utils/http";
 import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
@@ -139,9 +139,10 @@ export function useSentQuoteCallback(): {
   const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
   const { baseUrl } = useHedgerInfo() || {};
   const PARTY_B_WHITELIST = usePartyBWhitelistAddress();
+  const FALLBACK_CHAIN_ID = useFallbackChainId();
   const partyBWhiteList = useMemo(
     () => [PARTY_B_WHITELIST[chainId ?? FALLBACK_CHAIN_ID]],
-    [PARTY_B_WHITELIST, chainId]
+    [FALLBACK_CHAIN_ID, PARTY_B_WHITELIST, chainId]
   );
 
   const getSignature = useCallback(async () => {

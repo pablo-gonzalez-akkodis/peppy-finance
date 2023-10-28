@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { Token, Currency } from "@uniswap/sdk-core";
 
-import { FALLBACK_CHAIN_ID } from "../../constants/chains";
+import { useFallbackChainId } from "../../state/chains/hooks";
 import { getCombinedTokens } from "../../utils/token";
 import { useCurrencyFromMap, useTokenFromMapOrNetwork } from "./useCurrency";
 import useActiveWagmi from "./useActiveWagmi";
@@ -29,7 +29,7 @@ export function useToken(
   addressOrAddressMap?: AddressMap | string | null
 ): Token | null | undefined {
   const { chainId } = useActiveWagmi();
-
+  const FALLBACK_CHAIN_ID = useFallbackChainId();
   const tokenAddress = useMemo(() => {
     if (!addressOrAddressMap) {
       return null;
@@ -38,7 +38,7 @@ export function useToken(
       return addressOrAddressMap;
     }
     return addressOrAddressMap[chainId ?? FALLBACK_CHAIN_ID] ?? null;
-  }, [chainId, addressOrAddressMap]);
+  }, [addressOrAddressMap, chainId, FALLBACK_CHAIN_ID]);
 
   return useTokenByAddress(tokenAddress);
 }
@@ -54,7 +54,7 @@ export function useCurrency(
   addressOrAddressMap?: AddressMap | string | null
 ): Currency | null | undefined {
   const { chainId } = useActiveWagmi();
-
+  const FALLBACK_CHAIN_ID = useFallbackChainId();
   const tokenAddress = useMemo(() => {
     if (!addressOrAddressMap) {
       return null;
@@ -63,7 +63,7 @@ export function useCurrency(
       return addressOrAddressMap;
     }
     return addressOrAddressMap[chainId ?? FALLBACK_CHAIN_ID] ?? null;
-  }, [chainId, addressOrAddressMap]);
+  }, [addressOrAddressMap, chainId, FALLBACK_CHAIN_ID]);
 
   return useCurrencyByAddress(tokenAddress);
 }

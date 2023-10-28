@@ -20,8 +20,6 @@ export function isSupportedChain(
   return !!chainId && !!SupportedChainId[chainId];
 }
 
-export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;
-
 export const CHAIN_IDS_TO_NAMES = {
   [SupportedChainId.MAINNET]: "mainnet",
   [SupportedChainId.ROPSTEN]: "ropsten",

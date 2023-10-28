@@ -9,11 +9,8 @@ import WITHDRAW_USDC_ICON from "/public/static/images/etc/WithdrawUSDCPopUp.svg"
 
 import { TransferTab } from "@symmio-client/core/types/transfer";
 import { ExplorerDataType } from "@symmio-client/core/utils/explorers";
-import {
-  FALLBACK_CHAIN_ID,
-  SupportedChainId,
-} from "@symmio-client/core/constants/chains";
-
+import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import { useTransaction } from "@symmio-client/core/state/transactions/hooks";
 import { TransactionDetails } from "@symmio-client/core/state/transactions/types";
 

@@ -11,7 +11,7 @@ import {
   MintTransactionInfo,
 } from "@symmio-client/core/state/transactions/types";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import { TradeState } from "@symmio-client/core/types/trade";
 import { TransferTab } from "@symmio-client/core/types/transfer";
