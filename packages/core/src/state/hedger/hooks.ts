@@ -45,7 +45,7 @@ export function useHedgerInfo() {
   const activeHedgerId = useActiveHedgerId();
   return useMemo(
     () =>
-      debouncedIsSupportedChainId && chainId
+      debouncedIsSupportedChainId && chainId && hedgerAddress[chainId]
         ? hedgerAddress[chainId][activeHedgerId]
         : hedgerAddress[SupportedChainId.NOT_SET][activeHedgerId],
     [activeHedgerId, chainId, debouncedIsSupportedChainId, hedgerAddress]
