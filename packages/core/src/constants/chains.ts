@@ -1,4 +1,5 @@
 export enum SupportedChainId {
+  NOT_SET = 0,
   MAINNET = 1,
   ROPSTEN = 3,
   RINKEBY = 4,

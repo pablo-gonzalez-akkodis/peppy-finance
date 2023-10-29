@@ -1,15 +1,6 @@
 import { RetryOptions } from "../utils/retry";
 import { SupportedChainId } from "./chains";
 
-export const APP_URL = "https://cloverfield.exchange";
-export const APP_NAME = "CloverField";
-
-export const DEFAULT_RETRY_OPTIONS: RetryOptions = {
-  n: 1,
-  minWait: 0,
-  maxWait: 0,
-};
-
 export const AVERAGE_L1_BLOCK_TIME = 12000;
 
 export const UNDER_MAINTENANCE = false;

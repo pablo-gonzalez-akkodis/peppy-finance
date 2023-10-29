@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import find from "lodash/find";
 
 import { Market } from "@symmio-client/core/types/market";
-import { DEFAULT_HEDGER } from "@symmio-client/core/constants/hedgers";
+import { DEFAULT_HEDGER } from "constants/chains/hedgers";
 
 import { useMarkets } from "@symmio-client/core/state/hedger/hooks";
 import {

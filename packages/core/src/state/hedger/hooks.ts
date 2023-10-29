@@ -1,9 +1,5 @@
 import { useCallback, useMemo } from "react";
-import {
-  AppThunkDispatch,
-  useAppDispatch,
-  useAppSelector,
-} from "..";
+import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
 
 import {
   MarketDataMap,
@@ -13,15 +9,13 @@ import {
   MarketsInfo,
 } from "./types";
 import { updateWebSocketStatus, updatePrices, updateDepth } from "./actions";
-import {
-  DEFAULT_HEDGER,
-  getHedgerInfo,
-} from "../../constants/hedgers";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import useDebounce from "../../lib/hooks/useDebounce";
 import { getMarketsInfo } from "./thunks";
 import { ApiState } from "../../types/api";
+import { useHedgerAddress } from "../chains/hooks";
+import { SupportedChainId } from "../../constants/chains";
 
 export function useMarketsStatus(): ApiState {
   const marketsStatus: ApiState = useAppSelector(
@@ -40,13 +34,21 @@ export function useSetWebSocketStatus() {
   );
 }
 
+export function useActiveHedgerId() {
+  return 0;
+}
 export function useHedgerInfo() {
   const { chainId } = useActiveWagmi();
   const isSupportedChainId = useSupportedChainId();
-  const debouncedChainId = useDebounce(isSupportedChainId, 3000);
+  const debouncedIsSupportedChainId = useDebounce(isSupportedChainId, 3000);
+  const hedgerAddress = useHedgerAddress();
+  const activeHedgerId = useActiveHedgerId();
   return useMemo(
-    () => (debouncedChainId ? getHedgerInfo(chainId) : DEFAULT_HEDGER),
-    [chainId, debouncedChainId]
+    () =>
+      debouncedIsSupportedChainId && chainId
+        ? hedgerAddress[chainId][activeHedgerId]
+        : hedgerAddress[SupportedChainId.NOT_SET][activeHedgerId],
+    [activeHedgerId, chainId, debouncedIsSupportedChainId, hedgerAddress]
   );
 }
 

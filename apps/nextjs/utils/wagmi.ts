@@ -13,7 +13,7 @@ import {
 } from "@rainbow-me/rainbowkit/wallets";
 
 import { APP_CHAINS } from "constants/chains/chains";
-import { APP_NAME } from "@symmio-client/core/constants/misc";
+import { APP_NAME } from "constants/chains/misc";
 
 export const getWagmiConfig = () => {
   if (!process.env.NEXT_PUBLIC_INFURA_KEY) {

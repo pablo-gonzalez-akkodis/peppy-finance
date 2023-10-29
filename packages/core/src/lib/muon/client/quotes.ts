@@ -1,17 +1,20 @@
 import { toWei } from "../../../utils/numbers";
-import { APP_NAME } from "../config";
+import { DEFAULT_MUON_APP_NAME } from "../config";
 import { MuonClient } from "./base";
 import { SchnorrerSign, SingleUpnlAndPriceSig } from "../../../types/muon";
 import { Address } from "viem";
 import { toast } from "react-hot-toast";
 export class QuotesClient extends MuonClient {
   constructor(app?: string) {
-    super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A_withSymbolPrice" });
+    super({
+      APP: app ?? DEFAULT_MUON_APP_NAME,
+      APP_METHOD: "uPnl_A_withSymbolPrice",
+    });
   }
 
   static createInstance(isEnabled: boolean, app?: string): QuotesClient | null {
     if (isEnabled) {
-      return new QuotesClient(app ?? APP_NAME);
+      return new QuotesClient(app ?? DEFAULT_MUON_APP_NAME);
     }
     return null;
   }

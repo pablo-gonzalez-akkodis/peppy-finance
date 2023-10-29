@@ -1,5 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { setChains } from "./actions";
+import { HedgerInfoMap } from "../../types/hedger";
+import { SupportedChainId } from "../../constants/chains";
 
 export interface ChainType {
   readonly COLLATERAL_SYMBOL: string;
@@ -29,6 +31,7 @@ export interface ChainsState {
   readonly V3_CHAIN_IDS: number[];
   readonly FALLBACK_CHAIN_ID: number;
   readonly contract_ABIs: AbisType;
+  readonly hedgers: HedgerInfoMap;
 }
 
 const initialState: ChainsState = {
@@ -42,14 +45,17 @@ const initialState: ChainsState = {
     MULTICALL3_ABI: {},
     MULTI_ACCOUNT_ABI: {},
   },
+  hedgers: { [SupportedChainId.NOT_SET]: [] },
 };
 
 export default createReducer(initialState, (builder) =>
   builder.addCase(setChains, (state, { payload }) => {
-    const { chains, V3_CHAIN_IDS, contract_ABIs, FALLBACK_CHAIN_ID } = payload;
+    const { chains, V3_CHAIN_IDS, contract_ABIs, FALLBACK_CHAIN_ID, hedgers } =
+      payload;
     state.chains = chains;
     state.V3_CHAIN_IDS = V3_CHAIN_IDS;
     state.contract_ABIs = { ...contract_ABIs };
     state.FALLBACK_CHAIN_ID = FALLBACK_CHAIN_ID;
+    state.hedgers = hedgers;
   })
 );

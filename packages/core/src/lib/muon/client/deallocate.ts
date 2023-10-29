@@ -1,11 +1,11 @@
 import { Address } from "viem";
-import { APP_NAME } from "../config";
+import { DEFAULT_MUON_APP_NAME } from "../config";
 import { MuonClient } from "./base";
 import { toast } from "react-hot-toast";
 
 export class DeallocateClient extends MuonClient {
   constructor(app?: string) {
-    super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A" });
+    super({ APP: app ?? DEFAULT_MUON_APP_NAME, APP_METHOD: "uPnl_A" });
   }
 
   static createInstance(
@@ -13,7 +13,7 @@ export class DeallocateClient extends MuonClient {
     app?: string
   ): DeallocateClient | null {
     if (isEnabled) {
-      return new DeallocateClient(app ?? APP_NAME);
+      return new DeallocateClient(app ?? DEFAULT_MUON_APP_NAME);
     }
     return null;
   }

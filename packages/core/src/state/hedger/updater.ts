@@ -8,7 +8,6 @@ import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import { autoRefresh, retry } from "../../utils/retry";
-import { HedgerInfo, getKeyFromValue } from "../../constants/hedgers";
 
 import { ApiState } from "../../types/api";
 import {
@@ -76,11 +75,10 @@ function useFetchMarkets(
   const { chainId } = useActiveWagmi();
   const isSupported = useSupportedChainId();
   const { baseUrl } = hedger || {};
+
   //auto update per each 3000 seconds
   useEffect(() => {
-    const hedgerChainId = getKeyFromValue(HedgerInfo, hedger);
-    if (isSupported && hedgerChainId && hedgerChainId !== chainId)
-      thunkDispatch(getMarkets(baseUrl));
+    if (isSupported) thunkDispatch(getMarkets(baseUrl));
     else return autoRefresh(() => thunkDispatch(getMarkets(baseUrl)), 3000);
   }, [thunkDispatch, baseUrl, hedger, chainId, isSupported]);
 

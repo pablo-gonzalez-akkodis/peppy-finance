@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useMemo } from "react";
 
-import { DEFAULT_HEDGER } from "@symmio-client/core/constants/hedgers";
+import { DEFAULT_HEDGER } from "constants/chains/hedgers";
 
 import { useMarket } from "@symmio-client/core/hooks/useMarkets";
 
