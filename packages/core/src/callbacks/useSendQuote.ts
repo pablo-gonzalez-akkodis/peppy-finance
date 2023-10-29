@@ -77,7 +77,6 @@ export function useSentQuoteCallback(): {
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
 
-  // const userExpertMode = useExpertMode()
   const activeAccountAddress = useActiveAccountAddress();
   const isSupportedChainId = useSupportedChainId();
 
@@ -238,8 +237,6 @@ export function useSentQuoteCallback(): {
         BigInt(deadline),
         signature,
       ];
-
-      console.log("Open Position ", args);
 
       return {
         args,

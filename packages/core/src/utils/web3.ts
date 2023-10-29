@@ -31,13 +31,8 @@ export async function createTransactionCallback(
 
   // expertMode?: ReturnType<typeof useExpertMode>
 ) {
-  console.log(
-    `on${functionName.charAt(0).toUpperCase() + functionName.slice(1)} Callback`
-  );
   try {
     const { args, config } = await constructCall();
-    console.log({ args, config });
-
     const gas: bigint = await Contract.estimateGas[
       isMultiAccount ? "_call" : functionName
     ](args);
@@ -58,13 +53,13 @@ export async function createTransactionCallback(
       if (error instanceof BaseError) {
         if (error.cause instanceof UserRejectedRequestError) {
           console.log({ error });
-          // toast.error("Transaction rejected.");
+          // TODO: handle error in client
         } else if (error.cause instanceof ContractFunctionRevertedError) {
           console.log({ error });
-          // toast.error(`${error.cause.reason}`);
+          // TODO: handle error in client
         } else {
           console.log({ error });
-          // toast.error(`${error.shortMessage}`);
+          // TODO: handle error in client
         }
       } else {
         console.error("constructCall error :", error.message);

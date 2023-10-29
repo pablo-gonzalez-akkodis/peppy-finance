@@ -1,17 +1,5 @@
 import { OrderType, PositionType } from "./trade";
 
-// class QuoteStatusContract:
-//     PENDING = 0
-//     LOCKED = 1
-//     CANCEL_PENDING = 2
-//     CANCELED = 3
-//     OPENED = 4
-//     CLOSE_PENDING = 5
-//     CANCEL_CLOSE_PENDING = 6
-//     CLOSED = 7
-//     LIQUIDATED = 8
-//     EXPIRED = 9
-
 export enum QuoteStatus {
   PENDING = "PENDING",
   LOCKED = "LOCKED",

@@ -161,31 +161,6 @@ export default function DepositModal() {
     }
   }, [toggleDepositModal, transferBalanceCallback, transferBalanceError]);
 
-  // const onDeiMint = useCallback(async () => {
-  //   if (!mintCallback) {
-  //     toast.error(mintCallbackError)
-  //     return
-  //   }
-
-  //   let error = ''
-  //   try {
-  //     setAwaitingMintConfirmation(true)
-  //     const txHash = await mintCallback()
-  //     setTxHash(txHash)
-  //     setAwaitingMintConfirmation(false)
-  //   } catch (e) {
-  //     setAwaitingMintConfirmation(false)
-  //     if (e instanceof Error) {
-  //       error = e.message
-  //     } else {
-  //       console.debug(e)
-  //       error = 'An unknown error occurred.'
-  //     }
-  //   }
-  //   if (error) console.log(error)
-  //   setAwaitingMintConfirmation(false)
-  // }, [mintCallback, mintCallbackError])
-
   const handleApprove = async () => {
     try {
       setAwaitingConfirmation(true);

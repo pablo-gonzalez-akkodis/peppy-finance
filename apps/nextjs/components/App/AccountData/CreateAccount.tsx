@@ -171,7 +171,6 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
     try {
       setAwaitingConfirmation(true);
       const txHash = await addAccountToContractCallback();
-      console.log({ txHash });
       setTxHash(txHash);
       setAwaitingConfirmation(false);
       onClose && onClose();

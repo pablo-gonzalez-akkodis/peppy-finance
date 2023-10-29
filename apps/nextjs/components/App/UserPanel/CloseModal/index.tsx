@@ -359,18 +359,14 @@ export default function CloseModal({
   }, [toggleModal]);
 
   const handleManage = useCallback(async () => {
-    console.log({ error });
     if (!closeCallback) {
       toast.error(error);
       return;
     }
-    console.log(typeof closeCallback);
-
     try {
       setAwaitingCloseConfirmation(true);
-      const txHash = await closeCallback();
+      await closeCallback();
       setAwaitingCloseConfirmation(false);
-      console.log({ txHash });
       closeModal();
     } catch (e) {
       setAwaitingCloseConfirmation(false);

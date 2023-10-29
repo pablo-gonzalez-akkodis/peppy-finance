@@ -13,8 +13,6 @@ export default function useRpcChangerCallback() {
 
   return useCallback(
     async (targetChainId: SupportedChainId) => {
-      console.log("called");
-
       if (!chainId) return false;
       if (!targetChainId || !ChainInfo[targetChainId]) return false;
       if (targetChainId === chainId) return true;

@@ -37,7 +37,6 @@ export function useCancelQuote(
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
   const isSupportedChainId = useSupportedChainId();
-  // const userExpertMode = useExpertMode()
 
   const Contract = useDiamondContract();
   const MultiAccountContract = useMultiAccountContract();

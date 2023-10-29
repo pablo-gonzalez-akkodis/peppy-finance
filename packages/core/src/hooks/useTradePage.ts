@@ -5,11 +5,7 @@ import {
   DEFAULT_PRECISION,
   MAX_PENDINGS_POSITIONS_NUMBER,
 } from "../constants/misc";
-import {
-  removeTrailingZeros,
-  RoundMode,
-  toBN,
-} from "../utils/numbers";
+import { removeTrailingZeros, RoundMode, toBN } from "../utils/numbers";
 import {
   InputField,
   OrderType,
@@ -200,12 +196,6 @@ export default function useTradePage(): {
     [price, formattedAmounts, state, balance]
   );
 }
-
-// ****************************************//
-// ****************************************//
-// ****************************************//
-// ****************************************//
-//#####  TRADE VALUE HOOKS ###### //
 
 //Notional Value
 export function useNotionalValue(

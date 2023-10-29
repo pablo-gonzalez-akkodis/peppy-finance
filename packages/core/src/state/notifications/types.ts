@@ -64,7 +64,6 @@ export interface NotificationDetails {
   counterpartyAddress: string | null;
   notificationType: NotificationType | null;
   showInModal: boolean; // this for show notification in modal or not
-  // optional fields
   version?: string;
   filledAmountOpen: string | null;
   filledAmountClose: string | null;
@@ -83,7 +82,6 @@ export interface NotificationResponse {
   create_time: number;
   modify_time: number;
   counterparty_address: string;
-  // optional fields
   filled_amount_open: string | null;
   filled_amount_close: string | null;
   last_seen_action: string | null;

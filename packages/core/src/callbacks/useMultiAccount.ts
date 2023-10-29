@@ -5,7 +5,6 @@ import {
   TransactionCallbackState,
 } from "../utils/web3";
 
-// import { useExpertMode } from 'state/user/hooks'
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import { useTransactionAdder } from "../state/transactions/hooks";
@@ -27,7 +26,6 @@ export function useAddAccountToContract(accountName: string): {
 } {
   const { account, chainId } = useActiveWagmi();
   const addTransaction = useTransactionAdder();
-  // const userExpertMode = useExpertMode()
   const isSupportedChainId = useSupportedChainId();
   const Contract = useMultiAccountContract();
   const addRecentTransaction = useAddRecentTransaction();
@@ -131,11 +129,9 @@ export function useSignMessage(message: string): {
       state: TransactionCallbackState.VALID,
       error: null,
       callback: async function onSign(): Promise<string> {
-        console.log("onSign callback");
         return provider
           .signMessage({ message })
           .then((response) => {
-            console.log(response);
             return response;
           })
           .catch((error) => {
@@ -143,22 +139,10 @@ export function useSignMessage(message: string): {
             if (error?.code === 4001) {
               throw new Error("Transaction rejected.");
             } else if (error?.code === "ACTION_REJECTED") {
-              // otherwise, the error was unexpected and we need to convey that
-              // console.error(`Transaction failed`, error, address, calldata, value)
               throw new Error(`Transaction rejected`);
             } else {
               throw new Error(`Transaction rejected`);
             }
-
-            // if (error?.code === 'ACTION_REJECTED') {
-            //   toast.error(DefaultHandlerError(error))
-            //   // throw new Error('Transaction rejected.')
-            // } else {
-            //   // otherwise, the error was unexpected and we need to convey that
-            //   console.error(`Transaction failed`, error, address, calldata, value)
-            //   toast.error(`Transaction failed: ${error.message}`)
-            //   // throw new Error(`Transaction failed: ${error.message}`)
-            // }
           });
       },
     };

@@ -1,11 +1,8 @@
 import { useCallback, useMemo } from "react";
-// import { toast } from 'react-hot-toast'
-
 import { useAppDispatch, useAppSelector } from "..";
 import { InputField, OrderType, PositionType } from "../../types/trade";
 import { BN_ZERO, formatPrice, toBN } from "../../utils/numbers";
 import { Market } from "../../types/market";
-
 import { useHedgerInfo, useMarketData } from "../hedger/hooks";
 import {
   updateOrderType,

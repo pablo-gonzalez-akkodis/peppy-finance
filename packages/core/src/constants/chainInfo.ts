@@ -78,7 +78,6 @@ export const ChainInfo: { [chainId: number]: Info } = {
       decimals: 18,
     },
     rpcUrl: "https://bsc-testnet.public.blastapi.io",
-    // rpcUrl: 'https://data-seed-prebsc-1-s3.binance.org:8545/',
     blockExplorerUrl: "https://testnet.bscscan.com/",
     WRAPPED_NATIVE_ADDRESS: "0x5b3e2bc1da86ff6235d9ead4504d598cae77dbcb",
   },

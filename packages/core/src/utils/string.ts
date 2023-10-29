@@ -8,11 +8,3 @@ export function titleCase(str: string) {
     })
     .join(" ");
 }
-
-export function log(message: unknown): void {
-  if (process.env.NODE_ENV === "development") {
-    console.log("[DEV]", message);
-  } else if (process.env.NODE_ENV === "test") {
-    console.log("[TEST]", message);
-  }
-}
