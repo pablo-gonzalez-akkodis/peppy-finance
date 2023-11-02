@@ -35,7 +35,6 @@ export default createReducer(initialState, (builder) =>
 
     .addCase(addQuote, (state, { payload: { id } }) => {
       if (state.listeners.includes(id)) {
-        console.log("Attempted to add an existing quote id.", id);
         return;
       }
       const listeners = state.listeners;
@@ -51,7 +50,6 @@ export default createReducer(initialState, (builder) =>
       const pendings = state.pendings as unknown as Quote[];
 
       if (find(pendings, { id: quote.id, quoteStatus: quote.quoteStatus })) {
-        console.log("Attempted to add an existing pending.", quote.id);
         return;
       }
 
@@ -69,12 +67,6 @@ export default createReducer(initialState, (builder) =>
       if (find(positions, { id: quote.id })) {
         const newQuotes = positions.filter((q) => q.id !== quote.id);
         newQuotes.push(quote);
-        console.log(
-          "Attempted to add an existing positing.",
-          quote.id,
-          positions,
-          newQuotes
-        );
         state.positions = newQuotes;
         return;
       }
@@ -89,9 +81,7 @@ export default createReducer(initialState, (builder) =>
 
     .addCase(removePosition, (state, { payload: { quote } }) => {
       const positions = state.positions as unknown as Quote[];
-      console.log("in the remove position", quote.id);
       if (!find(positions, { id: quote.id })) {
-        console.log("Attempted to remove none existing quote id.", quote.id);
         return;
       }
 
@@ -99,7 +89,6 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(removeQuote, (state, { payload: { id } }) => {
       if (!state.listeners.includes(id)) {
-        console.log("Attempted to remove none existing quote id.", id);
         return;
       }
       const quotes = state.listeners;
@@ -110,7 +99,6 @@ export default createReducer(initialState, (builder) =>
       const history = (state.history[chainId] as unknown as Quote[]) ?? [];
 
       if (find(history, { id: quote.id })) {
-        console.log("Attempted to add an existing quote id.", quote.id);
         return;
       }
       history.push(quote);
@@ -128,7 +116,6 @@ export default createReducer(initialState, (builder) =>
     .addCase(
       getHistory.fulfilled,
       (state, { payload: { quotes, hasMore, chainId } }) => {
-        // state.history = unionBy(state.history, quotes, 'id')
         if (quotes && chainId) {
           const history = state.history[chainId];
           state.hasMoreHistory = hasMore;

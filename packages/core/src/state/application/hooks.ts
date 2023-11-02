@@ -97,18 +97,4 @@ export function useActivePopups(): PopupList {
     return state.application.popupList;
   });
   return useMemo(() => list.filter((item: Popup) => item.show), [list]);
-  // return useMemo(
-  //   () =>
-  //     list.filter((item: Popup) => {
-  //       if ('txn' in item.content) {
-  //         const info = item.content.txn.info
-  //         if (info && 'transferType' in info) {
-  //           return item.show
-  //         }
-  //         return item.show && !item.content.txn.success
-  //       }
-  //       return item.show
-  //     }),
-  //   [list]
-  // )
 }

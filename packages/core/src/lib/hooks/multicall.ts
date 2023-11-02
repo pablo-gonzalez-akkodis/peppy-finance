@@ -62,18 +62,6 @@ export function useSingleCallResult(
   });
 }
 
-// ReadContractConfig<TAbi, TFunctionName>["abi"] | undefined
-// type ss = UseContractReadConfig<Abi>['abi']
-
-// export function useSingleCallResult2<T extends Abi, F extends string | undefined>(
-//   address: Address | undefined,
-//   abi: UseContractReadConfig<T>['abi'] | undefined,
-//   functionName: F,
-//   callInputs?: Narrow<UseContractReadConfig<T>['args']>
-// ) {
-//   return useContractRead({ address, abi, functionName, args: [...[callInputs]] })
-// }
-
 export function useMultipleContractSingleData(
   addresses: string[],
   abi: UseContractReadConfig["abi"],

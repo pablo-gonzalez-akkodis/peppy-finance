@@ -24,15 +24,6 @@ export const getWagmiConfig = () => {
     throw new Error("NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID not provided");
   }
 
-  //TODO  use our rpcUrls like bellow
-  /**
-   [
-    jsonRpcProvider({
-      rpc: (chain) => ({ http: getRpcUrl(chain.id as SupportedChainId) }),
-    }),
-    publicProvider(),
-  ],
-   */
   const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
   const { chains, publicClient, webSocketPublicClient } = configureChains(
     APP_CHAINS,
@@ -47,12 +38,6 @@ export const getWagmiConfig = () => {
       stallTimeout: 2_000,
     }
   );
-
-  // const { connectors } = getDefaultWallets({
-  //   appName: APP_NAME,
-  //   projectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID,
-  //   chains,
-  // })
 
   const connectors = connectorsForWallets([
     {

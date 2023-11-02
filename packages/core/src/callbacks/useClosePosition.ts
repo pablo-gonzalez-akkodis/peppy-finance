@@ -63,8 +63,6 @@ export function useClosePosition(
   const addRecentTransaction = useAddRecentTransaction();
   const isSupportedChainId = useSupportedChainId();
 
-  // const userExpertMode = useExpertMode()
-
   const Contract = useDiamondContract();
   const MultiAccountContract = useMultiAccountContract();
 
@@ -178,10 +176,6 @@ export function useClosePosition(
         BigInt(deadline),
         signature,
       ] as const;
-      // console.log({ args })
-
-      // const simulate = await Contract.simulate.requestToClosePosition(args, { account: account as Address })
-      // console.log({ simulate })
 
       return {
         args,

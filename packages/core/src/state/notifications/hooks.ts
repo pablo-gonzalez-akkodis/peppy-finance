@@ -89,7 +89,6 @@ export function useMarkAsReadNotificationCallback(): (
       });
       if (!quoteId) return;
       if (existedNotification) {
-        console.log("mark as read existed notification.", quoteId);
         return;
       }
       dispatch(readOneNotification({ notification }));
@@ -108,46 +107,3 @@ export function useMarkAsReadAllNotificationsCallback(): () => void {
     });
   }, [dispatch, unReadNotifications]);
 }
-
-// export function addNotificationFromTxs(): (
-//   response: TransactionResponse,
-//   info: TransactionInfo,
-//   summary?: string
-// ) => void {
-//   return useCallback(
-//     (response: TransactionResponse, info: TransactionInfo, summary?: string) => {
-//       const notification: NotificationDetails = {
-//         id: response.hash,
-//         quoteId: null,
-//         counterpartyAddress: null,
-//         filledAmountOpen: null,
-//         filledAmountClose: null,
-//         lastSeenAction: null,
-//         actionStatus: null,
-//         failureType: null,
-//         failureMessage: null,
-//         stateType: StateType.REPORT,
-//         notificationType: null,
-//         createTime: `${Math.floor(Date.now() / 1000)}`,
-//         modifyTime: `${Math.floor(Date.now() / 1000)}`,
-//         withdrawAmount: undefined,
-//         depositAmount: undefined,
-//         version: null,
-//       }
-
-//       switch (info.type) {
-//         case TransactionType.TRADE:
-//           notification.notificationType = NotificationType.TRADE
-//         case TransactionType.CANCEL:
-//           notification.notificationType = NotificationType.CANCEL
-//         case TransactionType.TRANSFER_COLLATERAL:
-//           notification.notificationType = NotificationType.TRANSFER_COLLATERAL
-//         case TransactionType.MINT:
-//           notification.notificationType = NotificationType.MINT_COLLATERAL
-//       }
-
-//       adder(notification, 'unread')
-//     },
-//     [adder]
-//   )
-// }

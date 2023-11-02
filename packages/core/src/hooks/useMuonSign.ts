@@ -2,15 +2,10 @@ import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
 import { toWei } from "../utils/numbers";
-import {
-  SingleUpnlAndPriceSig,
-  SchnorrerSign,
-} from "../types/muon";
+import { SingleUpnlAndPriceSig, SchnorrerSign } from "../types/muon";
 
 import { useAccountUpnl } from "../state/user/hooks";
 import { Address } from "viem";
-
-// this sign is for send quote and request to close position
 
 export function useSingleUpnlAndPriceSig(marketPrice: BigNumber) {
   const { upnl } = useAccountUpnl() || {};

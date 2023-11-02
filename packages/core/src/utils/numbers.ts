@@ -60,9 +60,6 @@ export const formatCurrency = (
   if (bnAmount.lt(0.001)) {
     return "< 0.001";
   }
-  // if (bnAmount.gte(1e9)) {
-  //   return formatAmount(bnAmount.div(1e9), fixed, separator) + 'b'
-  // }
   if (bnAmount.gte(1e6)) {
     return formatAmount(bnAmount.div(1e6), fixed, separator) + "m";
   }

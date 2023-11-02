@@ -46,9 +46,7 @@ export default function Updater({
 }: UpdaterProps): null {
   const { chainId } = useActiveWagmi();
   const provider = usePublicClient();
-
   const lastBlockNumber = useBlockNumber();
-  // const fastForwardBlockNumber = useFastForwardBlockNumber()
 
   const getReceipt = useCallback(
     (hash: string) => {
@@ -70,7 +68,6 @@ export default function Updater({
         resultReceipt
           .then((receipt) => {
             if (receipt) {
-              // fastForwardBlockNumber(Number(receipt.blockNumber))
               onReceipt({ chainId, hash, receipt });
             } else {
               onCheck({ chainId, hash, blockNumber: lastBlockNumber });

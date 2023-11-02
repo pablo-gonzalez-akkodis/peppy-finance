@@ -49,16 +49,6 @@ export function QuotesUpdater(): null {
       );
   }, [account, chainId, thunkDispatch]);
 
-  // useEffect(() => {
-  //   if (account) thunkDispatch(getHistory({ account }))
-  // }, [account, thunkDispatch])
-
-  // useEffect(() => {
-  //   if (account && historyState === ApiState.ERROR) {
-  //     retry(() => thunkDispatch(getHistory({ account })), { n: 5, minWait: 1000, maxWait: 10000 })
-  //   }
-  // }, [account, historyState, thunkDispatch])
-
   useEffect(() => {
     dispatch(setPositions({ quotes: positions ?? [] }));
   }, [positions, dispatch]);
@@ -91,11 +81,6 @@ export function UpdaterListeners(): null {
 
   const listeners = useListenersQuotes();
 
-  // const filteredListeners = useMemo(
-  //   () => listeners.filter((lf) => !find(positions, { id: lf })),
-  //   [listeners, positions]
-  // )
-
   const { quotes: listenersQuotes } = useGetQuoteByIds(listeners);
 
   //we don't need add quote to positions because we are getting all live through usePositionsQuotes
@@ -118,14 +103,10 @@ export function UpdaterListeners(): null {
   }, [listenersQuotes, dispatch, chainId]);
 
   useEffect(() => {
-    // console.log(prevPendingIds, pendingIds)
-
     if (!isEqual(prevPendingIds, pendingIds)) {
       const unpendingIds = prevPendingIds?.filter(
         (id) => !pendingIds.includes(id)
       );
-
-      // console.log({ unpendingIds })
 
       for (let i = 0; i < unpendingIds?.length; i++) {
         addQuoteToListenerCallback(unpendingIds[i]);
@@ -138,7 +119,6 @@ export function UpdaterListeners(): null {
       const unPositionsId = prevPositions
         ?.filter((id) => !find(positions, { id }))
         .map((p) => p.id);
-      // console.log({ unPositionsId })
 
       for (let i = 0; i < unPositionsId?.length; i++) {
         addQuoteToListenerCallback(unPositionsId[i]);

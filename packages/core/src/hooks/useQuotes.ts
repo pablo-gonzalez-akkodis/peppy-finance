@@ -215,7 +215,6 @@ export function useQuoteUpnlAndPnl(
   quantityToClose?: string | number,
   closedPrice?: string | number
 ): string[] {
-  // return upnl and pnl [upnl , pnl]
   const {
     openedPrice,
     positionType,
@@ -329,7 +328,6 @@ export function useQuoteLeverage(quote: Quote): string {
       .div(initialLockedMargin)
       .toFixed(0);
   } else {
-    // quoteStatus === QuoteStatus.CANCELED ||
     return toBN(quantity)
       .times(orderType === OrderType.LIMIT ? requestedOpenPrice : marketPrice)
       .div(lockedMargin)

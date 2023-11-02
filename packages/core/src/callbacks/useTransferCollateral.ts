@@ -50,7 +50,6 @@ export function useTransferCollateral(
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
 
-  // const userExpertMode = useExpertMode()
   const fakeSignature = useDeallocateSign();
 
   const getSignature = useCallback(async () => {

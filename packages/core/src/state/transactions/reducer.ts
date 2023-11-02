@@ -42,7 +42,6 @@ export default createReducer(initialState, (builder) =>
     .addCase(
       updateTransaction,
       (state, { payload: { chainId, ...restParameter } }) => {
-        console.log("updateee", chainId, restParameter);
         if (!chainId) return;
 
         const txs = state[chainId];

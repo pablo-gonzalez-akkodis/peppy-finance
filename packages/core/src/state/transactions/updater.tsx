@@ -65,7 +65,6 @@ export function TransactionUpdater() {
           },
         })
       );
-      console.log(receipt);
       const transaction = transactions[chainId][hash];
       newPopupNotifier();
       addPopup(
