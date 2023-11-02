@@ -1,5 +1,4 @@
 import { createReducer, current } from "@reduxjs/toolkit";
-import { DEFAULT_HEDGER } from "../../constants/hedgers";
 import { ConnectionStatus, HedgerState } from "./types";
 
 import {
@@ -19,7 +18,7 @@ import {
 import { ApiState } from "../../types/api";
 
 const initialState: HedgerState = {
-  hedgerId: DEFAULT_HEDGER?.id,
+  hedgerId: "",
   prices: {},
   depths: {},
   markets: [],

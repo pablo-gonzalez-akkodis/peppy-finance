@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { AppState, useAppDispatch, useAppSelector } from "..";
 import { setChains } from "./actions";
-import { AbisType, ChainType } from "./reducer";
+import { ChainsState } from "./reducer";
 
 function compatibleWithLegacyStructure(chains, v3_ids, parameter_name) {
   return Object.keys(chains)
@@ -128,23 +128,41 @@ export function useMultiAccountABI() {
   return multiAccount_abi;
 }
 
-export function useSetSdkConfig(): ({ chains, V3_CHAIN_IDS, Abis }) => void {
+export function useFallbackChainId() {
+  const fallbackChainId = useAppSelector(
+    (state: AppState) => state.chains.FALLBACK_CHAIN_ID
+  );
+  return fallbackChainId;
+}
+
+export function useHedgerAddress() {
+  const hedgers = useAppSelector((state: AppState) => state.chains.hedgers);
+  return hedgers;
+}
+
+export function useSetSdkConfig(): ({
+  chains,
+  V3_CHAIN_IDS,
+  contract_ABIs,
+  FALLBACK_CHAIN_ID,
+  hedgers,
+}: ChainsState) => void {
   const dispatch = useAppDispatch();
   return useCallback(
     ({
       chains,
       V3_CHAIN_IDS,
-      Abis,
-    }: {
-      chains: ChainType[];
-      V3_CHAIN_IDS: number[];
-      Abis: AbisType;
-    }) => {
+      contract_ABIs,
+      FALLBACK_CHAIN_ID,
+      hedgers,
+    }: ChainsState) => {
       dispatch(
         setChains({
           chains,
           V3_CHAIN_IDS,
-          Abis,
+          contract_ABIs,
+          FALLBACK_CHAIN_ID,
+          hedgers,
         })
       );
     },

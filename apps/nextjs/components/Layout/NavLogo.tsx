@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { ExternalLink } from "components/Link";
 import { RowCenter } from "components/Row";
-import { APP_URL } from "@symmio-client/core/constants/misc";
+import { APP_URL } from "constants/chains/misc";
 import { CloverfieldLogo } from "components/Icons";
 import { RowStart } from "components/Row";
 import SYMMETRIAL_ICON from "/public/static/images/header/SymmetrialX.svg";

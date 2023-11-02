@@ -1,4 +1,5 @@
 export enum SupportedChainId {
+  NOT_SET = 0,
   MAINNET = 1,
   ROPSTEN = 3,
   RINKEBY = 4,
@@ -19,8 +20,6 @@ export function isSupportedChain(
 ): chainId is SupportedChainId {
   return !!chainId && !!SupportedChainId[chainId];
 }
-
-export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;
 
 export const CHAIN_IDS_TO_NAMES = {
   [SupportedChainId.MAINNET]: "mainnet",

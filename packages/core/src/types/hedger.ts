@@ -1,4 +1,3 @@
-import { SupportedHedgerId } from "../constants/hedgers";
 import { Market } from "./market";
 
 export interface OpenInterest {
@@ -7,7 +6,7 @@ export interface OpenInterest {
 }
 
 export type Hedger = {
-  id: string | SupportedHedgerId;
+  id: string;
   apiUrl: string;
   baseUrl: string;
   webSocketUrl: string;
@@ -19,3 +18,7 @@ export type Hedger = {
   fetchData: boolean;
   clientName?: string;
 };
+
+export interface HedgerInfoMap {
+  [chainId: number]: Hedger[];
+}

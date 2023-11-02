@@ -2,11 +2,8 @@ import { Ether, NativeCurrency, Token, Currency } from "@uniswap/sdk-core";
 import invariant from "tiny-invariant";
 
 import { WRAPPED_NATIVE_CURRENCY } from "../constants/tokens";
-import {
-  FALLBACK_CHAIN_ID,
-  SupportedChainId,
-  SUPPORTED_CHAIN_IDS,
-} from "../constants/chains";
+import { SupportedChainId, SUPPORTED_CHAIN_IDS } from "../constants/chains";
+import { useFallbackChainId } from "../state/chains/hooks";
 import { AddressMap, DecimalMap, SymbolMap } from "./address";
 import { useV3Ids } from "../state/chains/hooks";
 
@@ -61,6 +58,7 @@ export function useGetTokenWithFallbackChainId(
   chainId: number | undefined
 ): Token {
   const v3_ids = useV3Ids();
+  const FALLBACK_CHAIN_ID = useFallbackChainId();
   if (chainId && v3_ids.includes(chainId)) return tokenMap[chainId];
   return tokenMap[FALLBACK_CHAIN_ID];
 }

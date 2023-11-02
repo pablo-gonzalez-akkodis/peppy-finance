@@ -8,7 +8,7 @@ import { useConnect } from "wagmi";
 import { useAppDispatch } from "@symmio-client/core/state";
 import { truncateAddress } from "@symmio-client/core/utils/address";
 import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import { FALLBACK_CHAIN_ID } from "@symmio-client/core/constants/chains";
+import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import { WEB_SETTING } from "@symmio-client/core/config";
 
 import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";

@@ -17,3 +17,5 @@ function getWagmiChain(supportChainList: number[]) {
 export const ClientChain = [SupportedChainId.FANTOM, SupportedChainId.BSC];
 
 export const APP_CHAINS = getWagmiChain(ClientChain);
+
+export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;
