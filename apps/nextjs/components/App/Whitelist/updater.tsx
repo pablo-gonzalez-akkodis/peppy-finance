@@ -6,7 +6,9 @@ import {
   useActiveAccount,
   useAddInWhitelist,
   useIsWhiteList,
+  useUserWhitelist,
 } from "@symmio-client/core/state/user/hooks";
+import { WEB_SETTING } from "@symmio-client/core/config";
 
 export default function Updater() {
   const { account } = useActiveWagmi();
@@ -15,7 +17,7 @@ export default function Updater() {
   const [whitelist, setWhitelist] = useState<null | boolean>(null);
   const [subWhitelist, setSubWhitelist] = useState<null | boolean>(null);
 
-  const getWhiteList = useIsWhiteList(account);
+  const userIsWhitelist = useUserWhitelist();
   const getSubAccountWhitelist = useIsWhiteList(subAccount?.accountAddress);
   const addInWhitelist = useAddInWhitelist(subAccount?.accountAddress);
 
@@ -37,9 +39,8 @@ export default function Updater() {
             toast.error("Not activated");
           }
         })
-        .catch((e) => {
-          console.log(e);
-          toast.error("Not activated");
+        .catch(() => {
+          WEB_SETTING.checkWhiteList && toast.error("Not activated");
         });
     }
   }, [addInWhitelist, subWhitelist, whitelist, account, subAccount]);
@@ -50,22 +51,14 @@ export default function Updater() {
         .then((res) => {
           setSubWhitelist(res);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
           setSubWhitelist(null);
         });
   }, [getSubAccountWhitelist, subAccount]);
 
   useEffect(() => {
-    getWhiteList()
-      .then((res) => {
-        setWhitelist(res);
-      })
-      .catch((e) => {
-        console.log(e);
-        setWhitelist(null);
-      });
-  }, [getWhiteList]);
+    if (userIsWhitelist) setWhitelist(true);
+  }, [userIsWhitelist]);
 
   return <></>;
 }

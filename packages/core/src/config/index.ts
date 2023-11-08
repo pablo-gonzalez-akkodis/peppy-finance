@@ -6,4 +6,5 @@ export const WEB_SETTING = {
   muonEnabled: false,
   showAccountHealthEmoji: true,
   showColorfulAccountHealth: true,
+  checkWhiteList: true,
 };

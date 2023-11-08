@@ -14,7 +14,6 @@ export const L2_TXN_DISMISS_MS = 5000;
 export const DEFAULT_PRECISION = 2;
 
 export const GLOBAL_MULTI_ACCOUNTABLE_PAUSED = false;
-export const CHECK_IS_WHITE_LIST = true;
 
 export const MARKET_PRICE_COEFFICIENT = 1.07;
 

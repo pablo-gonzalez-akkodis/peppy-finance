@@ -1,9 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+
+import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
+import useIsCooldownActive from "@symmio-client/core/hooks/useIsCooldownActive";
+
 import { Info } from "components/Icons";
 import { Close as CloseIcon } from "components/Icons";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
-import useIsCooldownActive from "@symmio-client/core/hooks/useIsCooldownActive";
 import { RowStart } from "components/Row";
 import { ExternalLinkIcon } from "components/Link";
 
@@ -77,7 +79,7 @@ export function Banner({
 }
 
 export default function WrapperBanner() {
-  const userWhitelisted = useIsAccountWhiteList();
+  const userWhitelisted = useUserWhitelist();
   const isCooldownActive = useIsCooldownActive();
   const showBanner =
     localStorage.getItem("risk_warning") === "true" ? false : true;

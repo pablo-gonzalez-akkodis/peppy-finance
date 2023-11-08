@@ -20,11 +20,11 @@ import { useIsHavePendingTransaction } from "@symmio-client/core/state/transacti
 import { MainButton } from "components/Button";
 import { RowStart } from "components/Row";
 import useTradePage from "@symmio-client/core/hooks/useTradePage";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
 import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
 import { calculateString } from "utils/calculationalString";
 import { InputField, PositionType } from "@symmio-client/core/types/trade";
 import { ConnectionStatus } from "@symmio-client/core/state/hedger/types";
+import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
 
 const OpenPositionButton = styled(MainButton)<{ longOrShort: boolean }>`
   &:focus,
@@ -53,7 +53,7 @@ export default function TradeActionButtons(): JSX.Element | null {
   const setLimitPrice = useSetLimitPrice();
   const setTypedValue = useSetTypedValue();
   const positionType = usePositionType();
-  const userWhitelisted = useIsAccountWhiteList();
+  const userWhitelisted = useUserWhitelist();
 
   const { formattedAmounts, state, balance } = useTradePage();
 

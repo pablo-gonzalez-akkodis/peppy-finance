@@ -10,7 +10,7 @@ import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token"
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { useAddAccountToContract } from "@symmio-client/core/callbacks/useMultiAccount";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
+import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
 
 import Column from "components/Column";
 import { BaseButton } from "components/Button";
@@ -152,7 +152,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   const { account, chainId } = useActiveWagmi();
   const [name, setName] = useState("");
   const [, setTxHash] = useState("");
-  const userWhitelisted = useIsAccountWhiteList();
+  const userWhitelisted = useUserWhitelist();
   // const [acceptRiskValue, setAcceptRiskValue] = useState(false)
   const COLLATERAL_TOKEN = useCollateralToken();
 
