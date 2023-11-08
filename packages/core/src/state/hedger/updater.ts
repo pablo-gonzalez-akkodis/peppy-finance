@@ -35,6 +35,7 @@ import {
 import { useActiveMarket } from "../trade/hooks";
 import { Hedger } from "../../types/hedger";
 import { Market } from "../../types/market";
+import { useAppName } from "../chains/hooks";
 
 export function HedgerUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
@@ -42,6 +43,7 @@ export function HedgerUpdater(): null {
   const { baseUrl, apiUrl, fetchData } = hedger || {};
   const activeMarket = useActiveMarket();
   const markets = useMarkets();
+  const appName = useAppName();
 
   usePriceWebSocket();
   useFetchMarkets(hedger, thunkDispatch);
@@ -58,7 +60,7 @@ export function HedgerUpdater(): null {
       return autoRefresh(
         () =>
           thunkDispatch(
-            getPriceRange({ hedgerUrl: baseUrl, market: activeMarket })
+            getPriceRange({ hedgerUrl: baseUrl, market: activeMarket, appName })
           ),
         60 * 60
       );
@@ -74,18 +76,24 @@ function useFetchMarkets(
   const marketsStatus = useMarketsStatus();
   const { chainId } = useActiveWagmi();
   const isSupported = useSupportedChainId();
+  const appName = useAppName();
+
   const { baseUrl } = hedger || {};
 
   //auto update per each 3000 seconds
   useEffect(() => {
-    if (isSupported) thunkDispatch(getMarkets(baseUrl));
-    else return autoRefresh(() => thunkDispatch(getMarkets(baseUrl)), 3000);
+    if (isSupported) thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName }));
+    else
+      return autoRefresh(
+        () => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })),
+        3000
+      );
   }, [thunkDispatch, baseUrl, hedger, chainId, isSupported]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
     if (marketsStatus === ApiState.ERROR)
-      retry(() => thunkDispatch(getMarkets(baseUrl)), {
+      retry(() => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })), {
         n: 5,
         minWait: 1000,
         maxWait: 10000,
@@ -100,6 +108,7 @@ function useFetchNotionalCap(
 ) {
   const { marketNotionalCap, marketNotionalCapStatus } = useMarketNotionalCap();
   const { baseUrl } = hedger || {};
+  const appName = useAppName();
 
   //auto update notional cap per symbol, every 1 hours
   useEffect(() => {
@@ -111,6 +120,7 @@ function useFetchNotionalCap(
               hedgerUrl: baseUrl,
               market: activeMarket,
               preNotional: marketNotionalCap,
+              appName,
             })
           ),
         60 * 60
@@ -128,6 +138,7 @@ function useFetchNotionalCap(
               hedgerUrl: baseUrl,
               market: activeMarket,
               preNotional: marketNotionalCap,
+              appName,
             })
           ),
         {

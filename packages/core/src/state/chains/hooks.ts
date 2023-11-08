@@ -140,12 +140,18 @@ export function useHedgerAddress() {
   return hedgers;
 }
 
+export function useAppName() {
+  const appName = useAppSelector((state: AppState) => state.chains.appName);
+  return appName;
+}
+
 export function useSetSdkConfig(): ({
   chains,
   V3_CHAIN_IDS,
   contract_ABIs,
   FALLBACK_CHAIN_ID,
   hedgers,
+  appName,
 }: ChainsState) => void {
   const dispatch = useAppDispatch();
   return useCallback(
@@ -155,6 +161,7 @@ export function useSetSdkConfig(): ({
       contract_ABIs,
       FALLBACK_CHAIN_ID,
       hedgers,
+      appName,
     }: ChainsState) => {
       dispatch(
         setChains({
@@ -163,6 +170,7 @@ export function useSetSdkConfig(): ({
           contract_ABIs,
           FALLBACK_CHAIN_ID,
           hedgers,
+          appName,
         })
       );
     },

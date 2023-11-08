@@ -14,7 +14,13 @@ import {
 
 export const getMarkets = createAsyncThunk(
   "hedger/getAllApi",
-  async (hedgerUrl: string | undefined) => {
+  async ({
+    hedgerUrl,
+    appName,
+  }: {
+    hedgerUrl: string | undefined;
+    appName: string;
+  }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
@@ -30,9 +36,9 @@ export const getMarkets = createAsyncThunk(
 
     try {
       const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
-        makeHttpRequest(marketsUrl),
-        makeHttpRequest(openUrl),
-        makeHttpRequest(errorMessagesUrl),
+        makeHttpRequest(marketsUrl, getAppNameHeader(appName)),
+        makeHttpRequest(openUrl, getAppNameHeader(appName)),
+        makeHttpRequest(errorMessagesUrl, getAppNameHeader(appName)),
       ]);
 
       if (marketsRes.status === "fulfilled") {
@@ -75,10 +81,12 @@ export const getNotionalCap = createAsyncThunk(
   async ({
     hedgerUrl,
     market,
+    appName,
     preNotional,
   }: {
     hedgerUrl: string | undefined;
     market: Market | undefined;
+    appName: string;
     preNotional?: MarketNotionalCap;
   }) => {
     if (!hedgerUrl) {
@@ -108,7 +116,7 @@ export const getNotionalCap = createAsyncThunk(
 
     try {
       const [notionalCapRes] = await Promise.allSettled([
-        makeHttpRequest(notionalCapUrl),
+        makeHttpRequest(notionalCapUrl, getAppNameHeader(appName)),
       ]);
 
       if (notionalCapRes.status === "fulfilled") {
@@ -129,9 +137,11 @@ export const getPriceRange = createAsyncThunk(
   async ({
     hedgerUrl,
     market,
+    appName,
   }: {
     hedgerUrl: string | undefined;
     market: Market | undefined;
+    appName: string;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -149,7 +159,7 @@ export const getPriceRange = createAsyncThunk(
 
     try {
       const [priceRangeRes] = await Promise.allSettled([
-        makeHttpRequest(priceRangeUrl),
+        makeHttpRequest(priceRangeUrl, getAppNameHeader(appName)),
       ]);
 
       if (priceRangeRes.status === "fulfilled") {
@@ -167,7 +177,13 @@ export const getPriceRange = createAsyncThunk(
 
 export const getMarketsDepth = createAsyncThunk(
   "hedger/getMarketsDepth",
-  async (apiUrl: string | undefined) => {
+  async ({
+    apiUrl,
+    appName,
+  }: {
+    apiUrl: string | undefined;
+    appName: string;
+  }) => {
     if (!apiUrl) {
       throw new Error("Url is empty");
     }
@@ -179,7 +195,7 @@ export const getMarketsDepth = createAsyncThunk(
 
     try {
       const [marketDepths] = await Promise.allSettled([
-        makeHttpRequest(marketDepthUrl),
+        makeHttpRequest(marketDepthUrl, getAppNameHeader(appName)),
       ]);
 
       if (marketDepths.status === "fulfilled") {
@@ -203,7 +219,13 @@ export const getMarketsDepth = createAsyncThunk(
 
 export const getMarketsInfo = createAsyncThunk(
   "hedger/getMarketsInfo",
-  async (hedgerUrl: string | undefined) => {
+  async ({
+    hedgerUrl,
+    appName,
+  }: {
+    hedgerUrl: string | undefined;
+    appName: string;
+  }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
@@ -211,7 +233,7 @@ export const getMarketsInfo = createAsyncThunk(
     const marketsInfo: MarketsInfo = {};
     try {
       const [marketsInfoRes] = await Promise.allSettled([
-        makeHttpRequest(marketsInfoUrl),
+        makeHttpRequest(marketsInfoUrl, getAppNameHeader(appName)),
       ]);
       if (marketsInfoRes.status === "fulfilled") {
         Object.entries(marketsInfoRes.value).forEach((localMarketEntry) => {
@@ -234,3 +256,10 @@ export const getMarketsInfo = createAsyncThunk(
     return { marketsInfo };
   }
 );
+
+export function getAppNameHeader(appName: string) {
+  const options = {
+    headers: [["App-Name", appName]],
+  };
+  return options;
+}

@@ -7,12 +7,13 @@ import {
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
 } from "../constants/misc";
-import { useFallbackChainId } from "../state/chains/hooks";
+import { useAppName, useFallbackChainId } from "../state/chains/hooks";
 import { makeHttpRequest } from "../utils/http";
 import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import { useHedgerInfo } from "../state/hedger/hooks";
+import { getAppNameHeader } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
   useLeverage,
@@ -91,6 +92,7 @@ export function useSentQuoteCallback(): {
   const positionType = usePositionType();
   const { price, formattedAmounts } = useTradePage();
   const leverage = useLeverage();
+  const appName = useAppName();
 
   const marketId = useActiveMarketId();
   const market = useMarket(marketId);
@@ -183,7 +185,7 @@ export function useSentQuoteCallback(): {
       baseUrl
     );
     const { total_cap, used }: { total_cap: number; used: number } =
-      await makeHttpRequest(notionalCapUrl);
+      await makeHttpRequest(notionalCapUrl, getAppNameHeader(appName));
     const freeCap = toBN(total_cap).minus(used);
     const notionalValue = openPriceBN.times(quantityAsset);
 

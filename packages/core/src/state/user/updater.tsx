@@ -10,23 +10,28 @@ import { AccountUpnl } from "../../types/user";
 import { useHedgerInfo } from "../hedger/hooks";
 
 import { updateAccountUpnl, updateMatchesDarkMode } from "./actions";
-import { useActiveAccountAddress, useSetUpnlWebSocketStatus } from "./hooks";
+import {
+  useActiveAccountAddress,
+  useSetUpnlWebSocketStatus,
+  useUserWhitelist,
+} from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
-import { useIsAccountWhiteList } from "../../hooks/useAccounts";
 import { ConnectionStatus } from "./types";
+import { useAppName } from "../chains/hooks";
 
 export function UserUpdater(): null {
   const dispatch = useAppDispatch();
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
   const { account, chainId } = useActiveWagmi();
   const activeAccountAddress = useActiveAccountAddress();
+  const appName = useAppName();
 
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
   useUpnlWebSocket(dispatch);
 
   useEffect(() => {
     if (fetchData)
-      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName }));
+      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
   }, [thunkDispatch, baseUrl, account, fetchData, clientName]);
 
   useEffect(() => {
@@ -70,7 +75,7 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
   const windowVisible = useIsWindowVisible();
   const activeAccountAddress = useActiveAccountAddress();
   const updateWebSocketStatus = useSetUpnlWebSocketStatus();
-  const isAccountWhiteList = useIsAccountWhiteList();
+  const isAccountWhiteList = useUserWhitelist();
   const { webSocketUpnlUrl } = useHedgerInfo() || {};
 
   const url = useMemo(() => {

@@ -7,11 +7,13 @@ import {
 import { makeHttpRequest } from "../../utils/http";
 import { BalanceHistoryData, DepositWithdrawalsData } from "./types";
 import { BALANCE_HISTORY_ITEMS_NUMBER } from "../../constants/misc";
+import { getAppNameHeader } from "../hedger/thunks";
+import { WEB_SETTING } from "../../config/index";
 
 export const getIsWhiteList = createAsyncThunk(
   "user/getWalletWhitelist",
   async (payload: any) => {
-    const { baseUrl: hedgerUrl, account, clientName } = payload;
+    const { baseUrl: hedgerUrl, account, clientName, appName } = payload;
 
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -27,8 +29,10 @@ export const getIsWhiteList = createAsyncThunk(
 
     let isWhiteList: null | boolean = null;
     try {
+      if (!WEB_SETTING.checkWhiteList) return { isWhiteList: true };
+
       const [whiteListRes] = await Promise.allSettled([
-        makeHttpRequest(isWhiteListUrl),
+        makeHttpRequest(isWhiteListUrl, getAppNameHeader(appName)),
       ]);
       if (whiteListRes.status === "fulfilled") {
         isWhiteList = whiteListRes.value;

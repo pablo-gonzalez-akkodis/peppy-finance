@@ -32,6 +32,7 @@ import {
 import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
 
 import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { getAppNameHeader } from "@symmio-client/core/state/hedger/thunks";
 
 import {
   useClosingLastMarketPrice,
@@ -42,6 +43,7 @@ import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
 import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
 
 import { useClosePosition } from "@symmio-client/core/callbacks/useClosePosition";
+import { useAppName } from "@symmio-client/core/state/chains/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
 import { TabModal } from "components/Tab";
@@ -109,6 +111,7 @@ export default function CloseModal({
   const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
     useState(false);
   const isPendingTxs = useIsHavePendingTransaction();
+  const appName = useAppName();
 
   const { accountAddress: account } = useActiveAccount() || {};
   const { CVA, MM, LF, openedPrice, marketId, positionType } = quote || {};
@@ -168,7 +171,7 @@ export default function CloseModal({
             baseUrl
           );
           const priceRangeRes: { max_price: number; min_price: number } =
-            await makeHttpRequest(priceRangeUrl);
+            await makeHttpRequest(priceRangeUrl, getAppNameHeader(appName));
 
           const priceRange: PriceRange = {
             name: marketName,

@@ -2,10 +2,7 @@ import { useCallback } from "react";
 import { shallowEqual } from "react-redux";
 
 import { makeHttpRequest } from "../../utils/http";
-import {
-  BALANCE_HISTORY_ITEMS_NUMBER,
-  CHECK_IS_WHITE_LIST,
-} from "../../constants/misc";
+import { BALANCE_HISTORY_ITEMS_NUMBER } from "../../constants/misc";
 import {
   Account,
   UserPartyAStatDetail,
@@ -15,6 +12,7 @@ import { ApiState } from "../../types/api";
 import { BalanceHistoryData, ConnectionStatus } from "./types";
 import { getBalanceHistory } from "./thunks";
 import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
+import { WEB_SETTING } from "../../config/index";
 
 import {
   updateUserSlippageTolerance,
@@ -26,6 +24,8 @@ import {
 } from "./actions";
 import { useHedgerInfo } from "../hedger/hooks";
 import useDebounce from "../../lib/hooks/useDebounce";
+import { getAppNameHeader } from "../hedger/thunks";
+import { useAppName } from "../chains/hooks";
 
 export function useIsDarkMode(): boolean {
   const { userDarkMode, matchesDarkMode } = useAppSelector(
@@ -198,34 +198,44 @@ export function useUpnlWebSocketStatus() {
   );
   return upnlWebSocketStatus;
 }
-
 export function useIsWhiteList(
   account: string | undefined
 ): () => Promise<any> {
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
-  return useCallback(async () => {
-    if (!CHECK_IS_WHITE_LIST || !fetchData || !account || !baseUrl) return null;
-    const { href: url } = new URL(
-      `/check_in-whitelist/${account}/${clientName}`,
-      baseUrl
-    );
-    return makeHttpRequest(url);
+  const appName = useAppName();
+
+  const isWhiteList = useCallback(async () => {
+    if (!WEB_SETTING.checkWhiteList || !fetchData || !account || !baseUrl) {
+      return Promise.reject("");
+    }
+
+    const url = new URL(`/check_in-whitelist/${account}/${clientName}`, baseUrl)
+      .href;
+    return makeHttpRequest(url, getAppNameHeader(appName));
   }, [fetchData, account, baseUrl, clientName]);
+
+  return isWhiteList;
 }
 
 export function useAddInWhitelist(
   subAccount: string | undefined
 ): () => Promise<any> {
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
-  return useCallback(async () => {
-    if (!CHECK_IS_WHITE_LIST || !fetchData || !subAccount || !baseUrl)
-      return null;
-    const { href: url } = new URL(
+  const appName = useAppName();
+
+  const addInWhitelist = useCallback(async () => {
+    if (!WEB_SETTING.checkWhiteList || !fetchData || !subAccount || !baseUrl) {
+      return Promise.reject("");
+    }
+
+    const url = new URL(
       `/add-sub-address-in-whitelist/${subAccount}/${clientName}`,
       baseUrl
-    );
-    return makeHttpRequest(url);
+    ).href;
+    return makeHttpRequest(url, getAppNameHeader(appName));
   }, [baseUrl, clientName, fetchData, subAccount]);
+
+  return addInWhitelist;
 }
 
 export function useBalanceHistory(): {
