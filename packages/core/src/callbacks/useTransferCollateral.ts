@@ -79,6 +79,8 @@ export function useTransferCollateral(
       ? "deallocate"
       : activeTab === TransferTab.WITHDRAW
       ? "withdrawFromAccount"
+      : activeTab === TransferTab.ALLOCATE
+      ? "allocate"
       : "";
   }, [activeTab]);
 
@@ -166,6 +168,28 @@ export function useTransferCollateral(
           .toFixed();
         const args = [activeAccount.accountAddress as Address, BigInt(amount)];
         const functionName = "withdrawFromAccount";
+        return {
+          args,
+          functionName,
+          config: {
+            account,
+            to: MultiAccountContract.address,
+            data: encodeFunctionData({
+              abi: MultiAccountContract.abi,
+              functionName,
+              args,
+            }),
+            value: BigInt(0),
+          },
+        };
+      } else if (activeTab === TransferTab.ALLOCATE) {
+        const fixedAmount = formatPrice(
+          typedAmount,
+          collateralCurrency.decimals
+        );
+        const amount = new BigNumber(fixedAmount).times(1e18).toFixed();
+        const args = [activeAccount.accountAddress as Address, BigInt(amount)];
+        const functionName = "allocate";
         return {
           args,
           functionName,
