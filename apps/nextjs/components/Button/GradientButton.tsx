@@ -1,12 +1,21 @@
 import styled from "styled-components";
 
 import { BaseButton } from "components/Button";
+import { useCallback } from "react";
 
 export const GradientButtonWrapper = styled(BaseButton)`
   padding: 1px;
   height: 40px;
   border-radius: 4px;
   background: ${({ theme }) => theme.gradLight};
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+      cursor: default;
+      opacity: 50%;
+
+  `}
 `;
 
 export const GradientColorButton = styled(BaseButton)`
@@ -18,8 +27,14 @@ export const GradientColorButton = styled(BaseButton)`
   &:hover,
   &:active {
     background: ${({ theme }) => theme.black2};
-    cursor: ${({ disabled }) => !disabled && "pointer"};
   }
+
+  ${({ disabled }) =>
+    disabled &&
+    `
+      cursor: default;
+
+  `}
 `;
 
 export const GradientButtonLabel = styled.span`
@@ -35,14 +50,20 @@ export default function GradientButton({
   label,
   onClick,
   children,
+  disabled,
 }: {
   label: string;
-  onClick: () => void;
+  onClick?: () => void;
   children?: React.ReactNode;
+  disabled?: boolean;
 }): JSX.Element {
+  const handleClick = useCallback(() => {
+    if (!disabled && onClick) onClick();
+  }, [disabled, onClick]);
+
   return (
-    <GradientButtonWrapper>
-      <GradientColorButton onClick={onClick}>
+    <GradientButtonWrapper disabled={disabled}>
+      <GradientColorButton onClick={handleClick} disabled={disabled}>
         <GradientButtonLabel>{label}</GradientButtonLabel>
         <div>{children}</div>
       </GradientColorButton>

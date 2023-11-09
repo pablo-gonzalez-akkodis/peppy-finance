@@ -24,7 +24,11 @@ import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
 import { calculateString } from "utils/calculationalString";
 import { InputField, PositionType } from "@symmio-client/core/types/trade";
 import { ConnectionStatus } from "@symmio-client/core/state/hedger/types";
-import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
+import {
+  useUserWhitelist,
+  useIsTermsAccepted,
+} from "@symmio-client/core/state/user/hooks";
+import { WEB_SETTING } from "@symmio-client/core/config";
 
 const OpenPositionButton = styled(MainButton)<{ longOrShort: boolean }>`
   &:focus,
@@ -54,6 +58,7 @@ export default function TradeActionButtons(): JSX.Element | null {
   const setTypedValue = useSetTypedValue();
   const positionType = usePositionType();
   const userWhitelisted = useUserWhitelist();
+  const isAcceptTerms = useIsTermsAccepted();
 
   const { formattedAmounts, state, balance } = useTradePage();
 
@@ -81,6 +86,10 @@ export default function TradeActionButtons(): JSX.Element | null {
   }, [market]); // eslint-disable-line react-hooks/exhaustive-deps
   if (validatedContext !== ContextError.VALID) {
     return <InvalidContext />;
+  }
+
+  if (WEB_SETTING.showSignModal && !isAcceptTerms) {
+    return <MainButton disabled>Accept Terms Please</MainButton>;
   }
 
   if (calculationLoading) {

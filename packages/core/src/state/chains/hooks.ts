@@ -61,6 +61,19 @@ export function useMultiAccountAddress() {
   }, [chains, v3_ids]);
 }
 
+export function useSignatureStoreAddress() {
+  const chains = useAppSelector((state: AppState) => state.chains.chains);
+  const v3_ids = useAppSelector((state: AppState) => state.chains.V3_CHAIN_IDS);
+
+  return useMemo(() => {
+    return compatibleWithLegacyStructure(
+      chains,
+      v3_ids,
+      "SIGNATURE_STORE_ADDRESS"
+    );
+  }, [chains, v3_ids]);
+}
+
 export function usePartyBWhitelistAddress() {
   const chains = useAppSelector((state: AppState) => state.chains.chains);
   const v3_ids = useAppSelector((state: AppState) => state.chains.V3_CHAIN_IDS);
@@ -126,6 +139,13 @@ export function useMultiAccountABI() {
     (state: AppState) => state.chains.contract_ABIs.MULTI_ACCOUNT_ABI
   );
   return multiAccount_abi;
+}
+
+export function useSignatureStoreABI() {
+  const signatureStore_abi = useAppSelector(
+    (state: AppState) => state.chains.contract_ABIs.SIGNATURE_STORE_ABI
+  );
+  return signatureStore_abi;
 }
 
 export function useFallbackChainId() {

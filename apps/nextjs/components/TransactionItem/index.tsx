@@ -9,6 +9,7 @@ import {
   AddAccountTransactionInfo,
   TransferCollateralTransactionInfo,
   MintTransactionInfo,
+  SignMessageTransactionInfo,
 } from "@symmio-client/core/state/transactions/types";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
@@ -122,4 +123,12 @@ export function MintSummary({
       &#34;Mint&#34; {info.amount} {collateralSymbol} {status}
     </Summary>
   );
+}
+
+export function SignSummary({
+  info,
+}: {
+  info: SignMessageTransactionInfo;
+}): JSX.Element {
+  return <Summary>{info.text}</Summary>;
 }

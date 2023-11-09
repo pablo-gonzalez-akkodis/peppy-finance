@@ -7,4 +7,5 @@ export const WEB_SETTING = {
   showAccountHealthEmoji: true,
   showColorfulAccountHealth: true,
   checkWhiteList: true,
+  showSignModal: true,
 };

@@ -1,9 +1,5 @@
 import { ApiState } from "../../types/api";
-import {
-  Account,
-  AccountUpnl,
-  UserPartyAStatType,
-} from "../../types/user";
+import { Account, AccountUpnl, UserPartyAStatType } from "../../types/user";
 
 export enum ConnectionStatus {
   OPEN,
@@ -31,6 +27,8 @@ export interface UserState {
 
   depositWithdrawalsData: DepositWithdrawalsData | null;
   depositWithdrawalsState: ApiState;
+
+  isTermsAccepted: TermsStatus;
 }
 
 export enum BalanceHistoryType {
@@ -62,4 +60,10 @@ export interface DepositWithdrawalsData {
   deposit: string;
   updateTimestamp: string;
   __typename: string;
+}
+
+export enum TermsStatus {
+  NOT_ACCEPTED,
+  ACCEPTED,
+  UNCLEAR,
 }

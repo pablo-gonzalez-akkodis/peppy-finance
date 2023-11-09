@@ -177,13 +177,7 @@ export const getPriceRange = createAsyncThunk(
 
 export const getMarketsDepth = createAsyncThunk(
   "hedger/getMarketsDepth",
-  async ({
-    apiUrl,
-    appName,
-  }: {
-    apiUrl: string | undefined;
-    appName: string;
-  }) => {
+  async (apiUrl: string | undefined) => {
     if (!apiUrl) {
       throw new Error("Url is empty");
     }
@@ -195,7 +189,7 @@ export const getMarketsDepth = createAsyncThunk(
 
     try {
       const [marketDepths] = await Promise.allSettled([
-        makeHttpRequest(marketDepthUrl, getAppNameHeader(appName)),
+        makeHttpRequest(marketDepthUrl),
       ]);
 
       if (marketDepths.status === "fulfilled") {

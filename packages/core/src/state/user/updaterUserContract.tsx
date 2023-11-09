@@ -1,10 +1,15 @@
+import isEqual from "lodash/isEqual";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
-import { useAccountPartyAStat, useActiveAccountAddress } from "./hooks";
+import {
+  useAccountPartyAStat,
+  useActiveAccountAddress,
+  useIsTermsAccepted,
+} from "./hooks";
 import { usePartyAStats } from "../../hooks/usePartyAStats";
 import { useEffect, useState } from "react";
-import { updateAccountPartyAStat } from "./actions";
+import { updateAcceptTerms, updateAccountPartyAStat } from "./actions";
 import { useAppDispatch } from "..";
-import isEqual from "lodash/isEqual";
+import { useCheckSignedMessage } from "../../hooks/useCheckSign";
 
 export function UpdaterUserContract(): null {
   const dispatch = useAppDispatch();
@@ -18,6 +23,9 @@ export function UpdaterUserContract(): null {
     useAccountPartyAStat(activeAccountAddress);
   const accountPartyAStat = usePartyAStats(account);
   const activePartyAStat = usePartyAStats(activeAccountAddress);
+
+  const previousAcceptTerms = useIsTermsAccepted();
+  const { isTermsAccepted } = useCheckSignedMessage(account);
 
   useEffect(() => {
     if (
@@ -43,6 +51,12 @@ export function UpdaterUserContract(): null {
       );
     }
   }, [activePartyAStat, activeAccountAddress, dispatch]);
+
+  useEffect(() => {
+    if (account !== undefined && previousAcceptTerms !== isTermsAccepted) {
+      dispatch(updateAcceptTerms(isTermsAccepted));
+    }
+  }, [account, dispatch, isTermsAccepted]);
 
   useEffect(() => {
     const intervalId = setInterval(() => {

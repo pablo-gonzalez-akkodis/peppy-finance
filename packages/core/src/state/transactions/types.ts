@@ -23,6 +23,7 @@ export enum TransactionType {
   CANCEL,
   ADD_ACCOUNT,
   TRANSFER_COLLATERAL,
+  SIGN_MESSAGE,
 }
 
 interface BaseTransactionInfo {
@@ -60,6 +61,11 @@ export interface AddAccountTransactionInfo extends BaseTransactionInfo {
   name: string;
 }
 
+export interface SignMessageTransactionInfo extends BaseTransactionInfo {
+  type: TransactionType.SIGN_MESSAGE;
+  text: string;
+}
+
 export interface TransferCollateralTransactionInfo extends BaseTransactionInfo {
   type: TransactionType.TRANSFER_COLLATERAL;
   transferType: TransferTab;
@@ -79,7 +85,8 @@ export type TransactionInfo =
   | CancelQuoteTransactionInfo
   | AddAccountTransactionInfo
   | TransferCollateralTransactionInfo
-  | MintTransactionInfo;
+  | MintTransactionInfo
+  | SignMessageTransactionInfo;
 
 export interface TransactionDetails {
   hash: string;

@@ -263,3 +263,8 @@ export function useTotalDepositsAndWithdrawals() {
 
   return { depositWithdrawalsData, depositWithdrawalsState: debounceState };
 }
+
+export function useIsTermsAccepted() {
+  const isTermsAccepted = useAppSelector((state) => state.user.isTermsAccepted);
+  return isTermsAccepted;
+}

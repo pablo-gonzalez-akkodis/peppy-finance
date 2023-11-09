@@ -10,7 +10,10 @@ import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token"
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 import { useAddAccountToContract } from "@symmio-client/core/callbacks/useMultiAccount";
-import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
+import {
+  useIsTermsAccepted,
+  useUserWhitelist,
+} from "@symmio-client/core/state/user/hooks";
 
 import Column from "components/Column";
 import { BaseButton } from "components/Button";
@@ -21,6 +24,7 @@ import {
   Close as CloseIcon,
   DotFlashing,
 } from "components/Icons";
+import { WEB_SETTING } from "@symmio-client/core/config";
 
 const Wrapper = styled.div<{ modal?: boolean }>`
   border: none;
@@ -144,16 +148,13 @@ const DescriptionText = styled.div`
   color: ${({ theme }) => theme.text4};
 `;
 
-const AcceptRiskWrapper = styled.div`
-  padding: 4px 0px 16px 12px;
-`;
-
 export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   const { account, chainId } = useActiveWagmi();
   const [name, setName] = useState("");
   const [, setTxHash] = useState("");
   const userWhitelisted = useUserWhitelist();
-  // const [acceptRiskValue, setAcceptRiskValue] = useState(false)
+  const isTermsAccepted = useIsTermsAccepted();
+
   const COLLATERAL_TOKEN = useCollateralToken();
 
   const collateralCurrency = useGetTokenWithFallbackChainId(
@@ -161,10 +162,8 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
     chainId
   );
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
-  // const message = 'Users interacting with this software do so entirely at their own risk'
   const { callback: addAccountToContractCallback } =
     useAddAccountToContract(name);
-  // const { callback: signMessageCallback, error, state } = useSignMessage(message)
 
   const onAddAccount = useCallback(async () => {
     if (!addAccountToContractCallback) return;
@@ -184,29 +183,6 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
     setAwaitingConfirmation(false);
   }, [addAccountToContractCallback, onClose]);
 
-  // const onSignMessage = useCallback(async () => {
-  //   if (!signMessageCallback) return
-  //   try {
-  //     setAwaitingConfirmation(true)
-  //     const txHash = await signMessageCallback()
-  //     setTxHash(txHash)
-  //     setAwaitingConfirmation(false)
-  //     onClose && onClose()
-  //   } catch (e) {
-  //     setAcceptRiskValue(false)
-  //     if (e instanceof Error) {
-  //       console.error(e)
-  //     } else {
-  //       console.debug(e)
-  //     }
-  //   }
-  //   setAwaitingConfirmation(false)
-  // }, [signMessageCallback, onClose])
-
-  // useEffect(() => {
-  //   if (acceptRiskValue) onSignMessage()
-  // }, [onSignMessage, acceptRiskValue])
-
   function getActionButton() {
     if (awaitingConfirmation) {
       return (
@@ -214,6 +190,16 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
           <DepositButton>
             <ButtonLabel>Awaiting Confirmation</ButtonLabel>
             <DotFlashing />
+          </DepositButton>
+        </DepositButtonWrapper>
+      );
+    }
+
+    if (WEB_SETTING.showSignModal && !isTermsAccepted) {
+      return (
+        <DepositButtonWrapper disabled={true}>
+          <DepositButton disabled={true}>
+            <ButtonLabel>Accept Terms Please</ButtonLabel>
           </DepositButton>
         </DepositButtonWrapper>
       );
@@ -290,17 +276,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
             <Client />
           </RowEnd>
         </AccountNameWrapper>
-        <AcceptRiskWrapper>
-          {/* <Checkbox
-            name={'user-accept-risk'}
-            id={'user-accept-risk'}
-            label={message}
-            checked={acceptRiskValue}
-            onChange={() => {
-              setAcceptRiskValue((prevValue) => !prevValue)
-            }}
-          /> */}
-        </AcceptRiskWrapper>
+
         {getActionButton()}
         {onClose && (
           <DescriptionText>{`Create Account > Deposit ${collateralCurrency?.symbol} > Enjoy Trading`}</DescriptionText>
