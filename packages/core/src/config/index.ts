@@ -8,4 +8,5 @@ export const WEB_SETTING = {
   showColorfulAccountHealth: true,
   checkWhiteList: true,
   showSignModal: true,
+  notAllowedMethods: [] as string[],
 };
