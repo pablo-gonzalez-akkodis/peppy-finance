@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "..";
 
 import {
   MarketDataMap,
@@ -18,7 +18,6 @@ import {
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import useDebounce from "../../lib/hooks/useDebounce";
-import { getMarketsInfo } from "./thunks";
 import { ApiState } from "../../types/api";
 import { useHedgerAddress } from "../chains/hooks";
 import { SupportedChainId } from "../../constants/chains";
@@ -140,16 +139,6 @@ export function useSetDepth() {
     },
     [dispatch]
   );
-}
-
-export function useSetMarketsInfo() {
-  const hedger = useHedgerInfo();
-  const { baseUrl } = hedger || {};
-  const dispatch: AppThunkDispatch = useAppDispatch();
-
-  return useCallback(() => {
-    dispatch(getMarketsInfo(baseUrl));
-  }, [baseUrl, dispatch]);
 }
 
 export function useSetNotionalCap() {

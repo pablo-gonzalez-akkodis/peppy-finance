@@ -245,6 +245,7 @@ export const getMarketsInfo = createAsyncThunk(
       }
     } catch (error) {
       console.error(error, "happened in getMarketsInfo");
+      throw new Error(error);
     }
 
     return { marketsInfo };

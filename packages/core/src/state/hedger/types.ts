@@ -96,6 +96,5 @@ export interface HedgerState {
   marketNotionalCapStatus: ApiState;
   priceRange: PriceRange;
   priceRangeStatus: ApiState;
-  marketsInfo: MarketsInfo;
   errorMessages: ErrorMessages;
 }

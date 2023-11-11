@@ -12,7 +12,6 @@ import {
 import {
   getMarkets,
   getMarketsDepth,
-  getMarketsInfo,
   getNotionalCap,
   getPriceRange,
 } from "./thunks";
@@ -30,7 +29,6 @@ const initialState: HedgerState = {
   marketNotionalCapStatus: ApiState.LOADING,
   priceRange: { name: "", minPrice: -1, maxPrice: -1 },
   priceRangeStatus: ApiState.LOADING,
-  marketsInfo: {},
   errorMessages: {},
 };
 
@@ -103,8 +101,5 @@ export default createReducer(initialState, (builder) =>
     .addCase(getPriceRange.rejected, (state) => {
       state.priceRangeStatus = ApiState.ERROR;
       console.error("Unable to fetch priceRange");
-    })
-    .addCase(getMarketsInfo.fulfilled, (state, { payload }) => {
-      state.marketsInfo = payload.marketsInfo;
     })
 );
