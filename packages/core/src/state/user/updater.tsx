@@ -32,7 +32,7 @@ export function UserUpdater(): null {
   useEffect(() => {
     if (fetchData)
       thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
-  }, [thunkDispatch, baseUrl, account, fetchData, clientName]);
+  }, [thunkDispatch, baseUrl, account, fetchData, clientName, appName]);
 
   useEffect(() => {
     if (chainId)

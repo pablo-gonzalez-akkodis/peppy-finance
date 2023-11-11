@@ -1,12 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { JsonValue } from "react-use-websocket/dist/lib/types";
 
 import { useAppDispatch, AppThunkDispatch } from "..";
 import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
-import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import { autoRefresh, retry } from "../../utils/retry";
 
 import { ApiState } from "../../types/api";
@@ -64,7 +62,7 @@ export function HedgerUpdater(): null {
           ),
         60 * 60
       );
-  }, [thunkDispatch, baseUrl, activeMarket, fetchData]);
+  }, [thunkDispatch, baseUrl, activeMarket, fetchData, appName]);
 
   return null;
 }
@@ -73,32 +71,33 @@ function useFetchMarkets(
   hedger: Hedger | null,
   thunkDispatch: AppThunkDispatch
 ) {
-  const marketsStatus = useMarketsStatus();
-  const { chainId } = useActiveWagmi();
-  const isSupported = useSupportedChainId();
   const appName = useAppName();
-
   const { baseUrl } = hedger || {};
+  const marketsStatus = useMarketsStatus();
 
+  const hedgerMarket = useCallback(
+    () => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })),
+    [appName, baseUrl, thunkDispatch]
+  );
+
+  // TODO: fix auto update
   //auto update per each 3000 seconds
   useEffect(() => {
-    if (isSupported) thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName }));
-    else
-      return autoRefresh(
-        () => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })),
-        3000
-      );
-  }, [thunkDispatch, baseUrl, hedger, chainId, isSupported]);
+    const promise = hedgerMarket();
+    return () => {
+      promise.abort();
+    };
+  }, [hedgerMarket]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
     if (marketsStatus === ApiState.ERROR)
-      retry(() => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })), {
+      retry(hedgerMarket, {
         n: 5,
         minWait: 1000,
         maxWait: 10000,
       });
-  }, [thunkDispatch, baseUrl, marketsStatus]);
+  }, [marketsStatus, hedgerMarket]);
 }
 
 function useFetchNotionalCap(
@@ -109,47 +108,33 @@ function useFetchNotionalCap(
   const { marketNotionalCap, marketNotionalCapStatus } = useMarketNotionalCap();
   const { baseUrl } = hedger || {};
   const appName = useAppName();
-
+  const notionalCaps = useCallback(
+    () =>
+      thunkDispatch(
+        getNotionalCap({
+          hedgerUrl: baseUrl,
+          market: activeMarket,
+          preNotional: marketNotionalCap,
+          appName,
+        })
+      ),
+    [activeMarket, appName, baseUrl, thunkDispatch]
+  );
   //auto update notional cap per symbol, every 1 hours
   useEffect(() => {
-    if (activeMarket)
-      return autoRefresh(
-        () =>
-          thunkDispatch(
-            getNotionalCap({
-              hedgerUrl: baseUrl,
-              market: activeMarket,
-              preNotional: marketNotionalCap,
-              appName,
-            })
-          ),
-        60 * 60
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeMarket, baseUrl, thunkDispatch]);
+    if (activeMarket) return autoRefresh(notionalCaps, 60 * 60);
+  }, [activeMarket, notionalCaps]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
     if (activeMarket && marketNotionalCapStatus === ApiState.ERROR) {
-      retry(
-        () =>
-          thunkDispatch(
-            getNotionalCap({
-              hedgerUrl: baseUrl,
-              market: activeMarket,
-              preNotional: marketNotionalCap,
-              appName,
-            })
-          ),
-        {
-          n: 5,
-          minWait: 3000,
-          maxWait: 10000,
-        }
-      );
+      retry(notionalCaps, {
+        n: 5,
+        minWait: 3000,
+        maxWait: 10000,
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [thunkDispatch, baseUrl, marketNotionalCapStatus, activeMarket]);
+  }, [marketNotionalCapStatus, activeMarket, notionalCaps]);
 }
 
 function usePriceWebSocket() {

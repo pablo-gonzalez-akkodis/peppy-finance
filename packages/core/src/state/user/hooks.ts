@@ -212,7 +212,7 @@ export function useIsWhiteList(
     const url = new URL(`/check_in-whitelist/${account}/${clientName}`, baseUrl)
       .href;
     return makeHttpRequest(url, getAppNameHeader(appName));
-  }, [fetchData, account, baseUrl, clientName]);
+  }, [fetchData, account, baseUrl, clientName, appName]);
 
   return isWhiteList;
 }
@@ -233,7 +233,7 @@ export function useAddInWhitelist(
       baseUrl
     ).href;
     return makeHttpRequest(url, getAppNameHeader(appName));
-  }, [baseUrl, clientName, fetchData, subAccount]);
+  }, [appName, baseUrl, clientName, fetchData, subAccount]);
 
   return addInWhitelist;
 }

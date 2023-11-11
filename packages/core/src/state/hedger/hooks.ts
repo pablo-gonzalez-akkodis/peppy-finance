@@ -7,8 +7,14 @@ import {
   ConnectionStatus,
   MarketDepthData,
   MarketsInfo,
+  MarketNotionalCap,
 } from "./types";
-import { updateWebSocketStatus, updatePrices, updateDepth } from "./actions";
+import {
+  updateWebSocketStatus,
+  updatePrices,
+  updateDepth,
+  updateNotionalCap,
+} from "./actions";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import useDebounce from "../../lib/hooks/useDebounce";
@@ -144,4 +150,14 @@ export function useSetMarketsInfo() {
   return useCallback(() => {
     dispatch(getMarketsInfo(baseUrl));
   }, [baseUrl, dispatch]);
+}
+
+export function useSetNotionalCap() {
+  const dispatch = useAppDispatch();
+  return useCallback(
+    (notionalCap: MarketNotionalCap) => {
+      dispatch(updateNotionalCap({ notionalCap }));
+    },
+    [dispatch]
+  );
 }

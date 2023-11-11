@@ -12,7 +12,7 @@ import { makeHttpRequest } from "../utils/http";
 import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
-import { useHedgerInfo } from "../state/hedger/hooks";
+import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
 import { getAppNameHeader } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
@@ -135,6 +135,7 @@ export function useSentQuoteCallback(): {
   const lockedMM = useLockedMM(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
   const { cva, mm, lf } = useLockedPercentages();
+  const updateNotionalCap = useSetNotionalCap();
 
   const maxInterestRate = useMaxInterestRate(notionalValue);
   const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
@@ -188,9 +189,10 @@ export function useSentQuoteCallback(): {
       await makeHttpRequest(notionalCapUrl, getAppNameHeader(appName));
     const freeCap = toBN(total_cap).minus(used);
     const notionalValue = openPriceBN.times(quantityAsset);
+    updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [baseUrl, market, openPriceBN, quantityAsset]);
+  }, [appName, baseUrl, market, openPriceBN, quantityAsset, updateNotionalCap]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {

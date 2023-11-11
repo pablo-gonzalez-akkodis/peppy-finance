@@ -187,7 +187,7 @@ export default function CloseModal({
       }
     }
     fetchPriceRange();
-  }, [baseUrl, fetchData, marketName]);
+  }, [appName, baseUrl, fetchData, marketName]);
 
   const { callback: closeCallback, error } = useClosePosition(
     quote,

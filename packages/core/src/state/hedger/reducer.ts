@@ -7,6 +7,7 @@ import {
   updatePrices,
   updateDepth,
   updateDepths,
+  updateNotionalCap,
 } from "./actions";
 import {
   getMarkets,
@@ -50,6 +51,9 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateDepths, (state, { payload }) => {
       state.depths = { ...current(state.depths), ...payload.depths };
+    })
+    .addCase(updateNotionalCap, (state, { payload }) => {
+      state.marketNotionalCap = payload.notionalCap;
     })
 
     .addCase(getMarketsDepth.fulfilled, (state, { payload }) => {

@@ -127,7 +127,7 @@ function useNotifications(
       );
       return cleanup;
     }
-  }, [account, baseUrl, timestamp, thunkDispatch, cleanup, fetchData]);
+  }, [account, baseUrl, timestamp, thunkDispatch, cleanup, fetchData, appName]);
 }
 
 export function toNotification(
