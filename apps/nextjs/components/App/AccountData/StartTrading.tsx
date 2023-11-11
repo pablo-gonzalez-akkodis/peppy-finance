@@ -16,7 +16,7 @@ import {
   useModalOpen,
 } from "@symmio-client/core/state/application/hooks";
 
-import { BaseButton } from "components/Button";
+import GradientButton from "components/Button/GradientButton";
 import { Row, RowStart, RowBetween, RowCenter, RowEnd } from "components/Row";
 import DepositModal from "components/ReviewModal/DepositModal";
 
@@ -50,37 +50,6 @@ const ContentWrapper = styled.div`
 const ImageWrapper = styled(RowCenter)`
   margin-top: 25px;
   margin-bottom: 36px;
-`;
-
-const DepositButtonWrapper = styled(BaseButton)`
-  padding: 1px;
-  height: 40px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.gradLight};
-`;
-
-const DepositButton = styled(BaseButton)`
-  height: 100%;
-  border: 1px solid ${({ theme }) => theme.gradLight};
-  border-radius: 4px;
-  background: ${({ theme }) => theme.bg1};
-  color: ${({ theme }) => theme.gradLight};
-
-  &:focus,
-  &:hover,
-  &:active {
-    cursor: ${({ disabled }) => !disabled && "pointer"};
-    background: ${({ theme }) => theme.black2};
-  }
-`;
-
-const ButtonLabel = styled.span`
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
-  background: ${({ theme }) => theme.gradLight};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `;
 
 const Label = styled.div`
@@ -134,11 +103,10 @@ export default function StartTrading({ symbol }: { symbol?: string }) {
             {formatAmount(collateralBalance)} {symbol}
           </Value>
         </RowBetween>
-        <DepositButtonWrapper>
-          <DepositButton onClick={() => toggleDepositModal()}>
-            <ButtonLabel>Deposit {symbol}</ButtonLabel>
-          </DepositButton>
-        </DepositButtonWrapper>
+        <GradientButton
+          label={`Deposit ${symbol}`}
+          onClick={() => toggleDepositModal()}
+        />
       </ContentWrapper>
       {showDepositModal && <DepositModal />}
     </Wrapper>

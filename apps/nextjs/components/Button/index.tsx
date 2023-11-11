@@ -60,25 +60,14 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
   &:focus,
   &:hover {
     background: ${({ theme }) => theme.gradLight};
-
-    /* box-shadow: 0 0 0 1px ${({ theme }) => theme.primary0}; */
   }
-  &:hover {
-    /* filter: brightness(0.1); */
-    /* background: ${({ theme }) => lighten(0.03, theme.primary0)}; */
-  }
-
-  ${({ theme, disabled }) =>
+  ${({ disabled }) =>
     disabled &&
     `
-      // background: ${theme.bg2};
-      // border: 1px solid ${theme.border1};
+
       cursor: default;
       opacity:0.5;
-      // &:focus,
-      // &:hover {
-      //   filter:brightness(0.1);
-      // }
+
   `}
 `;
 

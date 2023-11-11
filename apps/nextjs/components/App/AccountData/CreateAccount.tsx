@@ -16,7 +16,6 @@ import {
 } from "@symmio-client/core/state/user/hooks";
 
 import Column from "components/Column";
-import { BaseButton } from "components/Button";
 import { Row, RowCenter, RowEnd, RowStart } from "components/Row";
 import {
   Client,
@@ -25,6 +24,7 @@ import {
   DotFlashing,
 } from "components/Icons";
 import { WEB_SETTING } from "@symmio-client/core/config";
+import GradientButton from "components/Button/GradientButton";
 
 const Wrapper = styled.div<{ modal?: boolean }>`
   border: none;
@@ -53,39 +53,6 @@ const ContentWrapper = styled(Column)`
 const ImageWrapper = styled(RowCenter)`
   margin-top: 15px;
   margin-bottom: 34px;
-`;
-
-const DepositButtonWrapper = styled(BaseButton)<{ disabled?: boolean }>`
-  padding: 1px;
-  height: 40px;
-  border-radius: 8px;
-  background: ${({ theme }) => theme.gradLight};
-  opacity: ${({ disabled }) => (disabled ? 0.7 : 1)};
-`;
-
-const DepositButton = styled(BaseButton)`
-  height: 100%;
-  border: 1px solid ${({ theme }) => theme.gradLight};
-  border-radius: 8px;
-  background: ${({ theme }) => theme.bg1};
-  color: ${({ theme }) => theme.gradLight};
-
-  &:focus,
-  &:hover,
-  &:active {
-    cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
-    background: ${({ theme, disabled }) =>
-      disabled ? theme.bg1 : theme.black};
-  }
-`;
-
-const ButtonLabel = styled.span`
-  font-weight: 600;
-  font-size: 12px;
-  line-height: 14px;
-  background: ${({ theme }) => theme.gradLight};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
 `;
 
 const AccountWrapper = styled(Row)`
@@ -186,43 +153,27 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   function getActionButton() {
     if (awaitingConfirmation) {
       return (
-        <DepositButtonWrapper>
-          <DepositButton>
-            <ButtonLabel>Awaiting Confirmation</ButtonLabel>
-            <DotFlashing />
-          </DepositButton>
-        </DepositButtonWrapper>
+        <GradientButton label={"Awaiting Confirmation"} disabled={true}>
+          <DotFlashing />
+        </GradientButton>
       );
     }
 
     if (WEB_SETTING.showSignModal && !isTermsAccepted) {
-      return (
-        <DepositButtonWrapper disabled={true}>
-          <DepositButton disabled={true}>
-            <ButtonLabel>Accept Terms Please</ButtonLabel>
-          </DepositButton>
-        </DepositButtonWrapper>
-      );
+      return <GradientButton label={"Accept Terms Please"} disabled={true} />;
     }
 
     if (userWhitelisted === false) {
       return (
-        <DepositButtonWrapper disabled={true}>
-          <DepositButton disabled={true}>
-            <ButtonLabel>You are not whitelisted</ButtonLabel>
-          </DepositButton>
-        </DepositButtonWrapper>
+        <GradientButton label={"You are not whitelisted"} disabled={true} />
       );
     }
 
     return (
-      <DepositButtonWrapper>
-        <DepositButton onClick={() => onAddAccount()}>
-          <ButtonLabel>
-            {name === "" ? "Enter account name" : "Create Account"}
-          </ButtonLabel>
-        </DepositButton>
-      </DepositButtonWrapper>
+      <GradientButton
+        label={name === "" ? "Enter account name" : "Create Account"}
+        onClick={() => onAddAccount()}
+      />
     );
   }
 
