@@ -51,15 +51,6 @@ const Wrapper = styled.div`
   `};
 `;
 
-// const BuyDei = styled(PrimaryButton)`
-//   &:focus,
-//   &:hover,
-//   &:active {
-//     background: ${({ theme }) => theme.primaryBlue};
-//     cursor: ${({ disabled }) => !disabled && 'pointer'};
-//   }
-// `
-
 const LabelsRow = styled(Row)`
   flex-direction: column;
   gap: 16px;
@@ -71,11 +62,6 @@ const LabelsRow = styled(Row)`
     }
   }
 `;
-
-// const BuyDeiText = styled.div`
-//   margin-left: 10px;
-//   color: ${({ theme }) => theme.black};
-// `
 
 const Close = styled.div`
   width: 24px;
@@ -284,23 +270,12 @@ export default function DepositModal() {
       <Wrapper>
         <RowBetween>
           {getTabs()}
-          <Close>
-            <CloseIcon
-              size={12}
-              onClick={toggleDepositModal}
-              style={{ cursor: "pointer" }}
-            />
+          <Close onClick={toggleDepositModal}>
+            <CloseIcon size={12} style={{ cursor: "pointer" }} />
           </Close>
         </RowBetween>
 
         {getLabel()}
-        {/* {toBN(collateralBalance).lt(100) && activeTab === TransferTab.DEPOSIT && (
-          <BuyDei onClick={onDeiMint}>
-            <Image src={'/static/images/tokens/dei.svg'} width={20} height={20} alt="Dei Logo" />
-            <BuyDeiText>mint TEST DEI</BuyDeiText>
-            {awaitingMintConfirmation ? <DotFlashing /> : <></>}
-          </BuyDei>
-        )} */}
         {getActionButton()}
       </Wrapper>
     </Modal>

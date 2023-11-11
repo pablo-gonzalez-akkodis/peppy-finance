@@ -16,14 +16,20 @@ import NavLogo from "./NavLogo";
 import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
 import Notifications from "components/Notifications";
 import Warning from "./Warning";
-// import Menu from './Menu'
+// import Menu from "./Menu";
 import Column from "components/Column";
+import {
+  useModalOpen,
+  useWithdrawBarModalToggle,
+} from "@symmio-client/core/state/application/hooks";
+import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+import WithdrawBarModal from "components/ReviewModal/WithdrawBarModal";
 
 const Wrapper = styled(Row)`
   gap: 5px;
   font-size: 16px;
   flex-wrap: nowrap;
-  padding: 16px 2rem;
+  padding: 10px 32px;
   position: relative;
   z-index: ${Z_INDEX.fixed};
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -106,7 +112,6 @@ export const SubNavbarContentWrap = styled.ul`
   display: none;
   padding: 12px 0 12px 0px;
   background: ${({ theme }) => theme.bg2};
-  border-radius: 10px;
   list-style: none;
   position: absolute;
   top: 50px;
@@ -115,7 +120,6 @@ export const SubNavbarContentWrap = styled.ul`
   transform: translateX(-50%);
 
   & > li > div {
-    border-radius: 0;
     padding: 0.45rem 1rem;
     min-width: 150px;
   }
@@ -140,14 +144,28 @@ const StatusWrapper = styled(Column)`
   gap: 12px;
   z-index: -1;
 `;
-const CooldownWrapper = styled(Column)`
+
+const CooldownWrapper = styled(Column)<{ width?: string }>`
+  ${({ width }) => width && `width: ${width};`}
   & > * {
     width: 100%;
+    cursor: pointer;
   }
-  z-index: -1;
+
+  ${({ theme }) => theme.mediaWidth.upToMedium`
+    z-index: -1;
+  `}
+`;
+
+const BannerWrapper = styled.div`
+  margin-top: 15px;
+  padding: 0px 8px;
 `;
 
 export default function NavBar() {
+  const showWithdrawBarModal = useModalOpen(ApplicationModal.WITHDRAW_BAR);
+  const toggleWithdrawBarModal = useWithdrawBarModalToggle();
+
   const hasInjected = useInjectedAddress();
   const isNewNotification = useNewNotification();
   const showBanner =
@@ -171,7 +189,7 @@ export default function NavBar() {
           <NavLogo />
           <StatusWrapper>
             <Web3Status />
-            <CooldownWrapper>
+            <CooldownWrapper onClick={() => toggleWithdrawBarModal()}>
               <WithdrawCooldown formatedAmount={false} />
             </CooldownWrapper>
           </StatusWrapper>
@@ -180,6 +198,7 @@ export default function NavBar() {
 
           {/* <Menu /> */}
         </MobileWrapper>
+        {showWithdrawBarModal && <WithdrawBarModal />}
         {showTopBanner && (
           <InfoHeader
             onClose={setShowBanner}
@@ -205,14 +224,19 @@ export default function NavBar() {
         <Wrapper>
           <NavLogo />
           <Items>
-            <WithdrawCooldown formatedAmount={true} />
+            <CooldownWrapper
+              width={"240px"}
+              onClick={() => toggleWithdrawBarModal()}
+            >
+              <WithdrawCooldown formatedAmount={true} />
+            </CooldownWrapper>
             <Web3Status />
             <Notifications />
             <Web3Network />
             {/* <Menu /> */}
           </Items>
         </Wrapper>
-        <div>
+        <BannerWrapper>
           {showTopBanner && (
             <InfoHeader
               onClose={setShowBanner}
@@ -225,7 +249,8 @@ export default function NavBar() {
               message={`❌ You are in "READ-ONLY" mode. Please do not confirm any transactions! ❌ `}
             />
           )}
-        </div>
+        </BannerWrapper>
+        {showWithdrawBarModal && <WithdrawBarModal />}
       </>
     );
   }

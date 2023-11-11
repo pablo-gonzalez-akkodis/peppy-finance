@@ -188,20 +188,29 @@ export function useTransferCollateral(
           collateralCurrency.decimals
         );
         const amount = new BigNumber(fixedAmount).times(1e18).toFixed();
-        const args = [activeAccount.accountAddress as Address, BigInt(amount)];
-        const functionName = "allocate";
+        const diamondArgs = [BigInt(amount)] as const;
+
+        const calldata = encodeFunctionData({
+          abi: DiamondContract.abi,
+          functionName: "allocate",
+          args: [...diamondArgs],
+        });
+
+        const args = [activeAccount.accountAddress as Address, [calldata]];
+        const functionName = "_call";
+
         return {
           args,
           functionName,
           config: {
             account,
+            value: BigInt(0),
             to: MultiAccountContract.address,
             data: encodeFunctionData({
               abi: MultiAccountContract.abi,
               functionName,
               args,
             }),
-            value: BigInt(0),
           },
         };
       }
@@ -262,7 +271,9 @@ export function useTransferCollateral(
       error: null,
       callback: () =>
         createTransactionCallback(
-          methodName === "deallocate" ? "_call" : methodName,
+          methodName === "deallocate" || methodName === "allocate"
+            ? "_call"
+            : methodName,
           MultiAccountContract,
           constructCall,
           addTransaction,
