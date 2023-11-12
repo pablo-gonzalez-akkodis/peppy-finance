@@ -19,7 +19,7 @@ const Wrapper = styled(Container)`
 `;
 
 const WithdrawRow = styled.div`
-  margin: 16px 0;
+  margin-bottom: 16px;
 `;
 
 const Layout = styled.div`
