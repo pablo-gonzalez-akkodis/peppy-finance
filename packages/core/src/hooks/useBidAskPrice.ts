@@ -1,40 +1,27 @@
-import {
-  RoundMode,
-  formatPrice,
-  toBN,
-} from "../utils/numbers";
-import {
-  DEFAULT_PRICE_RANGE_BOUND,
-  PRICE_RANGE_BOUNDS_BY_CHAIN_ID,
-} from "../constants/misc";
 import { useMarketDepth } from "../state/hedger/hooks";
+import { Market } from "../types/market";
+import { RoundMode, formatPrice, toBN } from "../utils/numbers";
 
-import useActiveWagmi from "../lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
+export default function useBidAskPrice(market?: Market): {
+  ask: string;
+  bid: string;
+  spread: string;
+} {
+  const marketDepth = useMarketDepth(market?.name);
 
-export default function useBidAskPrice(
-  name?: string,
-  pricePrecision?: number
-): { ask: string; bid: string; spread: string } {
-  const { chainId } = useActiveWagmi();
-  const isSupportedChainId = useSupportedChainId();
-  const marketDepth = useMarketDepth(name);
-  const { lowerBound, upperBound } =
-    chainId && isSupportedChainId
-      ? PRICE_RANGE_BOUNDS_BY_CHAIN_ID[chainId]
-      : DEFAULT_PRICE_RANGE_BOUND;
+  if (!marketDepth || !market) return { ask: "0", bid: "0", spread: "0" };
 
-  if (!marketDepth) return { ask: "0", bid: "0", spread: "0" };
+  const { hedgerFeeClose, hedgerFeeOpen, pricePrecision } = market;
 
   const { bestAskPrice, bestBidPrice } = marketDepth;
   const bestAsk: string = formatPrice(
-    toBN(bestAskPrice).times(upperBound),
+    toBN(bestAskPrice).times(toBN(1).plus(hedgerFeeOpen)),
     pricePrecision,
     false,
     RoundMode.ROUND_UP
   );
   const bestBid: string = formatPrice(
-    toBN(bestBidPrice).times(lowerBound),
+    toBN(bestBidPrice).times(toBN(1).minus(hedgerFeeClose)),
     pricePrecision,
     false,
     RoundMode.ROUND_DOWN

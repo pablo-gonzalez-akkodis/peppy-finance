@@ -121,13 +121,14 @@ export default function CloseModal({
     chainId
   );
 
+  const market = useMarket(marketId);
   const {
     name: marketName,
     symbol,
     quantityPrecision,
     pricePrecision,
     minAcceptableQuoteValue,
-  } = useMarket(marketId) || {};
+  } = market || {};
   const correctOpenPrice = formatPrice(openedPrice ?? "0", pricePrecision);
   const marketData = useMarketData(marketName);
   const { upnl } = useAccountUpnl() || {};
@@ -139,11 +140,7 @@ export default function CloseModal({
     () => toBN(markPrice ?? "0").toString(),
     [markPrice]
   );
-  const lastMarketPrice = useClosingLastMarketPrice(
-    quote,
-    marketName,
-    pricePrecision
-  );
+  const lastMarketPrice = useClosingLastMarketPrice(quote, market);
 
   const { allocatedBalance, lockedCVA, lockedLF } =
     useAccountPartyAStat(account);

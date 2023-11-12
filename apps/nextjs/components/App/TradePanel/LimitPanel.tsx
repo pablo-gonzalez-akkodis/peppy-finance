@@ -26,7 +26,7 @@ export default function LimitPricePanel(): JSX.Element | null {
     COLLATERAL_TOKEN,
     chainId
   );
-  const { ask, bid } = useBidAskPrice(market?.name, market?.pricePrecision);
+  const { ask, bid } = useBidAskPrice(market);
 
   const lastMarketPrice = (() => {
     if (positionType === PositionType.LONG) {

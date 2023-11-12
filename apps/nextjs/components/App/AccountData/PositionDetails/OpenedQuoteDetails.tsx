@@ -91,8 +91,9 @@ export default function OpenedQuoteDetails({
     createTimestamp,
     modifyTimestamp,
   } = quote;
-  const { symbol, name, asset, pricePrecision } = useMarket(marketId) || {};
-  const { ask: askPrice, bid: bidPrice } = useBidAskPrice(name, pricePrecision);
+  const market = useMarket(marketId);
+  const { symbol, name, asset } = market || {};
+  const { ask: askPrice, bid: bidPrice } = useBidAskPrice(market);
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
