@@ -15,7 +15,7 @@ export const DefaultOptionButton = styled(OptionButton)`
   /* active */
   background: ${({ theme, active }) => (active ? theme.bg0 : theme.bg2)};
   border: 1px solid
-    ${({ theme, active }) => (active ? theme.primary3 : theme.text3)};
+    ${({ theme, active }) => (active ? theme.primary2 : theme.text3)};
   ${({ theme }) => theme.mediaWidth.upToSmall`
       margin-right: 5px;
       white-space: normal;

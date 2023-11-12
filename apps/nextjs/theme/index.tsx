@@ -68,9 +68,6 @@ function colors(): Colors {
       text4: "#5F606F",
       text5: "#333344",
 
-      // these colors aren't for monolith
-      text6: "#dce7eb",
-
       // backgrounds / greys
       bg: "#01030B",
       bg0: "#141823",
@@ -81,7 +78,6 @@ function colors(): Colors {
       bg5: "#292C3B",
       bg6: "#323847",
       bg7: "#383C4B",
-      bg8: "#323847",
 
       bgWin: "#20302F",
       bgLoose: "#35232B",
@@ -93,10 +89,10 @@ function colors(): Colors {
       border3: "#2A2E39",
 
       //gradient colors
-      gradDark:
-        "linear-gradient(91.6deg, #180951 0.09%, #110963 77.29%, #050621 100%)",
       gradLight:
         "linear-gradient(90deg, #E5EFF3 0%, #A2D4EA 50%, #E5EFF3 100%)",
+      gradError: "linear-gradient(180deg, #472A2A 0%, #21242C 100%)",
+
       hoverGrad: "linear-gradient(90deg, #A6CCDC 0%, #C0E9FA 100%)",
       hoverShort: "linear-gradient(90deg, #EF9F9F 0%, #F4DFDF 100%)",
       hoverLong: "linear-gradient(90deg, #B7FEB6 0%, #E2F4DF 100%)",
@@ -110,48 +106,27 @@ function colors(): Colors {
       // primary colors
       primary0: "#565CF3",
       primary1: "rgba(217, 217, 217, 0.1)",
-      primary2: "#231E61",
-      primary3: "#14103D",
-
-      // these colors aren't for monolith
-      primary4: "linear-gradient(92.33deg, #DE4A7B -10.26%, #E29D52 80%)",
-      primary5: "linear-gradient(270deg, #01AEF3 -1.33%, #14E8E3 100%)",
-      primary6: "linear-gradient(-90deg, #B63562 10%, #CF8D49 90%)",
-      primary7: "linear-gradient(90deg, #ff538f 10%, #ffb56c 90%)",
-      primary8: "linear-gradient(90deg, #F78C2A 0%, #F34038 100%)",
+      primary2: "#14103D",
 
       // other
       red1: "#EA5E5E",
       green1: "#7DD485",
-      green2: "#304349",
-      green3: "#6ff37b",
-      green4: "#97d136",
 
-      error: "#FD4040",
+      error: "#BC2D36",
+      error1: "#9B4C4C",
       success: "#27AE60",
       warning: "#DCAB2E",
       twitter: "#69a1f5",
 
-      usdt: "#50AF95",
-
       //these colors aren't for monolith
       black2: "#151A1F",
-      secondary1: "#1749FA",
-      secondary2: "rgba(23, 73, 250, 0.2)",
-      primaryText1: "#1749FA",
       red2: "#F82D3A",
-      red3: "#D60000",
       red5: "#442B37",
       red6: "#271515",
       yellow1: "#E3A507",
-      yellow2: "#FF8F00",
-      yellow3: "#F3B71E",
-      yellow4: "#FFBA93",
+      yellow2: "#A88D62",
       blue1: "#2172E5",
       blue2: "#74c2e3",
-      darkPink: "#de4a7b",
-      orange: "#E59C46",
-      darkOrange: "#391D12",
     },
   };
   // default the theme to light mode

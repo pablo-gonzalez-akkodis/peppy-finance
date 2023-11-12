@@ -59,7 +59,7 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
 
   &:focus,
   &:hover {
-    background: ${({ theme }) => theme.gradLight};
+    background: ${({ theme }) => theme.hoverGrad};
   }
   ${({ disabled }) =>
     disabled &&
