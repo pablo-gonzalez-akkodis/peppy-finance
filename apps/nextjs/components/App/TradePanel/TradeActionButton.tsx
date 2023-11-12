@@ -76,6 +76,18 @@ export default function TradeActionButtons(): JSX.Element | null {
     return <MainButton disabled>Accept Terms Please</MainButton>;
   }
 
+  // Pass if it is null or undefined
+  if (market?.rfqAllowed === false) {
+    return (
+      <ErrorButton
+        state={state}
+        disabled
+        exclamationMark
+        customText="RFQ is not allowed for this market"
+      />
+    );
+  }
+
   if (calculationLoading) {
     return (
       <MainButton disabled>

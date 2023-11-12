@@ -56,6 +56,9 @@ export const getMarkets = createAsyncThunk(
             tradingFee: market.trading_fee,
             maxLeverage: market.max_leverage,
             maxNotionalValue: market.max_notional_value,
+            rfqAllowed: market?.rfq_allowed,
+            hedgerFeeOpen: market.hedger_fee_open,
+            hedgerFeeClose: market.hedger_fee_close,
           }));
           count = marketsRes.value.count;
         }

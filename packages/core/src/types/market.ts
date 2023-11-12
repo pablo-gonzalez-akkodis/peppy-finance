@@ -11,4 +11,7 @@ export interface Market {
   tradingFee: number;
   maxLeverage: number;
   maxNotionalValue: number;
+  rfqAllowed?: boolean;
+  hedgerFeeOpen: string;
+  hedgerFeeClose: string;
 }
