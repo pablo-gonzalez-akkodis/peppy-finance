@@ -1,8 +1,4 @@
-import {
-  OrderType,
-  PositionType,
-  InputField,
-} from "../../types/trade";
+import { OrderType, PositionType, InputField } from "../../types/trade";
 
 export interface TradeState {
   marketId: number | undefined;
@@ -14,4 +10,6 @@ export interface TradeState {
   cva: string | undefined;
   mm: string | undefined;
   lf: string | undefined;
+  isActiveStopLoss: boolean;
+  stopLossPrice: string;
 }

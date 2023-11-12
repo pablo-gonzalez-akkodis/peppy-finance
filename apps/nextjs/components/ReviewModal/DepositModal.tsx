@@ -218,7 +218,7 @@ export default function DepositModal() {
   function getActionButton() {
     if (awaitingConfirmation) {
       return (
-        <PrimaryButton>
+        <PrimaryButton disabled>
           Awaiting Confirmation <DotFlashing />
         </PrimaryButton>
       );
@@ -226,7 +226,7 @@ export default function DepositModal() {
 
     if (isPendingTxs) {
       return (
-        <PrimaryButton>
+        <PrimaryButton disabled>
           Transacting <DotFlashing />
         </PrimaryButton>
       );
@@ -242,7 +242,7 @@ export default function DepositModal() {
 
     if (showApproveLoader) {
       return (
-        <PrimaryButton>
+        <PrimaryButton disabled>
           Approving <DotFlashing />
         </PrimaryButton>
       );

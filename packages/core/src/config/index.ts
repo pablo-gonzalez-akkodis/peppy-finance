@@ -9,4 +9,5 @@ export const WEB_SETTING = {
   checkWhiteList: true,
   showSignModal: true,
   notAllowedMethods: [] as string[],
+  showStopLoss: false,
 };

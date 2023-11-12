@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import styled from "styled-components";
-import { DotFlashing, LongArrow, ShortArrow } from "components/Icons";
+import { DotFlashing } from "components/Icons";
 import { useToggleOpenPositionModal } from "@symmio-client/core/state/application/hooks";
 import {
   ContextError,
@@ -8,13 +7,11 @@ import {
   useInvalidContext,
 } from "components/InvalidContext";
 import ErrorButton from "components/Button/ErrorButton";
-import { titleCase } from "@symmio-client/core/utils/string";
 import { useWebSocketStatus } from "@symmio-client/core/state/hedger/hooks";
 import {
   useSetLimitPrice,
   useActiveMarket,
   useSetTypedValue,
-  usePositionType,
 } from "@symmio-client/core/state/trade/hooks";
 import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
 import { MainButton } from "components/Button";
@@ -22,26 +19,14 @@ import { RowStart } from "components/Row";
 import useTradePage from "@symmio-client/core/hooks/useTradePage";
 import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
 import { calculateString } from "utils/calculationalString";
-import { InputField, PositionType } from "@symmio-client/core/types/trade";
+import { InputField } from "@symmio-client/core/types/trade";
 import { ConnectionStatus } from "@symmio-client/core/state/hedger/types";
 import {
   useUserWhitelist,
   useIsTermsAccepted,
 } from "@symmio-client/core/state/user/hooks";
 import { WEB_SETTING } from "@symmio-client/core/config";
-
-const OpenPositionButton = styled(MainButton)<{ longOrShort: boolean }>`
-  &:focus,
-  &:hover {
-    background: ${({ longOrShort, theme }) =>
-      longOrShort ? theme.hoverLong : theme.hoverShort};
-  }
-`;
-
-const IconWrap = styled.div`
-  position: absolute;
-  right: 10px;
-`;
+import OpenPositionButton from "components/Button/OpenPositionButton";
 
 export default function TradeActionButtons(): JSX.Element | null {
   const validatedContext = useInvalidContext();
@@ -56,17 +41,16 @@ export default function TradeActionButtons(): JSX.Element | null {
 
   const setLimitPrice = useSetLimitPrice();
   const setTypedValue = useSetTypedValue();
-  const positionType = usePositionType();
   const userWhitelisted = useUserWhitelist();
   const isAcceptTerms = useIsTermsAccepted();
 
   const { formattedAmounts, state, balance } = useTradePage();
 
-  const [outputTicker, pricePrecision] = useMemo(
-    () =>
-      market ? [market.symbol, market.pricePrecision] : ["", DEFAULT_PRECISION],
+  const pricePrecision = useMemo(
+    () => (market ? market.pricePrecision : DEFAULT_PRECISION),
     [market]
   );
+
   function onEnterPress() {
     setCalculationLoading(true);
     setCalculationMode(false);
@@ -139,29 +123,7 @@ export default function TradeActionButtons(): JSX.Element | null {
 
   return (
     <RowStart>
-      <OpenPositionButton
-        onClick={() => toggleShowTradeInfoModal()}
-        longOrShort={positionType === PositionType.LONG}
-      >
-        {titleCase(positionType)} {outputTicker}
-        <IconWrap>
-          {positionType === PositionType.LONG ? (
-            <LongArrow
-              width={19}
-              height={11}
-              color={"#0B0C0E"}
-              style={{ marginLeft: "8px" }}
-            />
-          ) : (
-            <ShortArrow
-              width={19}
-              height={11}
-              color={"#0B0C0E"}
-              style={{ marginLeft: "8px" }}
-            />
-          )}
-        </IconWrap>
-      </OpenPositionButton>
+      <OpenPositionButton onClick={() => toggleShowTradeInfoModal()} />
     </RowStart>
   );
 }

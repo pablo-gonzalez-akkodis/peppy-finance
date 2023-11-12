@@ -2,26 +2,25 @@ import styled from "styled-components";
 
 import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
 import { useModalOpen } from "@symmio-client/core/state/application/hooks";
+import { WEB_SETTING } from "@symmio-client/core/config";
 
 import Column from "components/Column";
 
 import TradeOverview from "components/App/TradePanel/TradeOverview";
 import PositionTypeTab from "components/App/TradePanel/PositionTypeTab";
 
-import OpenPositionModal from "components/ReviewModal/OpenPositionModal";
+import { OpenPositionModal } from "components/ReviewModal/OpenPosition";
 import AmountsPanel from "./AmountsPanel";
 import OrderTypeTab from "./OrderTypeTab";
 import MinPositionInfo from "./MinPositionInfo";
 import TradeActionButtons from "./TradeActionButton";
+import StopLoss from "./StopLoss";
 
-// import { useAddPopup } from 'state/application/hooks'
-// import { LastSeenAction, NotificationDetails, NotificationType } from 'state/notifications/types'
-
-const Wrapper = styled.div`
+const Wrapper = styled.div<{ showStopLoss?: boolean }>`
   width: 100%;
   max-width: 480px;
   border-radius: 4px;
-  height: 635px;
+  height: ${({ showStopLoss }) => (showStopLoss ? "735px" : "635px")};
   overflow: scroll;
   background: ${({ theme }) => theme.bg0};
   & > * {
@@ -55,15 +54,17 @@ const Container = styled(Column)`
 `;
 
 export default function TradePanel() {
+  const showStopLoss = WEB_SETTING.showStopLoss;
   const showTradeInfoModal = useModalOpen(ApplicationModal.OPEN_POSITION);
 
   return (
-    <Wrapper>
+    <Wrapper showStopLoss={showStopLoss}>
       <OrderTypeTab />
       <Container>
         <PositionTypeTab />
         <AmountsPanel />
         <MinPositionInfo />
+        {showStopLoss && <StopLoss />}
         <TradeActionButtons />
         <TradeOverview />
       </Container>
