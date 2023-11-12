@@ -20,7 +20,7 @@ import {
   updateUserLeverage,
   updateUserFavorites,
   updateUserExpertMode,
-  updateUpnlWebSocketStatus as updateUpnlWebSocketStatus,
+  updateUpnlWebSocketStatus,
 } from "./actions";
 import { useHedgerInfo } from "../hedger/hooks";
 import useDebounce from "../../lib/hooks/useDebounce";

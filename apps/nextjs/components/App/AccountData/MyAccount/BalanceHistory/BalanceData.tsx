@@ -51,8 +51,8 @@ export default function BalanceData() {
   );
   const { balanceHistory: data, hasMoreHistory: hasMore } = useBalanceHistory();
 
-  const accountConnectionLoadingStatus = useUpnlWebSocketStatus();
-  const loading = accountConnectionLoadingStatus === ConnectionStatus.CLOSED;
+  const upnlWebSocketStatus = useUpnlWebSocketStatus();
+  const loading = upnlWebSocketStatus === ConnectionStatus.CLOSED;
   const currentItems = loading
     ? [...Array(4)]
     : Object.values(data ?? {})
