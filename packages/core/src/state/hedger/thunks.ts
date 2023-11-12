@@ -16,10 +16,10 @@ export const getMarkets = createAsyncThunk(
   "hedger/getAllApi",
   async ({
     hedgerUrl,
-    appName,
+    options,
   }: {
     hedgerUrl: string | undefined;
-    appName: string;
+    options?: { [x: string]: any };
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -36,9 +36,9 @@ export const getMarkets = createAsyncThunk(
 
     try {
       const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
-        makeHttpRequest(marketsUrl, getAppNameHeader(appName)),
-        makeHttpRequest(openUrl, getAppNameHeader(appName)),
-        makeHttpRequest(errorMessagesUrl, getAppNameHeader(appName)),
+        makeHttpRequest(marketsUrl, options),
+        makeHttpRequest(openUrl, options),
+        makeHttpRequest(errorMessagesUrl, options),
       ]);
 
       if (marketsRes.status === "fulfilled") {

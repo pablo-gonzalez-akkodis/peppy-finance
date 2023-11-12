@@ -76,16 +76,25 @@ function useFetchMarkets(
   const marketsStatus = useMarketsStatus();
 
   const hedgerMarket = useCallback(
-    () => thunkDispatch(getMarkets({ hedgerUrl: baseUrl, appName })),
+    (options?: { [x: string]: any }) => {
+      const allOptions = { headers: [["App-Name", appName]], ...options };
+      return thunkDispatch(
+        getMarkets({ hedgerUrl: baseUrl, options: allOptions })
+      );
+    },
     [appName, baseUrl, thunkDispatch]
   );
 
   // TODO: fix auto update
   //auto update per each 3000 seconds
   useEffect(() => {
-    const promise = hedgerMarket();
+    const controller = new AbortController();
+    hedgerMarket({
+      signal: controller.signal,
+    });
+
     return () => {
-      promise.abort();
+      controller.abort();
     };
   }, [hedgerMarket]);
 
