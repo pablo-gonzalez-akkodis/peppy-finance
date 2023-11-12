@@ -16,7 +16,7 @@ import NavLogo from "./NavLogo";
 import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
 import Notifications from "components/Notifications";
 import Warning from "./Warning";
-// import Menu from "./Menu";
+import Menu from "./Menu";
 import Column from "components/Column";
 import {
   useModalOpen,
@@ -196,7 +196,7 @@ export default function NavBar() {
           <Notifications />
           <Web3Network />
 
-          {/* <Menu /> */}
+          <Menu />
         </MobileWrapper>
         {showWithdrawBarModal && <WithdrawBarModal />}
         {showTopBanner && (
@@ -233,7 +233,7 @@ export default function NavBar() {
             <Web3Status />
             <Notifications />
             <Web3Network />
-            {/* <Menu /> */}
+            <Menu />
           </Items>
         </Wrapper>
         <BannerWrapper>
