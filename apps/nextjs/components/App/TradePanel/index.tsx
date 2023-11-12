@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "styled-components";
 
 import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
@@ -15,8 +16,11 @@ import OrderTypeTab from "./OrderTypeTab";
 import MinPositionInfo from "./MinPositionInfo";
 import TradeActionButtons from "./TradeActionButton";
 import StopLoss from "./StopLoss";
+import { BlackList, Suspend } from "./AccessControlPanel";
 
 const Wrapper = styled.div<{ showStopLoss?: boolean }>`
+  position: relative;
+
   width: 100%;
   max-width: 480px;
   border-radius: 4px;
@@ -53,22 +57,48 @@ const Container = styled(Column)`
   }
 `;
 
+const TabWrapper = styled.div`
+  & > * {
+    &:first-child {
+      border-radius: 0px;
+      & > * {
+        &:first-child {
+          border-bottom-left-radius: 0;
+        }
+        &:last-child {
+          border-bottom-right-radius: 0;
+        }
+      }
+    }
+  }
+`;
+
 export default function TradePanel() {
   const showStopLoss = WEB_SETTING.showStopLoss;
   const showTradeInfoModal = useModalOpen(ApplicationModal.OPEN_POSITION);
 
+  // TODO: add this two variables in trade action buttons
+  const isSuspended = false;
+  const isBlacklisted = false;
+
   return (
     <Wrapper showStopLoss={showStopLoss}>
-      <OrderTypeTab />
-      <Container>
-        <PositionTypeTab />
-        <AmountsPanel />
-        <MinPositionInfo />
-        {showStopLoss && <StopLoss />}
-        <TradeActionButtons />
-        <TradeOverview />
-      </Container>
-      {showTradeInfoModal && <OpenPositionModal />}
+      <React.Fragment>
+        {isBlacklisted && <BlackList />}
+        {isSuspended && <Suspend />}
+        <TabWrapper>
+          <OrderTypeTab />
+        </TabWrapper>
+        <Container>
+          <PositionTypeTab />
+          <AmountsPanel />
+          <MinPositionInfo />
+          {showStopLoss && <StopLoss />}
+          <TradeActionButtons />
+          <TradeOverview />
+        </Container>
+        {showTradeInfoModal && <OpenPositionModal />}
+      </React.Fragment>
     </Wrapper>
   );
 }
