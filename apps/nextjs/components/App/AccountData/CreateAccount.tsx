@@ -137,8 +137,8 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
     try {
       setAwaitingConfirmation(true);
       const txHash = await addAccountToContractCallback();
-      setTxHash(txHash);
       setAwaitingConfirmation(false);
+      if (txHash) setTxHash(txHash.hash);
       onClose && onClose();
     } catch (e) {
       if (e instanceof Error) {

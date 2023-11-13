@@ -72,8 +72,10 @@ export function useGetPositions(): {
 
   const quotesValue = useMemo(
     () =>
-      isQuoteSuccess && quoteResults?.[0]?.status === "success"
-        ? (quoteResults[0].result as any[])
+      isQuoteSuccess &&
+      quoteResults?.[0]?.status === "success" &&
+      Array.isArray(quoteResults[0].result)
+        ? quoteResults[0].result
         : [],
     [isQuoteSuccess, quoteResults]
   );
@@ -81,8 +83,8 @@ export function useGetPositions(): {
   const quotes: Quote[] = useMemo(() => {
     return (
       quotesValue
-        ?.filter((quote: any) => quote[0]?.toString() !== "0") //remove garbage outputs
-        .map((quote: any) => toQuote(quote))
+        ?.filter((quote) => quote[0]?.toString() !== "0") //remove garbage outputs
+        .map((quote) => toQuote(quote))
         .sort(
           (a: Quote, b: Quote) =>
             Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
@@ -125,7 +127,7 @@ export function useGetQuoteByIds(ids: number[]): {
       isSuccess &&
       quoteResults !== undefined &&
       quoteResults?.[0]?.status === "success"
-        ? (quoteResults as any[])?.map((qs) =>
+        ? quoteResults?.map((qs) =>
             qs.result
               ? qs.result["id"]
                 ? qs.result
@@ -140,8 +142,8 @@ export function useGetQuoteByIds(ids: number[]): {
 
   const quotes: Quote[] = useMemo(() => {
     return quotesValue
-      .filter((quote: any) => quote)
-      .map((quote: any) => toQuote(quote))
+      .filter((quote) => quote)
+      .map((quote) => toQuote(quote))
       .sort(
         (a: Quote, b: Quote) =>
           Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
@@ -189,15 +191,17 @@ export function useGetPendingIds(): {
 
   const quoteIdsValue = useMemo(
     () =>
-      isSuccess && quoteResults?.[0]?.status === "success"
-        ? (quoteResults[0].result as any[])
+      isSuccess &&
+      quoteResults?.[0]?.status === "success" &&
+      Array.isArray(quoteResults[0].result)
+        ? quoteResults[0].result
         : [],
     [isSuccess, quoteResults]
   );
 
   const quoteIds: number[] = useMemo(() => {
     return quoteIdsValue
-      .map((quoteId: any) => toBN(quoteId.toString()).toNumber())
+      .map((quoteId) => toBN(quoteId.toString()).toNumber())
       .sort((a: number, b: number) => b - a);
   }, [quoteIdsValue]);
 
@@ -413,7 +417,7 @@ export function useOpeningLastMarketPrice(
   return "0";
 }
 
-function toQuote(quote: any) {
+function toQuote(quote) {
   return {
     id: Number(quote["id"].toString()),
     partyBsWhiteList: quote["partyBsWhiteList"],

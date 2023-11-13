@@ -47,6 +47,7 @@ import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
+import { SendTransactionResult } from "@wagmi/core";
 
 export function useClosePosition(
   quote: Quote | null,
@@ -55,7 +56,7 @@ export function useClosePosition(
   quantityToClose: string
 ): {
   state: TransactionCallbackState;
-  callback: null | (() => Promise<any>);
+  callback: null | (() => Promise<SendTransactionResult | undefined>);
   error: string | null;
 } {
   const { account, chainId } = useActiveWagmi();

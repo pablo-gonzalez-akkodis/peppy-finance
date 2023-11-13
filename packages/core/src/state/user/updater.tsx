@@ -30,7 +30,7 @@ export function UserUpdater(): null {
   useUpnlWebSocket(dispatch);
 
   useEffect(() => {
-    if (fetchData)
+    if (fetchData && account)
       thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
   }, [thunkDispatch, baseUrl, account, fetchData, clientName, appName]);
 
@@ -89,7 +89,11 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
     readyState: upnlWebSocketState,
     sendMessage: sendAddress,
     lastJsonMessage: upnlWebSocketMessage,
-  } = useWebSocket(url, {
+  } = useWebSocket<{
+    upnl: number;
+    timestamp: number;
+    available_balance: number;
+  }>(url, {
     reconnectAttempts: 2,
     onOpen: () => {
       console.log("WebSocket connection established.");
@@ -131,7 +135,7 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
 
       // TODO: we should add type checking here
 
-      const lastMessage: AccountUpnl = (upnlWebSocketMessage as any) ?? {
+      const lastMessage: AccountUpnl = upnlWebSocketMessage ?? {
         upnl: 0,
         timestamp: 0,
         available_balance: 0,

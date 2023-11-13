@@ -29,8 +29,9 @@ export function useNativeCurrencyBalances(
     () =>
       uncheckedAddresses
         ? uncheckedAddresses
+            .filter((a): a is string => a !== undefined)
             .map(isAddress)
-            .filter((a): a is string => a !== false)
+            .filter((a): a is string => a !== undefined)
             .sort()
             .map((addr) => [addr])
         : [],
@@ -72,7 +73,7 @@ export function useTokenBalancesWithLoadingIndicator(
     () =>
       tokens?.filter(
         (t?: Token): t is Token =>
-          isAddress(t?.address) !== false && t?.chainId === chainId
+          !!(t?.address && isAddress(t.address) && t?.chainId === chainId)
       ) ?? [],
     [chainId, tokens]
   );

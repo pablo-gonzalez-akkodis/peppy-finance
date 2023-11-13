@@ -8,6 +8,7 @@ import {
   useIsWhiteList,
   useUserWhitelist,
 } from "@symmio-client/core/state/user/hooks";
+import { GetWhiteListType } from "@symmio-client/core/state/user/types";
 import { WEB_SETTING } from "@symmio-client/core/config";
 
 export default function Updater() {
@@ -24,15 +25,15 @@ export default function Updater() {
   useEffect(() => {
     if (account && subAccount && whitelist && subWhitelist == false) {
       addInWhitelist()
-        .then((res: { successful: boolean; message: string }) => {
+        .then((res: GetWhiteListType | null) => {
           // response
           // SUCCESS : {'successful'=True, message=''}
           // FAILED : {'successful'=False, message=''}
           // EXISTS : {'successful'=False, message='exists'}
-          if (res.successful) {
+          if (res?.successful) {
             setSubWhitelist(true);
             toast.success("Activating succeeded");
-          } else if (!res.successful && res.message === "exists") {
+          } else if (!res?.successful && res?.message === "exists") {
             setSubWhitelist(true);
           } else {
             setSubWhitelist(null);

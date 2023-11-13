@@ -13,3 +13,10 @@ export interface TradeState {
   isActiveStopLoss: boolean;
   stopLossPrice: string;
 }
+
+export interface GetLockedParamUrlResponse {
+  cva: string;
+  mm: string;
+  lf: string;
+  leverage: string;
+}

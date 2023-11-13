@@ -107,7 +107,7 @@ export function UpdaterListeners(): null {
       const unpendingIds = prevPendingIds?.filter(
         (id) => !pendingIds.includes(id)
       );
-
+      if (!unpendingIds?.length) return;
       for (let i = 0; i < unpendingIds?.length; i++) {
         addQuoteToListenerCallback(unpendingIds[i]);
       }
@@ -119,7 +119,7 @@ export function UpdaterListeners(): null {
       const unPositionsId = prevPositions
         ?.filter((id) => !find(positions, { id }))
         .map((p) => p.id);
-
+      if (!unPositionsId?.length) return;
       for (let i = 0; i < unPositionsId?.length; i++) {
         addQuoteToListenerCallback(unPositionsId[i]);
       }

@@ -92,7 +92,10 @@ const InfoWrapper = styled.div`
   margin-bottom: 18px;
   gap: 16px;
 `;
-
+interface FetchPriceRangeResponseType {
+  max_price: number;
+  min_price: number;
+}
 export default function CloseModal({
   modalOpen,
   toggleModal,
@@ -167,8 +170,13 @@ export default function CloseModal({
             `price-range/${marketName}`,
             baseUrl
           );
-          const priceRangeRes: { max_price: number; min_price: number } =
-            await makeHttpRequest(priceRangeUrl, getAppNameHeader(appName));
+          const tempResponse =
+            await makeHttpRequest<FetchPriceRangeResponseType>(
+              priceRangeUrl,
+              getAppNameHeader(appName)
+            );
+          if (!tempResponse) return;
+          const priceRangeRes = tempResponse;
 
           const priceRange: PriceRange = {
             name: marketName,

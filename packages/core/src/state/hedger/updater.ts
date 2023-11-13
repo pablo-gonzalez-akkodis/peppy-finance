@@ -31,7 +31,7 @@ import {
   getPriceRange,
 } from "./thunks";
 import { useActiveMarket } from "../trade/hooks";
-import { Hedger } from "../../types/hedger";
+import { Hedger, HedgerWebsocketType } from "../../types/hedger";
 import { Market } from "../../types/market";
 import { useAppName } from "../chains/hooks";
 
@@ -192,7 +192,7 @@ function usePriceWebSocket() {
 
   useEffect(() => {
     try {
-      const lastMessage = lastJsonMessage as any;
+      const lastMessage = lastJsonMessage as HedgerWebsocketType;
 
       //don't update anything if user is idle instead of updating to empty prices
       if (!windowVisible) return;

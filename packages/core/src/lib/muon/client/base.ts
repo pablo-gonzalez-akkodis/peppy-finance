@@ -1,5 +1,6 @@
 import { makeHttpRequest } from "../../../utils/http";
 import { MUON_BASE_URL } from "../config";
+import { MuonResponseType } from "./types";
 
 export class MuonClient {
   readonly baseURL: string = MUON_BASE_URL;
@@ -19,7 +20,8 @@ export class MuonClient {
       MuonURL.searchParams.append(`params[${param[0]}]`, param[1]);
     });
 
-    const response = await makeHttpRequest(MuonURL.href);
+    const response = await makeHttpRequest<MuonResponseType>(MuonURL.href);
+    if (!response) throw new Error("Couldn't send Request");
     return response;
   }
 }

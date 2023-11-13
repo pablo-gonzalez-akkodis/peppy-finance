@@ -30,7 +30,10 @@ export function useUserAccounts() {
   const accountsUnsorted = useMemo(() => {
     if (!accounts || !isSuccess || isError) return [];
     return accounts.map(
-      (acc: any) =>
+      (acc: {
+        accountAddress: Address; // or whatever the correct type is
+        name: string;
+      }) =>
         ({
           accountAddress: acc.accountAddress.toString(),
           name: acc.name,

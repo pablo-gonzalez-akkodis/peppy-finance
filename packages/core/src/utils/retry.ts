@@ -65,7 +65,7 @@ export function retry<T>(
           completed = true;
         }
         break;
-      } catch (error: any) {
+      } catch (error: unknown) {
         if (completed) {
           break;
         }

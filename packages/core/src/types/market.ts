@@ -15,3 +15,41 @@ export interface Market {
   hedgerFeeOpen: string;
   hedgerFeeClose: string;
 }
+
+export interface MarketResponseType {
+  symbol_id: number;
+  name: string;
+  symbol: string;
+  asset: string;
+  price_precision: number;
+  quantity_precision: number;
+  is_valid: boolean;
+  min_acceptable_quote_value: number;
+  min_acceptable_portion_lf: number;
+  trading_fee: number;
+  max_leverage: number;
+  max_notional_value: number;
+  hedger_fee_close: string;
+  hedger_fee_open: string;
+  rfq_allowed: boolean | undefined;
+}
+
+export interface MarketApiType {
+  symbols: MarketResponseType[];
+  count: number;
+}
+
+export interface OpenInterestResponseType {
+  total_cap: number;
+  used: number;
+}
+
+export interface NotionalCapResponseType {
+  total_cap: number;
+  used: number;
+}
+
+export interface PriceRangeResponseType {
+  max_price: number;
+  min_price: number;
+}

@@ -9,6 +9,7 @@ import { APP_NAME } from "constants/chains/misc";
 
 export default function ConfigSDKComponent() {
   const setConfigCallBack = useSetSdkConfig();
+
   useEffect(() => {
     setConfigCallBack({
       chains: contractInfo,
