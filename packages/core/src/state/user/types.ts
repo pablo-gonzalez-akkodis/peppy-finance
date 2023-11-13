@@ -1,9 +1,5 @@
 import { ApiState } from "../../types/api";
-import {
-  Account,
-  AccountUpnl,
-  UserPartyAStatType,
-} from "../../types/user";
+import { Account, AccountUpnl, UserPartyAStatType } from "../../types/user";
 
 export enum ConnectionStatus {
   OPEN,
@@ -62,4 +58,11 @@ export interface DepositWithdrawalsData {
   deposit: string;
   updateTimestamp: string;
   __typename: string;
+}
+
+export type WhiteListResponse = null | boolean;
+
+export interface GetWhiteListType {
+  successful: boolean;
+  message: string;
 }

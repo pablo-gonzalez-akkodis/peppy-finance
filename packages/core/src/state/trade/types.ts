@@ -1,8 +1,4 @@
-import {
-  OrderType,
-  PositionType,
-  InputField,
-} from "../../types/trade";
+import { OrderType, PositionType, InputField } from "../../types/trade";
 
 export interface TradeState {
   marketId: number | undefined;
@@ -14,4 +10,11 @@ export interface TradeState {
   cva: string | undefined;
   mm: string | undefined;
   lf: string | undefined;
+}
+
+export interface GetLockedParamUrlResponse {
+  cva: string;
+  mm: string;
+  lf: string;
+  leverage: string;
 }

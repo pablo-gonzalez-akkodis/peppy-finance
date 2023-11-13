@@ -78,8 +78,8 @@ function useNotificationsWebSocket() {
 
   useEffect(() => {
     try {
-      const lastMessage = lastJsonMessage as any;
-
+      const lastMessage = lastJsonMessage as NotificationResponse | null;
+      console.log({ lastJsonMessage });
       if (!lastMessage || isEmpty(lastMessage)) {
         return;
       }

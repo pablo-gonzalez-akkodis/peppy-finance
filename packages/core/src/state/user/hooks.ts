@@ -12,7 +12,12 @@ import {
   initialUserPartyAStatDetail,
 } from "../../types/user";
 import { ApiState } from "../../types/api";
-import { BalanceHistoryData, ConnectionStatus } from "./types";
+import {
+  BalanceHistoryData,
+  ConnectionStatus,
+  GetWhiteListType,
+  WhiteListResponse,
+} from "./types";
 import { getBalanceHistory } from "./thunks";
 import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
 
@@ -201,7 +206,7 @@ export function useUpnlWebSocketStatus() {
 
 export function useIsWhiteList(
   account: string | undefined
-): () => Promise<any> {
+): () => Promise<WhiteListResponse> {
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
   return useCallback(async () => {
     if (!CHECK_IS_WHITE_LIST || !fetchData || !account || !baseUrl) return null;
@@ -209,13 +214,13 @@ export function useIsWhiteList(
       `/check_in-whitelist/${account}/${clientName}`,
       baseUrl
     );
-    return makeHttpRequest(url);
+    return makeHttpRequest<WhiteListResponse>(url);
   }, [fetchData, account, baseUrl, clientName]);
 }
 
 export function useAddInWhitelist(
   subAccount: string | undefined
-): () => Promise<any> {
+): () => Promise<GetWhiteListType | null> {
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
   return useCallback(async () => {
     if (!CHECK_IS_WHITE_LIST || !fetchData || !subAccount || !baseUrl)
@@ -224,7 +229,7 @@ export function useAddInWhitelist(
       `/add-sub-address-in-whitelist/${subAccount}/${clientName}`,
       baseUrl
     );
-    return makeHttpRequest(url);
+    return makeHttpRequest<GetWhiteListType>(url);
   }, [baseUrl, clientName, fetchData, subAccount]);
 }
 

@@ -67,10 +67,11 @@ import {
   useCollateralAddress,
   usePartyBWhitelistAddress,
 } from "../state/chains/hooks";
+import { SendTransactionResult } from "@wagmi/core";
 
 export function useSentQuoteCallback(): {
   state: TransactionCallbackState;
-  callback: null | (() => Promise<any>);
+  callback: null | (() => Promise<SendTransactionResult | undefined>);
   error: string | null;
 } {
   const { account, chainId } = useActiveWagmi();
@@ -182,8 +183,14 @@ export function useSentQuoteCallback(): {
       `notional_cap/${market.name}`,
       baseUrl
     );
+    const tempResponse = await makeHttpRequest<{
+      total_cap: number;
+      used: number;
+    }>(notionalCapUrl);
+    if (!tempResponse) return;
     const { total_cap, used }: { total_cap: number; used: number } =
-      await makeHttpRequest(notionalCapUrl);
+      tempResponse;
+
     const freeCap = toBN(total_cap).minus(used);
     const notionalValue = openPriceBN.times(quantityAsset);
 

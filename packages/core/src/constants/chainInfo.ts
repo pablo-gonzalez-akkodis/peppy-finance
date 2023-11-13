@@ -134,18 +134,3 @@ export const ChainInfo: { [chainId: number]: Info } = {
     WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
   },
 };
-
-/**
- * Overloaded method for returning ChainInfo given a chainID
- * Return type varies depending on input type:
- * number | undefined -> returns ChainInfo | undefined
- * SupportedChainId -> returns L1ChainInfo | L2ChainInfo
- * SupportedL1ChainId -> returns L1ChainInfo
- * SupportedL2ChainId -> returns L2ChainInfo
- */
-export function getChainInfo(chainId: any): any {
-  if (chainId) {
-    return ChainInfo[chainId] ?? undefined;
-  }
-  return undefined;
-}

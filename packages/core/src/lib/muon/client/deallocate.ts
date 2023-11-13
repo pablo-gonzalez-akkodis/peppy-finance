@@ -53,8 +53,8 @@ export class DeallocateClient extends MuonClient {
       const response = await this._sendRequest(requestParams);
       console.info("Response from Muon: ", response);
 
-      if ("error" in response) {
-        throw new Error(response.error);
+      if (!response) {
+        throw new Error("Error in response of Muon");
       }
 
       const timestamp: number = response["timestamp"];

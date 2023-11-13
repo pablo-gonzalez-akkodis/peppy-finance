@@ -92,3 +92,7 @@ export interface NotificationResponse {
   state_type: string | null;
   version?: number;
 }
+
+export interface NotificationUrlResponseType {
+  position_state: NotificationResponse[];
+}

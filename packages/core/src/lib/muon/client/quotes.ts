@@ -59,8 +59,8 @@ export class QuotesClient extends MuonClient {
       const response = await this._sendRequest(requestParams);
       console.info("Response from Muon: ", response);
 
-      if ("error" in response) {
-        throw new Error(response.error);
+      if (!"error") {
+        throw new Error("Error in get Data From Muon");
       }
 
       const timestamp: number = response["timestamp"];

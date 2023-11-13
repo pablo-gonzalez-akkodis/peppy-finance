@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { makeHttpRequest } from "../../utils/http";
-import { NotificationResponse, NotificationDetails } from "./types";
+import {
+  NotificationResponse,
+  NotificationDetails,
+  NotificationUrlResponseType,
+} from "./types";
 import { groupingNotification, toNotification } from "./updater";
 
 export const getNotifications = createAsyncThunk(
@@ -35,14 +39,14 @@ export const getNotifications = createAsyncThunk(
 
     try {
       const [notificationsRes] = await Promise.allSettled([
-        makeHttpRequest(getNotificationsUrl, {
+        makeHttpRequest<NotificationUrlResponseType>(getNotificationsUrl, {
           method: "POST",
           headers: [["Content-Type", "application/json"]],
           body,
         }),
       ]);
 
-      if (notificationsRes.status === "fulfilled") {
+      if (notificationsRes.status === "fulfilled" && notificationsRes.value) {
         unreadNotifications = notificationsRes.value.position_state.map(
           (n: NotificationResponse) => {
             const notification: NotificationDetails = groupingNotification(

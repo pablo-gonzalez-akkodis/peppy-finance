@@ -28,13 +28,14 @@ import { useDeallocateSign } from "../hooks/useDeallocateSign";
 import { ConstructCallReturnType } from "../types/web3";
 import { Address, encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
+import { SendTransactionResult } from "@wagmi/core";
 
 export function useTransferCollateral(
   typedAmount: string,
   activeTab: TransferTab
 ): {
   state: TransactionCallbackState;
-  callback: null | (() => Promise<any>);
+  callback: null | (() => Promise<SendTransactionResult | undefined>);
   error: string | null;
 } {
   const { account, chainId } = useActiveWagmi();

@@ -12,3 +12,38 @@ export interface Market {
   maxLeverage: number;
   maxNotionalValue: number;
 }
+
+export interface MarketResponseType {
+  symbol_id: number;
+  name: string;
+  symbol: string;
+  asset: string;
+  price_precision: number;
+  quantity_precision: number;
+  is_valid: boolean;
+  min_acceptable_quote_value: number;
+  min_acceptable_portion_lf: number;
+  trading_fee: number;
+  max_leverage: number;
+  max_notional_value: number;
+}
+
+export interface MarketApiType {
+  symbols: MarketResponseType[];
+  count: number;
+}
+
+export interface OpenInterstResponseType {
+  total_cap: number;
+  used: number;
+}
+
+export interface NotionalCapResponseType {
+  total_cap: number;
+  used: number;
+}
+
+export interface PriceRangeResponseType {
+  max_price: number;
+  min_price: number;
+}

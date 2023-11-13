@@ -1,6 +1,11 @@
-import { getStoredState, REHYDRATE } from "redux-persist";
+import { Store } from "redux";
+import { getStoredState, PersistConfig, REHYDRATE } from "redux-persist";
+import { RootState } from "../state";
 
-export default function crossBrowserListener(store: any, persistConfig: any) {
+export default function crossBrowserListener(
+  store: Store<RootState>,
+  persistConfig: PersistConfig<RootState>
+) {
   return async function () {
     const state = await getStoredState(persistConfig);
 

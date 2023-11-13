@@ -1,14 +1,22 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { makeHttpRequest } from "../../utils/http";
-import { Market } from "../../types/market";
+import {
+  Market,
+  MarketApiType,
+  NotionalCapResponseType,
+  OpenInterstResponseType,
+  PriceRangeResponseType,
+} from "../../types/market";
 import { OpenInterest } from "../../types/hedger";
 import {
   DepthResponse,
   ErrorMessages,
   MarketDepthData,
   MarketDepthMap,
+  MarketInfoValue,
   MarketNotionalCap,
   MarketsInfo,
+  MarketsInfoRes,
   PriceRange,
 } from "./types";
 
@@ -30,14 +38,14 @@ export const getMarkets = createAsyncThunk(
 
     try {
       const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
-        makeHttpRequest(marketsUrl),
-        makeHttpRequest(openUrl),
-        makeHttpRequest(errorMessagesUrl),
+        makeHttpRequest<MarketApiType>(marketsUrl),
+        makeHttpRequest<OpenInterstResponseType>(openUrl),
+        makeHttpRequest<ErrorMessages>(errorMessagesUrl),
       ]);
 
       if (marketsRes.status === "fulfilled") {
-        if (marketsRes.value.symbols) {
-          markets = marketsRes.value.symbols.map((market: any) => ({
+        if (marketsRes.value?.symbols) {
+          markets = marketsRes.value.symbols.map((market) => ({
             id: market.symbol_id,
             name: market.name,
             symbol: market.symbol,
@@ -54,11 +62,14 @@ export const getMarkets = createAsyncThunk(
           count = marketsRes.value.count;
         }
 
-        if (openRes.status === "fulfilled") {
+        if (openRes.status === "fulfilled" && openRes.value) {
           openInterest.total = openRes.value.total_cap;
           openInterest.used = openRes.value.used;
         }
-        if (errorMessagesRes.status === "fulfilled") {
+        if (
+          errorMessagesRes.status === "fulfilled" &&
+          errorMessagesRes?.value
+        ) {
           errorMessages = errorMessagesRes.value;
         }
       }
@@ -108,10 +119,10 @@ export const getNotionalCap = createAsyncThunk(
 
     try {
       const [notionalCapRes] = await Promise.allSettled([
-        makeHttpRequest(notionalCapUrl),
+        makeHttpRequest<NotionalCapResponseType>(notionalCapUrl),
       ]);
 
-      if (notionalCapRes.status === "fulfilled") {
+      if (notionalCapRes.status === "fulfilled" && notionalCapRes.value) {
         notionalCap.name = market.name;
         notionalCap.used = notionalCapRes.value.used;
         notionalCap.totalCap = notionalCapRes.value.total_cap;
@@ -149,10 +160,10 @@ export const getPriceRange = createAsyncThunk(
 
     try {
       const [priceRangeRes] = await Promise.allSettled([
-        makeHttpRequest(priceRangeUrl),
+        makeHttpRequest<PriceRangeResponseType>(priceRangeUrl),
       ]);
 
-      if (priceRangeRes.status === "fulfilled") {
+      if (priceRangeRes.status === "fulfilled" && priceRangeRes.value) {
         priceRange.name = market.name;
         priceRange.minPrice = priceRangeRes.value.min_price;
         priceRange.maxPrice = priceRangeRes.value.max_price;
@@ -179,10 +190,10 @@ export const getMarketsDepth = createAsyncThunk(
 
     try {
       const [marketDepths] = await Promise.allSettled([
-        makeHttpRequest(marketDepthUrl),
+        makeHttpRequest<DepthResponse[]>(marketDepthUrl),
       ]);
 
-      if (marketDepths.status === "fulfilled") {
+      if (marketDepths.status === "fulfilled" && marketDepths.value) {
         marketDepths.value.forEach((depth: DepthResponse) => {
           const newDepth = {
             bestAskPrice: depth.askPrice,
@@ -211,21 +222,24 @@ export const getMarketsInfo = createAsyncThunk(
     const marketsInfo: MarketsInfo = {};
     try {
       const [marketsInfoRes] = await Promise.allSettled([
-        makeHttpRequest(marketsInfoUrl),
+        makeHttpRequest<MarketsInfoRes>(marketsInfoUrl),
       ]);
       if (marketsInfoRes.status === "fulfilled") {
-        Object.entries(marketsInfoRes.value).forEach((localMarketEntry) => {
-          const [marketName, marketInfoValue]: [
-            marketName: string,
-            marketInfoValue: any
-          ] = localMarketEntry;
-          marketsInfo[marketName] = {
-            price: marketInfoValue.price.toString(),
-            priceChangePercent: marketInfoValue.price_change_percent.toString(),
-            tradeVolume: marketInfoValue.trade_volume.toString(),
-            notionalCap: marketInfoValue.notional_cap.toString(),
-          };
-        });
+        Object.entries(marketsInfoRes.value as MarketsInfoRes).forEach(
+          (localMarketEntry) => {
+            const [marketName, marketInfoValue]: [
+              marketName: string,
+              marketInfoValue: MarketInfoValue
+            ] = localMarketEntry;
+            marketsInfo[marketName] = {
+              price: marketInfoValue.price.toString(),
+              priceChangePercent:
+                marketInfoValue.price_change_percent.toString(),
+              tradeVolume: marketInfoValue.trade_volume.toString(),
+              notionalCap: marketInfoValue.notional_cap.toString(),
+            };
+          }
+        );
       }
     } catch (error) {
       console.error(error, "happened in getMarketsInfo");

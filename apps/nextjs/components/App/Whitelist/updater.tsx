@@ -7,6 +7,7 @@ import {
   useAddInWhitelist,
   useIsWhiteList,
 } from "@symmio-client/core/state/user/hooks";
+import { GetWhiteListType } from "@symmio-client/core/state/user/types";
 
 export default function Updater() {
   const { account } = useActiveWagmi();
@@ -22,15 +23,15 @@ export default function Updater() {
   useEffect(() => {
     if (account && subAccount && whitelist && subWhitelist == false) {
       addInWhitelist()
-        .then((res: { successful: boolean; message: string }) => {
+        .then((res: GetWhiteListType | null) => {
           // response
           // SUCCESS : {'successful'=True, message=''}
           // FAILED : {'successful'=False, message=''}
           // EXISTS : {'successful'=False, message='exists'}
-          if (res.successful) {
+          if (res?.successful) {
             setSubWhitelist(true);
             toast.success("Activating succeeded");
-          } else if (!res.successful && res.message === "exists") {
+          } else if (!res?.successful && res?.message === "exists") {
             setSubWhitelist(true);
           } else {
             setSubWhitelist(null);
