@@ -48,7 +48,7 @@ export function useWriteSign(): {
         }
 
         const args = [sign as Address];
-        // TODO: fix errors
+
         return {
           args,
           functionName,
