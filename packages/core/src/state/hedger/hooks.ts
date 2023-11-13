@@ -6,7 +6,6 @@ import {
   MarketData,
   ConnectionStatus,
   MarketDepthData,
-  MarketsInfo,
   MarketNotionalCap,
 } from "./types";
 import {
@@ -114,11 +113,6 @@ export function useMarketDepth(
 ): MarketDepthData | null {
   const depths = useAppSelector((state) => state.hedger.depths);
   return name ? depths[name] : null;
-}
-
-export function useMarketsInfo(): MarketsInfo {
-  const marketsInfo = useAppSelector((state) => state.hedger.marketsInfo);
-  return marketsInfo;
 }
 
 export function useSetPrices() {
