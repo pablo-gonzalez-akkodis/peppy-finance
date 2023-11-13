@@ -83,8 +83,9 @@ export default function PendingQuoteDetails({
     createTimestamp,
     deadline,
   } = quote;
-  const { symbol, name, asset, pricePrecision } = useMarket(marketId) || {};
-  const { ask: askPrice, bid: bidPrice } = useBidAskPrice(name, pricePrecision);
+  const market = useMarket(marketId);
+  const { symbol, name, asset } = market || {};
+  const { ask: askPrice, bid: bidPrice } = useBidAskPrice(market);
 
   const marketData = useMarketData(name);
   const quoteSize = useQuoteSize(quote);

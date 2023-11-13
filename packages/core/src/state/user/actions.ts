@@ -1,11 +1,8 @@
 import { createAction } from "@reduxjs/toolkit";
 import { ConnectionStatus } from "../hedger/types";
 
-import {
-  Account,
-  AccountUpnl,
-  UserPartyAStatDetail,
-} from "../../types/user";
+import { TermsStatus } from "./types";
+import { Account, AccountUpnl, UserPartyAStatDetail } from "../../types/user";
 
 export const updateMatchesDarkMode = createAction<{ matchesDarkMode: boolean }>(
   "user/updateMatchesDarkMode"
@@ -37,3 +34,7 @@ export const updateAccountPartyAStat = createAction<{
   address: string;
   value: UserPartyAStatDetail;
 }>("user/updateAccountPartyAStat");
+
+export const updateAcceptTerms = createAction<TermsStatus>(
+  "user/updateAcceptTerms"
+);

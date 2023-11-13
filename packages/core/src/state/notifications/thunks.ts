@@ -13,12 +13,14 @@ export const getNotifications = createAsyncThunk(
     baseUrl,
     account,
     timestamp,
+    appName,
     start = 0,
     size = 10,
   }: {
     baseUrl: string | undefined;
     account: string;
     timestamp: number;
+    appName: string;
     start?: number;
     size?: number;
   }) => {
@@ -41,7 +43,10 @@ export const getNotifications = createAsyncThunk(
       const [notificationsRes] = await Promise.allSettled([
         makeHttpRequest<NotificationUrlResponseType>(getNotificationsUrl, {
           method: "POST",
-          headers: [["Content-Type", "application/json"]],
+          headers: [
+            ["Content-Type", "application/json"],
+            ["App-Name", appName],
+          ],
           body,
         }),
       ]);

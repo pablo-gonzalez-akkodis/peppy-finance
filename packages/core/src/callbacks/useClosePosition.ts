@@ -124,7 +124,7 @@ export function useClosePosition(
   const getSignature = useCallback(async () => {
     try {
       if (!quote || !chainId || !Contract || !activeAccountAddress) {
-        throw new Error("Missing muon params");
+        throw new Error("Missing Muon params");
       }
       if (!SendOrCloseQuoteClient) {
         return { signature: fakeSignature };

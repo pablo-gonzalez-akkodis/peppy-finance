@@ -5,10 +5,7 @@ import find from "lodash/find";
 
 import { useFavorites } from "../state/user/hooks";
 import { Market } from "../types/market";
-import {
-  useErrorMessages,
-  useMarkets,
-} from "../state/hedger/hooks";
+import { useErrorMessages, useMarkets } from "../state/hedger/hooks";
 
 export function useMarket(id: number | undefined): Market | undefined {
   const markets = useMarkets();

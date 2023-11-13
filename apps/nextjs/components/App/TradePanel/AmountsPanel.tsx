@@ -6,6 +6,7 @@ import { WEB_SETTING } from "@symmio-client/core/config";
 
 import { calculateString, calculationPattern } from "utils/calculationalString";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { APP_NAME } from "constants/chains/misc";
 import {
   DEFAULT_PRECISION,
   MAX_LEVERAGE_VALUE,
@@ -114,7 +115,10 @@ export default function AmountsPanel() {
     const controller = new AbortController();
     console.log({ controller });
     if (market && lockedParamsLeverage)
-      getLockedPercentages({ signal: controller.signal });
+      getLockedPercentages({
+        signal: controller.signal,
+        headers: [["App-Name", APP_NAME]],
+      });
     return () => {
       controller.abort();
     };

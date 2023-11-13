@@ -67,7 +67,7 @@ export default function MarketPanel() {
     COLLATERAL_TOKEN,
     chainId
   );
-  const { ask, bid } = useBidAskPrice(market?.name, market?.pricePrecision);
+  const { ask, bid } = useBidAskPrice(market);
 
   const lastMarketPrice = (() => {
     if (positionType === PositionType.LONG) {

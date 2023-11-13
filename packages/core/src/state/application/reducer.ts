@@ -21,6 +21,7 @@ export enum ApplicationModal {
   OPEN_POSITION = "OPEN_POSITION",
   DEPOSIT = "DEPOSIT",
   WITHDRAW = "WITHDRAW",
+  WITHDRAW_BAR = "WITHDRAW_BAR",
 }
 
 export type PopupContent =

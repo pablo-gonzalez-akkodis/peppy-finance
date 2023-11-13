@@ -32,6 +32,7 @@ import {
 import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
 
 import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { getAppNameHeader } from "@symmio-client/core/state/hedger/thunks";
 
 import {
   useClosingLastMarketPrice,
@@ -42,6 +43,7 @@ import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
 import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
 
 import { useClosePosition } from "@symmio-client/core/callbacks/useClosePosition";
+import { useAppName } from "@symmio-client/core/state/chains/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
 import { TabModal } from "components/Tab";
@@ -112,6 +114,7 @@ export default function CloseModal({
   const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
     useState(false);
   const isPendingTxs = useIsHavePendingTransaction();
+  const appName = useAppName();
 
   const { accountAddress: account } = useActiveAccount() || {};
   const { CVA, MM, LF, openedPrice, marketId, positionType } = quote || {};
@@ -121,13 +124,14 @@ export default function CloseModal({
     chainId
   );
 
+  const market = useMarket(marketId);
   const {
     name: marketName,
     symbol,
     quantityPrecision,
     pricePrecision,
     minAcceptableQuoteValue,
-  } = useMarket(marketId) || {};
+  } = market || {};
   const correctOpenPrice = formatPrice(openedPrice ?? "0", pricePrecision);
   const marketData = useMarketData(marketName);
   const { upnl } = useAccountUpnl() || {};
@@ -139,11 +143,7 @@ export default function CloseModal({
     () => toBN(markPrice ?? "0").toString(),
     [markPrice]
   );
-  const lastMarketPrice = useClosingLastMarketPrice(
-    quote,
-    marketName,
-    pricePrecision
-  );
+  const lastMarketPrice = useClosingLastMarketPrice(quote, market);
 
   const { allocatedBalance, lockedCVA, lockedLF } =
     useAccountPartyAStat(account);
@@ -171,7 +171,10 @@ export default function CloseModal({
             baseUrl
           );
           const tempResponse =
-            await makeHttpRequest<FetchPriceRangeResponseType>(priceRangeUrl);
+            await makeHttpRequest<FetchPriceRangeResponseType>(
+              priceRangeUrl,
+              getAppNameHeader(appName)
+            );
           if (!tempResponse) return;
           const priceRangeRes = tempResponse;
 
@@ -189,7 +192,7 @@ export default function CloseModal({
       }
     }
     fetchPriceRange();
-  }, [baseUrl, fetchData, marketName]);
+  }, [appName, baseUrl, fetchData, marketName]);
 
   const { callback: closeCallback, error } = useClosePosition(
     quote,

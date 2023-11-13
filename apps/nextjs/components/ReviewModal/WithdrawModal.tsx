@@ -25,6 +25,7 @@ import {
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import useAccountData from "@symmio-client/core/hooks/useAccountData";
+import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
 
 import { Modal } from "components/Modal";
 import { Option } from "components/Tab";
@@ -32,9 +33,8 @@ import { DotFlashing } from "components/Icons";
 import { PrimaryButton } from "components/Button";
 import { CustomInputBox2 } from "components/InputBox";
 import { Close as CloseIcon } from "components/Icons";
-import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
 import { Row, RowBetween, RowStart } from "components/Row";
-import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
+import { WithdrawBarModalContent } from "./WithdrawBarModal";
 
 const Wrapper = styled.div`
   display: flex;
@@ -86,7 +86,7 @@ export default function WithdrawModal() {
   const showWithdrawModal = useModalOpen(ApplicationModal.WITHDRAW);
   const toggleWithdrawModal = useWithdrawModalToggle();
 
-  const { cooldownMA, allocatedBalance: subAccountAllocatedBalance } =
+  const { allocatedBalance: subAccountAllocatedBalance } =
     useAccountPartyAStat(activeAccountAddress);
 
   const [amountForDeallocate, insufficientBalance] = useMemo(() => {
@@ -129,53 +129,14 @@ export default function WithdrawModal() {
     }
   }, [toggleWithdrawModal, transferBalanceCallback, transferBalanceError]);
 
-  function getTabs() {
-    return (
-      <RowStart>
-        <Option active={true}>{TransferTab.WITHDRAW}</Option>
-      </RowStart>
-    );
-  }
-
   const onChange = (value: string) => {
     setTypedAmount(value);
   };
 
-  function getLabel() {
-    return (
-      <LabelsRow>
-        <WithdrawCooldown formatedAmount={false} />
-        <CustomInputBox2
-          balanceDisplay={
-            !toBN(amountForDeallocate).isNaN()
-              ? formatAmount(amountForDeallocate, 4, true)
-              : "0.00"
-          }
-          value={typedAmount}
-          title={"Amount"}
-          balanceExact={
-            !toBN(amountForDeallocate).isNaN()
-              ? formatPrice(amountForDeallocate, collateralCurrency.decimals)
-              : "0.00"
-          }
-          onChange={onChange}
-          max={true}
-          symbol={collateralCurrency?.symbol}
-          precision={collateralCurrency.decimals}
-        />
-        <WithdrawInfo>
-          You can withdraw your {collateralCurrency?.symbol}{" "}
-          {`${toBN(cooldownMA).div(60).toString()}`} minutes after the
-          deallocation.
-        </WithdrawInfo>
-      </LabelsRow>
-    );
-  }
-
   function getActionButton() {
     if (awaitingConfirmation) {
       return (
-        <PrimaryButton>
+        <PrimaryButton disabled>
           Awaiting Confirmation <DotFlashing />
         </PrimaryButton>
       );
@@ -183,7 +144,7 @@ export default function WithdrawModal() {
 
     if (isPendingTxs) {
       return (
-        <PrimaryButton>
+        <PrimaryButton disabled>
           Transacting <DotFlashing />
         </PrimaryButton>
       );
@@ -192,9 +153,7 @@ export default function WithdrawModal() {
     if (insufficientBalance)
       return <PrimaryButton disabled>Insufficient Balance</PrimaryButton>;
 
-    const text = "Withdraw";
-
-    return <PrimaryButton onClick={handleAction}>{text}</PrimaryButton>;
+    return <PrimaryButton onClick={handleAction}>Withdraw</PrimaryButton>;
   }
 
   return (
@@ -205,17 +164,39 @@ export default function WithdrawModal() {
     >
       <Wrapper>
         <RowBetween>
-          {getTabs()}
-          <Close>
-            <CloseIcon
-              size={12}
-              onClick={toggleWithdrawModal}
-              style={{ cursor: "pointer" }}
-            />
+          <RowStart>
+            <Option active={true}>{TransferTab.WITHDRAW}</Option>
+          </RowStart>
+          <Close onClick={toggleWithdrawModal}>
+            <CloseIcon size={12} />
           </Close>
         </RowBetween>
-        {getLabel()}
+        <LabelsRow>
+          <WithdrawBarModalContent />
+          <CustomInputBox2
+            balanceDisplay={
+              !toBN(amountForDeallocate).isNaN()
+                ? formatAmount(amountForDeallocate, 4, true)
+                : "0.00"
+            }
+            value={typedAmount}
+            title={"Amount"}
+            balanceExact={
+              !toBN(amountForDeallocate).isNaN()
+                ? formatPrice(amountForDeallocate, collateralCurrency.decimals)
+                : "0.00"
+            }
+            onChange={onChange}
+            max={true}
+            symbol={collateralCurrency?.symbol}
+            precision={collateralCurrency.decimals}
+          />
+        </LabelsRow>
         {getActionButton()}
+        <WithdrawInfo>
+          By submitting a new withdraw the withdraw cool down will be reset to
+          12 hours!{" "}
+        </WithdrawInfo>
       </Wrapper>
     </Modal>
   );

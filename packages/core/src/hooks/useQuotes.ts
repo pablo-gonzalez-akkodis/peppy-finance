@@ -19,6 +19,7 @@ import { useDiamondContract } from "./useContract";
 import { useMarket } from "./useMarkets";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import useBidAskPrice from "./useBidAskPrice";
+import { Market } from "../types/market";
 
 export function getPositionTypeByIndex(x: number): PositionType {
   return PositionType[
@@ -382,12 +383,11 @@ export function useQuoteFillAmount(quote: Quote): string | null {
 
 export function useClosingLastMarketPrice(
   quote: Quote | null,
-  marketName?: string,
-  precision?: number
+  market?: Market
 ): string {
   // market price for closing position
 
-  const { bid, ask } = useBidAskPrice(marketName, precision);
+  const { bid, ask } = useBidAskPrice(market);
 
   if (quote) {
     if (quote.positionType === PositionType.LONG) {
@@ -402,11 +402,10 @@ export function useClosingLastMarketPrice(
 
 export function useOpeningLastMarketPrice(
   quote: Quote | null,
-  marketName?: string,
-  precision?: number
+  market?: Market
 ): string {
   // market price for opening position
-  const { bid, ask } = useBidAskPrice(marketName, precision);
+  const { bid, ask } = useBidAskPrice(market);
 
   if (quote)
     if (quote.positionType === PositionType.LONG) {

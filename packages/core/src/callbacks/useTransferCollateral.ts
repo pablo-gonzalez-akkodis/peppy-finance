@@ -80,6 +80,8 @@ export function useTransferCollateral(
       ? "deallocate"
       : activeTab === TransferTab.WITHDRAW
       ? "withdrawFromAccount"
+      : activeTab === TransferTab.ALLOCATE
+      ? "allocate"
       : "";
   }, [activeTab]);
 
@@ -181,6 +183,37 @@ export function useTransferCollateral(
             value: BigInt(0),
           },
         };
+      } else if (activeTab === TransferTab.ALLOCATE) {
+        const fixedAmount = formatPrice(
+          typedAmount,
+          collateralCurrency.decimals
+        );
+        const amount = new BigNumber(fixedAmount).times(1e18).toFixed();
+        const diamondArgs = [BigInt(amount)] as const;
+
+        const calldata = encodeFunctionData({
+          abi: DiamondContract.abi,
+          functionName: "allocate",
+          args: [...diamondArgs],
+        });
+
+        const args = [activeAccount.accountAddress as Address, [calldata]];
+        const functionName = "_call";
+
+        return {
+          args,
+          functionName,
+          config: {
+            account,
+            value: BigInt(0),
+            to: MultiAccountContract.address,
+            data: encodeFunctionData({
+              abi: MultiAccountContract.abi,
+              functionName,
+              args,
+            }),
+          },
+        };
       }
 
       return {
@@ -239,7 +272,9 @@ export function useTransferCollateral(
       error: null,
       callback: () =>
         createTransactionCallback(
-          methodName === "deallocate" ? "_call" : methodName,
+          methodName === "deallocate" || methodName === "allocate"
+            ? "_call"
+            : methodName,
           MultiAccountContract,
           constructCall,
           addTransaction,

@@ -17,14 +17,14 @@ import {
 import useNotificationHistory from "../../lib/hooks/useNotificationHistory";
 
 import { useHedgerInfo } from "../hedger/hooks";
-import { useActiveAccountAddress } from "../user/hooks";
+import { useActiveAccountAddress, useUserWhitelist } from "../user/hooks";
 import { useAddPopup } from "../application/hooks";
-import { useIsAccountWhiteList } from "../../hooks/useAccounts";
 import {
   useLastUpdateTimestamp,
   useSetNewNotificationFlag,
   useNotificationAdderCallback,
 } from "./hooks";
+import { useAppName } from "../chains/hooks";
 
 export function NotificationUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
@@ -44,7 +44,7 @@ function useNotificationsWebSocket() {
   const newNotificationNotifier = useSetNewNotificationFlag();
   const addPopup = useAddPopup();
   const activeAccountAddress = useActiveAccountAddress();
-  const userIsWhitelist = useIsAccountWhiteList();
+  const userIsWhitelist = useUserWhitelist();
   const { webSocketNotificationUrl } = useHedgerInfo() || {};
 
   const url = useMemo(() => {
@@ -109,6 +109,7 @@ function useNotifications(
   timestamp?: string,
   thunkDispatch?: AppThunkDispatch
 ) {
+  const appName = useAppName();
   const cleanup = useCallback(() => {
     // Cancel any pending requests or timers here, if needed
   }, []);
@@ -117,11 +118,16 @@ function useNotifications(
     if (fetchData && account && baseUrl && timestamp && thunkDispatch) {
       // Dispatch the action to get notifications
       thunkDispatch(
-        getNotifications({ account, baseUrl, timestamp: Number(timestamp) })
+        getNotifications({
+          account,
+          baseUrl,
+          timestamp: Number(timestamp),
+          appName,
+        })
       );
       return cleanup;
     }
-  }, [account, baseUrl, timestamp, thunkDispatch, cleanup, fetchData]);
+  }, [account, baseUrl, timestamp, thunkDispatch, cleanup, fetchData, appName]);
 }
 
 export function toNotification(

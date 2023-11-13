@@ -61,6 +61,19 @@ export function useMultiAccountAddress() {
   }, [chains, v3_ids]);
 }
 
+export function useSignatureStoreAddress() {
+  const chains = useAppSelector((state: AppState) => state.chains.chains);
+  const v3_ids = useAppSelector((state: AppState) => state.chains.V3_CHAIN_IDS);
+
+  return useMemo(() => {
+    return compatibleWithLegacyStructure(
+      chains,
+      v3_ids,
+      "SIGNATURE_STORE_ADDRESS"
+    );
+  }, [chains, v3_ids]);
+}
+
 export function usePartyBWhitelistAddress() {
   const chains = useAppSelector((state: AppState) => state.chains.chains);
   const v3_ids = useAppSelector((state: AppState) => state.chains.V3_CHAIN_IDS);
@@ -128,6 +141,13 @@ export function useMultiAccountABI() {
   return multiAccount_abi;
 }
 
+export function useSignatureStoreABI() {
+  const signatureStore_abi = useAppSelector(
+    (state: AppState) => state.chains.contract_ABIs.SIGNATURE_STORE_ABI
+  );
+  return signatureStore_abi;
+}
+
 export function useFallbackChainId() {
   const fallbackChainId = useAppSelector(
     (state: AppState) => state.chains.FALLBACK_CHAIN_ID
@@ -140,12 +160,18 @@ export function useHedgerAddress() {
   return hedgers;
 }
 
+export function useAppName() {
+  const appName = useAppSelector((state: AppState) => state.chains.appName);
+  return appName;
+}
+
 export function useSetSdkConfig(): ({
   chains,
   V3_CHAIN_IDS,
   contract_ABIs,
   FALLBACK_CHAIN_ID,
   hedgers,
+  appName,
 }: ChainsState) => void {
   const dispatch = useAppDispatch();
   return useCallback(
@@ -155,6 +181,7 @@ export function useSetSdkConfig(): ({
       contract_ABIs,
       FALLBACK_CHAIN_ID,
       hedgers,
+      appName,
     }: ChainsState) => {
       dispatch(
         setChains({
@@ -163,6 +190,7 @@ export function useSetSdkConfig(): ({
           contract_ABIs,
           FALLBACK_CHAIN_ID,
           hedgers,
+          appName,
         })
       );
     },

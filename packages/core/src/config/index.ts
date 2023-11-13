@@ -6,4 +6,8 @@ export const WEB_SETTING = {
   muonEnabled: false,
   showAccountHealthEmoji: true,
   showColorfulAccountHealth: true,
+  checkWhiteList: true,
+  showSignModal: true,
+  notAllowedMethods: [] as string[],
+  showStopLoss: false,
 };

@@ -27,7 +27,7 @@ const Wrapper = styled.div`
 const InnerContentWrapper = styled(Row)`
   padding: 11px 8px 10px 12px;
   height: 38px;
-  max-width: 150px;
+  max-width: 175px;
   border-radius: 4px;
   background: ${({ theme }) => theme.bg3};
 `;
@@ -67,7 +67,7 @@ export default function MarketSelect() {
             <Loader />
           )}
         </RowStart>
-        <RowEnd width={"10%"}>
+        <RowEnd width={"10%"} minWidth={"10px"}>
           <Chevron open={clickMarket} />
         </RowEnd>
       </InnerContentWrapper>

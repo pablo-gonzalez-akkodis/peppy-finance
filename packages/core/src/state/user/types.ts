@@ -27,6 +27,8 @@ export interface UserState {
 
   depositWithdrawalsData: DepositWithdrawalsData | null;
   depositWithdrawalsState: ApiState;
+
+  isTermsAccepted: TermsStatus;
 }
 
 export enum BalanceHistoryType {
@@ -65,4 +67,9 @@ export type WhiteListResponse = null | boolean;
 export interface GetWhiteListType {
   successful: boolean;
   message: string;
+}
+export enum TermsStatus {
+  NOT_ACCEPTED,
+  ACCEPTED,
+  UNCLEAR,
 }

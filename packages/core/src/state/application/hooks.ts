@@ -49,6 +49,10 @@ export function useWithdrawModalToggle(): () => void {
   return useToggleModal(ApplicationModal.WITHDRAW);
 }
 
+export function useWithdrawBarModalToggle(): () => void {
+  return useToggleModal(ApplicationModal.WITHDRAW_BAR);
+}
+
 export function useNetworkModalToggle(): () => void {
   return useToggleModal(ApplicationModal.NETWORK);
 }
