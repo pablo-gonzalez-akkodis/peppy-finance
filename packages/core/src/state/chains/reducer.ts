@@ -32,6 +32,7 @@ export interface ChainsState {
   readonly FALLBACK_CHAIN_ID: number;
   readonly contract_ABIs: AbisType;
   readonly hedgers: HedgerInfoMap;
+  readonly appName: string;
 }
 
 const initialState: ChainsState = {
@@ -46,16 +47,24 @@ const initialState: ChainsState = {
     MULTI_ACCOUNT_ABI: {},
   },
   hedgers: { [SupportedChainId.NOT_SET]: [] },
+  appName: "",
 };
 
 export default createReducer(initialState, (builder) =>
   builder.addCase(setChains, (state, { payload }) => {
-    const { chains, V3_CHAIN_IDS, contract_ABIs, FALLBACK_CHAIN_ID, hedgers } =
-      payload;
+    const {
+      chains,
+      V3_CHAIN_IDS,
+      contract_ABIs,
+      FALLBACK_CHAIN_ID,
+      hedgers,
+      appName,
+    } = payload;
     state.chains = chains;
     state.V3_CHAIN_IDS = V3_CHAIN_IDS;
     state.contract_ABIs = { ...contract_ABIs };
     state.FALLBACK_CHAIN_ID = FALLBACK_CHAIN_ID;
     state.hedgers = hedgers;
+    state.appName = appName;
   })
 );

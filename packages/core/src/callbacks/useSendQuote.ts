@@ -7,12 +7,13 @@ import {
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
 } from "../constants/misc";
-import { useFallbackChainId } from "../state/chains/hooks";
+import { useAppName, useFallbackChainId } from "../state/chains/hooks";
 import { makeHttpRequest } from "../utils/http";
 import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
-import { useHedgerInfo } from "../state/hedger/hooks";
+import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
+import { getAppNameHeader } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
   useLeverage,
@@ -67,10 +68,11 @@ import {
   useCollateralAddress,
   usePartyBWhitelistAddress,
 } from "../state/chains/hooks";
+import { SendTransactionResult } from "@wagmi/core";
 
 export function useSentQuoteCallback(): {
   state: TransactionCallbackState;
-  callback: null | (() => Promise<any>);
+  callback: null | (() => Promise<SendTransactionResult | undefined>);
   error: string | null;
 } {
   const { account, chainId } = useActiveWagmi();
@@ -91,6 +93,7 @@ export function useSentQuoteCallback(): {
   const positionType = usePositionType();
   const { price, formattedAmounts } = useTradePage();
   const leverage = useLeverage();
+  const appName = useAppName();
 
   const marketId = useActiveMarketId();
   const market = useMarket(marketId);
@@ -133,6 +136,7 @@ export function useSentQuoteCallback(): {
   const lockedMM = useLockedMM(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
   const { cva, mm, lf } = useLockedPercentages();
+  const updateNotionalCap = useSetNotionalCap();
 
   const maxInterestRate = useMaxInterestRate(notionalValue);
   const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
@@ -182,13 +186,20 @@ export function useSentQuoteCallback(): {
       `notional_cap/${market.name}`,
       baseUrl
     );
+    const tempResponse = await makeHttpRequest<{
+      total_cap: number;
+      used: number;
+    }>(notionalCapUrl, getAppNameHeader(appName));
+    if (!tempResponse) return;
     const { total_cap, used }: { total_cap: number; used: number } =
-      await makeHttpRequest(notionalCapUrl);
+      tempResponse;
+
     const freeCap = toBN(total_cap).minus(used);
     const notionalValue = openPriceBN.times(quantityAsset);
+    updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [baseUrl, market, openPriceBN, quantityAsset]);
+  }, [appName, baseUrl, market, openPriceBN, quantityAsset, updateNotionalCap]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {

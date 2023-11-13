@@ -12,6 +12,8 @@ import {
   useMultiAccountABI,
   useERC20BYTES20ABI,
   useMulticall3ABI,
+  useSignatureStoreAddress,
+  useSignatureStoreABI,
 } from "../state/chains/hooks";
 
 /* ###################################
@@ -34,6 +36,12 @@ export function useMultiAccountContract(): ReturnType<typeof useContract> {
   const MULTI_ACCOUNT_ADDRESS = useMultiAccountAddress();
   const MULTI_ACCOUNT_ABI = useMultiAccountABI();
   return useContract(MULTI_ACCOUNT_ADDRESS, MULTI_ACCOUNT_ABI);
+}
+
+export function useSignatureStoreContract(): ReturnType<typeof useContract> {
+  const SIGNATURE_STORE_ADDRESS = useSignatureStoreAddress();
+  const SIGNATURE_STORE_ABI = useSignatureStoreABI();
+  return useContract(SIGNATURE_STORE_ADDRESS, SIGNATURE_STORE_ABI);
 }
 
 /* ###################################

@@ -98,6 +98,13 @@ export default function UserPanel(): JSX.Element | null {
     }
   }, [selectedTab, paginatedItems]);
 
+  // This use effect manage pagination
+  useEffect(() => {
+    if (currentOrders.length === (page - 1) * ItemsPerPage) {
+      setPage((page) => page - 1);
+    }
+  }, [currentOrders.length]);
+
   useEffect(() => {
     setPage(1);
     setQuoteDetail(null);
@@ -125,7 +132,7 @@ export default function UserPanel(): JSX.Element | null {
   };
 
   const activeNext = (() => {
-    const itemsLengthCondition = page * ItemsPerPage + 1 < currentOrders.length;
+    const itemsLengthCondition = page * ItemsPerPage < currentOrders.length;
     if (selectedTab === StateTabs.POSITIONS) return itemsLengthCondition;
     return hasMoreHistory || itemsLengthCondition;
   })();

@@ -113,6 +113,7 @@ export function useApproval(
       .times(amountToApprove || 0)
       .toString();
 
+    // TODO: always use exact value ( not max_uint256 )
     let useExact = false;
     const estimatedGas = await tokenContract.estimateGas
       .approve([spender as Address, MAX_UINT256])

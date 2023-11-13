@@ -34,7 +34,9 @@ export const Modal = styled(BaseModal)<{
   background: ${({ theme }) => theme.bg0};
   width: ${({ width }: { width?: string }) => width ?? "404px"};
   ${({ theme }) => theme.mediaWidth.upToMedium`
+    max-height: 350px;
     width: 350px;
+    overflow: scroll;
   `};
 `;
 

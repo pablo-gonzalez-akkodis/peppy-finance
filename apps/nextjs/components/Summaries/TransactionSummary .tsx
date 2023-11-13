@@ -6,6 +6,7 @@ import {
   Summary,
   TradeSummary,
   TransferBalanceSummary,
+  SignSummary,
 } from "components/TransactionItem";
 import {
   TransactionInfo,
@@ -39,6 +40,8 @@ export default function TransactionSummary({
       return <AddAccountSummary info={info} status={status} />;
     case TransactionType.TRANSFER_COLLATERAL:
       return <TransferBalanceSummary info={info} status={status} />;
+    case TransactionType.SIGN_MESSAGE:
+      return <SignSummary info={info} />;
     case TransactionType.MINT:
       return <MintSummary info={info} status={status} />;
   }

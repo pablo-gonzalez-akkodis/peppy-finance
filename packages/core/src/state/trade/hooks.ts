@@ -12,10 +12,13 @@ import {
   updateTypedValue,
   updatePositionType,
   updateLockedPercentages,
+  updateStopLossPrice,
+  updateIsActiveStopLoss,
 } from "./actions";
 import { toast } from "react-hot-toast";
 import { useMarket } from "../../hooks/useMarkets";
 import { makeHttpRequest } from "../../utils/http";
+import { GetLockedParamUrlResponse } from "./types";
 
 export function useActiveMarketId(): number | undefined {
   const marketId = useAppSelector((state) => state.trade.marketId);
@@ -60,6 +63,15 @@ export function useInputField() {
 export function useLimitPrice(): string {
   const limitPrice = useAppSelector((state) => state.trade.limitPrice);
   return limitPrice;
+}
+
+export function useStopLossValues(): {
+  isActive: boolean;
+  stopLossPrice: string;
+} {
+  const isActive = useAppSelector((state) => state.trade.isActiveStopLoss);
+  const stopLossPrice = useAppSelector((state) => state.trade.stopLossPrice);
+  return { stopLossPrice, isActive };
 }
 
 export function useLockedPercentages(): {
@@ -130,6 +142,26 @@ export function useSetTypedValue() {
   );
 }
 
+export function useSetStopLossPrice() {
+  const dispatch = useAppDispatch();
+  return useCallback(
+    (value: string) => {
+      dispatch(updateStopLossPrice(value));
+    },
+    [dispatch]
+  );
+}
+
+export function useSetIsActiveStopLoss() {
+  const dispatch = useAppDispatch();
+  return useCallback(
+    (value: boolean) => {
+      dispatch(updateIsActiveStopLoss(value));
+    },
+    [dispatch]
+  );
+}
+
 export function useSetMarketId(): (id: number) => void {
   const dispatch = useAppDispatch();
   const marketId = useAppSelector((state) => state.trade.marketId);
@@ -146,13 +178,13 @@ export function useSetMarketId(): (id: number) => void {
 
 export function useGetLockedPercentages(
   leverage: number
-): (options: { [x: string]: any }) => Promise<any> {
+): (options: { [x: string]: AbortSignal }) => Promise<undefined> {
   const market = useActiveMarket();
   const dispatch = useAppDispatch();
   const { baseUrl } = useHedgerInfo() || {};
 
   return useCallback(
-    async (options: { [x: string]: any }) => {
+    async (options: { [x: string]: AbortSignal }) => {
       try {
         if (!baseUrl || !market) throw new Error("missing parameters");
         const { href: url } = new URL(
@@ -160,16 +192,14 @@ export function useGetLockedPercentages(
           baseUrl
         );
 
-        const response: {
-          cva: string;
-          mm: string;
-          lf: string;
-          leverage: string;
-        } | null = await makeHttpRequest(url, options);
+        const response = await makeHttpRequest<GetLockedParamUrlResponse>(
+          url,
+          options
+        );
         if (response && toBN(leverage).isEqualTo(response.leverage))
           dispatch(updateLockedPercentages({ ...response }));
-      } catch (error: any) {
-        if (error.name === "AbortError") {
+      } catch (error: unknown) {
+        if (error instanceof Error && error.name === "AbortError") {
           console.log(error.message);
         } else {
           console.log("Unable to fetch locked params");

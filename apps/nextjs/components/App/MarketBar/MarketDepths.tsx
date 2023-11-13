@@ -40,10 +40,7 @@ const MarketDepth = styled(RowEnd)`
 
 export default function MarketDepths() {
   const activeMarket = useActiveMarket();
-  const { ask, bid, spread } = useBidAskPrice(
-    activeMarket?.name,
-    activeMarket?.pricePrecision
-  );
+  const { ask, bid, spread } = useBidAskPrice(activeMarket);
 
   return (
     <MarketInfos>

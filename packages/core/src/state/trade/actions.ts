@@ -1,9 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
-import {
-  InputField,
-  OrderType,
-  PositionType,
-} from "../../types/trade";
+import { InputField, OrderType, PositionType } from "../../types/trade";
 import { TradeState } from "./types";
 
 export const setTradeState = createAction<TradeState>("trade/setTradeState");
@@ -24,3 +20,9 @@ export const updateLockedPercentages = createAction<{
   mm: string;
   lf: string;
 }>("trade/updateLockedPercentages");
+export const updateIsActiveStopLoss = createAction<boolean>(
+  "trade/updateIsActiveStopLoss"
+);
+export const updateStopLossPrice = createAction<string>(
+  "trade/updateStopLossPrice"
+);

@@ -2,10 +2,12 @@
 
 - Support additional and custom chain( building your own chain object that inherits the **AddressMap** type)
 - Integration with uniswap provider
+- refactor filter(sort) function in sdk(get better performance)
+- write a hook to get quote and calculate pnl or Upnl
 
 ## Future improvement Changes
 
-- change the structure of `icon folder` definition and usage
+- change the structure of `icon folder` definition and usage, remove extra icon and integrate public and icon component
 - Clean nextjs code
 - Add previous account code to sdk project
 - Update packages (e.g. recharts)
@@ -13,10 +15,9 @@
 - resolve bug: when speedup pending transaction cause change the hash of transaction and cause error in site
 - redesign the structure of checking pending transactions and use watch transaction wagmi
 - resolve all error in console
-- remove `any` type in sdk
-- restructure the hedging address and get addresses from client
 - change the name of project from "symm-client" to 'symmio-frontend-sdk'
 - refactor deposit/withdraw modal( use different modal. now use same component)
 - checking project license with managers
 - talking about server for rpc forward to hidden apiKey
-- move appropriate parameter in constant folder to client
+- rearrange type in sdk (now they are distributed in project)
+- move the function fetchPriceRange to the sdk

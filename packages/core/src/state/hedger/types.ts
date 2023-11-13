@@ -83,7 +83,14 @@ export interface MarketsInfo {
 export interface ErrorMessages {
   [errorCode: number]: string;
 }
+export interface MarketInfoValue {
+  price: number;
+  price_change_percent: number;
+  trade_volume: number;
+  notional_cap: number;
+}
 
+export type MarketsInfoRes = { [key: string]: MarketInfoValue };
 export interface HedgerState {
   hedgerId: string | number | undefined;
   prices: MarketDataMap; // load from hedger socket
@@ -96,6 +103,5 @@ export interface HedgerState {
   marketNotionalCapStatus: ApiState;
   priceRange: PriceRange;
   priceRangeStatus: ApiState;
-  marketsInfo: MarketsInfo;
   errorMessages: ErrorMessages;
 }

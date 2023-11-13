@@ -109,7 +109,7 @@ export function useHasPendingApproval(
 }
 
 // return whether has a pending transaction
-export function useIsHavePendingTransaction() {
+export function useIsHavePendingTransaction(transactionType?: TransactionType) {
   const { account } = useActiveWagmi();
   const allTransactions = useAllTransactions();
   const sortedRecentTransactions = useMemo(() => {
@@ -124,7 +124,10 @@ export function useIsHavePendingTransaction() {
   }, [allTransactions, account]);
 
   const pending = sortedRecentTransactions
-    .filter((tx) => !tx.receipt)
+    .filter((tx) => {
+      if (!transactionType) return !tx.receipt;
+      else return !tx.receipt && tx.info.type === transactionType;
+    })
     .map((tx) => tx.hash);
   return useMemo(() => pending.length > 0, [pending.length]);
 }

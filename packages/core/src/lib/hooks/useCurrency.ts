@@ -46,7 +46,7 @@ export function useTokenFromActiveNetwork(
 ): Token | null | undefined {
   const { chainId } = useWagmi();
 
-  const formattedAddress = isAddress(tokenAddress);
+  const formattedAddress = tokenAddress ? isAddress(tokenAddress) : false;
   const tokenContract = useERC20Contract(
     formattedAddress ? formattedAddress : undefined
   );
@@ -133,7 +133,7 @@ export function useTokenFromMapOrNetwork(
   tokens: TokenMap,
   tokenAddress?: string | null
 ): Token | null | undefined {
-  const address = isAddress(tokenAddress);
+  const address = tokenAddress ? isAddress(tokenAddress) : false;
   const token: Token | undefined = address ? tokens[address] : undefined;
 
   const tokenFromNetwork = useTokenFromActiveNetwork(

@@ -8,6 +8,7 @@ import { TransactionInfo } from "../state/transactions/types";
 import { useContract } from "../lib/hooks/contract";
 import { ConstructCallReturnType } from "../types/web3";
 import { toBN } from "./numbers";
+import { WEB_SETTING } from "../config";
 
 export function calculateGasMargin(value: bigint): bigint {
   return BigInt(toBN(value.toString()).times(12_000).div(10_000).toFixed(0));
@@ -32,6 +33,10 @@ export async function createTransactionCallback(
   // expertMode?: ReturnType<typeof useExpertMode>
 ) {
   try {
+    if (WEB_SETTING.notAllowedMethods.includes(functionName)) {
+      throw new Error(`${functionName} not allowed`);
+    }
+
     const { args, config } = await constructCall();
     const gas: bigint = await Contract.estimateGas[
       isMultiAccount ? "_call" : functionName

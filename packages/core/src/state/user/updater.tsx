@@ -10,24 +10,29 @@ import { AccountUpnl } from "../../types/user";
 import { useHedgerInfo } from "../hedger/hooks";
 
 import { updateAccountUpnl, updateMatchesDarkMode } from "./actions";
-import { useActiveAccountAddress, useSetUpnlWebSocketStatus } from "./hooks";
+import {
+  useActiveAccountAddress,
+  useSetUpnlWebSocketStatus,
+  useUserWhitelist,
+} from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
-import { useIsAccountWhiteList } from "../../hooks/useAccounts";
 import { ConnectionStatus } from "./types";
+import { useAppName } from "../chains/hooks";
 
 export function UserUpdater(): null {
   const dispatch = useAppDispatch();
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
   const { account, chainId } = useActiveWagmi();
   const activeAccountAddress = useActiveAccountAddress();
+  const appName = useAppName();
 
   const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
   useUpnlWebSocket(dispatch);
 
   useEffect(() => {
-    if (fetchData)
-      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName }));
-  }, [thunkDispatch, baseUrl, account, fetchData, clientName]);
+    if (fetchData && account)
+      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
+  }, [thunkDispatch, baseUrl, account, fetchData, clientName, appName]);
 
   useEffect(() => {
     if (chainId)
@@ -70,7 +75,7 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
   const windowVisible = useIsWindowVisible();
   const activeAccountAddress = useActiveAccountAddress();
   const updateWebSocketStatus = useSetUpnlWebSocketStatus();
-  const isAccountWhiteList = useIsAccountWhiteList();
+  const isAccountWhiteList = useUserWhitelist();
   const { webSocketUpnlUrl } = useHedgerInfo() || {};
 
   const url = useMemo(() => {
@@ -84,7 +89,11 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
     readyState: upnlWebSocketState,
     sendMessage: sendAddress,
     lastJsonMessage: upnlWebSocketMessage,
-  } = useWebSocket(url, {
+  } = useWebSocket<{
+    upnl: number;
+    timestamp: number;
+    available_balance: number;
+  }>(url, {
     reconnectAttempts: 2,
     onOpen: () => {
       console.log("WebSocket connection established.");
@@ -126,7 +135,7 @@ function useUpnlWebSocket(dispatch: AppDispatch) {
 
       // TODO: we should add type checking here
 
-      const lastMessage: AccountUpnl = (upnlWebSocketMessage as any) ?? {
+      const lastMessage: AccountUpnl = upnlWebSocketMessage ?? {
         upnl: 0,
         timestamp: 0,
         available_balance: 0,

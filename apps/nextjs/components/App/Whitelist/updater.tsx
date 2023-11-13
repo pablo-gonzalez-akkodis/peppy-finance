@@ -6,7 +6,10 @@ import {
   useActiveAccount,
   useAddInWhitelist,
   useIsWhiteList,
+  useUserWhitelist,
 } from "@symmio-client/core/state/user/hooks";
+import { GetWhiteListType } from "@symmio-client/core/state/user/types";
+import { WEB_SETTING } from "@symmio-client/core/config";
 
 export default function Updater() {
   const { account } = useActiveWagmi();
@@ -15,31 +18,30 @@ export default function Updater() {
   const [whitelist, setWhitelist] = useState<null | boolean>(null);
   const [subWhitelist, setSubWhitelist] = useState<null | boolean>(null);
 
-  const getWhiteList = useIsWhiteList(account);
+  const userIsWhitelist = useUserWhitelist();
   const getSubAccountWhitelist = useIsWhiteList(subAccount?.accountAddress);
   const addInWhitelist = useAddInWhitelist(subAccount?.accountAddress);
 
   useEffect(() => {
     if (account && subAccount && whitelist && subWhitelist == false) {
       addInWhitelist()
-        .then((res: { successful: boolean; message: string }) => {
+        .then((res: GetWhiteListType | null) => {
           // response
           // SUCCESS : {'successful'=True, message=''}
           // FAILED : {'successful'=False, message=''}
           // EXISTS : {'successful'=False, message='exists'}
-          if (res.successful) {
+          if (res?.successful) {
             setSubWhitelist(true);
             toast.success("Activating succeeded");
-          } else if (!res.successful && res.message === "exists") {
+          } else if (!res?.successful && res?.message === "exists") {
             setSubWhitelist(true);
           } else {
             setSubWhitelist(null);
             toast.error("Not activated");
           }
         })
-        .catch((e) => {
-          console.log(e);
-          toast.error("Not activated");
+        .catch(() => {
+          WEB_SETTING.checkWhiteList && toast.error("Not activated");
         });
     }
   }, [addInWhitelist, subWhitelist, whitelist, account, subAccount]);
@@ -50,22 +52,14 @@ export default function Updater() {
         .then((res) => {
           setSubWhitelist(res);
         })
-        .catch((e) => {
-          console.log(e);
+        .catch(() => {
           setSubWhitelist(null);
         });
   }, [getSubAccountWhitelist, subAccount]);
 
   useEffect(() => {
-    getWhiteList()
-      .then((res) => {
-        setWhitelist(res);
-      })
-      .catch((e) => {
-        console.log(e);
-        setWhitelist(null);
-      });
-  }, [getWhiteList]);
+    if (userIsWhitelist) setWhitelist(true);
+  }, [userIsWhitelist]);
 
   return <></>;
 }

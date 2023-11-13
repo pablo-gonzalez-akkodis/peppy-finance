@@ -16,8 +16,8 @@ const HoverWrapper = styled.div`
   width: clamp(200px, 360px, 99%);
   max-height: 240px;
   position: absolute;
-  transform: translate(-115px, 29px);
-  z-index: 1;
+  top: 48px;
+  right: 0;
   background: ${({ theme }) => theme.bg1};
   border: 2px solid ${({ theme }) => theme.border3};
   border-radius: 4px;

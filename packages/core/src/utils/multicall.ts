@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 import { toBN } from "./numbers";
 
-export function getMultipleBN(result: any): BigNumber[] {
-  if (!result || !result.length) return [];
+export function getMultipleBN(result: unknown): BigNumber[] {
+  if (!Array.isArray(result)) return [];
   return result.map((r: bigint) => toBN(r.toString()));
 }
 

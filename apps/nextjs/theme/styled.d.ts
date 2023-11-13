@@ -16,7 +16,6 @@ export interface Colors {
   text3: Color;
   text4: Color;
   text5: Color;
-  text6: Color;
 
   // backgrounds
   bg: Color;
@@ -28,7 +27,6 @@ export interface Colors {
   bg5: Color;
   bg6: Color;
   bg7: Color;
-  bg8: Color;
 
   bgLoose: Color;
   bgWin: Color;
@@ -39,8 +37,8 @@ export interface Colors {
   border2: Color;
   border3: Color;
 
-  gradDark: Color;
   gradLight: Color;
+  gradError: Color;
   hoverGrad: Color;
   hoverShort: Color;
   hoverLong: Color;
@@ -54,46 +52,24 @@ export interface Colors {
   primary0: Color;
   primary1: Color;
   primary2: Color;
-  primary3: Color;
-  primary4: Color;
-  primary5: Color;
-  primary6: Color;
-  primary7: Color;
-  primary8: Color;
-
-  primaryText1: Color;
-
-  // pinks
-  secondary1: Color;
-  secondary2: Color;
 
   // other
   black2: Color;
   red1: Color;
   red2: Color;
-  red3: Color;
   red5: Color;
   red6: Color;
   green1: Color;
-  green2: Color;
-  green3: Color;
-  green4: Color;
   yellow1: Color;
   yellow2: Color;
-  yellow3: Color;
-  yellow4: Color;
   blue1: Color;
   blue2: Color;
   primaryBlue: Color;
-  darkPink: Color;
-  orange: Color;
-  darkOrange: Color;
 
   error: Color;
+  error1: Color;
   success: Color;
   warning: Color;
-
-  usdt: Color;
   twitter: Color;
 }
 

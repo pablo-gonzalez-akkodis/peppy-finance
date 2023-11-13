@@ -20,15 +20,15 @@ import crossBrowserListener from "../utils/reduxPersistListener";
 
 const PERSISTED_KEYS: string[] = ["user", "transactions"];
 
-const persistConfig: any = {
+const persistConfig = {
   key: "root",
   whitelist: PERSISTED_KEYS,
   storage,
 };
 
 const persistedReducer = persistReducer(persistConfig, reducer);
-
-function makeStore(preloadedState = undefined) {
+export type RootState = ReturnType<typeof reducer>;
+function makeStore(preloadedState?: RootState) {
   return configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
@@ -42,7 +42,7 @@ function makeStore(preloadedState = undefined) {
   });
 }
 
-let store: Store<any, AnyAction>;
+let store: Store<RootState, AnyAction>;
 
 export const getOrCreateStore = (preloadedState = undefined) => {
   let _store = store ?? makeStore(preloadedState);

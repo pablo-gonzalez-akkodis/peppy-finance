@@ -1,17 +1,15 @@
 import React from "react";
 import styled from "styled-components";
+
+import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
+
 import { Info } from "components/Icons";
 import { Close as CloseIcon } from "components/Icons";
-import { useIsAccountWhiteList } from "@symmio-client/core/hooks/useAccounts";
-import useIsCooldownActive from "@symmio-client/core/hooks/useIsCooldownActive";
 import { RowStart } from "components/Row";
 import { ExternalLinkIcon } from "components/Link";
 
-const Container = styled.div<{ banner: number; hasCooldown?: boolean }>`
-  margin-top: ${({ banner }) => banner}px;
-  ${({ theme, banner, hasCooldown }) => theme.mediaWidth.upToMedium`
-  margin-top: ${banner + 52 + (hasCooldown ? 48 : 0)}px;
-`}
+const Container = styled.div`
+  margin: 0px 8px;
 `;
 
 const Wrapper = styled.div<{ bg?: string }>`
@@ -77,12 +75,14 @@ export function Banner({
 }
 
 export default function WrapperBanner() {
-  const userWhitelisted = useIsAccountWhiteList();
-  const isCooldownActive = useIsCooldownActive();
+  const userWhitelisted = useUserWhitelist();
   const showBanner =
     localStorage.getItem("risk_warning") === "true" ? false : true;
+
+  if (!showBanner) return null;
+
   return (
-    <Container banner={showBanner ? 110 : 75} hasCooldown={isCooldownActive}>
+    <Container>
       {userWhitelisted === false && (
         <Banner
           text={

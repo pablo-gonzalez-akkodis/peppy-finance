@@ -19,7 +19,9 @@ const Wrapper = styled.div`
 `;
 const HeaderWrap = styled.div`
   width: 100%;
-  position: fixed;
+  margin-bottom: 16px;
+  position: sticky;
+  top: 0;
   z-index: 300;
   background: ${({ theme }) => theme.bg};
 `;

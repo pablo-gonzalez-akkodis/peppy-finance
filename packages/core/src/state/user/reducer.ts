@@ -1,6 +1,6 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { ApiState } from "../../types/api";
-import { ConnectionStatus, UserState } from "./types";
+import { ConnectionStatus, TermsStatus, UserState } from "./types";
 
 import {
   updateUserSlippageTolerance,
@@ -13,6 +13,7 @@ import {
   updateAccountUpnl,
   updateUpnlWebSocketStatus,
   updateAccountPartyAStat,
+  updateAcceptTerms,
 } from "./actions";
 import {
   getBalanceHistory,
@@ -50,6 +51,7 @@ export const initialState: UserState = {
 
   depositWithdrawalsData: null,
   depositWithdrawalsState: ApiState.LOADING,
+  isTermsAccepted: TermsStatus.NOT_ACCEPTED,
 };
 
 export default createReducer(initialState, (builder) =>
@@ -145,5 +147,9 @@ export default createReducer(initialState, (builder) =>
     .addCase(getTotalDepositsAndWithdrawals.rejected, (state) => {
       state.depositWithdrawalsData = null;
       state.depositWithdrawalsState = ApiState.ERROR;
+    })
+
+    .addCase(updateAcceptTerms, (state, action) => {
+      state.isTermsAccepted = action.payload;
     })
 );

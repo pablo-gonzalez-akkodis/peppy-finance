@@ -364,7 +364,8 @@ function QuoteRow({
     positionType,
     orderType,
   } = quote;
-  const { name, pricePrecision } = useMarket(quote.marketId) || {};
+  const market = useMarket(quote.marketId);
+  const { name, pricePrecision } = market || {};
   const marketData = useMarketData(name);
   const leverage = useQuoteLeverage(quote);
   const quoteAvailableAmount = useQuoteSize(quote);
@@ -372,16 +373,8 @@ function QuoteRow({
     quoteAvailableAmount,
     marketData?.markPrice || 0
   );
-  const openLastMarketPrice = useOpeningLastMarketPrice(
-    quote,
-    name,
-    pricePrecision
-  );
-  const closeLastMarketPrice = useClosingLastMarketPrice(
-    quote,
-    name,
-    pricePrecision
-  );
+  const openLastMarketPrice = useOpeningLastMarketPrice(quote, market);
+  const closeLastMarketPrice = useClosingLastMarketPrice(quote, market);
 
   const quoteDetail = useQuoteDetail();
   const setQuoteDetail = useSetQuoteDetailCallback();

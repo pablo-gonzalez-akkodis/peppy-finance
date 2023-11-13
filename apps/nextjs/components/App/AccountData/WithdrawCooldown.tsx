@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-hot-toast";
 
@@ -18,10 +18,12 @@ import {
   useAccountPartyAStat,
   useActiveAccountAddress,
 } from "@symmio-client/core/state/user/hooks";
+import { useModalOpen } from "@symmio-client/core/state/application/hooks";
+import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
 
 import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
 
-import { RowCenter } from "components/Row";
+import { RowCenter, RowBetween } from "components/Row";
 import { DotFlashing } from "components/Icons";
 
 const RemainingWrap = styled(RowCenter)<{ cursor?: string }>`
@@ -45,15 +47,51 @@ const RemainingBlock = styled.div<{ width?: string }>`
   left: 0;
   bottom: 0;
   position: absolute;
-  border-radius: 4px 0px 0px 4px;
   width: ${({ width }) => width ?? "unset"};
 `;
 
-const Text = styled(RowCenter)`
+const Text = styled(RowBetween)<{ filling?: boolean }>`
+  justify-content: ${({ filling }) => (filling ? "space-between" : "center")};
+  color: ${({ theme }) => theme.primaryBlue};
+  padding: 0 12px;
   font-weight: 500;
   font-size: 12px;
-  color: ${({ theme }) => theme.primaryBlue};
+  z-index: 9;
 `;
+
+const TimerText = styled.span`
+  color: ${({ theme }) => theme.warning};
+`;
+
+function Timer() {
+  const [, setState] = useState(false);
+
+  const activeAccountAddress = useActiveAccountAddress();
+  const { withdrawCooldown, cooldownMA } =
+    useAccountPartyAStat(activeAccountAddress);
+  const { hours, seconds, minutes } = getRemainingTime(
+    toBN(withdrawCooldown).plus(cooldownMA).times(1000).toNumber()
+  );
+
+  useEffect(() => {
+    // for forcing component to re-render every second
+    const interval = setInterval(
+      () => setState((prevState) => !prevState),
+      1000
+    );
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
+  return (
+    <TimerText>
+      {hours.toString().padStart(2, "0")} :{" "}
+      {minutes.toString().padStart(2, "0")} :{" "}
+      {seconds.toString().padStart(2, "0")}
+    </TimerText>
+  );
+}
 
 export default function WithdrawCooldown({
   formatedAmount,
@@ -66,6 +104,7 @@ export default function WithdrawCooldown({
   const activeAccountAddress = useActiveAccountAddress();
   const { accountBalance, withdrawCooldown, cooldownMA } =
     useAccountPartyAStat(activeAccountAddress);
+
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
@@ -88,11 +127,16 @@ export default function WithdrawCooldown({
       ? cooldownRemainPercent.toFixed(0)
       : null;
   }, [cooldownMA, currentTimestamp, withdrawCooldown]);
-  const { diff, hours, seconds, minutes } = getRemainingTime(
+  const { diff } = getRemainingTime(
     toBN(withdrawCooldown).plus(cooldownMA).times(1000).toNumber()
   );
 
+  const showWithdrawBarModal = useModalOpen(ApplicationModal.WITHDRAW_BAR);
+  const showWithdrawModal = useModalOpen(ApplicationModal.WITHDRAW);
+
   const handleAction = useCallback(async () => {
+    if (!showWithdrawBarModal && !showWithdrawModal) return;
+
     if (!transferBalanceCallback) {
       toast.error(transferBalanceError);
       return;
@@ -110,45 +154,55 @@ export default function WithdrawCooldown({
         console.error(e);
       }
     }
-  }, [transferBalanceCallback, transferBalanceError]);
+  }, [
+    showWithdrawBarModal,
+    showWithdrawModal,
+    transferBalanceCallback,
+    transferBalanceError,
+  ]);
 
   const fixedAccountBalance = formatPrice(
     accountBalance,
     collateralCurrency?.decimals
   );
 
-  if (diff > 0) {
-    return (
-      <RemainingWrap>
-        <Text>{`Withdraw in ${hours}:${minutes}:${seconds}`}</Text>
-        <RemainingBlock width={`${remainingPercent}%`}></RemainingBlock>
-      </RemainingWrap>
-    );
-  } else if (toBN(fixedAccountBalance).isGreaterThan(0)) {
-    const balance = formatedAmount
-      ? formatPrice(fixedAccountBalance, 2, true)
-      : formatCurrency(fixedAccountBalance, 4, true);
-
-    if (awaitingConfirmation) {
+  if (toBN(fixedAccountBalance).isGreaterThan(0)) {
+    if (diff > 0) {
       return (
-        <RemainingWrap cursor={"default"}>
+        <RemainingWrap>
+          <Text filling>
+            <span>
+              Withdraw {fixedAccountBalance} {collateralCurrency.symbol}
+            </span>
+            <Timer />
+          </Text>
+          <RemainingBlock width={`${remainingPercent}%`} />
+        </RemainingWrap>
+      );
+    } else {
+      const balance = formatedAmount
+        ? formatPrice(fixedAccountBalance, 2, true)
+        : formatCurrency(fixedAccountBalance, 4, true);
+
+      if (awaitingConfirmation) {
+        return (
+          <RemainingWrap cursor={"default"}>
+            <Text>
+              {text ?? `Withdraw ${balance} ${collateralCurrency?.symbol}`}
+              <DotFlashing />
+            </Text>
+          </RemainingWrap>
+        );
+      }
+      return (
+        <RemainingWrap onClick={handleAction} cursor={"pointer"}>
           <Text>
             {text ?? `Withdraw ${balance} ${collateralCurrency?.symbol}`}
-            <DotFlashing />
           </Text>
-          <RemainingBlock width={`100%`}></RemainingBlock>
         </RemainingWrap>
       );
     }
-    return (
-      <RemainingWrap onClick={handleAction} cursor={"pointer"}>
-        <Text>
-          {text ?? `Withdraw ${balance} ${collateralCurrency?.symbol}`}
-        </Text>
-        <RemainingBlock width={`100%`}></RemainingBlock>
-      </RemainingWrap>
-    );
   } else {
-    return <></>;
+    return null;
   }
 }

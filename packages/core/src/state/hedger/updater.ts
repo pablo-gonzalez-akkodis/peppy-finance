@@ -1,12 +1,10 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
 import useWebSocket, { ReadyState } from "react-use-websocket";
 import { JsonValue } from "react-use-websocket/dist/lib/types";
 
 import { useAppDispatch, AppThunkDispatch } from "..";
 import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
-import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
-import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import { autoRefresh, retry } from "../../utils/retry";
 
 import { ApiState } from "../../types/api";
@@ -33,8 +31,9 @@ import {
   getPriceRange,
 } from "./thunks";
 import { useActiveMarket } from "../trade/hooks";
-import { Hedger } from "../../types/hedger";
+import { Hedger, HedgerWebsocketType } from "../../types/hedger";
 import { Market } from "../../types/market";
+import { useAppName } from "../chains/hooks";
 
 export function HedgerUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
@@ -42,6 +41,7 @@ export function HedgerUpdater(): null {
   const { baseUrl, apiUrl, fetchData } = hedger || {};
   const activeMarket = useActiveMarket();
   const markets = useMarkets();
+  const appName = useAppName();
 
   usePriceWebSocket();
   useFetchMarkets(hedger, thunkDispatch);
@@ -58,11 +58,11 @@ export function HedgerUpdater(): null {
       return autoRefresh(
         () =>
           thunkDispatch(
-            getPriceRange({ hedgerUrl: baseUrl, market: activeMarket })
+            getPriceRange({ hedgerUrl: baseUrl, market: activeMarket, appName })
           ),
         60 * 60
       );
-  }, [thunkDispatch, baseUrl, activeMarket, fetchData]);
+  }, [thunkDispatch, baseUrl, activeMarket, fetchData, appName]);
 
   return null;
 }
@@ -71,26 +71,42 @@ function useFetchMarkets(
   hedger: Hedger | null,
   thunkDispatch: AppThunkDispatch
 ) {
-  const marketsStatus = useMarketsStatus();
-  const { chainId } = useActiveWagmi();
-  const isSupported = useSupportedChainId();
+  const appName = useAppName();
   const { baseUrl } = hedger || {};
+  const marketsStatus = useMarketsStatus();
 
+  const hedgerMarket = useCallback(
+    (options?: { [x: string]: any }) => {
+      const allOptions = { headers: [["App-Name", appName]], ...options };
+      return thunkDispatch(
+        getMarkets({ hedgerUrl: baseUrl, options: allOptions })
+      );
+    },
+    [appName, baseUrl, thunkDispatch]
+  );
+
+  // TODO: fix auto update
   //auto update per each 3000 seconds
   useEffect(() => {
-    if (isSupported) thunkDispatch(getMarkets(baseUrl));
-    else return autoRefresh(() => thunkDispatch(getMarkets(baseUrl)), 3000);
-  }, [thunkDispatch, baseUrl, hedger, chainId, isSupported]);
+    const controller = new AbortController();
+    hedgerMarket({
+      signal: controller.signal,
+    });
+
+    return () => {
+      controller.abort();
+    };
+  }, [hedgerMarket]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
     if (marketsStatus === ApiState.ERROR)
-      retry(() => thunkDispatch(getMarkets(baseUrl)), {
+      retry(hedgerMarket, {
         n: 5,
         minWait: 1000,
         maxWait: 10000,
       });
-  }, [thunkDispatch, baseUrl, marketsStatus]);
+  }, [marketsStatus, hedgerMarket]);
 }
 
 function useFetchNotionalCap(
@@ -100,45 +116,34 @@ function useFetchNotionalCap(
 ) {
   const { marketNotionalCap, marketNotionalCapStatus } = useMarketNotionalCap();
   const { baseUrl } = hedger || {};
-
+  const appName = useAppName();
+  const notionalCaps = useCallback(
+    () =>
+      thunkDispatch(
+        getNotionalCap({
+          hedgerUrl: baseUrl,
+          market: activeMarket,
+          preNotional: marketNotionalCap,
+          appName,
+        })
+      ),
+    [activeMarket, appName, baseUrl, thunkDispatch]
+  );
   //auto update notional cap per symbol, every 1 hours
   useEffect(() => {
-    if (activeMarket)
-      return autoRefresh(
-        () =>
-          thunkDispatch(
-            getNotionalCap({
-              hedgerUrl: baseUrl,
-              market: activeMarket,
-              preNotional: marketNotionalCap,
-            })
-          ),
-        60 * 60
-      );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeMarket, baseUrl, thunkDispatch]);
+    if (activeMarket) return autoRefresh(notionalCaps, 60 * 60);
+  }, [activeMarket, notionalCaps]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
     if (activeMarket && marketNotionalCapStatus === ApiState.ERROR) {
-      retry(
-        () =>
-          thunkDispatch(
-            getNotionalCap({
-              hedgerUrl: baseUrl,
-              market: activeMarket,
-              preNotional: marketNotionalCap,
-            })
-          ),
-        {
-          n: 5,
-          minWait: 3000,
-          maxWait: 10000,
-        }
-      );
+      retry(notionalCaps, {
+        n: 5,
+        minWait: 3000,
+        maxWait: 10000,
+      });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [thunkDispatch, baseUrl, marketNotionalCapStatus, activeMarket]);
+  }, [marketNotionalCapStatus, activeMarket, notionalCaps]);
 }
 
 function usePriceWebSocket() {
@@ -187,7 +192,7 @@ function usePriceWebSocket() {
 
   useEffect(() => {
     try {
-      const lastMessage = lastJsonMessage as any;
+      const lastMessage = lastJsonMessage as HedgerWebsocketType;
 
       //don't update anything if user is idle instead of updating to empty prices
       if (!windowVisible) return;

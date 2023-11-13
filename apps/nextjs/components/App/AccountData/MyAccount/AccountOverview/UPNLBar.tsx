@@ -65,8 +65,8 @@ function usePnlValues(currency: Token) {
     useAccountPartyAStat(activeAccountAddress);
   const { depositWithdrawalsData, depositWithdrawalsState } =
     useTotalDepositsAndWithdrawals();
-  const accountConnectionLoadingStatus = useUpnlWebSocketStatus();
-  const loading = accountConnectionLoadingStatus === ConnectionStatus.CLOSED;
+  const upnlWebSocketStatus = useUpnlWebSocketStatus();
+  const loading = upnlWebSocketStatus === ConnectionStatus.CLOSED;
 
   if (
     depositWithdrawalsState === ApiState.LOADING ||

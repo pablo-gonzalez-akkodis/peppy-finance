@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Address, useContractRead } from "wagmi";
 
 import { Account } from "../types/user";
 import { useMultiAccountContract } from "./useContract";
-import { useIsWhiteList } from "../state/user/hooks";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 
@@ -31,7 +30,10 @@ export function useUserAccounts() {
   const accountsUnsorted = useMemo(() => {
     if (!accounts || !isSuccess || isError) return [];
     return accounts.map(
-      (acc: any) =>
+      (acc: {
+        accountAddress: Address; // or whatever the correct type is
+        name: string;
+      }) =>
         ({
           accountAddress: acc.accountAddress.toString(),
           name: acc.name,
@@ -76,23 +78,4 @@ export function useAccountsLength(): {
     }),
     [data, isError, isLoading, isSuccess]
   );
-}
-
-export function useIsAccountWhiteList() {
-  const { account } = useActiveWagmi();
-  const [whitelist, setWhitelist] = useState<null | boolean>(null);
-  const getWhiteList = useIsWhiteList(account);
-
-  useEffect(() => {
-    getWhiteList()
-      .then((res) => {
-        setWhitelist(res);
-      })
-      .catch((e) => {
-        console.log(e);
-        setWhitelist(null);
-      });
-  }, [getWhiteList]);
-
-  return whitelist;
 }
