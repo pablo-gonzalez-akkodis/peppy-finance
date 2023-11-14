@@ -2,7 +2,7 @@ import { Ether, NativeCurrency, Token, Currency } from "@uniswap/sdk-core";
 import invariant from "tiny-invariant";
 
 import { WRAPPED_NATIVE_CURRENCY } from "../constants/tokens";
-import { SupportedChainId, SUPPORTED_CHAIN_IDS } from "../constants/chains";
+import { SupportedChainId } from "../constants/chains";
 import { useFallbackChainId } from "../state/chains/hooks";
 import { AddressMap, DecimalMap, SymbolMap } from "./address";
 import { useV3Ids } from "../state/chains/hooks";
@@ -17,19 +17,6 @@ export type TokenMap = {
 export type TokenAddressMap = {
   [chainId: number]: { [address: string]: Token };
 };
-
-export function duplicateTokenByChainId(
-  address: string,
-  decimals: number,
-  name: string,
-  symbol: string,
-  chains: SupportedChainId[] = SUPPORTED_CHAIN_IDS
-): TokenMap {
-  return chains.reduce((acc: TokenMap, chainId: number) => {
-    acc[chainId] = new Token(chainId, address, decimals, symbol, name);
-    return acc;
-  }, {});
-}
 
 //generate same tokens by given AddressMap
 export function duplicateTokenByAddressMap(

@@ -20,6 +20,8 @@
 - talking about server for rpc forward to hidden apiKey
 - rearrange type in sdk (now they are distributed in project)
 - move the function fetchPriceRange to the sdk
+- use one of BigInt and bigNumber.js
+- show balances in deposit modal fix
 - move thena to sdk
 - move testNet branch to sdk
 - move pear to sdk

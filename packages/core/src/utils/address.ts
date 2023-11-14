@@ -21,15 +21,3 @@ export function truncateAddress(address: string, size = 4) {
     address.length - size
   )}`;
 }
-
-export function constructSameAddressMap(
-  address: string,
-  chainMapping: number[]
-): AddressMap {
-  return chainMapping.reduce((acc: AddressMap, chainId: number) => {
-    acc[chainId] = address;
-    return acc;
-  }, {});
-}
-
-//add compare address

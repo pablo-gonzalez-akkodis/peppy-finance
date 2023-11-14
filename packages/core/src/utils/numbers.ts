@@ -7,7 +7,6 @@ export function toBN(number: BigNumber.Value): BigNumber {
 }
 
 export const BN_ZERO: BigNumber = toBN("0");
-export const BN_ONE: BigNumber = toBN("1");
 export const BN_TEN: BigNumber = toBN("10");
 
 export enum RoundMode {
