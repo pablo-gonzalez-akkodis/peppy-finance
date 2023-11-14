@@ -149,7 +149,7 @@ export default function WithdrawCooldown({
     } catch (e) {
       setAwaitingConfirmation(false);
       if (e instanceof Error) {
-        console.log("awaitingConfermation Error", e.message);
+        console.log("awaitingConfirmation Error", e.message);
       } else {
         console.error(e);
       }
