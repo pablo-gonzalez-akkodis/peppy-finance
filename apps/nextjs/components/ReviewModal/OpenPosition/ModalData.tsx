@@ -12,10 +12,10 @@ export const StateContext = createContext<{
   setTxHash: (hash: string) => void;
 }>({
   state: ModalState.START,
-  setState(state) {
+  setState() {
     return;
   },
-  setTxHash(hash) {
+  setTxHash() {
     return;
   },
 });

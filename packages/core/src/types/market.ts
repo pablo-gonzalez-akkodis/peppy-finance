@@ -39,7 +39,7 @@ export interface MarketApiType {
   count: number;
 }
 
-export interface OpenInterstResponseType {
+export interface OpenInterestResponseType {
   total_cap: number;
   used: number;
 }

@@ -19,7 +19,7 @@ import {
 } from "../state/transactions/types";
 
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
-import { encodeFunctionData } from "viem";
+import { Address, encodeFunctionData } from "viem";
 import { ConstructCallReturnType } from "../types/web3";
 import { SendTransactionResult } from "@wagmi/core";
 
@@ -41,19 +41,19 @@ export function useWriteSign(): {
   const functionName = "storeSignatureForCurrentVersion";
 
   const constructCall = useCallback(
-    (sign: string): ConstructCallReturnType => {
+    async (sign: string): ConstructCallReturnType => {
       try {
         if (!Contract || !sign || !isSupportedChainId) {
           throw new Error("Missing dependencies.");
         }
 
-        const args = [sign] as const;
-        // TODO: fix errors
+        const args = [sign as Address];
+
         return {
           args,
           functionName,
           config: {
-            account,
+            account: account as Address,
             to: Contract.address,
             data: encodeFunctionData({
               abi: Contract.abi,

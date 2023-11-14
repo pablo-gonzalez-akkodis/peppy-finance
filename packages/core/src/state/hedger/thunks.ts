@@ -4,7 +4,7 @@ import {
   Market,
   MarketApiType,
   NotionalCapResponseType,
-  OpenInterstResponseType,
+  OpenInterestResponseType,
   PriceRangeResponseType,
 } from "../../types/market";
 import { OpenInterest } from "../../types/hedger";
@@ -45,7 +45,7 @@ export const getMarkets = createAsyncThunk(
     try {
       const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
         makeHttpRequest<MarketApiType>(marketsUrl, options),
-        makeHttpRequest<OpenInterstResponseType>(openUrl, options),
+        makeHttpRequest<OpenInterestResponseType>(openUrl, options),
         makeHttpRequest<ErrorMessages>(errorMessagesUrl, options),
       ]);
 
