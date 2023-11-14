@@ -29,6 +29,7 @@
     "recharts": "2.6.2",
     "styled-components": "^5.3.6",
     "styled-react-modal": "^3.0.1",
+    "symbol-observable": "^4.0.0",
     "wagmi": "1.4.3"
   },
   "devDependencies": {

@@ -14,7 +14,7 @@ import {
   useDispatch,
   useSelector,
 } from "react-redux";
-
+import "symbol-observable";
 import reducer from "./reducer";
 import crossBrowserListener from "../utils/reduxPersistListener";
 

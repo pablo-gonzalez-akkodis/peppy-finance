@@ -180,7 +180,7 @@ function CancelWithdraw() {
     } catch (e) {
       setAwaitingConfirmation(false);
       if (e instanceof Error) {
-        console.log(e.message);
+        console.log("setAwaitingConfirmation", e.message);
       } else {
         console.error(e);
       }

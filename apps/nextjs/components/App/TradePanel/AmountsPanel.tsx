@@ -113,7 +113,6 @@ export default function AmountsPanel() {
 
   useEffect(() => {
     const controller = new AbortController();
-    console.log({ controller });
     if (market && lockedParamsLeverage)
       getLockedPercentages({
         signal: controller.signal,

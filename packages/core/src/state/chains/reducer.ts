@@ -24,6 +24,7 @@ export interface AbisType {
   ERC20_BYTES32_ABI: any;
   MULTICALL3_ABI: any;
   MULTI_ACCOUNT_ABI: any;
+  SIGNATURE_STORE_ABI: any;
 }
 
 export interface ChainsState {
@@ -45,6 +46,7 @@ const initialState: ChainsState = {
     ERC20_BYTES32_ABI: {},
     MULTICALL3_ABI: {},
     MULTI_ACCOUNT_ABI: {},
+    SIGNATURE_STORE_ABI: {},
   },
   hedgers: { [SupportedChainId.NOT_SET]: [] },
   appName: "",

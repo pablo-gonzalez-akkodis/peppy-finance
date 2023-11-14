@@ -124,7 +124,7 @@ export default function CloseModal({
       const txHash = await closeCallback();
       setAwaitingCancelConfirmation(false);
       toggleModal();
-      console.log({ txHash });
+      console.log("Transaction Hash:", { txHash });
     } catch (e) {
       toggleModal();
       setAwaitingCancelConfirmation(false);

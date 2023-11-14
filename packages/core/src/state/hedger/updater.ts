@@ -217,7 +217,7 @@ function usePriceWebSocket() {
       }
     } catch (err) {
       updatePrices({});
-      console.log({ err });
+      console.log("Error On updatePrices", { err });
     }
   }, [
     lastJsonMessage,

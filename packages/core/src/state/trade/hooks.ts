@@ -178,13 +178,16 @@ export function useSetMarketId(): (id: number) => void {
 
 export function useGetLockedPercentages(
   leverage: number
-): (options: { [x: string]: AbortSignal }) => Promise<undefined> {
+): (options: {
+  signal: AbortSignal;
+  headers: [string, string][];
+}) => Promise<undefined> {
   const market = useActiveMarket();
   const dispatch = useAppDispatch();
   const { baseUrl } = useHedgerInfo() || {};
 
   return useCallback(
-    async (options: { [x: string]: AbortSignal }) => {
+    async (options: { signal: AbortSignal; headers: [string, string][] }) => {
       try {
         if (!baseUrl || !market) throw new Error("missing parameters");
         const { href: url } = new URL(
@@ -200,7 +203,7 @@ export function useGetLockedPercentages(
           dispatch(updateLockedPercentages({ ...response }));
       } catch (error: unknown) {
         if (error instanceof Error && error.name === "AbortError") {
-          console.log(error.message);
+          console.log("AbortError getLockedParam", error.message);
         } else {
           console.log("Unable to fetch locked params");
           toast.error("Unable to fetch locked params");

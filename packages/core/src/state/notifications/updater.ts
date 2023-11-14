@@ -79,7 +79,6 @@ function useNotificationsWebSocket() {
   useEffect(() => {
     try {
       const lastMessage = lastJsonMessage as NotificationResponse | null;
-      console.log({ lastJsonMessage });
       if (!lastMessage || isEmpty(lastMessage)) {
         return;
       }
@@ -97,7 +96,7 @@ function useNotificationsWebSocket() {
         }
       }
     } catch (err) {
-      console.log({ err });
+      console.log("Notification Error:", { err });
     }
   }, [addPopup, lastJsonMessage, newNotificationNotifier, notificationAdder]);
 }
