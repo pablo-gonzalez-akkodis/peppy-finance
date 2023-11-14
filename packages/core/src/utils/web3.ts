@@ -54,16 +54,16 @@ export async function createTransactionCallback(
     return data;
   } catch (error) {
     if (error instanceof Error) {
-      console.log({ error });
+      console.log("Error", { error });
       if (error instanceof BaseError) {
         if (error.cause instanceof UserRejectedRequestError) {
-          console.log({ error });
+          console.log("UserRejectedRequestError", { error });
           // TODO: handle error in client
         } else if (error.cause instanceof ContractFunctionRevertedError) {
-          console.log({ error });
+          console.log("ContractFunctionRevertedError", { error });
           // TODO: handle error in client
         } else {
-          console.log({ error });
+          console.log("Error Else", { error });
           // TODO: handle error in client
         }
       } else {

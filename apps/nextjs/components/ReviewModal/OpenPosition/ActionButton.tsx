@@ -23,7 +23,8 @@ export default function ActionButton() {
     try {
       setState(ModalState.LOADING);
       const tx = await tradeCallback();
-      setTxHash(tx);
+      console.log("tx", tx);
+      if (tx) setTxHash(tx.hash);
     } catch (e) {
       setState(ModalState.START);
       setTxHash("");
@@ -35,7 +36,7 @@ export default function ActionButton() {
       }
     }
     if (error) {
-      console.log(error);
+      console.log("Error ActionButton:", error);
     }
   }, [setState, setTxHash, tradeCallback, tradeCallbackError]);
 

@@ -13,7 +13,6 @@
 - Update packages (e.g. recharts)
 - resolve bug: when speedup pending transaction cause change the hash of transaction and cause error in site
 - redesign the structure of checking pending transactions and use watch transaction wagmi
-- resolve all error in console
 - change the name of project from "symm-client" to 'symmio-frontend-sdk'
 - refactor deposit/withdraw modal( use different modal. now use same component)
 - checking project license with managers

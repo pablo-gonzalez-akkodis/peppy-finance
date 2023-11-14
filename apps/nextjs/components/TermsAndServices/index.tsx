@@ -10,7 +10,7 @@ export default function TermsAndServices() {
   const isTermsAccepted = useIsTermsAccepted();
 
   if (account && !isTermsAccepted) {
-    return <TermsModal onDismiss={() => console.log("")} />;
+    return <TermsModal onDismiss={() => {}} />;
   }
   return null;
 }
