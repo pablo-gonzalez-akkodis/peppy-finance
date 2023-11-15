@@ -15,6 +15,7 @@ import { PreviousIcon } from "./styles";
 import { RowEnd } from "components/Row";
 import { NextIcon } from "components/Icons";
 import { ItemsPerPage } from "components/App/UserPanel/PaginateTable";
+import { sortQuotesByModifyTimestamp } from "@symmio-client/core/hooks/useQuotes";
 
 const ChangePositionBtn = styled.button<{ disabled?: boolean }>`
   display: flex;
@@ -41,10 +42,7 @@ export default function PositionDetailsNavigator() {
   const { quotes: positions } = usePositionsQuotes();
   const { quotes: pendings } = usePendingsQuotes();
   const positionQuotes: Quote[] = useMemo(() => {
-    return [...pendings, ...positions].sort(
-      (a: Quote, b: Quote) =>
-        Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-    );
+    return [...pendings, ...positions].sort(sortQuotesByModifyTimestamp);
   }, [pendings, positions]);
 
   const currentOrders: Quote[] = useMemo(() => {

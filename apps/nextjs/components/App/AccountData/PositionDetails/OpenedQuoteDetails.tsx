@@ -89,7 +89,7 @@ export default function OpenedQuoteDetails({
     quoteStatus,
     avgClosedPrice,
     createTimestamp,
-    modifyTimestamp,
+    statusModifyTimestamp,
   } = quote;
   const market = useMarket(marketId);
   const { symbol, name, asset } = market || {};
@@ -330,12 +330,12 @@ export default function OpenedQuoteDetails({
             {quoteStatus === QuoteStatus.CLOSED ? (
               <Row>
                 <Label>Close Time:</Label>
-                <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
+                <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
               </Row>
             ) : (
               <Row>
                 <Label>Last modified Time:</Label>
-                <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
+                <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
               </Row>
             )}
             <Row>

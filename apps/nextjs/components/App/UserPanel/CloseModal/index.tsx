@@ -117,7 +117,8 @@ export default function CloseModal({
   const appName = useAppName();
 
   const { accountAddress: account } = useActiveAccount() || {};
-  const { CVA, MM, LF, openedPrice, marketId, positionType } = quote || {};
+  const { CVA, partyAMM, LF, openedPrice, marketId, positionType } =
+    quote || {};
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
@@ -202,10 +203,10 @@ export default function CloseModal({
   );
 
   const quoteLockedMargin = useMemo(() => {
-    return CVA && MM && LF
-      ? toBN(CVA).plus(MM).plus(LF).toString()
+    return CVA && partyAMM && LF
+      ? toBN(CVA).plus(partyAMM).plus(LF).toString()
       : BN_ZERO.toString();
-  }, [CVA, LF, MM]);
+  }, [CVA, LF, partyAMM]);
 
   const outOfRangePrice = useMemo(() => {
     // check limit price range)

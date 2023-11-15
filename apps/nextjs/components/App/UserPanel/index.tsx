@@ -23,6 +23,7 @@ import { ItemsPerPage } from "./PaginateTable";
 import ArrowRightTriangle from "components/Icons/ArrowRightTriangle";
 import { RowCenter } from "components/Row";
 import { IconWrapper } from "components/Icons";
+import { sortQuotesByModifyTimestamp } from "@symmio-client/core/hooks/useQuotes";
 
 const Wrapper = styled(Card)`
   padding: 0;
@@ -70,10 +71,7 @@ export default function UserPanel(): JSX.Element | null {
   }
 
   const positionQuotes: Quote[] = useMemo(() => {
-    return [...pendings, ...positions].sort(
-      (a: Quote, b: Quote) =>
-        Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-    );
+    return [...pendings, ...positions].sort(sortQuotesByModifyTimestamp);
   }, [pendings, positions]);
 
   const currentOrders = useMemo(() => {

@@ -92,20 +92,24 @@ export function usePartyAStats(
 
   return {
     collateralBalance: cBalance,
-
     accountBalance: fromWei(getSingleWagmiResult(firstData, 0)),
     liquidationStatus:
       getSingleWagmiResult<boolean[]>(firstData, 1)?.[0] ?? false,
-
     accountBalanceLimit: fromWei(getSingleWagmiResult(secondData, 0)),
     withdrawCooldown: getSingleWagmiResult(secondData, 1)?.toString() ?? "0",
     cooldownMA: getMultipleBN(secondData?.[2]?.result)[0]?.toString() ?? "0",
+
     allocatedBalance: fromWei(multipleBNResult[1]),
     lockedCVA: fromWei(multipleBNResult[2]),
-    lockedMM: fromWei(multipleBNResult[3]),
-    lockedLF: fromWei(multipleBNResult[4]),
-    totalLocked: fromWei(multipleBNResult[5]),
-    totalPendingLocked: fromWei(multipleBNResult[9]),
+    lockedLF: fromWei(multipleBNResult[3]),
+    lockedPartyAMM: fromWei(multipleBNResult[4]),
+    lockedPartyBMM: fromWei(multipleBNResult[5]),
+
+    pendingLockedCVA: fromWei(multipleBNResult[6]),
+    pendingLockedLF: fromWei(multipleBNResult[7]),
+    pendingLockedPartyAMM: fromWei(multipleBNResult[8]),
+    pendingLockedPartyBMM: fromWei(multipleBNResult[9]),
+
     positionsCount: multipleBNResult[10]?.toNumber() ?? 0,
     pendingCount: multipleBNResult[11]?.toNumber() ?? 0,
     nonces: multipleBNResult[12]?.toNumber() ?? 0,

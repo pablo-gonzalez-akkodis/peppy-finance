@@ -44,6 +44,7 @@ export class QuotesClient extends MuonClient {
     contractAddress?: string,
     marketId?: number
   ) {
+    // TODO: add return type
     try {
       const requestParams = this._getRequestParams(
         account,

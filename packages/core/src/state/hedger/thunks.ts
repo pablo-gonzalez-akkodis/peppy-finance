@@ -67,6 +67,7 @@ export const getMarkets = createAsyncThunk(
             rfqAllowed: market?.rfq_allowed,
             hedgerFeeOpen: market.hedger_fee_open,
             hedgerFeeClose: market.hedger_fee_close,
+            maxFundingRate: market.max_funding_rate,
           }));
           count = marketsRes.value.count;
         }

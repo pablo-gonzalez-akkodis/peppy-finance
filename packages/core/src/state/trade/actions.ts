@@ -17,7 +17,8 @@ export const updatePositionType = createAction<PositionType>(
 );
 export const updateLockedPercentages = createAction<{
   cva: string;
-  mm: string;
+  partyAmm: string;
+  partyBmm: string;
   lf: string;
 }>("trade/updateLockedPercentages");
 export const updateIsActiveStopLoss = createAction<boolean>(

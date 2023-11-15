@@ -76,19 +76,22 @@ export function useStopLossValues(): {
 
 export function useLockedPercentages(): {
   cva: string | undefined;
-  mm: string | undefined;
+  partyAmm: string | undefined;
+  partyBmm: string | undefined;
   lf: string | undefined;
 } {
   const cva = useAppSelector((state) => state.trade.cva);
-  const mm = useAppSelector((state) => state.trade.mm);
+  const partyAmm = useAppSelector((state) => state.trade.partyAmm);
+  const partyBmm = useAppSelector((state) => state.trade.partyBmm);
   const lf = useAppSelector((state) => state.trade.lf);
   return useMemo(
     () => ({
       cva,
-      mm,
+      partyAmm,
+      partyBmm,
       lf,
     }),
-    [cva, lf, mm]
+    [cva, lf, partyAmm, partyBmm]
   );
 }
 
@@ -199,6 +202,7 @@ export function useGetLockedPercentages(
           url,
           options
         );
+
         if (response && toBN(leverage).isEqualTo(response.leverage))
           dispatch(updateLockedPercentages({ ...response }));
       } catch (error: unknown) {

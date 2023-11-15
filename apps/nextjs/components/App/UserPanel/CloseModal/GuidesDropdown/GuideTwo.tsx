@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { useTheme } from "styled-components";
 
 import { toBN } from "@symmio-client/core/utils/numbers";
@@ -120,12 +121,13 @@ export default function GuideTwo({
             {toBN(maxPartiallyClose).isEqualTo(0) ? (
               ""
             ) : (
-              <>
+              <React.Fragment>
                 <span onClick={() => setSize(maxPartiallyClose)}>
+                  {" "}
                   Partial close
                 </span>
                 , or
-              </>
+              </React.Fragment>
             )}{" "}
             <span onClick={() => setActiveTab(OrderType.LIMIT)}>
               Limit Orders

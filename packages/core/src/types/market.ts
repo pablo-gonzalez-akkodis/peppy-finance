@@ -14,6 +14,7 @@ export interface Market {
   rfqAllowed?: boolean;
   hedgerFeeOpen: string;
   hedgerFeeClose: string;
+  maxFundingRate: string;
 }
 
 export interface MarketResponseType {
@@ -32,6 +33,7 @@ export interface MarketResponseType {
   hedger_fee_close: string;
   hedger_fee_open: string;
   rfq_allowed: boolean | undefined;
+  max_funding_rate: string;
 }
 
 export interface MarketApiType {

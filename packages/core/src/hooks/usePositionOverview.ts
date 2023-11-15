@@ -87,7 +87,7 @@ function calculateTotalPositionsValue(
   let totalPositionValue = 0;
   quotes.forEach((currentQuote) => {
     const lockedMargin = toBN(currentQuote.CVA)
-      .plus(currentQuote.MM)
+      .plus(currentQuote.partyAMM)
       .plus(currentQuote.LF)
       .toString();
     const upnl = calculateUpnl(currentQuote, currentPrice ?? "0");

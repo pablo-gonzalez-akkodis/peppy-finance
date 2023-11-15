@@ -39,6 +39,8 @@ export class DeallocateClient extends MuonClient {
     chainId?: number,
     contractAddress?: string
   ) {
+    // TODO: add return type
+
     try {
       const requestParams = this._getRequestParams(
         account,

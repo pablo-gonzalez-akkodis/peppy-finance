@@ -22,7 +22,8 @@ export const initialState: TradeState = {
   limitPrice: "",
   typedValue: "",
   cva: undefined,
-  mm: undefined,
+  partyAmm: undefined,
+  partyBmm: undefined,
   lf: undefined,
   isActiveStopLoss: false,
   stopLossPrice: "",
@@ -58,9 +59,13 @@ export default createReducer(initialState, (builder) =>
       state.stopLossPrice = action.payload;
     })
 
-    .addCase(updateLockedPercentages, (state, { payload: { cva, mm, lf } }) => {
-      state.cva = cva;
-      state.mm = mm;
-      state.lf = lf;
-    })
+    .addCase(
+      updateLockedPercentages,
+      (state, { payload: { cva, partyAmm, partyBmm, lf } }) => {
+        state.cva = cva;
+        state.partyAmm = partyAmm;
+        state.partyBmm = partyBmm;
+        state.lf = lf;
+      }
+    )
 );

@@ -8,7 +8,8 @@ export interface TradeState {
   limitPrice: string;
   typedValue: string;
   cva: string | undefined;
-  mm: string | undefined;
+  partyAmm: string | undefined;
+  partyBmm: string | undefined;
   lf: string | undefined;
   isActiveStopLoss: boolean;
   stopLossPrice: string;
@@ -16,7 +17,8 @@ export interface TradeState {
 
 export interface GetLockedParamUrlResponse {
   cva: string;
-  mm: string;
+  partyAmm: string;
+  partyBmm: string;
   lf: string;
   leverage: string;
 }

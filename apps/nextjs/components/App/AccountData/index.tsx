@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { MEDIA_WIDTHS } from "theme";
 import {
   useQuoteDetail,
   useSetQuoteDetailCallback,
@@ -8,7 +7,7 @@ import {
 import { Tab } from "components/Tab";
 import AccountOverview from "components/App/AccountData/AccountOverview";
 import PositionDetails from "components/App/AccountData/PositionDetails";
-import useWindowSize from "lib/hooks/useWindowSize";
+import { useIsMobile } from "lib/hooks/useWindowSize";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -47,11 +46,7 @@ export default function Overviews() {
   );
   const quoteDetail = useQuoteDetail();
   const setQuoteDetail = useSetQuoteDetailCallback();
-  const { width } = useWindowSize();
-  const mobileVersion = useMemo(
-    () => width <= MEDIA_WIDTHS.upToMedium,
-    [width]
-  );
+  const mobileVersion = useIsMobile();
 
   useEffect(() => {
     if (quoteDetail) setPanelType(PanelType.POSITION_OVERVIEW);

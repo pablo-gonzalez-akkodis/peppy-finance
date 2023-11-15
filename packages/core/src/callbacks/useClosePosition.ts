@@ -24,10 +24,7 @@ import { Quote } from "../types/quote";
 import { OrderType, PositionType, TradeState } from "../types/trade";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
-import {
-  useActiveAccountAddress,
-  useSlippageTolerance,
-} from "../state/user/hooks";
+import { useSlippageTolerance } from "../state/user/hooks";
 import { useMarketData } from "../state/hedger/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
@@ -41,8 +38,6 @@ import {
   useMultiAccountContract,
 } from "../hooks/useContract";
 import { useMultiAccountable } from "../hooks/useMultiAccountable";
-import { SendOrCloseQuoteClient } from "../lib/muon";
-import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
@@ -68,7 +63,6 @@ export function useClosePosition(
   const MultiAccountContract = useMultiAccountContract();
 
   const functionName = "requestToClosePosition";
-  const activeAccountAddress = useActiveAccountAddress();
 
   const slippage = useSlippageTolerance();
 
@@ -113,39 +107,11 @@ export function useClosePosition(
     return toBN(closePriceBN).times(slippageFactored);
   }, [closePriceBN, slippage, positionType, orderType]);
 
-  const fakeSignature = useSingleUpnlAndPriceSig(markPriceBN);
-
   //TODO: remove this way
   const closePriceWied = useMemo(
     () => toWei(formatPrice(fromWei(closePriceFinal), pricePrecision)),
     [closePriceFinal, pricePrecision]
   );
-
-  const getSignature = useCallback(async () => {
-    try {
-      if (!quote || !chainId || !Contract || !activeAccountAddress) {
-        throw new Error("Missing Muon params");
-      }
-      if (!SendOrCloseQuoteClient) {
-        return { signature: fakeSignature };
-      }
-
-      const result = await SendOrCloseQuoteClient.getMuonSig(
-        activeAccountAddress,
-        chainId,
-        Contract?.address,
-        quote?.marketId
-      );
-
-      const { success, signature, error } = result;
-      if (success === false || !signature) {
-        throw new Error(`Unable to fetch Muon signature: ${error}`);
-      }
-      return { signature };
-    } catch (error) {
-      throw new Error(error);
-    }
-  }, [Contract, activeAccountAddress, chainId, fakeSignature, quote]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {
@@ -159,11 +125,6 @@ export function useClosePosition(
         throw new Error("Missing dependencies for constructCall.");
       }
 
-      const { signature } = await getSignature();
-      if (!signature) {
-        throw new Error("Missing signature for constructCall.");
-      }
-
       const deadline =
         orderType === OrderType.MARKET
           ? Math.floor(Date.now() / 1000) + MARKET_ORDER_DEADLINE
@@ -175,7 +136,6 @@ export function useClosePosition(
         BigInt(toWei(quantityToClose)),
         orderType === OrderType.MARKET ? 1 : 0,
         BigInt(deadline),
-        signature,
       ] as const;
 
       return {
@@ -193,7 +153,6 @@ export function useClosePosition(
               BigInt(toWei(quantityToClose)),
               orderType === OrderType.MARKET ? 1 : 0,
               BigInt(deadline),
-              signature,
             ],
           }),
           value: BigInt(0),
@@ -208,7 +167,6 @@ export function useClosePosition(
     quote,
     quantityToClose,
     isSupportedChainId,
-    getSignature,
     orderType,
     closePriceWied,
   ]);

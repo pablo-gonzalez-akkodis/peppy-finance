@@ -3,7 +3,7 @@ export const WEB_SETTING = {
   versionCode: 11,
   calculationalInput: true,
   showBadge: true,
-  muonEnabled: false,
+  muonEnabled: true,
   showAccountHealthEmoji: true,
   showColorfulAccountHealth: true,
   checkWhiteList: true,

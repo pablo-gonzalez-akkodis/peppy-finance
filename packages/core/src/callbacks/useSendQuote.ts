@@ -39,7 +39,6 @@ import {
   toWei,
   formatPrice,
   BN_ZERO,
-  fromWei,
   toWeiBN,
 } from "../utils/numbers";
 import {
@@ -56,9 +55,10 @@ import { useMultiAccountable } from "../hooks/useMultiAccountable";
 import useTradePage, {
   useLockedCVA,
   useLockedLF,
-  useLockedMM,
-  useMaxInterestRate,
+  useMaxFundingRate,
   useNotionalValue,
+  usePartyALockedMM,
+  usePartyBLockedMM,
 } from "../hooks/useTradePage";
 import { SendOrCloseQuoteClient } from "../lib/muon";
 import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
@@ -133,13 +133,13 @@ export function useSentQuoteCallback(): {
 
   const notionalValue = useNotionalValue(quantityAsset.toString(), openPriceBN);
   const lockedCVA = useLockedCVA(notionalValue);
-  const lockedMM = useLockedMM(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
-  const { cva, mm, lf } = useLockedPercentages();
+  const lockedPartyAMM = usePartyALockedMM(notionalValue);
+  const lockedPartyBMM = usePartyBLockedMM(notionalValue);
+  const { cva, partyAmm, partyBmm, lf } = useLockedPercentages();
   const updateNotionalCap = useSetNotionalCap();
 
-  const maxInterestRate = useMaxInterestRate(notionalValue);
-  const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
+  const maxFundingRate = useMaxFundingRate();
   const { baseUrl } = useHedgerInfo() || {};
   const PARTY_B_WHITELIST = usePartyBWhitelistAddress();
   const FALLBACK_CHAIN_ID = useFallbackChainId();
@@ -148,6 +148,7 @@ export function useSentQuoteCallback(): {
     [FALLBACK_CHAIN_ID, PARTY_B_WHITELIST, chainId]
   );
 
+  const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
   const getSignature = useCallback(async () => {
     if (!SendOrCloseQuoteClient) {
       return { signature: fakeSignature, price: marketPrice.toString() };
@@ -168,7 +169,7 @@ export function useSentQuoteCallback(): {
     if (success === false || !signature) {
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
-    return { signature, price: fromWei(signature.price.toString()) };
+    return { signature, price: signature[3] };
   }, [
     DiamondContract,
     activeAccountAddress,
@@ -211,7 +212,8 @@ export function useSentQuoteCallback(): {
         !partyBWhiteList ||
         !isSupportedChainId ||
         !cva ||
-        !mm ||
+        !partyAmm ||
+        !partyBmm ||
         !lf
       ) {
         throw new Error("Missing dependencies.");
@@ -226,7 +228,11 @@ export function useSentQuoteCallback(): {
 
       const muonNotionalValue = toBN(quantityAsset).times(price);
       const muonCVA = muonNotionalValue.times(cva).div(100).div(leverage);
-      const muonMM = muonNotionalValue.times(mm).div(100).div(leverage);
+      const muonPartyAMM = muonNotionalValue
+        .times(partyAmm)
+        .div(100)
+        .div(leverage);
+      const muonPartyBMM = muonNotionalValue.times(partyBmm).div(100);
       const muonLF = muonNotionalValue.times(lf).div(100).div(leverage);
 
       const deadline =
@@ -242,9 +248,16 @@ export function useSentQuoteCallback(): {
         BigInt(openPriceWied),
         BigInt(toWei(quantityAsset, 18)),
         orderType === OrderType.MARKET ? toWei(muonCVA) : toWei(lockedCVA),
-        orderType === OrderType.MARKET ? toWei(muonMM) : toWei(lockedMM),
         orderType === OrderType.MARKET ? toWei(muonLF) : toWei(lockedLF),
-        toWei(maxInterestRate),
+
+        orderType === OrderType.MARKET
+          ? toWei(muonPartyAMM)
+          : toWei(lockedPartyAMM), // partyAmm
+        orderType === OrderType.MARKET
+          ? toWei(muonPartyBMM)
+          : toWei(lockedPartyBMM), // partyBmm
+        toWei(maxFundingRate),
+
         BigInt(deadline),
         signature,
       ];
@@ -274,7 +287,8 @@ export function useSentQuoteCallback(): {
     partyBWhiteList,
     isSupportedChainId,
     cva,
-    mm,
+    partyAmm,
+    partyBmm,
     lf,
     getNotionalCap,
     getSignature,
@@ -284,9 +298,10 @@ export function useSentQuoteCallback(): {
     positionType,
     openPriceWied,
     lockedCVA,
-    lockedMM,
     lockedLF,
-    maxInterestRate,
+    lockedPartyAMM,
+    lockedPartyBMM,
+    maxFundingRate,
   ]);
 
   const constructCall = useMultiAccountable(preConstructCall);
