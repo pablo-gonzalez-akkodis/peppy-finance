@@ -1,7 +1,6 @@
 import { Address } from "viem";
 import { DEFAULT_MUON_APP_NAME } from "../config";
 import { MuonClient } from "./base";
-import { toast } from "react-hot-toast";
 
 export class DeallocateClient extends MuonClient {
   constructor(app?: string) {
@@ -46,37 +45,43 @@ export class DeallocateClient extends MuonClient {
         chainId,
         contractAddress
       );
-      if (requestParams instanceof Error)
-        throw new Error(requestParams.message);
-      console.info("Requesting data from Muon: ", requestParams);
 
-      const response = await this._sendRequest(requestParams);
-      console.info("Response from Muon: ", response);
-
-      if (!response) {
-        throw new Error("Error in response of Muon");
+      if (requestParams instanceof Error) {
+        return {
+          success: false,
+          error: requestParams,
+        };
       }
 
-      const timestamp: number = response["timestamp"];
-      const upnl: string = response["uPnl"];
-      const gatewaySignature: string = response["nodeSignature"];
+      console.info("Requesting data from Muon: ", requestParams);
+      const { result, success } = await this._sendRequest(requestParams);
+      console.info("Response from Muon: ", result);
 
-      const signature = {
-        reqId: "0x" as Address,
-        timestamp: BigInt(timestamp),
-        upnl: BigInt(upnl),
-        gatewaySignature: gatewaySignature as Address,
-        sigs: {
-          owner: "0x0000000000000000000000000000000000000000" as Address,
-          signature: BigInt("1"),
-          nonce: "0x0000000000000000000000000000000000000000" as Address,
-        },
-      };
+      if (!success) {
+        return {
+          success: false,
+          error: new Error("Error in response of Muon"),
+        };
+      }
 
-      return { success: true, signature };
+      const reqId = result["reqId"] as Address;
+      const timestamp = BigInt(result["data"]["timestamp"]);
+      const upnl = BigInt(result["data"]["result"]["uPnl"]);
+      const gatewaySignature = result["nodeSignature"] as Address;
+      const signature = BigInt(result["signatures"][0]["signature"]);
+      const owner = result["signatures"][0]["owner"] as Address;
+      const nonce = result["data"]["init"]["nonceAddress"] as Address;
+      const generatedSignature = [
+        reqId,
+        timestamp,
+        upnl,
+        gatewaySignature,
+        [signature, owner, nonce],
+      ];
+
+      return { success: true, signature: generatedSignature };
     } catch (error) {
       console.error(error);
-      toast.error("Unable to get response from muon");
       return { success: false, error };
     }
   }
