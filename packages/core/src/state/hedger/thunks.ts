@@ -11,6 +11,7 @@ import { OpenInterest } from "../../types/hedger";
 import {
   DepthResponse,
   ErrorMessages,
+  FundingRateRes,
   MarketDepthData,
   MarketDepthMap,
   MarketInfoValue,
@@ -276,6 +277,49 @@ export const getMarketsInfo = createAsyncThunk(
     }
 
     return { marketsInfo };
+  }
+);
+
+export const getFundingRate = createAsyncThunk(
+  "hedger/getFundingRate",
+  async ({
+    hedgerUrl,
+    markets,
+    appName,
+  }: {
+    hedgerUrl: string | undefined;
+    markets: string[] | undefined;
+    appName: string;
+  }) => {
+    console.log("in the thunks");
+    if (!hedgerUrl) {
+      throw new Error("hedgerUrl is empty");
+    }
+    if (!markets) {
+      throw new Error("markets is empty");
+    }
+
+    const fundingRateUrl = new URL(`get_funding_info`, hedgerUrl);
+    markets.forEach((m) => {
+      fundingRateUrl.searchParams.append("symbols", m);
+    });
+    console.log(fundingRateUrl, fundingRateUrl.href);
+
+    try {
+      const [fundingRateRes] = await Promise.allSettled([
+        makeHttpRequest<FundingRateRes>(
+          fundingRateUrl.href,
+          getAppNameHeader(appName)
+        ),
+      ]);
+
+      if (fundingRateRes.status === "fulfilled") {
+      }
+    } catch (error) {
+      console.error(error, "happened in getFundingRate");
+    }
+
+    return {};
   }
 );
 

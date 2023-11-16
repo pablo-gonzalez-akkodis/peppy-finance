@@ -78,6 +78,7 @@ const DataWrap = styled(RowEnd)`
   font-size: 16px;
   max-width: 282px;
   font-weight: 500;
+  white-space: normal;
   padding-right: 10px;
   border-radius: 4px;
   color: ${({ theme }) => theme.text0};

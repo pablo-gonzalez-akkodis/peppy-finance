@@ -23,6 +23,7 @@ import {
   useMarketNotionalCap,
   useSetDepth,
   useMarkets,
+  useSetFundingRates,
 } from "./hooks";
 import {
   getMarkets,
@@ -44,6 +45,7 @@ export function HedgerUpdater(): null {
   const appName = useAppName();
 
   usePriceWebSocket();
+  useFundingRateWebSocket();
   useFetchMarkets(hedger, thunkDispatch);
   useFetchNotionalCap(hedger, thunkDispatch, activeMarket);
 
@@ -226,4 +228,62 @@ function usePriceWebSocket() {
     windowVisible,
     updateDepth,
   ]);
+}
+
+function useFundingRateWebSocket() {
+  const { webSocketFundingRateUrl } = useHedgerInfo() || {};
+  const windowVisible = useIsWindowVisible();
+  const activeMarket = useActiveMarket();
+  const updateFundingRates = useSetFundingRates();
+
+  const url =
+    !activeMarket || webSocketFundingRateUrl === "" || !webSocketFundingRateUrl
+      ? null
+      : webSocketFundingRateUrl;
+  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(url, {
+    reconnectAttempts: 10,
+    shouldReconnect: () => true,
+    onOpen: () => {
+      console.log("Funding Rate established.");
+    },
+    onClose: () => console.log("Funding Rate closed"),
+    onError: (e) => console.log("Funding Rate has error ", e),
+  });
+
+  const connectionStatus = useMemo(() => {
+    if (readyState === ReadyState.OPEN) {
+      return ConnectionStatus.OPEN;
+    } else {
+      return ConnectionStatus.CLOSED;
+    }
+  }, [readyState]);
+
+  // useEffect(() => {
+  //   updateWebSocketStatus(connectionStatus)
+  // }, [connectionStatus, updateWebSocketStatus])
+
+  useEffect(() => {
+    if (connectionStatus === ConnectionStatus.OPEN && activeMarket) {
+      const json = {
+        symbols: windowVisible ? [activeMarket.name] : [],
+      };
+      sendJsonMessage(json as unknown as JsonValue);
+    }
+  }, [connectionStatus, sendJsonMessage, windowVisible, activeMarket]);
+
+  useEffect(() => {
+    try {
+      const lastMessage = lastJsonMessage as any;
+      //don't update anything if user is idle instead of updating to empty prices
+      if (!windowVisible) return;
+
+      if (!lastMessage || isEmpty(lastMessage)) {
+        return;
+        // return updateFundingRates({})
+      }
+      updateFundingRates(lastMessage);
+    } catch (err) {
+      console.log({ err });
+    }
+  }, [lastJsonMessage, connectionStatus, windowVisible, updateFundingRates]);
 }

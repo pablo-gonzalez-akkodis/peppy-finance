@@ -16,7 +16,6 @@ import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
 import { getAppNameHeader } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
-  useLeverage,
   useSlippageTolerance,
 } from "../state/user/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
@@ -38,7 +37,6 @@ import {
   toBN,
   toWei,
   formatPrice,
-  BN_ZERO,
   toWeiBN,
 } from "../utils/numbers";
 import {
@@ -92,7 +90,6 @@ export function useSentQuoteCallback(): {
   const orderType = useOrderType();
   const positionType = usePositionType();
   const { price, formattedAmounts } = useTradePage();
-  const leverage = useLeverage();
   const appName = useAppName();
 
   const marketId = useActiveMarketId();
@@ -103,22 +100,22 @@ export function useSentQuoteCallback(): {
     () => market?.pricePrecision ?? DEFAULT_PRECISION,
     [market]
   );
-  const openPriceBN = useMemo(() => (price ? toBN(price) : BN_ZERO), [price]);
+  const openPrice = useMemo(() => (price ? price : "0"), [price]);
 
   const openPriceFinal = useMemo(() => {
-    if (orderType === OrderType.LIMIT) return openPriceBN;
+    if (orderType === OrderType.LIMIT) return openPrice;
 
     if (slippage === "auto") {
       return positionType === PositionType.SHORT
-        ? openPriceBN.div(MARKET_PRICE_COEFFICIENT)
-        : openPriceBN.times(MARKET_PRICE_COEFFICIENT);
+        ? toBN(openPrice).div(MARKET_PRICE_COEFFICIENT).toString()
+        : toBN(openPrice).times(MARKET_PRICE_COEFFICIENT).toString();
     }
 
     const spSigned =
       positionType === PositionType.SHORT ? slippage : slippage * -1;
     const slippageFactored = toBN(100 - spSigned).div(100);
-    return toBN(openPriceBN).times(slippageFactored);
-  }, [openPriceBN, slippage, positionType, orderType]);
+    return toBN(openPrice).times(slippageFactored).toString();
+  }, [openPrice, slippage, positionType, orderType]);
 
   const openPriceWied = useMemo(
     () => toWei(formatPrice(openPriceFinal, pricePrecision)),
@@ -126,12 +123,11 @@ export function useSentQuoteCallback(): {
   );
 
   const quantityAsset = useMemo(
-    () =>
-      toBN(formattedAmounts[1]).isNaN() ? toBN(0) : toBN(formattedAmounts[1]),
+    () => (toBN(formattedAmounts[1]).isNaN() ? "0" : formattedAmounts[1]),
     [formattedAmounts]
   );
 
-  const notionalValue = useNotionalValue(quantityAsset.toString(), openPriceBN);
+  const notionalValue = useNotionalValue(quantityAsset, openPriceFinal);
   const lockedCVA = useLockedCVA(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
   const lockedPartyAMM = usePartyALockedMM(notionalValue);
@@ -169,7 +165,7 @@ export function useSentQuoteCallback(): {
     if (success === false || !signature) {
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
-    return { signature, price: signature[3] };
+    return { signature };
   }, [
     DiamondContract,
     activeAccountAddress,
@@ -196,11 +192,11 @@ export function useSentQuoteCallback(): {
       tempResponse;
 
     const freeCap = toBN(total_cap).minus(used);
-    const notionalValue = openPriceBN.times(quantityAsset);
+    const notionalValue = toBN(openPrice).times(quantityAsset);
     updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [appName, baseUrl, market, openPriceBN, quantityAsset, updateNotionalCap]);
+  }, [appName, baseUrl, market, openPrice, quantityAsset, updateNotionalCap]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {
@@ -220,20 +216,11 @@ export function useSentQuoteCallback(): {
       }
 
       await getNotionalCap();
-      const { signature, price } = await getSignature();
+      const { signature } = await getSignature();
 
       if (!signature) {
         throw new Error("Missing signature for constructCall.");
       }
-
-      const muonNotionalValue = toBN(quantityAsset).times(price);
-      const muonCVA = muonNotionalValue.times(cva).div(100).div(leverage);
-      const muonPartyAMM = muonNotionalValue
-        .times(partyAmm)
-        .div(100)
-        .div(leverage);
-      const muonPartyBMM = muonNotionalValue.times(partyBmm).div(100);
-      const muonLF = muonNotionalValue.times(lf).div(100).div(leverage);
 
       const deadline =
         orderType === OrderType.MARKET
@@ -247,15 +234,10 @@ export function useSentQuoteCallback(): {
         (orderType === OrderType.MARKET ? 1 : 0) as number,
         BigInt(openPriceWied),
         BigInt(toWei(quantityAsset, 18)),
-        orderType === OrderType.MARKET ? toWei(muonCVA) : toWei(lockedCVA),
-        orderType === OrderType.MARKET ? toWei(muonLF) : toWei(lockedLF),
-
-        orderType === OrderType.MARKET
-          ? toWei(muonPartyAMM)
-          : toWei(lockedPartyAMM), // partyAmm
-        orderType === OrderType.MARKET
-          ? toWei(muonPartyBMM)
-          : toWei(lockedPartyBMM), // partyBmm
+        toWei(lockedCVA),
+        toWei(lockedLF),
+        toWei(lockedPartyAMM), // partyAmm
+        toWei(lockedPartyBMM), // partyBmm
         toWei(maxFundingRate),
 
         BigInt(deadline),
@@ -293,7 +275,6 @@ export function useSentQuoteCallback(): {
     getNotionalCap,
     getSignature,
     quantityAsset,
-    leverage,
     orderType,
     positionType,
     openPriceWied,
@@ -323,14 +304,14 @@ export function useSentQuoteCallback(): {
       };
     }
 
-    if (openPriceBN.lte(0)) {
+    if (toBN(openPrice).lte(0)) {
       return {
         state: TransactionCallbackState.INVALID,
         callback: null,
         error: "Price is out of range",
       };
     }
-    if (quantityAsset.lte(0)) {
+    if (toBN(quantityAsset).lte(0)) {
       return {
         state: TransactionCallbackState.INVALID,
         callback: null,
@@ -374,7 +355,7 @@ export function useSentQuoteCallback(): {
     orderType,
     quantityAsset,
     activeAccountAddress,
-    openPriceBN,
+    openPrice,
     price,
     pricePrecision,
     slippage,

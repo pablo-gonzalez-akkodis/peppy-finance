@@ -6,14 +6,18 @@ import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
 import { PositionType } from "@symmio-client/core/types/trade";
-import { formatTimestamp } from "@symmio-client/core/utils/time";
+import {
+  formatTimestamp,
+  getRemainingTime,
+} from "@symmio-client/core/utils/time";
 import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 import {
   formatAmount,
   toBN,
   formatCurrency,
 } from "@symmio-client/core/utils/numbers";
-
+import { FundingRateData } from "@symmio-client/core/state/hedger/types";
+import useFetchFundingRate from "@symmio-client/core/src/hooks/useFetchFundingRate";
 import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
 import { useMarket } from "@symmio-client/core/hooks/useMarkets";
 import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
@@ -49,18 +53,6 @@ import {
   FlexColumn,
 } from "components/App/AccountData/PositionDetails/styles";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
-
-// const ShareOnTwitterButton = styled(RowEnd)`
-//   width: 40%;
-//   height: 20px;
-//   font-size: 10px;
-//   font-weight: 500;
-//   border-radius: 2px;
-//   cursor: pointer;
-//   padding: 4px 4px 4px 8px;
-//   color: ${({ theme }) => theme.text0};
-//   background: ${({ theme }) => theme.twitter};
-// `
 
 export default function OpenedQuoteDetails({
   quote,
@@ -327,16 +319,22 @@ export default function OpenedQuoteDetails({
               <Label>Created Time:</Label>
               <Value>{formatTimestamp(createTimestamp * 1000)}</Value>
             </Row>
-            {quoteStatus === QuoteStatus.CLOSED ? (
-              <Row>
-                <Label>Close Time:</Label>
-                <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
-              </Row>
-            ) : (
-              <Row>
-                <Label>Last modified Time:</Label>
-                <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
-              </Row>
+            <Row>
+              <Label>
+                {quoteStatus === QuoteStatus.CLOSED
+                  ? "Close Time:"
+                  : "Last modified Time:"}
+              </Label>
+              <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
+            </Row>
+
+            {quoteStatus !== QuoteStatus.CLOSED && (
+              <FundingRate
+                notionalValue={notionalValue}
+                name={name}
+                symbol={collateralCurrency?.symbol}
+                positionType={positionType}
+              />
             )}
             <Row>
               <Label>Locked Amount:</Label>
@@ -346,20 +344,77 @@ export default function OpenedQuoteDetails({
             </Row>
             <Row>
               <Label>Platform Fee:</Label>
-              <Value>{`${formatAmount(platformFee, 6, true)} ${
-                collateralCurrency?.symbol
-              }`}</Value>
+              <Value>{`${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (OPEN) / ${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (CLOSE) ${collateralCurrency?.symbol}`}</Value>
             </Row>
           </ContentWrapper>
         </Wrapper>
       )}
-
-      {/* <SharePositionModal
-        title={'Share on twitter'}
-        quote={quote}
-        isOpen={sharePositionModal}
-        toggleModal={togglePositionModal}
-      /> */}
     </>
+  );
+}
+
+function FundingRate({
+  notionalValue,
+  positionType,
+  name,
+  symbol,
+}: {
+  notionalValue: string;
+  positionType: PositionType;
+  name?: string;
+  symbol?: string;
+}) {
+  const theme = useTheme();
+  const fundingRates = useFetchFundingRate(name);
+  const fundingRate =
+    name && fundingRates[name]
+      ? fundingRates[name]
+      : ({ next_funding_rate: "-", next_funding_time: 0 } as FundingRateData);
+
+  const { next_funding_rate, next_funding_time } = fundingRate;
+  const { diff, hours, minutes, seconds } = getRemainingTime(next_funding_time);
+  const color =
+    next_funding_rate === "-"
+      ? theme.text0
+      : positionType === PositionType.LONG
+      ? toBN(next_funding_rate).isGreaterThan(0)
+        ? theme.red1
+        : theme.green1
+      : toBN(next_funding_rate).isGreaterThan(0)
+      ? theme.green1
+      : theme.red1;
+
+  return (
+    <React.Fragment>
+      <Row>
+        <Label>Paid Funding:</Label>
+        <Value>{`- ${symbol}`}</Value>
+      </Row>
+      <Row>
+        <Label>Next Funding:</Label>
+        <Value>
+          <PositionPnl color={color}>
+            {!toBN(next_funding_rate).isNaN()
+              ? `${formatAmount(
+                  toBN(notionalValue).times(next_funding_rate).abs()
+                )} `
+              : "-"}
+          </PositionPnl>
+          {symbol} in
+          {diff > 0 &&
+            ` ${hours.toString().padStart(2, "0")}:${minutes
+              .toString()
+              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
+        </Value>
+      </Row>
+    </React.Fragment>
   );
 }

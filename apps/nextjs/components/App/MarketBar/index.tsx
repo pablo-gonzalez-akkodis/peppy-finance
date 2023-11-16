@@ -15,6 +15,7 @@ import Column from "components/Column";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 import { Row, RowBetween } from "components/Row";
 import MarketDepths from "./MarketDepths";
+import MarketFundingRate from "./MarketFundingRate";
 
 const Wrapper = styled(Row)`
   min-height: 56px;
@@ -111,54 +112,59 @@ export default function MarketBar() {
   }, [activeMarket?.name, marketNotionalCapStatus, marketNotionalCap]);
 
   return (
-    <Wrapper>
-      <DataWrap>
-        <MarketInfo />
-        <Separator />
-        <HedgerInfos>
-          <Column>
-            <Name>Last Price</Name>
-            {activeMarket ? (
-              <BlinkingPrice market={activeMarket} priceWidth={"66"} />
-            ) : (
-              <Loader size={"12px"} stroke="#EBEBEC" />
-            )}
-          </Column>
-          <Column>
-            <Name textAlignMedium={"right"}>Open Interest</Name>
-            <Value textAlignMedium={"right"}>
-              {used === -1 ? (
-                <Loader size={"12px"} stroke="#EBEBEC" />
+    <Column>
+      <Wrapper>
+        <DataWrap>
+          <MarketInfo />
+          <Separator />
+          <HedgerInfos>
+            <Column>
+              <Name>Last Price</Name>
+              {activeMarket ? (
+                <BlinkingPrice market={activeMarket} priceWidth={"66"} />
               ) : (
-                formatDollarAmount(used)
-              )}{" "}
-              /{" "}
-              {total === -1 ? (
                 <Loader size={"12px"} stroke="#EBEBEC" />
-              ) : (
-                formatDollarAmount(total)
               )}
-            </Value>
-          </Column>
-          <Column>
-            <Name>{activeMarket?.symbol} Notional Cap</Name>
-            <Value>
-              {notionalCapUsed === -1 ? (
-                <Loader size={"12px"} stroke="#EBEBEC" />
-              ) : (
-                formatDollarAmount(notionalCapUsed)
-              )}{" "}
-              /{" "}
-              {totalCap === -1 ? (
-                <Loader size={"12px"} stroke="#EBEBEC" />
-              ) : (
-                formatDollarAmount(totalCap)
-              )}
-            </Value>
-          </Column>
-        </HedgerInfos>
-      </DataWrap>
-      <MarketDepths />
-    </Wrapper>
+            </Column>
+            <Column>
+              <Name textAlignMedium={"right"}>Open Interest</Name>
+              <Value textAlignMedium={"right"}>
+                {used === -1 ? (
+                  <Loader size={"12px"} stroke="#EBEBEC" />
+                ) : (
+                  formatDollarAmount(used)
+                )}{" "}
+                /{" "}
+                {total === -1 ? (
+                  <Loader size={"12px"} stroke="#EBEBEC" />
+                ) : (
+                  formatDollarAmount(total)
+                )}
+              </Value>
+            </Column>
+            <Column>
+              <Name>{activeMarket?.symbol} Notional Cap</Name>
+              <Value>
+                {notionalCapUsed === -1 ? (
+                  <Loader size={"12px"} stroke="#EBEBEC" />
+                ) : (
+                  formatDollarAmount(notionalCapUsed)
+                )}{" "}
+                /{" "}
+                {totalCap === -1 ? (
+                  <Loader size={"12px"} stroke="#EBEBEC" />
+                ) : (
+                  formatDollarAmount(totalCap)
+                )}
+              </Value>
+            </Column>
+          </HedgerInfos>
+        </DataWrap>
+        <MarketDepths />
+      </Wrapper>
+      <Wrapper>
+        <MarketFundingRate />
+      </Wrapper>
+    </Column>
   );
 }

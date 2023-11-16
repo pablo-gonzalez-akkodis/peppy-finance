@@ -8,6 +8,7 @@ import {
   updateDepth,
   updateDepths,
   updateNotionalCap,
+  updateFundingRates,
 } from "./actions";
 import {
   getMarkets,
@@ -22,6 +23,7 @@ const initialState: HedgerState = {
   prices: {},
   depths: {},
   markets: [],
+  fundingRates: {},
   openInterest: { total: -1, used: -1 },
   webSocketStatus: ConnectionStatus.CLOSED,
   marketsStatus: ApiState.LOADING,
@@ -43,6 +45,13 @@ export default createReducer(initialState, (builder) =>
     .addCase(updatePrices, (state, { payload }) => {
       //todo: can we make it better?
       state.prices = { ...current(state.prices), ...payload.prices };
+    })
+    .addCase(updateFundingRates, (state, { payload }) => {
+      //todo: can we make it better?
+      state.fundingRates = {
+        ...current(state.fundingRates),
+        ...payload.fundingRates,
+      };
     })
     .addCase(updateDepth, (state, { payload }) => {
       state.depths[payload.name] = payload.depth;
