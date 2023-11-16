@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
 import DefaultToken from "/public/static/images/tokens/default-token.svg";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 const tokenNames = [
   "BTC",

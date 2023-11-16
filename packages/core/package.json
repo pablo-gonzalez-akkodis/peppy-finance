@@ -1,5 +1,5 @@
 {
-  "name": "@symmio-client/core",
+  "name": "@symmio/frontend-sdk",
   "version": "0.0.1",
   "main": "dist/index",
   "types": "dist/index",

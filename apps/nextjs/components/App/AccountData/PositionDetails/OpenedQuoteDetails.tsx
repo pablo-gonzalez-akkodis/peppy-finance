@@ -1,29 +1,29 @@
 import { useTheme } from "styled-components";
 import React, { useEffect, useState } from "react";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { formatTimestamp } from "@symmio-client/core/utils/time";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import {
   formatAmount,
   toBN,
   formatCurrency,
-} from "@symmio-client/core/utils/numbers";
+} from "@symmio/frontend-sdk/utils/numbers";
 
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
 import {
   useLockedMargin,
   useQuoteLeverage,
   useQuoteSize,
   useQuoteUpnlAndPnl,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useNotionalValue } from "@symmio-client/core/hooks/useTradePage";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
 
 import { RowEnd, Row as RowComponent } from "components/Row";
 import ClosePendingDetails from "./ClosedSizeDetails/ClosePendingDetails";

@@ -1,8 +1,8 @@
 import { useState, memo } from "react";
 import styled from "styled-components";
 
-import { BN_ZERO, toBN } from "@symmio-client/core/utils/numbers";
-import { CloseGuides, OrderType } from "@symmio-client/core/types/trade";
+import { BN_ZERO, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { CloseGuides, OrderType } from "@symmio/frontend-sdk/types/trade";
 
 import Column from "components/Column";
 import { Row, RowEnd } from "components/Row";

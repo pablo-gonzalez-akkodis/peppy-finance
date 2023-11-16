@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import { Market } from "@symmio-client/core/types/market";
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
+import { Market } from "@symmio/frontend-sdk/types/market";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
 export const Price = styled.div<{
   positive: boolean;

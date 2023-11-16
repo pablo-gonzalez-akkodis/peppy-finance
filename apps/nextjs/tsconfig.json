@@ -34,7 +34,7 @@
       "theme/*": ["./theme/*"],
       "utils/*": ["./utils/*"],
       "types/*": ["./types/*"],
-      "@symmio-client/core/*": ["../../packages/core/src/*"]
+      "@symmio/frontend-sdk/*": ["../../packages/core/src/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "jsx": "preserve",

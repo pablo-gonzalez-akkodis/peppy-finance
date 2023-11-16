@@ -1,26 +1,30 @@
 import { useMemo } from "react";
 import styled from "styled-components";
 
-import { BN_ZERO, formatAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { OrderType } from "@symmio-client/core/types/trade";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import {
+  BN_ZERO,
+  formatAmount,
+  toBN,
+} from "@symmio/frontend-sdk/utils/numbers";
+import { OrderType } from "@symmio/frontend-sdk/types/trade";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   useLimitPrice,
   useOrderType,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 import useTradePage, {
   useLockedValues,
   useNotionalValue,
-} from "@symmio-client/core/hooks/useTradePage";
+} from "@symmio/frontend-sdk/hooks/useTradePage";
 
 import InfoItem from "components/InfoItem";
 import { Column } from "components/Column";
 import { RowBetween, RowEnd } from "components/Row";
-import { useLeverage } from "@symmio-client/core/state/user/hooks";
+import { useLeverage } from "@symmio/frontend-sdk/state/user/hooks";
 
 const Wrapper = styled(Column)`
   padding: 0px;

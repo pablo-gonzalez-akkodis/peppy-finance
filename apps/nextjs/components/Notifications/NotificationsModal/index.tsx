@@ -2,11 +2,11 @@ import React, { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import { Z_INDEX } from "theme";
 
-import { NotificationDetails } from "@symmio-client/core/state/notifications/types";
+import { NotificationDetails } from "@symmio/frontend-sdk/state/notifications/types";
 import {
   useReadNotifications,
   useUnreadNotifications,
-} from "@symmio-client/core/state/notifications/hooks";
+} from "@symmio/frontend-sdk/state/notifications/hooks";
 
 import Column, { ColumnCenter } from "components/Column";
 import { Card } from "components/Card";

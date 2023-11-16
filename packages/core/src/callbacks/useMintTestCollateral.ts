@@ -43,7 +43,7 @@ export function useMintCollateral(): {
       const args = [
         account as Address,
         BigInt(new BigNumber(50000).shiftedBy(18).toFixed()),
-      ] as const;
+      ];
 
       return {
         args,

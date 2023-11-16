@@ -6,11 +6,11 @@ import Sniper from "/public/static/images/sniper.svg";
 import Medic from "/public/static/images/doctor.svg";
 import Archer from "/public/static/images/hunter.svg";
 
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
 import {
   useMax20ClosedQuotes,
   useQuotesPnl,
-} from "@symmio-client/core/hooks/useBadgesData";
+} from "@symmio/frontend-sdk/hooks/useBadgesData";
 import { ToolTipBottom } from "components/ToolTip";
 import Column from "components/Column";
 

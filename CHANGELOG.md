@@ -1,4 +1,4 @@
-# @symmio-client
+# @symmio/frontend-sdk
 
 ## 1.1.1
 

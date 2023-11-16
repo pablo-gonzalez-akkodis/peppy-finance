@@ -3,21 +3,21 @@ import styled from "styled-components";
 
 import InfoItem from "components/InfoItem";
 import ActionButton from "./ActionButton";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   useSetIsActiveStopLoss,
   useSetStopLossPrice,
   useStopLossValues,
-} from "@symmio-client/core/state/trade/hooks";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import useTradePage, {
   useLockedValues,
   useNotionalValue,
-} from "@symmio-client/core/hooks/useTradePage";
-import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
-import { toBN } from "@symmio-client/core/utils/numbers";
+} from "@symmio/frontend-sdk/hooks/useTradePage";
+import { DEFAULT_PRECISION } from "@symmio/frontend-sdk/constants/misc";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
 import SwitchInput from "components/Input/SwitchInput";
 
 const Info = styled.p`

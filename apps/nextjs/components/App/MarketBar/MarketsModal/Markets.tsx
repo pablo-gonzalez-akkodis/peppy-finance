@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { Market } from "@symmio-client/core/types/market";
+import { Market } from "@symmio/frontend-sdk/types/market";
 
-import { useNeutralMarkets } from "@symmio-client/core/hooks/useMarkets";
+import { useNeutralMarkets } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import { EmptySearch } from "components/Icons";
 import MarketRow from "./MarketRow";

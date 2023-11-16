@@ -1,7 +1,7 @@
 import React, { useMemo, useCallback } from "react";
 import styled from "styled-components";
 
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import QuestionMark from "components/Icons/QuestionMark";
 import { ToolTip } from "components/ToolTip";

@@ -2,7 +2,7 @@ import React from "react";
 import { WagmiConfig } from "wagmi";
 import dynamic from "next/dynamic";
 import type { AppProps } from "next/app";
-import store, { ReduxProvider, persistor } from "@symmio-client/core/state";
+import store, { ReduxProvider, persistor } from "@symmio/frontend-sdk/state";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { getWagmiConfig } from "utils/wagmi";
 import { PersistGate } from "redux-persist/integration/react";
@@ -12,11 +12,11 @@ import { Toaster } from "react-hot-toast";
 import { ModalBackground } from "components/Modal";
 import Layout from "components/Layout";
 import Popups from "components/Popups";
-import { BlockNumberProvider } from "@symmio-client/core/lib/hooks/useBlockNumber";
+import { BlockNumberProvider } from "@symmio/frontend-sdk/lib/hooks/useBlockNumber";
 import ConfigSDKComponent from "./configSDK";
 import { setUseWhatChange } from "@simbathesailor/use-what-changed";
 
-const Updaters = dynamic(() => import("@symmio-client/core/state/updaters"), {
+const Updaters = dynamic(() => import("@symmio/frontend-sdk/state/updaters"), {
   ssr: false,
 });
 

@@ -1,5 +1,5 @@
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import { Hedger, OpenInterest } from "@symmio-client/core/types/hedger";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
+import { Hedger, OpenInterest } from "@symmio/frontend-sdk/types/hedger";
 
 export const DEFAULT_HEDGER = {
   apiUrl: "https://fapi.binance.com/",

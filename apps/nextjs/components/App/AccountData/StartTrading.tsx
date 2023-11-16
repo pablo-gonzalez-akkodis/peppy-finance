@@ -2,19 +2,19 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/legacy/image";
 
-import { formatAmount } from "@symmio-client/core/utils/numbers";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useDepositModalToggle,
   useModalOpen,
-} from "@symmio-client/core/state/application/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
 
 import GradientButton from "components/Button/GradientButton";
 import { Row, RowStart, RowBetween, RowCenter, RowEnd } from "components/Row";

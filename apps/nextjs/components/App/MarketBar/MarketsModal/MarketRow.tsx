@@ -2,13 +2,13 @@ import React, { useCallback, useMemo } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-import { Market } from "@symmio-client/core/types/market";
+import { Market } from "@symmio/frontend-sdk/types/market";
 
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
 import {
   useFavorites,
   useToggleUserFavoriteCallback,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 import { RowEnd, RowStart } from "components/Row";
 import { Star } from "components/Icons";

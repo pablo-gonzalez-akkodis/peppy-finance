@@ -6,9 +6,9 @@ import { useCallback } from "react";
 import {
   useActiveMarket,
   usePositionType,
-} from "@symmio-client/core/state/trade/hooks";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { titleCase } from "@symmio-client/core/utils/string";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { titleCase } from "@symmio/frontend-sdk/utils/string";
 
 const IconWrap = styled.div`
   position: absolute;

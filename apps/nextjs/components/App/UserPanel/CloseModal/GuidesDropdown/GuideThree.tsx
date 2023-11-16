@@ -1,7 +1,7 @@
 import styled, { useTheme } from "styled-components";
 
-import { toBN } from "@symmio-client/core/utils/numbers";
-import { CloseGuides, OrderType } from "@symmio-client/core/types/trade";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { CloseGuides, OrderType } from "@symmio/frontend-sdk/types/trade";
 
 import { Amount, Child, ColoredBox, Full, Label } from "./styles";
 import Item from "components/App/UserPanel/CloseModal/Item";

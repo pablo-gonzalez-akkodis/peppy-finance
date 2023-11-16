@@ -1,16 +1,16 @@
 import React, { useMemo } from "react";
 
-import { toBN } from "@symmio-client/core/utils/numbers";
-import { Account } from "@symmio-client/core/types/user";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { Account } from "@symmio/frontend-sdk/types/user";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 
 import {
   LastSeenAction,
   NotificationDetails,
-} from "@symmio-client/core/state/notifications/types";
+} from "@symmio/frontend-sdk/state/notifications/types";
 
 import useCurrencyLogo, { useCollateralLogo } from "lib/hooks/useCurrencyLogo";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import BaseItem from "components/Notifications/Cards/BaseCard";
 import ShimmerAnimation from "components/ShimmerAnimation";

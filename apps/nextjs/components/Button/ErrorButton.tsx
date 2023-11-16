@@ -1,12 +1,12 @@
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { ErrorState } from "@symmio-client/core/types/trade";
+import { ErrorState } from "@symmio/frontend-sdk/types/trade";
 
 import { PrimaryButton } from ".";
 import { ExclamationMark } from "components/Icons";
 import { ToolTipLeft } from "components/ToolTip";
-import { MAX_PENDINGS_POSITIONS_NUMBER } from "@symmio-client/core/constants/misc";
+import { MAX_PENDINGS_POSITIONS_NUMBER } from "@symmio/frontend-sdk/constants/misc";
 
 const MainButton = styled(PrimaryButton).attrs({
   height: "48px",

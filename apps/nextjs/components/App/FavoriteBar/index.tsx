@@ -2,9 +2,9 @@ import React, { useCallback } from "react";
 import styled from "styled-components";
 import { useRouter } from "next/router";
 
-import { Market } from "@symmio-client/core/types/market";
+import { Market } from "@symmio/frontend-sdk/types/market";
 
-import { useFavoriteMarkets } from "@symmio-client/core/hooks/useMarkets";
+import { useFavoriteMarkets } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import { Row, RowCenter } from "components/Row";
 import { GradientStar } from "components/Icons";

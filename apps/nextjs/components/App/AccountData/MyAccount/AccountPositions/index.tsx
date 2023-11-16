@@ -1,20 +1,20 @@
 import styled from "styled-components";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import { IQuotesInfo } from "@symmio-client/core/types/quotesOverview";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
+import { IQuotesInfo } from "@symmio/frontend-sdk/types/quotesOverview";
 import { AccountPositionsContext } from "./context";
 
-import { usePositionValue } from "@symmio-client/core/hooks/usePositionOverview";
+import { usePositionValue } from "@symmio/frontend-sdk/hooks/usePositionOverview";
 import useGenerateRandomColors from "lib/hooks/useGenerateRandomColor";
-import { usePositionsQuotes } from "@symmio-client/core/state/quotes/hooks";
+import { usePositionsQuotes } from "@symmio/frontend-sdk/state/quotes/hooks";
 
 import { DefaultContainer, DefaultHeader } from "../styles";
 import AccountTable from "./AccountTable";
 import PositionStatus from "./PositionStatus";
 import PositionsPieChart from "./PositionsPieChart";
 import { RowBetween } from "components/Row";
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
-import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
+import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
+import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
 const Container = styled(DefaultContainer)`
   padding: 20px 16px 24px;

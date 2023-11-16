@@ -1,16 +1,16 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import { useGetExistedQuoteByIdsCallback } from "@symmio-client/core/state/quotes/hooks";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
+import { useGetExistedQuoteByIdsCallback } from "@symmio/frontend-sdk/state/quotes/hooks";
 import {
   NotificationDetails,
   NotificationType,
-} from "@symmio-client/core/state/notifications/types";
+} from "@symmio/frontend-sdk/state/notifications/types";
 
 import LIQUIDATION_ALERT_ICON from "/public/static/images/etc/RedErrorTriangle.svg";
 
-import { useGetQuoteByIds } from "@symmio-client/core/hooks/useQuotes";
+import { useGetQuoteByIds } from "@symmio/frontend-sdk/hooks/useQuotes";
 
 import { Row, RowEnd, RowStart } from "components/Row";
 import NotificationSummary from "components/Summaries/NotificationSummary";

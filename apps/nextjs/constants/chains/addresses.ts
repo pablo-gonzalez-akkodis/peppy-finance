@@ -1,5 +1,5 @@
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import { ChainType } from "@symmio-client/core/state/chains/reducer";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
+import { ChainType } from "@symmio/frontend-sdk/state/chains/reducer";
 
 export const FantomChain: ChainType = {
   COLLATERAL_SYMBOL: "lzUSDC",

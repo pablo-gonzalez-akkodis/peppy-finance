@@ -1,25 +1,25 @@
 import React, { useState, useEffect } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { Quote } from "@symmio-client/core/types/quote";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { formatTimestamp } from "@symmio-client/core/utils/time";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
 import {
   formatAmount,
   formatCurrency,
   toBN,
-} from "@symmio-client/core/utils/numbers";
+} from "@symmio/frontend-sdk/utils/numbers";
 
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 import {
   useLockedMargin,
   useQuoteLeverage,
   useQuoteSize,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useNotionalValue } from "@symmio-client/core/hooks/useTradePage";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
 
 import { LongArrow, ShortArrow } from "components/Icons";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";

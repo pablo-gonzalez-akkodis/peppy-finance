@@ -1,4 +1,4 @@
-# symmio-client
+# @symmio/frontend-sdk
 
 ## An SDK to interact with SYMMIO contracts, hedgers and peripherals.
 

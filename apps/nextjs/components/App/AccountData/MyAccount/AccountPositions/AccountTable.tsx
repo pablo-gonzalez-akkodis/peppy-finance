@@ -1,15 +1,15 @@
 import { useContext, useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { formatPrice } from "@symmio-client/core/utils/numbers";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { ISingleQuoteInfo } from "@symmio-client/core/types/quotesOverview";
+import { formatPrice } from "@symmio/frontend-sdk/utils/numbers";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { ISingleQuoteInfo } from "@symmio/frontend-sdk/types/quotesOverview";
 import { AccountPositionsContext } from "./context";
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { useTotalNotionalValue } from "@symmio-client/core/hooks/usePositionOverview";
-import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import { useTotalNotionalValue } from "@symmio/frontend-sdk/hooks/usePositionOverview";
+import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
 import Column from "components/Column";
 import { Row, RowBetween } from "components/Row";

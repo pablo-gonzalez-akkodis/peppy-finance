@@ -2,26 +2,26 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { toast } from "react-hot-toast";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import { getRemainingTime } from "@symmio-client/core/utils/time";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import { getRemainingTime } from "@symmio/frontend-sdk/utils/time";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import {
   formatCurrency,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
+} from "@symmio/frontend-sdk/utils/numbers";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
-import { useModalOpen } from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { useModalOpen } from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 
-import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
+import { useTransferCollateral } from "@symmio/frontend-sdk/callbacks/useTransferCollateral";
 
 import { RowCenter, RowBetween } from "components/Row";
 import { DotFlashing } from "components/Icons";
