@@ -33,7 +33,7 @@ export class QuotesClient extends MuonClient {
     return [
       ["partyA", account],
       ["chainId", chainId.toString()],
-      ["v3Contract", contractAddress],
+      ["symmio", contractAddress],
       ["symbolId", marketId.toString()],
     ];
   }
