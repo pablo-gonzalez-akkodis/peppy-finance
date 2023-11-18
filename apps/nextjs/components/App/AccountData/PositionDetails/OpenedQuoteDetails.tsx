@@ -165,14 +165,6 @@ export default function OpenedQuoteDetails({
             </RowComponent>
             {!mobileVersion && <PositionDetailsNavigator />}
           </PositionInfoBox>
-          {/* {quoteStatus === QuoteStatus.CLOSED && (
-          <ShareOnTwitterButton onClick={() => togglePositionModal(!sharePositionModal)}>
-            <RowStart>Share on Twitter</RowStart>
-            <RowEnd width={'23%'}>
-              <Image src={TWITTER_ICON} width={19} height={16} alt={`twitter_icon`} />
-            </RowEnd>
-          </ShareOnTwitterButton>
-        )} */}
 
           {mobileVersion &&
             (quoteStatus === QuoteStatus.CLOSED ? ( // fix this - write ueseMemo
@@ -265,17 +257,13 @@ export default function OpenedQuoteDetails({
 
             <Row>
               <Label>Open Price</Label>
-              <Value>{`${formatAmount(openedPrice)} ${
-                collateralCurrency?.symbol
-              }`}</Value>
+              <Value>{`${formatAmount(openedPrice)} ${asset}`}</Value>
             </Row>
 
             {quoteStatus === QuoteStatus.CLOSED ? (
               <Row>
                 <Label>Closed Price:</Label>
-                <Value>{`${formatAmount(avgClosedPrice)} ${
-                  collateralCurrency?.symbol
-                }`}</Value>
+                <Value>{`${formatAmount(avgClosedPrice)} ${asset}`}</Value>
               </Row>
             ) : (
               <>

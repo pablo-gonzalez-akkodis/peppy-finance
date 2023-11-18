@@ -37,6 +37,9 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import { RowEnd, Row as RowComponent } from "components/Row";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 
 const LiquidateWrap = styled(DataWrap)`
   background: ${({ theme }) => theme.bgLoose};
@@ -56,6 +59,7 @@ export default function LiquidatedQuoteDetails({
   mobileVersion: boolean;
 }): JSX.Element {
   const theme = useTheme();
+  const { chainId } = useActiveWagmi();
   const {
     id,
     positionType,
@@ -68,6 +72,12 @@ export default function LiquidatedQuoteDetails({
   } = quote;
   const { symbol, name, asset } = useMarket(marketId) || {};
   const marketData = useMarketData(name);
+
+  const COLLATERAL_TOKEN = useCollateralToken();
+  const collateralCurrency = useGetTokenWithFallbackChainId(
+    COLLATERAL_TOKEN,
+    chainId
+  );
 
   const quoteSize = useQuoteSize(quote);
   const leverage = useQuoteLeverage(quote);
@@ -191,11 +201,21 @@ export default function LiquidatedQuoteDetails({
 
             <Row>
               <Label>Locked Amount:</Label>
-              <Value>{`${formatAmount(lockedAmount, 6, true)} ${asset}`}</Value>
+              <Value>{`${formatAmount(lockedAmount, 6, true)} ${
+                collateralCurrency?.symbol
+              }`}</Value>
             </Row>
             <Row>
               <Label>Platform Fee:</Label>
-              <Value>{`${formatAmount(platformFee, 6, true)} ${asset}`}</Value>
+              <Value>{`${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (OPEN) / ${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (CLOSE) ${collateralCurrency?.symbol}`}</Value>
             </Row>
           </ContentWrapper>
         </Wrapper>

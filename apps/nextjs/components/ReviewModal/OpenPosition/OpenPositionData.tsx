@@ -21,7 +21,7 @@ import {
   DEFAULT_PRECISION,
   MARKET_ORDER_DEADLINE,
 } from "@symmio-client/core/constants/misc";
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
 import { OrderType } from "@symmio-client/core/types/trade";
 
 const LabelsWrapper = styled(Column)`
@@ -84,7 +84,20 @@ export default function OpenPositionData() {
         }`,
         valueColor: theme.primaryBlue,
       },
-      { title: "Platform Fee:", value: tradingFee },
+      {
+        title: "Platform Fee:",
+        value: !toBN(tradingFee).isNaN()
+          ? `${formatAmount(
+              toBN(tradingFee).div(2),
+              3,
+              true
+            )} (OPEN) / ${formatAmount(
+              toBN(tradingFee).div(2),
+              3,
+              true
+            )} (CLOSE) ${collateralCurrency?.symbol}`
+          : `0 (OPEN) / 0 (CLOSE) ${collateralCurrency?.symbol}`,
+      },
       {
         title: "Order Expire Time:",
         value: `${
