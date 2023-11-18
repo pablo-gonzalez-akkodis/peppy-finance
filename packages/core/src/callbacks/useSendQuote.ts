@@ -127,7 +127,10 @@ export function useSentQuoteCallback(): {
     [formattedAmounts]
   );
 
-  const notionalValue = useNotionalValue(quantityAsset, openPriceFinal);
+  const notionalValue = useNotionalValue(
+    quantityAsset,
+    formatPrice(openPriceFinal, pricePrecision)
+  );
   const lockedCVA = useLockedCVA(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
   const lockedPartyAMM = usePartyALockedMM(notionalValue);

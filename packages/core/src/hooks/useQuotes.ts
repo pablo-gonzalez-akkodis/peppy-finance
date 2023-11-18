@@ -289,9 +289,7 @@ export function useQuoteSize(quote: Quote): string {
 
 export function useQuoteLeverage(quote: Quote): string {
   const {
-    orderType,
     quantity,
-    marketPrice,
     requestedOpenPrice,
     quoteStatus,
     openedPrice,
@@ -307,34 +305,28 @@ export function useQuoteLeverage(quote: Quote): string {
     .plus(initialLF)
     .toString();
 
-  if (
-    quoteStatus === QuoteStatus.OPENED ||
-    quoteStatus === QuoteStatus.CLOSE_PENDING ||
-    quoteStatus === QuoteStatus.CANCEL_CLOSE_PENDING
-  ) {
-    return toBN(quoteSize).times(openedPrice).div(lockedMargin).toFixed(0);
-  } else if (
-    quoteStatus === QuoteStatus.PENDING ||
-    quoteStatus === QuoteStatus.LOCKED ||
-    quoteStatus === QuoteStatus.CANCEL_PENDING
-  ) {
-    return toBN(quantity)
-      .times(orderType === OrderType.LIMIT ? requestedOpenPrice : marketPrice)
-      .div(lockedMargin)
-      .toFixed(0);
-  } else if (
-    quoteStatus === QuoteStatus.CLOSED ||
-    quoteStatus === QuoteStatus.LIQUIDATED
-  ) {
-    return toBN(quantity)
-      .times(openedPrice)
-      .div(initialLockedMargin)
-      .toFixed(0);
-  } else {
-    return toBN(quantity)
-      .times(orderType === OrderType.LIMIT ? requestedOpenPrice : marketPrice)
-      .div(lockedMargin)
-      .toFixed(0);
+  switch (quoteStatus) {
+    case QuoteStatus.OPENED:
+    case QuoteStatus.CLOSE_PENDING:
+    case QuoteStatus.CANCEL_CLOSE_PENDING:
+      return toBN(quoteSize).times(openedPrice).div(lockedMargin).toFixed(0);
+
+    case QuoteStatus.PENDING:
+    case QuoteStatus.LOCKED:
+    case QuoteStatus.CANCEL_PENDING:
+    case QuoteStatus.CANCELED:
+    case QuoteStatus.EXPIRED:
+      return toBN(quantity)
+        .times(requestedOpenPrice)
+        .div(initialLockedMargin)
+        .toFixed(0);
+
+    case QuoteStatus.CLOSED:
+    case QuoteStatus.LIQUIDATED:
+      return toBN(quantity)
+        .times(requestedOpenPrice)
+        .div(initialLockedMargin)
+        .toFixed(0);
   }
 }
 
@@ -417,50 +409,60 @@ export function useOpeningLastMarketPrice(
 
 function toQuote(quote: any) {
   return {
-    id: Number(quote[0].toString()),
-    partyBsWhiteList: quote[1],
-    marketId: Number(quote[2].toString()),
-    positionType: getPositionTypeByIndex(Number(quote[3].toString())),
+    id: Number(quote["id"].toString()),
+    partyBsWhiteList: quote["partyBsWhiteList"],
+    marketId: Number(quote["symbolId"].toString()),
+    positionType: getPositionTypeByIndex(
+      Number(quote["positionType"].toString())
+    ),
     orderType:
-      Number(quote[4].toString()) === 1 ? OrderType.MARKET : OrderType.LIMIT,
+      Number(quote["orderType"].toString()) === 1
+        ? OrderType.MARKET
+        : OrderType.LIMIT,
 
     // Price of quote which PartyB opened in 18 decimals
-    openedPrice: fromWei(quote[5].toString()),
+    openedPrice: fromWei(quote["openedPrice"].toString()),
 
     // Price of quote which PartyA requested in 18 decimals
-    initialOpenedPrice: fromWei(quote[6].toString()),
-    requestedOpenPrice: fromWei(quote[7].toString()),
-    marketPrice: fromWei(quote[8].toString()),
+    initialOpenedPrice: fromWei(quote["initialOpenedPrice"].toString()),
+    requestedOpenPrice: fromWei(quote["requestedOpenPrice"].toString()),
+    marketPrice: fromWei(quote["marketPrice"].toString()),
 
     // Quantity of quote which PartyA requested in 18 decimals
-    quantity: fromWei(quote[9].toString()),
-    closedAmount: fromWei(quote[10].toString()),
+    quantity: fromWei(quote["quantity"].toString()),
+    closedAmount: fromWei(quote["closedAmount"].toString()),
 
-    initialCVA: fromWei(quote[11][0].toString()),
-    initialLF: fromWei(quote[11][1].toString()),
-    initialPartyAMM: fromWei(quote[11][2].toString()),
-    initialPartyBMM: fromWei(quote[11][3].toString()),
+    initialCVA: fromWei(quote["initialLockedValues"]["cva"].toString()),
+    initialLF: fromWei(quote["initialLockedValues"]["lf"].toString()),
+    initialPartyAMM: fromWei(
+      quote["initialLockedValues"]["partyBmm"].toString()
+    ),
+    initialPartyBMM: fromWei(
+      quote["initialLockedValues"]["partyBmm"].toString()
+    ),
 
-    CVA: fromWei(quote[12][0].toString()),
-    LF: fromWei(quote[12][1].toString()),
-    partyAMM: fromWei(quote[12][2].toString()),
-    partyBMM: fromWei(quote[12][3].toString()),
+    CVA: fromWei(quote["lockedValues"]["cva"].toString()),
+    LF: fromWei(quote["lockedValues"]["lf"].toString()),
+    partyAMM: fromWei(quote["lockedValues"]["partyAmm"].toString()),
+    partyBMM: fromWei(quote["lockedValues"]["partyBmm"].toString()),
 
-    maxFundingRate: fromWei(quote[13].toString()),
-    partyA: quote[14].toString(),
-    partyB: quote[15].toString(),
-    quoteStatus: getQuoteStateByIndex(Number(quote[16].toString())),
-    avgClosedPrice: fromWei(quote[17].toString()),
-    requestedCloseLimitPrice: fromWei(quote[18].toString()),
-    quantityToClose: fromWei(quote[19].toString()),
+    maxFundingRate: fromWei(quote["maxFundingRate"].toString()),
+    partyA: quote["partyA"].toString(),
+    partyB: quote["partyB"].toString(),
+    quoteStatus: getQuoteStateByIndex(Number(quote["quoteStatus"].toString())),
+    avgClosedPrice: fromWei(quote["avgClosedPrice"].toString()),
+    requestedCloseLimitPrice: fromWei(quote["requestedClosePrice"].toString()),
+    quantityToClose: fromWei(quote["quantityToClose"].toString()),
 
     // handle partially open position
-    parentId: quote[20].toString(),
-    createTimestamp: Number(quote[21].toString()),
-    statusModifyTimestamp: Number(quote[22].toString()),
-    lastFundingPaymentTimestamp: Number(quote[23].toString()),
-    deadline: Number(quote[24].toString()),
-    tradingFee: Number(quote[25].toString()),
+    parentId: quote["parentId"].toString(),
+    createTimestamp: Number(quote["createTimestamp"].toString()),
+    statusModifyTimestamp: Number(quote["statusModifyTimestamp"].toString()),
+    lastFundingPaymentTimestamp: Number(
+      quote["lastFundingPaymentTimestamp"].toString()
+    ),
+    deadline: Number(quote["deadline"].toString()),
+    tradingFee: Number(quote["tradingFee"].toString()),
   } as Quote;
 }
 

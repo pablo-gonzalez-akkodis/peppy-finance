@@ -7,7 +7,7 @@ export const ORDER_HISTORY_DATA = gql`
       skip: $skip
       orderBy: timeStamp
       orderDirection: desc
-      where: { partyA: $address, quoteStatus_in: [3, 7, 8] }
+      where: { partyA: $address, quoteStatus_in: [3, 7, 8, 9] }
     ) {
       orderTypeOpen
       partyAmm

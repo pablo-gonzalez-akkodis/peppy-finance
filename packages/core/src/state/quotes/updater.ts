@@ -93,6 +93,7 @@ export function UpdaterListeners(): null {
       if (
         (quote.quoteStatus === QuoteStatus.CANCELED ||
           quote.quoteStatus === QuoteStatus.LIQUIDATED ||
+          quote.quoteStatus === QuoteStatus.EXPIRED ||
           quote.quoteStatus === QuoteStatus.CLOSED) &&
         chainId
       ) {

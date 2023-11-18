@@ -16,9 +16,16 @@ const bscTestnetClient = createApolloClient(
     SupportedChainId.BSC_TESTNET
   )}`
 );
+const polygonClient = createApolloClient(
+  `https://api.thegraph.com/subgraphs/name/${getSubgraphName(
+    SupportedChainId.POLYGON
+  )}`
+);
 
 export function getOrderHistoryApolloClient(chainId: SupportedChainId) {
   switch (chainId) {
+    case SupportedChainId.POLYGON:
+      return polygonClient;
     case SupportedChainId.FANTOM:
       return fantomClient;
     case SupportedChainId.BSC:
@@ -33,6 +40,8 @@ export function getOrderHistoryApolloClient(chainId: SupportedChainId) {
 
 export function getSubgraphName(chainId: SupportedChainId) {
   switch (chainId) {
+    case SupportedChainId.POLYGON:
+      return "symmiograph/symmioanalytics_polygon_8_2";
     case SupportedChainId.FANTOM:
       return "navid-fkh/symmio_fantom";
     case SupportedChainId.BSC:

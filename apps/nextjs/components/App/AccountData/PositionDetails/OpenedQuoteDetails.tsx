@@ -28,6 +28,7 @@ import {
   useQuoteUpnlAndPnl,
 } from "@symmio-client/core/hooks/useQuotes";
 import { useNotionalValue } from "@symmio-client/core/hooks/useTradePage";
+import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
 
 import { RowEnd, Row as RowComponent } from "components/Row";
 import ClosePendingDetails from "./ClosedSizeDetails/ClosePendingDetails";
@@ -59,7 +60,6 @@ export default function OpenedQuoteDetails({
   platformFee,
   buttonText,
   disableButton,
-  expired,
   onClickButton,
   mobileVersion = false,
 }: {
@@ -67,7 +67,6 @@ export default function OpenedQuoteDetails({
   platformFee: string;
   buttonText?: string;
   disableButton?: boolean;
-  expired?: boolean;
   onClickButton?: (event: React.MouseEvent<HTMLDivElement>) => void;
   mobileVersion: boolean;
 }): JSX.Element {
@@ -104,7 +103,8 @@ export default function OpenedQuoteDetails({
     undefined
   );
   const [expanded, setExpanded] = useState(!mobileVersion);
-  // const [sharePositionModal, togglePositionModal] = useState(false)
+  const { expired } = useCheckQuoteIsExpired(quote);
+
   useEffect(() => {
     if (!mobileVersion) {
       setExpanded(true);
