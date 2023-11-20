@@ -120,8 +120,18 @@ export default function TradeOverview() {
         <InfoItem
           label="Platform Fee:"
           amount={`${
-            !toBN(tradingFee).isNaN() ? formatAmount(tradingFee) : "0"
-          } ${collateralCurrency?.symbol}`}
+            !toBN(tradingFee).isNaN()
+              ? `${formatAmount(
+                  toBN(tradingFee).div(2),
+                  3,
+                  true
+                )} (OPEN) / ${formatAmount(
+                  toBN(tradingFee).div(2),
+                  3,
+                  true
+                )} (CLOSE) ${collateralCurrency?.symbol}`
+              : `0 (OPEN) / 0 (CLOSE) ${collateralCurrency?.symbol}`
+          }`}
           // tooltip="Platform Fee"
         />
       </Wrapper>

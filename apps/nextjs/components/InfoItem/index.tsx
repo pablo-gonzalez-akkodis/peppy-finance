@@ -38,6 +38,7 @@ export const Value = styled.div<{
   font-size: ${({ size }) => size ?? "12px"};
   justify-self: end;
   color: ${({ theme, color }) => color ?? theme.text0};
+  white-space: nowrap;
   cursor: ${({ cursor }) => cursor ?? "default"};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: 10px;
