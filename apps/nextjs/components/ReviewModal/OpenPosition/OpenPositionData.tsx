@@ -61,11 +61,9 @@ export default function OpenPositionData() {
     const notionalValueBN = toBN(notionalValue);
     if (!market || notionalValueBN.isNaN()) return "-";
     return market.tradingFee
-      ? `${notionalValueBN.times(market.tradingFee).toString()} ${
-          collateralCurrency?.symbol
-        }`
-      : "ss-";
-  }, [market, notionalValue, collateralCurrency?.symbol]);
+      ? notionalValueBN.times(market.tradingFee).toString()
+      : "0";
+  }, [market, notionalValue]);
 
   const info = useMemo(() => {
     const lockedValueBN = toBN(lockedValue);

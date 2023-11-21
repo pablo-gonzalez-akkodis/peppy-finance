@@ -1,8 +1,10 @@
+import { Address, useBalance } from "wagmi";
+
 import { useToken } from "../lib/hooks/useTokens";
+import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
 
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
-import { useTokenBalance } from "../lib/hooks/useCurrencyBalance";
 
 import { fromWei } from "../utils/numbers";
 import { getMultipleBN, getSingleWagmiResult } from "../utils/multicall";
@@ -16,6 +18,7 @@ import { useCollateralAddress } from "../state/chains/hooks";
 export function usePartyAStats(
   account: string | null | undefined
 ): UserPartyAStatDetail {
+  const { chainId } = useActiveWagmi();
   const isSupportedChainId = useSupportedChainId();
   const DiamondContract = useDiamondContract();
   const COLLATERAL_ADDRESS = useCollateralAddress();
@@ -55,9 +58,13 @@ export function usePartyAStats(
         ]
     : [];
 
-  const cBalance =
-    useTokenBalance(account ?? undefined, cToken ?? undefined)?.toExact() ||
-    "0";
+  const cBalance = useBalance({
+    address: account as Address,
+    chainId,
+    token: cToken?.address as Address,
+    watch: true,
+    cacheTime: 4_000,
+  });
 
   const {
     data: firstData,
@@ -91,7 +98,7 @@ export function usePartyAStats(
   const multipleBNResult = getMultipleBN(firstData?.[1]?.result);
 
   return {
-    collateralBalance: cBalance,
+    collateralBalance: cBalance.data?.formatted ?? "0",
     accountBalance: fromWei(getSingleWagmiResult(firstData, 0)),
     liquidationStatus:
       getSingleWagmiResult<boolean[]>(firstData, 1)?.[0] ?? false,

@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
-import styled from "styled-components";
+import { useCallback, useEffect, useRef, useState } from "react";
+import styled, { css } from "styled-components";
 import { useRouter } from "next/router";
 
 import { Market } from "@symmio-client/core/types/market";
@@ -11,7 +11,8 @@ import { GradientStar } from "components/Icons";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 
 const Wrapper = styled(Row)`
-  min-height: 46px;
+  position: relative;
+  min-height: 50px;
   border-radius: 4px;
   background: ${({ theme }) => theme.bg0};
 `;
@@ -28,6 +29,36 @@ const FavoritesWrap = styled(Row)`
   border-radius: 4px;
   margin-left: 12px;
   background: ${({ theme }) => theme.bg0};
+`;
+
+const Nav = styled.div<{ direction: "right" | "left" }>`
+  position: absolute;
+  ${({ direction }) => (direction === "left" ? "left: 42px" : "right: 0px")};
+  top: 0;
+  height: 100%;
+  z-index: 99;
+`;
+
+const StyledNavButton = styled.button<{ direction: "right" | "left" }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 100%;
+  background: ${({ theme }) => css`
+    linear-gradient(90deg, ${theme.bg0} 50%, #ffffff00 100%);
+  `};
+  transform: ${({ direction }) =>
+    direction === "left" ? "rotate(0deg)" : "rotate(180deg)"};
+`;
+
+const Arrow = styled.div`
+  width: 12px;
+  height: 12px;
+  border: solid ${({ theme }) => theme.text0};
+  border-width: 0 2px 2px 0;
+  rotate: 135deg;
 `;
 
 const Item = styled(RowCenter)`
@@ -65,6 +96,29 @@ const Name = styled.div`
 
 export default function FavoriteBar() {
   const favorites = useFavoriteMarkets();
+  const ref = useRef<HTMLDivElement>();
+  const [target, setTarget] = useState(ref.current);
+
+  const [leftArrow, setLeftArrow] = useState(false);
+  const [rightArrow, setRightArrow] = useState(false);
+  const THRESHOLD = 24;
+  const SCROLL_AMOUNT = 200;
+
+  useEffect(() => {
+    setTarget(ref.current);
+  }, [ref]);
+
+  // set right arrow in initial loading
+  useEffect(() => {
+    if (target && favorites.length) {
+      const maxScroll = target.scrollWidth - target.clientWidth;
+      if (maxScroll > THRESHOLD) {
+        setRightArrow(true);
+      } else {
+        setRightArrow(false);
+      }
+    }
+  }, [favorites.length, target, target?.scrollWidth]);
 
   return (
     <Wrapper>
@@ -74,7 +128,38 @@ export default function FavoriteBar() {
           marginLeft: "16px",
         }}
       />
-      <FavoritesWrap>
+
+      {leftArrow && (
+        <NavButton
+          direction="left"
+          onClick={() => {
+            target?.scrollTo({
+              left: target.scrollLeft - SCROLL_AMOUNT,
+              behavior: "smooth",
+            });
+          }}
+        />
+      )}
+
+      <FavoritesWrap
+        ref={ref}
+        onScroll={(e) => {
+          const { scrollLeft, scrollWidth, clientWidth } = e.currentTarget;
+          const maxScroll = scrollWidth - clientWidth;
+
+          if (scrollLeft > THRESHOLD) {
+            setLeftArrow(true);
+          } else {
+            setLeftArrow(false);
+          }
+
+          if (scrollLeft < maxScroll - THRESHOLD) {
+            setRightArrow(true);
+          } else {
+            setRightArrow(false);
+          }
+        }}
+      >
         {favorites.length > 0 ? (
           favorites.map((favorite, index) => (
             <FavoriteItem market={favorite} key={index} />
@@ -83,7 +168,35 @@ export default function FavoriteBar() {
           <Empty>There are no markets in your Favorites List</Empty>
         )}
       </FavoritesWrap>
+
+      {rightArrow && (
+        <NavButton
+          direction="right"
+          onClick={() => {
+            target?.scrollTo({
+              left: target.scrollLeft + SCROLL_AMOUNT,
+              behavior: "smooth",
+            });
+          }}
+        />
+      )}
     </Wrapper>
+  );
+}
+
+function NavButton({
+  direction,
+  onClick,
+}: {
+  direction: "left" | "right";
+  onClick: () => void;
+}) {
+  return (
+    <Nav direction={direction}>
+      <StyledNavButton direction={direction} onClick={onClick}>
+        <Arrow />
+      </StyledNavButton>
+    </Nav>
   );
 }
 

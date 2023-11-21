@@ -233,17 +233,13 @@ export default function PendingQuoteDetails({
             <Row>
               <Label>Locked Amount:</Label>
               {expired ? (
-                <ExpiredStatus>{`${formatAmount(
-                  lockedAmount,
-                  6,
-                  true
-                )} ${asset}`}</ExpiredStatus>
+                <ExpiredStatus>{`${formatAmount(lockedAmount, 6, true)} ${
+                  collateralCurrency?.symbol
+                }`}</ExpiredStatus>
               ) : (
-                <Value>{`${formatAmount(
-                  lockedAmount,
-                  6,
-                  true
-                )} ${asset}`}</Value>
+                <Value>{`${formatAmount(lockedAmount, 6, true)} ${
+                  collateralCurrency?.symbol
+                }`}</Value>
               )}
             </Row>
           </DataWrap>

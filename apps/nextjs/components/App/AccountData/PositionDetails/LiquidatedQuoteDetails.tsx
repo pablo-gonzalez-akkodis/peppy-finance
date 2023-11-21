@@ -72,7 +72,6 @@ export default function LiquidatedQuoteDetails({
   } = quote;
   const { symbol, name, asset } = useMarket(marketId) || {};
   const marketData = useMarketData(name);
-
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
