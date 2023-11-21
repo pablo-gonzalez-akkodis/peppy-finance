@@ -31,6 +31,13 @@ export function useMarketsStatus(): ApiState {
   return marketsStatus;
 }
 
+export function useOpenInterestStatus(): ApiState {
+  const openInterestStatus: ApiState = useAppSelector(
+    (state) => state.hedger.openInterestStatus
+  );
+  return openInterestStatus;
+}
+
 export function useSetWebSocketStatus() {
   const dispatch = useAppDispatch();
   return useCallback(

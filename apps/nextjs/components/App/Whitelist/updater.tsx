@@ -10,17 +10,25 @@ import {
 } from "@symmio-client/core/state/user/hooks";
 import { GetWhiteListType } from "@symmio-client/core/state/user/types";
 import { WEB_SETTING } from "@symmio-client/core/config";
+import { useMultiAccountContract } from "@symmio-client/core/hooks/useContract";
 
 export default function Updater() {
   const { account } = useActiveWagmi();
   const subAccount = useActiveAccount();
+  const MultiAccountContract = useMultiAccountContract();
 
   const [whitelist, setWhitelist] = useState<null | boolean>(null);
   const [subWhitelist, setSubWhitelist] = useState<null | boolean>(null);
 
   const userIsWhitelist = useUserWhitelist();
-  const getSubAccountWhitelist = useIsWhiteList(subAccount?.accountAddress);
-  const addInWhitelist = useAddInWhitelist(subAccount?.accountAddress);
+  const getSubAccountWhitelist = useIsWhiteList(
+    subAccount?.accountAddress,
+    MultiAccountContract?.address
+  );
+  const addInWhitelist = useAddInWhitelist(
+    subAccount?.accountAddress,
+    MultiAccountContract?.address
+  );
 
   useEffect(() => {
     if (account && subAccount && whitelist && subWhitelist == false) {

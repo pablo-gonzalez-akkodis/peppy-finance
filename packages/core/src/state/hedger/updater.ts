@@ -24,17 +24,20 @@ import {
   useSetDepth,
   useMarkets,
   useSetFundingRates,
+  useOpenInterestStatus,
 } from "./hooks";
 import {
   getMarkets,
   getMarketsDepth,
   getNotionalCap,
+  getOpenInterest,
   getPriceRange,
 } from "./thunks";
 import { useActiveMarket } from "../trade/hooks";
 import { Hedger, HedgerWebsocketType } from "../../types/hedger";
 import { Market } from "../../types/market";
 import { useAppName } from "../chains/hooks";
+import { useMultiAccountContract } from "../../hooks/useContract";
 
 export function HedgerUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
@@ -48,6 +51,7 @@ export function HedgerUpdater(): null {
   useFundingRateWebSocket();
   useFetchMarkets(hedger, thunkDispatch);
   useFetchNotionalCap(hedger, thunkDispatch, activeMarket);
+  useFetchOpenInterest(hedger, thunkDispatch);
 
   //auto update per each 1 seconds
   useEffect(() => {
@@ -111,6 +115,55 @@ function useFetchMarkets(
   }, [marketsStatus, hedgerMarket]);
 }
 
+function useFetchOpenInterest(
+  hedger: Hedger | null,
+  thunkDispatch: AppThunkDispatch
+) {
+  const appName = useAppName();
+  const { baseUrl } = hedger || {};
+  const marketsStatus = useOpenInterestStatus();
+  const MultiAccountContract = useMultiAccountContract();
+
+  const hedgerOpenInterest = useCallback(
+    (options?: { [x: string]: any }) => {
+      const allOptions = { headers: [["App-Name", appName]], ...options };
+      return thunkDispatch(
+        getOpenInterest({
+          hedgerUrl: baseUrl,
+          options: allOptions,
+          multiAccountAddress: MultiAccountContract.address,
+        })
+      );
+    },
+    [appName, baseUrl, MultiAccountContract, thunkDispatch]
+  );
+
+  // TODO: fix auto update
+  //auto update per each 3000 seconds
+  useEffect(() => {
+    const controller = new AbortController();
+    if (MultiAccountContract) {
+      hedgerOpenInterest({
+        signal: controller.signal,
+      });
+    }
+
+    return () => {
+      controller.abort();
+    };
+  }, [MultiAccountContract, hedgerOpenInterest]);
+
+  //if error occurs it will retry to fetch markets 5 times
+  useEffect(() => {
+    if (marketsStatus === ApiState.ERROR)
+      retry(hedgerOpenInterest, {
+        n: 5,
+        minWait: 1000,
+        maxWait: 10000,
+      });
+  }, [marketsStatus, hedgerOpenInterest]);
+}
+
 function useFetchNotionalCap(
   hedger: Hedger | null,
   thunkDispatch: AppThunkDispatch,
@@ -119,6 +172,8 @@ function useFetchNotionalCap(
   const { marketNotionalCap, marketNotionalCapStatus } = useMarketNotionalCap();
   const { baseUrl } = hedger || {};
   const appName = useAppName();
+  const MultiAccountContract = useMultiAccountContract();
+
   const notionalCaps = useCallback(
     () =>
       thunkDispatch(
@@ -127,14 +182,17 @@ function useFetchNotionalCap(
           market: activeMarket,
           preNotional: marketNotionalCap,
           appName,
+          multiAccountAddress: MultiAccountContract.address,
         })
       ),
-    [activeMarket, appName, baseUrl, thunkDispatch]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [thunkDispatch, baseUrl, activeMarket, appName, MultiAccountContract]
   );
   //auto update notional cap per symbol, every 1 hours
   useEffect(() => {
-    if (activeMarket) return autoRefresh(notionalCaps, 60 * 60);
-  }, [activeMarket, notionalCaps]);
+    if (activeMarket && MultiAccountContract)
+      return autoRefresh(notionalCaps, 60 * 60);
+  }, [MultiAccountContract, activeMarket, notionalCaps]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {

@@ -182,10 +182,14 @@ export function useSentQuoteCallback(): {
     if (!market) {
       throw new Error("market is missing");
     }
+    if (!MultiAccountContract) {
+      throw new Error("contract is missing");
+    }
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}`,
+      `notional_cap/${market.name}/${MultiAccountContract.address}`,
       baseUrl
     );
+
     const tempResponse = await makeHttpRequest<{
       total_cap: number;
       used: number;
@@ -199,7 +203,15 @@ export function useSentQuoteCallback(): {
     updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [appName, baseUrl, market, openPrice, quantityAsset, updateNotionalCap]);
+  }, [
+    MultiAccountContract,
+    appName,
+    baseUrl,
+    market,
+    openPrice,
+    quantityAsset,
+    updateNotionalCap,
+  ]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {

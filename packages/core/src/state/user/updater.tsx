@@ -18,21 +18,37 @@ import {
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
 import { ConnectionStatus } from "./types";
 import { useAppName } from "../chains/hooks";
+import { useMultiAccountContract } from "../../hooks/useContract";
 
 export function UserUpdater(): null {
   const dispatch = useAppDispatch();
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
   const { account, chainId } = useActiveWagmi();
   const activeAccountAddress = useActiveAccountAddress();
+  const MultiAccountContract = useMultiAccountContract();
   const appName = useAppName();
 
-  const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
+  const { baseUrl, fetchData } = useHedgerInfo() || {};
   useUpnlWebSocket(dispatch);
 
   useEffect(() => {
-    if (fetchData && account)
-      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
-  }, [thunkDispatch, baseUrl, account, fetchData, clientName, appName]);
+    if (fetchData && account && MultiAccountContract)
+      thunkDispatch(
+        getIsWhiteList({
+          baseUrl,
+          account,
+          multiAccountAddress: MultiAccountContract.address,
+          appName,
+        })
+      );
+  }, [
+    thunkDispatch,
+    baseUrl,
+    account,
+    fetchData,
+    appName,
+    MultiAccountContract,
+  ]);
 
   useEffect(() => {
     if (chainId)

@@ -35,7 +35,6 @@ export const getMarkets = createAsyncThunk(
     }
 
     const { href: marketsUrl } = new URL(`contract-symbols`, hedgerUrl);
-    const { href: openUrl } = new URL(`open-interest`, hedgerUrl);
     const { href: errorMessagesUrl } = new URL(`error_codes`, hedgerUrl);
 
     let count = 0;
@@ -44,9 +43,8 @@ export const getMarkets = createAsyncThunk(
     const openInterest: OpenInterest = { used: 0, total: 0 };
 
     try {
-      const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
+      const [marketsRes, errorMessagesRes] = await Promise.allSettled([
         makeHttpRequest<MarketApiType>(marketsUrl, options),
-        makeHttpRequest<OpenInterestResponseType>(openUrl, options),
         makeHttpRequest<ErrorMessages>(errorMessagesUrl, options),
       ]);
 
@@ -73,10 +71,6 @@ export const getMarkets = createAsyncThunk(
           count = marketsRes.value.count;
         }
 
-        if (openRes.status === "fulfilled" && openRes.value) {
-          openInterest.total = openRes.value.total_cap;
-          openInterest.used = openRes.value.used;
-        }
         if (
           errorMessagesRes.status === "fulfilled" &&
           errorMessagesRes?.value
@@ -92,6 +86,50 @@ export const getMarkets = createAsyncThunk(
   }
 );
 
+export const getOpenInterest = createAsyncThunk(
+  "hedger/getOpenInterest",
+  async ({
+    hedgerUrl,
+    multiAccountAddress,
+    options,
+  }: {
+    hedgerUrl: string | undefined;
+    multiAccountAddress: string | undefined;
+    options?: { [x: string]: any };
+  }) => {
+    if (!hedgerUrl) {
+      throw new Error("hedgerUrl is empty");
+    }
+
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
+
+    const { href: openUrl } = new URL(
+      `open-interest/${multiAccountAddress}`,
+      hedgerUrl
+    );
+
+    const openInterest: OpenInterest = { used: 0, total: 0 };
+
+    try {
+      const [openRes] = await Promise.allSettled([
+        makeHttpRequest<OpenInterestResponseType>(openUrl, options),
+      ]);
+
+      if (openRes.status === "fulfilled" && openRes.value) {
+        openInterest.total = openRes.value.total_cap;
+        openInterest.used = openRes.value.used;
+      }
+    } catch (error) {
+      console.error(error, "happened in getOpenInterest");
+      throw new Error("error in getOpenInterest");
+    }
+
+    return { openInterest };
+  }
+);
+
 export const getNotionalCap = createAsyncThunk(
   "hedger/getNotionalCap",
   async ({
@@ -99,11 +137,13 @@ export const getNotionalCap = createAsyncThunk(
     market,
     appName,
     preNotional,
+    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     market: Market | undefined;
     appName: string;
     preNotional?: MarketNotionalCap;
+    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -111,9 +151,12 @@ export const getNotionalCap = createAsyncThunk(
     if (!market) {
       throw new Error("market is empty");
     }
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
 
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}`,
+      `notional_cap/${market.name}/${multiAccountAddress}`,
       hedgerUrl
     );
 
@@ -145,6 +188,7 @@ export const getNotionalCap = createAsyncThunk(
       }
     } catch (error) {
       console.error(error, "happened in getNotionalCap");
+      throw new Error("error in get notional cap");
     }
 
     return { notionalCap };
@@ -238,14 +282,22 @@ export const getMarketsInfo = createAsyncThunk(
   async ({
     hedgerUrl,
     appName,
+    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     appName: string;
+    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
-    const { href: marketsInfoUrl } = new URL(`get_market_info`, hedgerUrl);
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
+    const { href: marketsInfoUrl } = new URL(
+      `get_market_info/${multiAccountAddress}`,
+      hedgerUrl
+    );
     const marketsInfo: MarketsInfo = {};
     try {
       const [marketsInfoRes] = await Promise.allSettled([
