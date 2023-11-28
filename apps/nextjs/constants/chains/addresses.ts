@@ -49,7 +49,7 @@ export const PolygonChain: ChainType = {
   USDC_ADDRESS: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
   WRAPPED_NATIVE_ADDRESS: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
   BALANCE_HISTORY_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/navid-fkh/symmetrical_bsc",
+    "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_polygon_8_2",
   ORDER_HISTORY_SUBGRAPH_ADDRESS:
     "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_polygon_8_2",
 };
