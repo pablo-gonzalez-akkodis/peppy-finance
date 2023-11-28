@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
-import { MEDIA_WIDTHS } from "theme";
 import BigNumber from "bignumber.js";
 
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
@@ -23,12 +22,12 @@ import {
 import { useMarketsStatus } from "@symmio-client/core/state/hedger/hooks";
 import { ApiState } from "@symmio-client/core/types/api";
 
-import useWindowSize from "lib/hooks/useWindowSize";
+import { useIsMobile } from "lib/hooks/useWindowSize";
 import PositionDetails from "components/App/AccountData/PositionDetails";
 import {
   EmptyPosition,
   LongArrow,
-  LottieCloverfield,
+  AlphaLottie,
   NotConnectedWallet,
   Rectangle,
   ShortArrow,
@@ -159,7 +158,7 @@ function TableBody({
         ) : loading === ApiState.LOADING ||
           historyState === ApiState.LOADING ? (
           <EmptyRow style={{ padding: "60px 0px" }}>
-            <LottieCloverfield width={72} height={78} />
+            <AlphaLottie width={72} height={78} />
           </EmptyRow>
         ) : quotes.length ? (
           quotes.map((quote, index) =>
@@ -307,15 +306,13 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
 }
 
 export default function History({ quotes }: { quotes: Quote[] }) {
-  const { width } = useWindowSize();
+  const mobileVersion = useIsMobile();
+
   return (
     <>
       <Wrapper>
-        <TableHeader mobileVersion={width <= MEDIA_WIDTHS.upToMedium} />
-        <TableBody
-          quotes={quotes}
-          mobileVersion={width <= MEDIA_WIDTHS.upToMedium}
-        />
+        <TableHeader mobileVersion={mobileVersion} />
+        <TableBody quotes={quotes} mobileVersion={mobileVersion} />
       </Wrapper>
     </>
   );

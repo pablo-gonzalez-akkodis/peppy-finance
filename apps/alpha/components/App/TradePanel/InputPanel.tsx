@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { MEDIA_WIDTHS } from "theme";
 import { isMobile } from "react-device-detect";
 
 import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
 
-import useWindowSize from "lib/hooks/useWindowSize";
+import { useIsMobile } from "lib/hooks/useWindowSize";
 
 import { NumericalInput } from "components/Input";
 import { RowBetween, RowStart } from "components/Row";
@@ -101,7 +100,7 @@ export default function InputPanel({
   mantissa?: number;
   precision?: number;
 }) {
-  const { width } = useWindowSize();
+  const mobileVersion = useIsMobile();
 
   const onMaxValueClick = () => {
     const maxValueBN = toBN(maxValue);
@@ -114,7 +113,7 @@ export default function InputPanel({
       <RowBetween style={{ marginBottom: "5px" }}>
         <Title>
           {title}
-          {label && width >= MEDIA_WIDTHS.upToMedium && <span>({label})</span>}
+          {label && mobileVersion && <span>({label})</span>}
         </Title>
         {!!maxValue && (
           <>

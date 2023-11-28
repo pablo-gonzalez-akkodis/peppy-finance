@@ -1,5 +1,4 @@
 import styled, { useTheme } from "styled-components";
-import { MEDIA_WIDTHS } from "theme";
 import { lighten } from "polished";
 import { useEffect, useMemo, useState } from "react";
 
@@ -20,7 +19,7 @@ import {
   useMarketData,
   useMarketsStatus,
 } from "@symmio-client/core/state/hedger/hooks";
-import useWindowSize from "lib/hooks/useWindowSize";
+import { useIsMobile } from "lib/hooks/useWindowSize";
 import {
   useQuoteDetail,
   useSetQuoteDetailCallback,
@@ -43,7 +42,7 @@ import { Row, RowBetween, RowStart } from "components/Row";
 import {
   EmptyPosition,
   LongArrow,
-  LottieCloverfield,
+  AlphaLottie,
   NotConnectedWallet,
   Rectangle,
   ShortArrow,
@@ -300,7 +299,7 @@ function TableBody({
           </EmptyRow>
         ) : loading === ApiState.LOADING ? (
           <EmptyRow style={{ padding: "60px 0px" }}>
-            <LottieCloverfield width={72} height={78} />
+            <AlphaLottie width={72} height={78} />
           </EmptyRow>
         ) : quotes.length ? (
           quotes.map((quote, index) => (
@@ -663,7 +662,8 @@ function QuoteRow({
 export default function Positions({ quotes }: { quotes: Quote[] }) {
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const { width } = useWindowSize();
+  const mobileVersion = useIsMobile();
+
   const [quote, setQuote] = useState<Quote | null>(null);
 
   return (
@@ -684,13 +684,13 @@ export default function Positions({ quotes }: { quotes: Quote[] }) {
       )}
 
       <Wrapper>
-        <TableHeader mobileVersion={width <= MEDIA_WIDTHS.upToMedium} />
+        <TableHeader mobileVersion={mobileVersion} />
         <TableBody
           quotes={quotes}
           setQuote={setQuote}
           toggleCloseModal={() => setShowCloseModal(true)}
           toggleCancelModal={() => setShowCancelModal(true)}
-          mobileVersion={width <= MEDIA_WIDTHS.upToMedium}
+          mobileVersion={mobileVersion}
         />
       </Wrapper>
     </>
