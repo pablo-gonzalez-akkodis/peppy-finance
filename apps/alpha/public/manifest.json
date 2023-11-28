@@ -1,11 +1,11 @@
 {
-  "short_name": "Cloverfield",
-  "name": "Cloverfield interface",
+  "short_name": "Alpha",
+  "name": "Alpha interface",
   "background_color": "#000000",
   "theme_color": "#000000",
   "display": "standalone",
-  "homepage_url": "https://cloverfield.exchange",
-  "providedBy": { "name": "Cloverfield", "url": "https://cloverfield.exchange" },
+  "homepage_url": "https://alpha.thena.fi",
+  "providedBy": { "name": "Alpha", "url": "https://alpha.thena.fi" },
   "icons": [
     {
       "src": "./images/192x192_App_Icon.png",
@@ -21,7 +21,7 @@
     }
   ],
   "orientation": "portrait",
-  "description": "Cloverfield",
+  "description": "Alpha",
   "iconPath": "./images/512x512_App_Icon.png",
   "start_url": "/"
 }

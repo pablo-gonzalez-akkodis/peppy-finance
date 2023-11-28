@@ -3,7 +3,7 @@ import styled from "styled-components";
 import ActionButton from "./ActionButton";
 import Column from "components/Column";
 import { RowCenter } from "components/Row";
-import { LottieCloverfield } from "components/Icons";
+import { AlphaLottie } from "components/Icons";
 import { useStopLossValues } from "@symmio-client/core/state/trade/hooks";
 
 const SummaryWrap = styled(RowCenter)`
@@ -28,7 +28,7 @@ export default function Loading({ summary }: { summary: React.ReactText }) {
 
   return (
     <Column>
-      <LottieCloverfield />
+      <AlphaLottie />
       <SummaryWrap>{summary}</SummaryWrap>
       {isActive && (
         <ConfirmWrap>

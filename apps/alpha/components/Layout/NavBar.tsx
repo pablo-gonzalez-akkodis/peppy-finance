@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Z_INDEX } from "theme";
-import Image from "next/legacy/image";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
 import { useNewNotification } from "@symmio-client/core/state/notifications/hooks";
@@ -12,6 +11,7 @@ import Web3Network from "components/Web3Network";
 
 import Web3Status from "components/Web3Status";
 import { InfoHeader } from "components/InfoHeader";
+import { NavbarBackground } from "components/Icons";
 import NavLogo from "./NavLogo";
 import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
 import Notifications from "components/Notifications";
@@ -55,7 +55,7 @@ const BackgroundWrapper = styled(Wrapper)<{ newNotification?: boolean }>`
   overflow: hidden;
   position: absolute;
   background: ${({ theme, newNotification }) =>
-    newNotification ? theme.primaryDisable : theme.bg};
+    newNotification ? theme.icons : theme.bg0};
   animation: ${({ newNotification }) =>
     newNotification ? "fade 1s linear 1" : "none"};
 `;
@@ -124,7 +124,6 @@ export const SubNavbarContentWrap = styled.ul`
     min-width: 150px;
   }
 `;
-
 const Items = styled.div`
   display: flex;
   flex-flow: row nowrap;
@@ -184,7 +183,7 @@ export default function NavBar() {
   function getMobileContent() {
     return (
       <>
-        <BackgroundWrapper newNotification={isNewNotification} />
+        <BackgroundWrapper newNotification={false} />
         <MobileWrapper>
           <NavLogo />
           <StatusWrapper>
@@ -214,12 +213,7 @@ export default function NavBar() {
     return (
       <>
         <BackgroundWrapper newNotification={isNewNotification}>
-          <Image
-            src={"/static/images/header/Pattern.svg"}
-            alt={"Pattern"}
-            height={72}
-            width={1800}
-          />
+          <NavbarBackground />
         </BackgroundWrapper>
         <Wrapper>
           <NavLogo />

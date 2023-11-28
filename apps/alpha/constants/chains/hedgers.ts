@@ -10,26 +10,11 @@ export const DEFAULT_HEDGER = {
   defaultMarketId: 1,
   markets: [],
   openInterest: { total: 0, used: 0 },
-  id: "Cloverfield",
+  id: "Thena",
   fetchData: false,
 } as Hedger;
 
 export const HedgerInfo = {
-  [SupportedChainId.FANTOM]: [
-    {
-      apiUrl: "https://fapi.binance.com/",
-      webSocketUrl: "wss://fstream.binance.com/stream",
-      baseUrl: `https://${process.env.NEXT_PUBLIC_FANTOM_HEDGER_URL}`,
-      webSocketUpnlUrl: `wss://${process.env.NEXT_PUBLIC_FANTOM_HEDGER_URL}/ws/upnl-ws`,
-      webSocketNotificationUrl: `wss://${process.env.NEXT_PUBLIC_FANTOM_HEDGER_URL}/ws/position-state-ws3`,
-      defaultMarketId: 1,
-      markets: [],
-      openInterest: { total: 0, used: 0 } as OpenInterest,
-      id: "symmio",
-      fetchData: true,
-      clientName: "THENA",
-    },
-  ],
   [SupportedChainId.BSC]: [
     {
       apiUrl: "https://fapi.binance.com/",

@@ -63,7 +63,7 @@ export default [
       {
         indexed: false,
         internalType: "bytes",
-        name: "_calldata",
+        name: "_callData",
         type: "bytes",
       },
       { indexed: false, internalType: "bool", name: "_success", type: "bool" },
@@ -262,7 +262,7 @@ export default [
         type: "address",
       },
     ],
-    name: "SetDeusV3Address",
+    name: "SetSymmioAddress",
     type: "event",
   },
   {
@@ -334,7 +334,7 @@ export default [
   {
     inputs: [
       { internalType: "address", name: "account", type: "address" },
-      { internalType: "bytes[]", name: "_calldatas", type: "bytes[]" },
+      { internalType: "bytes[]", name: "_callDatas", type: "bytes[]" },
     ],
     name: "_call",
     outputs: [],
@@ -343,7 +343,7 @@ export default [
   },
   {
     inputs: [],
-    name: "accountImplementaion",
+    name: "accountImplementation",
     outputs: [{ internalType: "bytes", name: "", type: "bytes" }],
     stateMutability: "view",
     type: "function",
@@ -396,13 +396,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [],
-    name: "deusV3Address",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
       { internalType: "address", name: "accountAddress", type: "address" },
       { internalType: "string", name: "name", type: "string" },
@@ -425,7 +418,7 @@ export default [
           { internalType: "address", name: "accountAddress", type: "address" },
           { internalType: "string", name: "name", type: "string" },
         ],
-        internalType: "struct IDeusV3MultiAccount.Account[]",
+        internalType: "struct IMultiAccount.Account[]",
         name: "",
         type: "tuple[]",
       },
@@ -477,8 +470,8 @@ export default [
   {
     inputs: [
       { internalType: "address", name: "admin", type: "address" },
-      { internalType: "address", name: "deusV3Address_", type: "address" },
-      { internalType: "bytes", name: "accountImplementaion_", type: "bytes" },
+      { internalType: "address", name: "symmioAddress_", type: "address" },
+      { internalType: "bytes", name: "accountImplementation_", type: "bytes" },
     ],
     name: "initialize",
     outputs: [],
@@ -487,7 +480,7 @@ export default [
   },
   {
     inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "owner",
+    name: "owners",
     outputs: [{ internalType: "address", name: "", type: "address" }],
     stateMutability: "view",
     type: "function",
@@ -535,18 +528,16 @@ export default [
   },
   {
     inputs: [
-      { internalType: "bytes", name: "accountImplementaion_", type: "bytes" },
+      { internalType: "bytes", name: "accountImplementation_", type: "bytes" },
     ],
-    name: "setAccountImplementaion",
+    name: "setAccountImplementation",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "deusV3Address_", type: "address" },
-    ],
-    name: "setDeusV3Address",
+    inputs: [{ internalType: "address", name: "addr", type: "address" }],
+    name: "setSymmioAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -559,13 +550,10 @@ export default [
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "newOwner", type: "address" },
-      { internalType: "address", name: "accountAddress", type: "address" },
-    ],
-    name: "trasnferAccount",
-    outputs: [],
-    stateMutability: "nonpayable",
+    inputs: [],
+    name: "symmioAddress",
+    outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
     type: "function",
   },
   {

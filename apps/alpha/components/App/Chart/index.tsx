@@ -8,7 +8,7 @@ import LOADING_CHART from "/public/static/images/etc/LoadChart.svg";
 import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
 
 import { Card } from "components/Card";
-import { LottieCloverfield } from "components/Icons";
+import { AlphaLottie } from "components/Icons";
 import TVChart from "components/App/Chart/TVChart";
 import { RowCenter } from "components/Row";
 
@@ -62,7 +62,7 @@ export default function Chart() {
           </AdBlockText>
         </>
       ) : !market ? (
-        <LottieCloverfield />
+        <AlphaLottie />
       ) : (
         <TVChart symbol={`BINANCE:${market?.name}.P`} />
       )}

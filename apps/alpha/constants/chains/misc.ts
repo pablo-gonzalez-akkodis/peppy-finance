@@ -1,2 +1,2 @@
-export const APP_URL = "https://cloverfield.exchange";
-export const APP_NAME = "CloverField";
+export const APP_URL = "https://alpha.thena.fi";
+export const APP_NAME = "THENA";

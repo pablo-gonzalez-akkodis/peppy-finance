@@ -1,8 +1,7 @@
-import React from "react";
 import Lottie from "react-lottie";
-import * as animationData from "constants/lottie/cloverfield-loading.json";
+import * as animationData from "constants/lottie/alpha-loading.json";
 
-export default function LottieCloverfield({
+export default function AlphaLottie({
   height = 175,
   width = 135,
 }: {
