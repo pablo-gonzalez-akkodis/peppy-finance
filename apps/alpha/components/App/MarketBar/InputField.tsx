@@ -5,7 +5,7 @@ import { Search as SearchIcon } from "components/Icons";
 
 const SearchWrapper = styled(RowStart)`
   flex-flow: row nowrap;
-  background: ${({ theme }) => theme.bg3};
+  background: ${({ theme }) => theme.bg2};
   border-radius: 4px;
   padding: 0.2rem 0;
   height: 36px;
@@ -28,12 +28,18 @@ const Input = styled.input<{
   border: none;
   background: transparent;
   font-size: 0.8rem;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text0};
   padding-left: 2px;
+
+  &::placeholder {
+    color: ${({ theme }) => theme.text1};
+  }
   &:focus,
   &:hover {
+    color: ${({ theme }) => theme.text0};
     outline: none;
   }
+
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     font-size: 0.6rem;
   `}

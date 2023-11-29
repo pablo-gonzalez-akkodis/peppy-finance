@@ -28,13 +28,12 @@ const InnerContentWrapper = styled(Row)`
   padding: 11px 8px 10px 12px;
   height: 38px;
   max-width: 175px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.bg3};
+  border-radius: 2px;
+  border: 1px solid ${({ theme }) => theme.bg3};
+  background: ${({ theme }) => theme.bg0};
 `;
 
-const Chevron = styled(ChevronDown)<{
-  open: boolean;
-}>`
+const Chevron = styled(ChevronDown)<{ open: boolean }>`
   transform: rotateX(${({ open }) => (open ? "180deg" : "0deg")});
   transition: 0.5s;
 `;
@@ -42,8 +41,7 @@ const Chevron = styled(ChevronDown)<{
 const MarketText = styled(Row)`
   gap: 12px;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 19px;
+  font-size: 14px;
   white-space: nowrap;
   color: ${({ theme }) => theme.text0};
 `;

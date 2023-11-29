@@ -71,7 +71,7 @@ const Item = styled(RowCenter)`
 
   &:hover {
     cursor: pointer;
-    background: ${({ theme }) => theme.bg5};
+    background: ${({ theme }) => theme.hover};
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`

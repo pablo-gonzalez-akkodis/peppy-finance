@@ -32,7 +32,7 @@ const ModalWrapper = styled(Card)`
 const Wrapper = styled(Row)`
   height: 36px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg3};
+  background: ${({ theme }) => theme.bg2};
 `;
 
 const InlineModal = styled(Card)<{ isOpen: boolean; height?: string }>`
@@ -83,7 +83,7 @@ const Close = styled.div`
   cursor: pointer;
   border-radius: 4px;
   margin: 2px 2px 1px 0px;
-  background: ${({ theme }) => theme.bg6};
+  background: ${({ theme }) => theme.bg1};
 `;
 
 export function MarketsModal({

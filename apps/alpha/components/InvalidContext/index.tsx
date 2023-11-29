@@ -10,7 +10,7 @@ import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
 import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
 import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
 
-import { MainButton } from "components/Button";
+import { PrimaryButton } from "components/Button";
 import { SwitchWallet } from "components/Icons";
 import GradientButton from "components/Button/GradientButton";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -56,12 +56,12 @@ export function InvalidContext() {
     if (invalidContext === ContextError.ACCOUNT) {
       return (
         <>
-          <MainButton onClick={openConnectModal}>
+          <PrimaryButton onClick={openConnectModal}>
             Connect Wallet
             <ConnectWrap>
               <SwitchWallet />
             </ConnectWrap>
-          </MainButton>
+          </PrimaryButton>
         </>
       );
     }

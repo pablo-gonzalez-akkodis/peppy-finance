@@ -19,7 +19,7 @@ import MarketDepths from "./MarketDepths";
 const Wrapper = styled(Row)`
   min-height: 56px;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: 2px;
   background: ${({ theme }) => theme.bg0};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
@@ -64,7 +64,7 @@ const Separator = styled.div`
   height: 40px;
   border-radius: 4px;
   margin-right: 2px;
-  background: ${({ theme }) => theme.bg5};
+  background: #363954;
 `;
 
 export const Name = styled.div<{

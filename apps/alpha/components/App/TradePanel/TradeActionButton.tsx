@@ -14,7 +14,7 @@ import {
   useSetTypedValue,
 } from "@symmio-client/core/state/trade/hooks";
 import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
-import { MainButton } from "components/Button";
+import { PrimaryButton } from "components/Button";
 import { RowStart } from "components/Row";
 import useTradePage from "@symmio-client/core/hooks/useTradePage";
 import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
@@ -73,7 +73,7 @@ export default function TradeActionButtons(): JSX.Element | null {
   }
 
   if (WEB_SETTING.showSignModal && !isAcceptTerms) {
-    return <MainButton disabled>Accept Terms Please</MainButton>;
+    return <PrimaryButton disabled>Accept Terms Please</PrimaryButton>;
   }
 
   // Pass if it is null or undefined
@@ -90,22 +90,24 @@ export default function TradeActionButtons(): JSX.Element | null {
 
   if (calculationLoading) {
     return (
-      <MainButton disabled>
+      <PrimaryButton disabled>
         Waiting for Calculation
         <DotFlashing />
-      </MainButton>
+      </PrimaryButton>
     );
   }
   if (isPendingTxs) {
     return (
-      <MainButton disabled>
+      <PrimaryButton disabled>
         Transacting <DotFlashing />
-      </MainButton>
+      </PrimaryButton>
     );
   }
 
   if (calculationMode) {
-    return <MainButton onClick={onEnterPress}>Calculate Amount</MainButton>;
+    return (
+      <PrimaryButton onClick={onEnterPress}>Calculate Amount</PrimaryButton>
+    );
   }
 
   if (connectionStatus !== ConnectionStatus.OPEN) {
