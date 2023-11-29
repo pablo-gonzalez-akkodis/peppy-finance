@@ -10,19 +10,19 @@ import { Info as InfoIcon } from "components/Icons";
 
 export const Wrapper = styled(RowBetween)`
   width: 100%;
-  font-size: 12px;
   height: 44px;
-  font-weight: 400;
-  white-space: nowrap;
-  background: ${({ theme }) => theme.bg3};
-  position: relative;
-  border-radius: 4px;
-  padding: 2px;
   padding-left: 12px;
+  font-size: 12px;
+  font-weight: 400;
+  border-radius: 2px;
+  position: relative;
+  white-space: nowrap;
+  background: ${({ theme }) => theme.bg1};
 `;
 
 const DisplayLabelWrapper = styled(Wrapper)`
-  padding: 2px;
+  padding: 0px;
+  border-radius: 0px;
 `;
 
 const NumericalWrapper = styled(RowBetween)`
@@ -33,9 +33,9 @@ const NumericalWrapper = styled(RowBetween)`
   position: relative;
   margin-left: 12px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg2};
-  border-radius: 4px;
   padding: 0 12px;
+  border-left: 1px solid ${({ theme }) => theme.bg0};
+
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 12px;
     right: 0;
@@ -79,7 +79,7 @@ const DataWrap = styled(RowEnd)`
   max-width: 282px;
   font-weight: 500;
   padding-right: 10px;
-  border-radius: 4px;
+  border-radius: 0px;
   color: ${({ theme }) => theme.text0};
   background: ${({ theme }) => theme.bg2};
   & > * {

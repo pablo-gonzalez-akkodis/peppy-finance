@@ -8,13 +8,6 @@ import { ExclamationMark } from "components/Icons";
 import { ToolTipLeft } from "components/ToolTip";
 import { MAX_PENDINGS_POSITIONS_NUMBER } from "@symmio-client/core/constants/misc";
 
-const MainButton = styled(PrimaryButton).attrs({
-  height: "48px",
-})`
-  border-radius: 8px;
-  font-weight: 700;
-`;
-
 const LiquidationButton = styled(PrimaryButton).attrs({
   height: "48px",
 })`
@@ -90,7 +83,7 @@ export default function ErrorButton({
       </IconWrap>
     </LiquidationButton>
   ) : (
-    <MainButton disabled={disabled}>
+    <PrimaryButton disabled={disabled}>
       {text}
       <IconWrap>
         {tooltip && (
@@ -103,6 +96,6 @@ export default function ErrorButton({
         )}
         {!tooltip && exclamationMark && <ExclamationMark />}
       </IconWrap>
-    </MainButton>
+    </PrimaryButton>
   );
 }

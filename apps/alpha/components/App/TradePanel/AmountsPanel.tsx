@@ -62,7 +62,7 @@ const LeverageWrap = styled.div`
   border-radius: 4px;
   padding: 8px 10px;
   height: 70px;
-  background: ${({ theme }) => theme.bg4};
+  background: ${({ theme }) => theme.bg2};
   color: ${({ theme }) => theme.text0};
 `;
 
@@ -73,8 +73,8 @@ const LeverageValue = styled(RowStart)`
   padding: 8px;
   padding-left: 12px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg5};
-  border: 2px solid ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bg2};
+  border: 1px solid ${({ theme }) => theme.bg0};
 `;
 
 const LeverageInput = styled(InputAmount)`
@@ -84,6 +84,7 @@ const LeverageInput = styled(InputAmount)`
   background: "transparent";
   color: ${({ theme }) => theme.text0};
 `;
+
 export default function AmountsPanel() {
   const { chainId } = useActiveWagmi();
   const COLLATERAL_TOKEN = useCollateralToken();

@@ -9,7 +9,6 @@ const AutoSlippageContainer = styled.div`
   width: 125px;
   height: 28px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.gradLight};
 `;
 
 const AutoSlippageWrapper = styled(Row)`
@@ -18,7 +17,7 @@ const AutoSlippageWrapper = styled(Row)`
   padding: 0px 6px;
   border-radius: 4px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg4};
+  background: ${({ theme }) => theme.bg1};
 `;
 
 export default function SlippageTolerance() {

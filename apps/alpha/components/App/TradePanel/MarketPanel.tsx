@@ -20,6 +20,8 @@ import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
 
 const PriceWrap = styled(InnerCard)`
   padding-top: 8px;
+  background: ${({ theme }) => theme.bg2};
+
   & > * {
     &:last-child {
       height: 28px;

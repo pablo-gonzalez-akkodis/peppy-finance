@@ -20,7 +20,6 @@ import { BlackList, Suspend } from "./AccessControlPanel";
 
 const Wrapper = styled.div<{ showStopLoss?: boolean }>`
   position: relative;
-
   width: 100%;
   max-width: 480px;
   border-radius: 4px;
