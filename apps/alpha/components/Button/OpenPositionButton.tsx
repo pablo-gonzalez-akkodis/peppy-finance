@@ -15,16 +15,7 @@ const IconWrap = styled.div`
   right: 10px;
 `;
 
-const Button = styled(PrimaryButton)<{
-  longOrShort: boolean;
-  disabled?: boolean;
-}>`
-  &:focus,
-  &:hover {
-    background: ${({ longOrShort, theme }) =>
-      longOrShort ? theme.hoverLong : theme.hoverShort};
-  }
-
+const Button = styled(PrimaryButton)<{ disabled?: boolean }>`
   ${({ theme, disabled }) =>
     disabled &&
     `
@@ -53,11 +44,7 @@ export default function OpenPositionButton({
   }, [disabled, loading, onClick]);
 
   return (
-    <Button
-      onClick={handleClick}
-      longOrShort={positionType === PositionType.LONG}
-      disabled={loading || disabled}
-    >
+    <Button onClick={handleClick} disabled={loading || disabled}>
       {`${titleCase(positionType)} ${market?.symbol}`}
       {loading && <DotFlashing />}
       <IconWrap>

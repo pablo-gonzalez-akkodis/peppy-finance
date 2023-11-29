@@ -31,7 +31,7 @@ export const Wrapper = styled(Column)`
 
   /* Handle */
   &::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.primaryBlue};
+    background: ${({ theme }) => theme.CTAPink};
   }
 
   /* Handle on hover */
@@ -137,8 +137,8 @@ export const Leverage = styled(RowCenter)`
   font-size: 10px;
   border-radius: 2px;
   margin-left: 10px;
-  color: ${({ theme }) => theme.primaryBlue};
-  background: ${({ theme }) => theme.bg4};
+  color: ${({ theme }) => theme.text1};
+  background: ${({ theme }) => theme.bg2};
 `;
 
 export const QuoteData = styled(Row)`

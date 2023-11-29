@@ -27,22 +27,19 @@ import { RowCenter, RowBetween } from "components/Row";
 import { DotFlashing } from "components/Icons";
 
 const RemainingWrap = styled(RowCenter)<{ cursor?: string }>`
-  position: relative;
-  overflow: hidden;
-  border-radius: 4px;
-  border: 1px solid ${({ theme }) => theme.primaryBlue};
-  background: ${({ theme }) => theme.bg7};
-  color: ${({ theme }) => theme.white};
+  width: 100%;
   height: 40px;
   font-size: 12px;
-  width: 162px;
-  height: 40px;
+  overflow: hidden;
+  position: relative;
+  background: ${({ theme }) => theme.bg3};
+  color: ${({ theme }) => theme.white};
   cursor: ${({ cursor }) => cursor ?? "progress"};
 `;
 
 const RemainingBlock = styled.div<{ width?: string }>`
-  background: ${({ theme }) => theme.hoverGrad};
-  opacity: 0.2;
+  background: ${({ theme }) => theme.CTAPink};
+  opacity: 0.6;
   height: 100%;
   left: 0;
   bottom: 0;
@@ -52,17 +49,18 @@ const RemainingBlock = styled.div<{ width?: string }>`
 
 const Text = styled(RowBetween)<{ filling?: boolean }>`
   justify-content: ${({ filling }) => (filling ? "space-between" : "center")};
-  color: ${({ theme }) => theme.primaryBlue};
+  color: ${({ theme }) => theme.icons};
   padding: 0 12px;
   font-weight: 500;
   font-size: 12px;
+  z-index: 300;
+  color: ${({ theme }) => theme.text0};
   z-index: 9;
 `;
 
 const TimerText = styled.span`
-  color: ${({ theme }) => theme.warning};
+  color: #dcab2e;
 `;
-
 function Timer() {
   const [, setState] = useState(false);
 

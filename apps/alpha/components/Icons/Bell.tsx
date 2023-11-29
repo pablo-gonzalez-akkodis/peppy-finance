@@ -3,7 +3,7 @@ import React from "react";
 export default function Bell({
   width = 18,
   height = 19,
-  color = "#8B8E9F",
+  color = "#F1F1F1",
   ...rest
 }: {
   width?: number;

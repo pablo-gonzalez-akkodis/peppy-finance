@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { Row, RowCenter, RowEnd } from "components/Row";
-import { CloverfieldLogo } from "components/Icons";
+import { AlphaLogo } from "components/Icons";
 
 const AutoSlippageContainer = styled.div`
   padding: 1px;
@@ -27,7 +27,7 @@ export default function SlippageTolerance() {
       <AutoSlippageWrapper>
         <RowCenter>Auto slippage</RowCenter>
         <RowEnd width={"20%"}>
-          <CloverfieldLogo width={12} height={13} />
+          <AlphaLogo width={12} height={13} />
         </RowEnd>
       </AutoSlippageWrapper>
     </AutoSlippageContainer>

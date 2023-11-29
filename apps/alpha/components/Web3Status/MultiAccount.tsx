@@ -99,7 +99,7 @@ const ErrorButton = styled(GradientColorButton)`
   &:hover,
   &:focus {
     cursor: pointer;
-    color: ${({ theme }) => lighten(0.1, theme.primaryBlue)};
+    color: ${({ theme }) => lighten(0.1, theme.CTAPink)};
   }
 `;
 

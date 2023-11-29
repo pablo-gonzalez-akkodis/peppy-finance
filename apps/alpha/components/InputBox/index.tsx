@@ -112,7 +112,7 @@ const Balance = styled(RowEnd)<{ disabled?: boolean }>`
 
 const MinBalance = styled(Balance)`
   font-size: 12px;
-  background: ${({ theme }) => theme.primaryBlue};
+  background: ${({ theme }) => theme.CTAPink};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   &:hover {

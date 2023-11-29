@@ -39,7 +39,7 @@ export const PartiallyFillText = styled(RowStart)`
 
   & > * {
     &:first-child {
-      color: ${({ theme }) => theme.primaryBlue};
+      color: ${({ theme }) => theme.CTAPink};
     }
     &:last-child {
       color: ${({ theme }) => theme.text1};

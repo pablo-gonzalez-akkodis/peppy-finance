@@ -21,7 +21,7 @@ const ErrorWrapper = styled(ColumnCenter)<{
   background: ${({ blacklisted, theme }) =>
     blacklisted
       ? "linear-gradient(180deg, rgba(71, 42, 42, 0.83) 0%, #21242C 100%)"
-      : theme.gradError};
+      : theme.CTAPink};
 `;
 
 const ErrorIconWrapper = styled(RowCenter)<{ blacklisted?: boolean }>`

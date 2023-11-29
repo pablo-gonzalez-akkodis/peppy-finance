@@ -57,14 +57,13 @@ const ImageWrapper = styled(RowCenter)`
 
 const AccountWrapper = styled(Row)`
   height: 40px;
-  background: ${({ theme }) => theme.bg2};
-  border-radius: 6px;
-  margin-bottom: 16px;
+  border-radius: 2px;
+  margin-bottom: 24px;
   padding: 10px 12px;
   font-weight: 500;
   font-size: 12px;
-
-  color: ${({ theme }) => theme.primaryBlue};
+  background: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text0};
 `;
 
 const AccountNameWrapper = styled(AccountWrapper)`

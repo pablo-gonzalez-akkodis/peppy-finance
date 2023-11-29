@@ -52,22 +52,25 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
   width: 100%;
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
-  height: ${({ height }) => (height ? height : "45px")};
-  background: ${({ theme }) => theme.gradLight};
-  color: ${({ theme }) => theme.bg};
+  height: ${({ height }) => (height ? height : "48px")};
+  background: ${({ theme }) => theme.primaryGrad};
+  color: ${({ theme }) => theme.text0};
 
   &:focus,
   &:hover {
     background: ${({ theme }) => theme.hoverGrad};
   }
-  ${({ disabled }) =>
+
+  ${({ theme, disabled }) =>
     disabled &&
     `
-
       cursor: default;
-      opacity:0.5;
-
+      background: ${theme.disabledButton};
+      color: ${theme.primaryBlackNew};
+      &:focus,
+      &:hover {
+        background:  ${theme.disabledButton};
+      }
   `}
 `;
 
@@ -160,7 +163,7 @@ export const BlueButton = styled(TableButton)`
 
 export const MaxButton = styled.div`
   font-size: 12px;
-  background: ${({ theme }) => theme.primaryBlue};
+  background: ${({ theme }) => theme.Link};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 500;

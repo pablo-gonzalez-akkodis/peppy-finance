@@ -58,10 +58,7 @@ export default function TransactionPopup({
   const transferTypeIcon = useTransferTypeIcon(tx);
 
   return (
-    <Wrapper
-      color={success ? theme.primaryBlue : theme.warning}
-      success={success}
-    >
+    <Wrapper color={success ? theme.CTAPink : theme.warning} success={success}>
       <Text>
         <ExplorerLink
           chainId={chainId ?? FALLBACK_CHAIN_ID}
@@ -69,7 +66,7 @@ export default function TransactionPopup({
           value={hash}
           style={{
             height: "100%",
-            color: success ? theme.primaryBlue : theme.warning,
+            color: success ? theme.CTAPink : theme.warning,
             fontSize: "12px",
             fontWeight: "500",
           }}
@@ -86,7 +83,7 @@ export default function TransactionPopup({
           size={"10px"}
           style={{
             marginLeft: "6px",
-            color: success ? theme.primaryBlue : theme.warning,
+            color: success ? theme.Link : theme.warning,
           }}
         />
       </Text>
@@ -103,7 +100,7 @@ export default function TransactionPopup({
             alt={`transfer-type`}
           />
         ) : success ? (
-          <CheckMark color={theme.primaryBlue} />
+          <CheckMark color={theme.CTAPink} />
         ) : (
           <Close color={theme.warning} />
         )}

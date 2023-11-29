@@ -32,9 +32,9 @@ export const LeverageWrap = styled(RowCenter)<{ liquidatePending?: boolean }>`
   padding: 2px 8px;
   height: 16px;
   background: ${({ theme, liquidatePending }) =>
-    liquidatePending ? theme.red1 : theme.bg4};
+    liquidatePending ? theme.red1 : theme.bg1};
   color: ${({ theme, liquidatePending }) =>
-    liquidatePending ? theme.text0 : theme.primaryBlue};
+    liquidatePending ? theme.text0 : theme.text1};
   margin-left: 8px;
   border-radius: 2px;
   font-weight: 600;

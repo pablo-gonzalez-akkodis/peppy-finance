@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from "react";
-import styled, { useTheme } from "styled-components";
+import styled from "styled-components";
 import { isMobile } from "react-device-detect";
 
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
@@ -22,17 +22,17 @@ const NotificationsCount = styled.div`
   width: 20px;
   height: 20px;
   position: absolute;
-  left: 27px;
-  bottom: 3px;
+  left: 29px;
+  bottom: 1px;
   padding: 3px;
   border-radius: 10px;
   font-weight: 500;
   font-size: 10px;
   text-align: center;
 
-  background: ${({ theme }) => theme.gradLight};
-  border: 1px solid ${({ theme }) => theme.bg1};
-  color: ${({ theme }) => theme.primaryBlackNew};
+  background: ${({ theme }) => theme.bg8};
+  border: 1px solid ${({ theme }) => theme.icons};
+  color: ${({ theme }) => theme.icons};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     width: 14px;
@@ -44,7 +44,6 @@ const NotificationsCount = styled.div`
 `;
 
 export default function Notifications() {
-  const theme = useTheme();
   const ref = useRef(null);
   useOnOutsideClick(ref, () => {
     if (!isMobile) setModalOpen(false);
@@ -66,7 +65,7 @@ export default function Notifications() {
   return (
     <div ref={ref}>
       <NavButton onClick={closeOnClick}>
-        <Bell color={newNotifications ? theme.primaryBlue : undefined} />
+        <Bell />
         {newNotifications && (
           <NotificationsCount>{unreadNotifications.length}</NotificationsCount>
         )}

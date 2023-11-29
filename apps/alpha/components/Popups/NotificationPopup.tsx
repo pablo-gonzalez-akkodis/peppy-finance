@@ -18,16 +18,10 @@ import ImageWithFallback from "components/ImageWithFallback";
 import NotificationPopupIcon from "./NotificationPopupIcon";
 
 const Wrapper = styled(Row)<{ border?: string; bg?: string }>`
-  /* height: 40px; */
-  /* padding: 11px 16px; */
-
   padding: 7px 16px;
-
   border-radius: 4px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme, bg }) => (bg ? bg : theme.bg4)};
-  border: 1px solid
-    ${({ theme, border }) => (border ? border : theme.primaryBlue)};
+  background: ${({ theme, bg }) => (bg ? bg : theme.bg2)};
 `;
 
 export default function NotificationPopup({

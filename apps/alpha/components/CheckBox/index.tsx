@@ -38,7 +38,7 @@ const Indicator = styled.div<{ checked?: boolean }>`
   position: absolute;
   top: 0em;
   left: -1.6em;
-  border: 1px solid ${({ theme }) => theme.primaryBlue};
+  border: 1px solid ${({ theme }) => theme.icons};
   border-radius: 0.2em;
   &::after {
     content: "";
@@ -51,7 +51,7 @@ const Indicator = styled.div<{ checked?: boolean }>`
     left: 0.35em;
     width: 30%;
     height: 60%;
-    border: solid ${({ theme }) => theme.primaryBlue};
+    border: solid ${({ theme }) => theme.icons};
     border-width: 0 0.1em 0.1em 0;
     animation-name: ${rotate};
     animation-duration: 0.3s;

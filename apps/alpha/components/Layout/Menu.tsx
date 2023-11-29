@@ -45,7 +45,7 @@ const Row = styled(RowBetween)<{ active?: boolean }>`
 
   ${({ active, theme }) =>
     active &&
-    ` color: ${theme.primaryBlue};
+    ` color: ${theme.icons};
       pointer-events: none;
   `};
 `;

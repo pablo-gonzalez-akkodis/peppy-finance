@@ -80,7 +80,7 @@ export default function OpenPositionData() {
         value: `${
           price === "" ? "-" : orderType === OrderType.MARKET ? "Market" : price
         }`,
-        valueColor: theme.primaryBlue,
+        valueColor: theme.CTAPink,
       },
       {
         title: "Platform Fee:",
@@ -112,7 +112,7 @@ export default function OpenPositionData() {
     userLeverage,
     price,
     orderType,
-    theme.primaryBlue,
+    theme.CTAPink,
     tradingFee,
   ]);
 

@@ -37,7 +37,7 @@ const Text = styled.div<{ active?: boolean; width?: string }>`
   padding: 14px;
 
   width: ${({ width }) => width ?? "100%"};
-  color: ${({ theme, active }) => (active ? theme.primaryBlue : theme.text1)};
+  color: ${({ theme, active }) => (active ? theme.text0 : theme.text1)};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
       font-size: 12px;

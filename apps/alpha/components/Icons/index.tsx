@@ -45,7 +45,7 @@ export { default as Status } from "./Status";
 export { default as Switch } from "./Switch";
 export { default as NextIcon } from "./Next";
 export { default as Rectangle } from "./Rectangle";
-export { default as ThenaLogo } from "./Logo";
+export { default as AlphaLogo } from "./Logo";
 export { default as LeverageIcon } from "./Leverage";
 export { default as GradientStar } from "./GradientStar";
 export { default as EmptyPosition } from "./EmptyPosition";

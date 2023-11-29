@@ -74,7 +74,7 @@ const Title = styled.div`
 
 const Max = styled.span`
   font-size: 12px;
-  background: ${({ theme }) => theme.primaryBlue};
+  background: ${({ theme }) => theme.CTAPink};
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 `;

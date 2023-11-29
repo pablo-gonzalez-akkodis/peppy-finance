@@ -24,7 +24,7 @@ const StyledSwitch = styled.div<{ active?: boolean; activeColor?: string }>`
   border-radius: 4px;
   padding: 4px 0;
   background-color: ${({ theme, active, activeColor }) =>
-    active ? activeColor || theme.primaryBlue : theme.bg3};
+    active ? activeColor || theme.CTAPink : theme.bg3};
   color: ${({ theme, active }) => (active ? theme.primaryDarkBg : theme.text2)};
   font-size: 10px;
   font-weight: 400;

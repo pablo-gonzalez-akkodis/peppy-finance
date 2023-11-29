@@ -33,7 +33,7 @@ const AccountWrapper = styled(Row)`
   font-weight: 500;
   font-size: 12px;
 
-  color: ${({ theme }) => theme.primaryBlue};
+  color: ${({ theme }) => theme.text0};
 `;
 
 const ImageWrapper = styled(RowCenter)`
