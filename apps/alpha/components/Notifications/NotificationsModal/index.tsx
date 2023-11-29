@@ -43,8 +43,7 @@ const InlineModal = styled(Card)<{
   position: absolute;
   z-index: ${Z_INDEX.modal};
   transform: translate(-364px, 10px);
-  background: ${({ theme }) => theme.bg3};
-  border: 2px solid ${({ theme }) => theme.bg6};
+  background: ${({ theme }) => theme.bg1};
 
   & > * {
     &:last-child {
@@ -60,7 +59,6 @@ const EmptyRow = styled(ColumnCenter)`
   margin-bottom: 70px;
   font-weight: 400;
   color: ${({ theme }) => theme.text1};
-  background: ${({ theme }) => theme.bg3};
 `;
 
 const InfoBox = styled(RowCenter)`
@@ -69,7 +67,7 @@ const InfoBox = styled(RowCenter)`
   height: 30px;
   border-radius: 4px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg4};
+  background: ${({ theme }) => theme.bg3};
 `;
 
 const Title = styled.div`

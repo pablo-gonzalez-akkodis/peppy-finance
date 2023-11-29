@@ -25,14 +25,6 @@ const Button = styled(NavButton)`
   font-size: 12px;
   padding: 0px 3px;
   cursor: default;
-
-  /* ${({ theme }) => theme.mediaWidth.upToMedium`
-    & > * {
-      &:nth-child(2) {
-        display: none;
-      }
-    }
-  `}; */
 `;
 
 const Chevron = styled(ChevronDown)<{ open: boolean }>`

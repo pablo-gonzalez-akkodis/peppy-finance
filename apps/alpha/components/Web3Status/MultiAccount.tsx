@@ -30,10 +30,7 @@ import { ChevronDown, Switch, Status as StatusIcon } from "components/Icons";
 import { Row, RowCenter, RowEnd, RowStart } from "components/Row";
 import AccountsModal from "./AccountsModal";
 import CreateAccountModal from "components/ReviewModal/CreateAccountModal";
-import {
-  GradientButtonWrapper,
-  GradientColorButton,
-} from "components/Button/GradientButton";
+import { GradientColorButton } from "components/Button/GradientButton";
 import AccountUpnl from "components/App/AccountData/AccountUpnl";
 import ImageWithFallback from "components/ImageWithFallback";
 import Badge from "./Badge";
@@ -45,6 +42,7 @@ const Container = styled.div`
   display: inline-flex;
   align-items: center;
   width: 244px;
+  border-left: 1px solid ${({ theme }) => theme.bg0};
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
     width: 204px;
   `}
@@ -55,9 +53,6 @@ const InnerContentWrapper = styled(Row)`
   height: 36px;
   font-size: 12px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg2};
-  border: 1px solid ${({ theme }) => theme.border3};
-  border-radius: 3px;
 `;
 
 const UserStatus = styled(RowStart)`
@@ -85,11 +80,6 @@ const NameWrapper = styled.div<{ nameLength: number }>`
   }
 `;
 
-const ErrorWrapper = styled(GradientButtonWrapper)`
-  height: 38px;
-  width: unset;
-`;
-
 const ErrorButton = styled(GradientColorButton)`
   padding: 0 10px;
   text-overflow: ellipsis;
@@ -111,12 +101,12 @@ const MainButton = styled(NavButton)`
   display: flex;
   overflow: unset;
   z-index: 0;
+  background: ${({ theme }) => theme.bg1};
 
   &:hover,
   &:focus {
     cursor: pointer;
-    /* background: none; */
-    background: ${({ theme }) => theme.bg4};
+    background: ${({ theme }) => theme.bg1};
   }
 `;
 
@@ -129,10 +119,15 @@ const Button = styled.div`
   font-weight: 500;
   font-size: 12px;
   text-align: center;
-  color: ${({ theme }) => theme.bg};
-  background: ${({ theme }) => theme.gradLight};
-  border-radius: 3px;
+  color: ${({ theme }) => theme.text0};
+  background: ${({ theme }) => theme.pinkGrad};
+
   padding: 10px 0px;
+
+  &:focus,
+  &:hover {
+    background: ${({ theme }) => theme.hoverGrad};
+  }
 `;
 
 const ChooseAccountButton = styled(Button)`
@@ -166,22 +161,14 @@ const AccountAddress = styled.div<{ width?: string; color?: string }>`
   padding: 13px 0px;
 `;
 
-const NetworkButton = styled(NavButton)<{ lighter?: boolean }>`
+const NetworkButton = styled(NavButton)`
   position: relative;
   cursor: pointer;
   overflow: visible;
   padding: 0px 5px;
   color: ${({ theme }) => theme.text1};
-
-  /* ${({ lighter }) =>
-    !lighter &&
-    `
-    opacity:0.5;
-  `} */
-
   background: ${({ theme }) => theme.red6};
   border: 1px solid ${({ theme }) => theme.red2};
-  border-radius: 8px;
 `;
 
 const Chevron = styled(ChevronDown)<{ open: boolean }>`
@@ -195,6 +182,7 @@ const SwitchIcon = styled.div`
   left: 30px;
   cursor: pointer;
 `;
+
 //TODO pending actions
 export default function MultiAccount() {
   const theme = useTheme();
@@ -373,12 +361,10 @@ export default function MultiAccount() {
       );
     } else if (error) {
       return (
-        <ErrorWrapper>
-          <ErrorButton onClick={openConnectModal}>
-            <Activity />
-            {error.message || "Error"}
-          </ErrorButton>
-        </ErrorWrapper>
+        <ErrorButton onClick={openConnectModal}>
+          <Activity />
+          {error.message || "Error"}
+        </ErrorButton>
       );
     } else {
       return (

@@ -5,7 +5,7 @@ import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
 
 import { ColumnCenter } from "components/Column";
 import { RowCenter } from "components/Row";
-import { MainButton } from "components/Button";
+import { PrimaryButton } from "components/Button";
 import BigExclamationMark from "components/Icons/BigExclamationMark";
 
 const ErrorWrapper = styled(ColumnCenter)<{
@@ -43,7 +43,9 @@ const ErrorText = styled.p<{ color: string; blacklisted?: boolean }>`
   line-height: ${({ blacklisted }) => (blacklisted ? "26px" : "22px")};
 `;
 
-const ContactButton = styled(MainButton)`
+const ContactButton = styled(PrimaryButton)`
+  height: 48px;
+  border-radius: 8px;
   position: absolute;
   bottom: 12px;
   width: calc(100% - 12px);

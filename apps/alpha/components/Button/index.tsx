@@ -9,7 +9,6 @@ export const BaseButton = styled(RowCenter)<{
   padding: 1rem;
   height: 100%;
   font-weight: 600;
-  border-radius: 4px;
   outline: none;
   text-decoration: none;
   cursor: pointer;
@@ -36,10 +35,16 @@ export const NavButton = styled(BaseButton)<{ width?: number | string }>`
   width: 40px;
   font-size: 14px;
   padding: 0 10px;
-  background: ${({ theme }) => theme.bg4};
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
+  background: ${({ theme }) => theme.bg1};
+
+  &:hover,
+  &:focus {
+    cursor: pointer;
+    background: ${({ theme }) => theme.hover};
+  }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     height: 32px;
@@ -72,11 +77,6 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
         background:  ${theme.disabledButton};
       }
   `}
-`;
-
-export const MainButton = styled(PrimaryButton)`
-  height: 48px;
-  border-radius: 8px;
 `;
 
 export const SecondaryButton = styled(PrimaryButton)`

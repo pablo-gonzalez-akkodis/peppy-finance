@@ -14,16 +14,14 @@ const ContentContainer = styled(Column)`
   gap: 12px;
   overflow: scroll;
   border-radius: 0px 0px 4px 4px;
-  background: ${({ theme }) => theme.bg3};
 `;
 
 const DropdownContent = styled(Card)<{ isOpen: boolean }>`
   gap: 12px;
-  width: 379px;
   padding: 0px;
   max-height: 500px;
   overflow: scroll;
-  background: ${({ theme }) => theme.bg3};
+  background: ${({ theme }) => theme.bg1};
   display: ${(props) => (props.isOpen ? "flex" : "none")};
 `;
 
@@ -35,7 +33,7 @@ const OldButton = styled(RowCenter)`
   position: relative;
   border-radius: 4px;
   color: ${({ theme }) => theme.text3};
-  background: ${({ theme }) => theme.bg4};
+  background: ${({ theme }) => theme.bg3};
 `;
 
 const IconWrap = styled.div`

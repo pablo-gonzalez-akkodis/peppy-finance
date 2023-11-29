@@ -194,7 +194,6 @@ export default function NavBar() {
           </StatusWrapper>
           <Notifications />
           <Web3Network />
-
           <Menu />
         </MobileWrapper>
         {showWithdrawBarModal && <WithdrawBarModal />}

@@ -19,31 +19,21 @@ const HoverWrapper = styled.div`
   top: 48px;
   right: 0;
   background: ${({ theme }) => theme.bg1};
-  border: 2px solid ${({ theme }) => theme.border3};
   border-radius: 4px;
   overflow: scroll;
 `;
 
-const GradientButtonWrapper = styled.div`
-  padding: 1px;
-  height: 40px;
-  margin-top: 10px;
-  border-radius: 4px;
-  width: unset;
-  background: ${({ theme }) => theme.gradLight};
-`;
-
 const GradientColorButton = styled(RowCenter)<{ disabled?: boolean }>`
+  height: 40px;
   flex-wrap: nowrap;
-  height: 100%;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.bg1};
+  background: ${({ theme }) => theme.secondaryButton};
+  border: 1px solid ${({ theme }) => theme.CTAPink};
 
   &:focus,
   &:hover,
   &:active {
     cursor: ${({ disabled }) => !disabled && "pointer"};
-    background: ${({ theme }) => theme.bg2};
+    background: ${({ theme }) => theme.hoverSecondaryButton};
   }
 `;
 
@@ -51,9 +41,7 @@ const GradientButtonLabel = styled.span`
   font-weight: 600;
   font-size: 12px;
   line-height: 14px;
-  background: ${({ theme }) => theme.gradLight};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: ${({ theme }) => theme.text0};
 `;
 
 export default function AccountsModal({
@@ -89,11 +77,10 @@ export default function AccountsModal({
             />
           );
         })}
-        <GradientButtonWrapper onClick={() => setCreateAccountModal(true)}>
-          <GradientColorButton>
-            <GradientButtonLabel>Create New Account</GradientButtonLabel>
-          </GradientColorButton>
-        </GradientButtonWrapper>
+
+        <GradientColorButton onClick={() => setCreateAccountModal(true)}>
+          <GradientButtonLabel>Create New Account</GradientButtonLabel>
+        </GradientColorButton>
       </div>
     );
   }

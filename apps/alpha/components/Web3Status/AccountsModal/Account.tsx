@@ -12,8 +12,8 @@ const AccountWrapper = styled.div<{ active?: boolean }>`
   height: 82px;
   margin: 8px 0px;
   border-radius: 3px;
-  background: ${({ theme, active }) => (active ? theme.bg6 : theme.bg3)};
-  border: 1px solid ${({ theme, active }) => (active ? theme.text0 : theme.bg7)};
+  background: ${({ theme, active }) => (active ? theme.bg3 : theme.bg2)};
+
   z-index: ${Z_INDEX.tooltip};
 `;
 
@@ -44,6 +44,7 @@ const UpnlValue = styled.div<{ color?: string }>`
   margin-left: 4px;
   color: ${({ theme, color }) => color ?? theme.text1};
 `;
+
 export default function Account({
   account,
   active,
