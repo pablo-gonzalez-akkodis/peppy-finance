@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import styled from "styled-components";
 import Image from "next/legacy/image";
 
-import GRADIENT_CLOVERFIELD_LOGO from "/public/static/images/etc/GradientCloverfield.svg";
+import GRADIENT_THENA_LOGO from "/public/static/images/etc/GradientThena.svg";
 
 import { useCollateralToken } from "@symmio-client/core/constants/tokens";
 import { truncateAddress } from "@symmio-client/core/utils/address";
@@ -24,7 +24,7 @@ import {
   DotFlashing,
 } from "components/Icons";
 import { WEB_SETTING } from "@symmio-client/core/config";
-import GradientButton from "components/Button/GradientButton";
+import { PrimaryButton } from "components/Button";
 
 const Wrapper = styled.div<{ modal?: boolean }>`
   border: none;
@@ -51,8 +51,8 @@ const ContentWrapper = styled(Column)`
 `;
 
 const ImageWrapper = styled(RowCenter)`
-  margin-top: 15px;
-  margin-bottom: 34px;
+  margin-top: 30px;
+  margin-bottom: 64px;
 `;
 
 const AccountWrapper = styled(Row)`
@@ -67,23 +67,21 @@ const AccountWrapper = styled(Row)`
 `;
 
 const AccountNameWrapper = styled(AccountWrapper)`
-  background: ${({ theme }) => theme.bg3};
+  background: ${({ theme }) => theme.bg2};
   color: ${({ theme }) => theme.text3};
 `;
 
-const Input = styled.input<{
-  [x: string]: any;
-}>`
+const Input = styled.input<{ [x: string]: any }>`
   height: fit-content;
   width: 90%;
   border: none;
   background: transparent;
   font-size: 12px;
-  /* color: ${({ theme }) => theme.text3}; */
+  color: ${({ theme }) => theme.text0};
   padding-left: 2px;
 
   &::placeholder {
-    color: ${({ theme }) => theme.text3};
+    color: ${({ theme }) => theme.text1};
   }
 
   &:focus,
@@ -103,7 +101,7 @@ const Close = styled.div`
   cursor: pointer;
   border-radius: 4px;
   margin: 2px 12px 1px 0px;
-  background: ${({ theme }) => theme.bg6};
+  background: ${({ theme }) => theme.bg1};
 `;
 
 const DescriptionText = styled.div`
@@ -152,27 +150,33 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   function getActionButton() {
     if (awaitingConfirmation) {
       return (
-        <GradientButton label={"Awaiting Confirmation"} disabled={true}>
+        <PrimaryButton height={"40px"}>
+          Awaiting Confirmation
           <DotFlashing />
-        </GradientButton>
+        </PrimaryButton>
       );
     }
 
     if (WEB_SETTING.showSignModal && !isTermsAccepted) {
-      return <GradientButton label={"Accept Terms Please"} disabled={true} />;
+      return (
+        <PrimaryButton disabled={true} height={"40px"}>
+          Accept Terms Please
+        </PrimaryButton>
+      );
     }
 
-    if (userWhitelisted === false) {
+    if (!userWhitelisted) {
       return (
-        <GradientButton label={"You are not whitelisted"} disabled={true} />
+        <PrimaryButton disabled={true} height={"40px"}>
+          You are not whitelisted
+        </PrimaryButton>
       );
     }
 
     return (
-      <GradientButton
-        label={name === "" ? "Enter account name" : "Create Account"}
-        onClick={() => onAddAccount()}
-      />
+      <PrimaryButton onClick={() => onAddAccount()} height={"40px"}>
+        {name === "" ? "Enter account name" : "Create Account"}
+      </PrimaryButton>
     );
   }
 
@@ -196,10 +200,10 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
       <ContentWrapper>
         <ImageWrapper>
           <Image
-            src={GRADIENT_CLOVERFIELD_LOGO}
-            alt="cloverfield_logo"
-            width={110}
-            height={121}
+            src={GRADIENT_THENA_LOGO}
+            alt="thena_logo"
+            width={314}
+            height={65}
           />
         </ImageWrapper>
         <AccountWrapper>
@@ -212,7 +216,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
           <Input
             autoFocus
             type="text"
-            placeholder={"Account Name (it will be saved on chain)"}
+            placeholder={"Account Name (will be saved on chain)"}
             spellCheck="false"
             onBlur={() => null}
             value={name}

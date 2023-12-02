@@ -39,6 +39,7 @@ import DepositModal from "components/ReviewModal/DepositModal";
 import AccountUpnl from "components/App/AccountData/AccountUpnl";
 import DataRow from "components/App/AccountData/DataRow";
 import WithdrawModal from "components/ReviewModal/WithdrawModal";
+import { PrimaryButton } from "components/Button";
 
 const Wrapper = styled.div`
   width: 100%;
@@ -87,7 +88,7 @@ const DataWrap = styled.div`
   padding: 12px;
   flex-flow: column nowrap;
   position: relative;
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme }) => theme.bg};
 `;
 
 const TopRow = styled(RowBetween)`
@@ -107,6 +108,11 @@ const Label = styled.div`
 const ButtonsWrapper = styled(RowEnd)`
   margin-top: 16px;
   gap: 8px;
+`;
+
+const DepositButton = styled(PrimaryButton)`
+  font-size: 12px;
+  padding: 0px;
 `;
 
 const ContextText = styled.div`
@@ -240,10 +246,12 @@ export default function AccountOverview({
                 label={"Withdraw"}
                 onClick={() => toggleWithdrawModal()}
               />
-              <GradientButton
-                label={"Deposit"}
+              <DepositButton
+                height={"40px"}
                 onClick={() => toggleDepositModal()}
-              />
+              >
+                Deposit
+              </DepositButton>
             </ButtonsWrapper>
           </ContentWrapper>
         </Wrapper>
@@ -259,7 +267,7 @@ function NotValidState({ text }: { text: string }) {
     <Wrapper>
       <ColumnCenter style={{ marginTop: "78px" }}>
         <Image
-          src={"/static/images/etc/SimpleCloverfield.svg"}
+          src={"/static/images/etc/NotConnectedWallet.svg"}
           alt="Asset"
           width={110}
           height={120}

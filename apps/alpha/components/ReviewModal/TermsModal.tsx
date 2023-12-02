@@ -2,7 +2,7 @@ import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 
-import GRADIENT_CLOVERFIELD_LOGO from "/public/static/images/etc/GradientCloverfield.svg";
+import GRADIENT_THENA_LOGO from "/public/static/images/etc/GradientThena.svg";
 
 import { Modal } from "components/Modal";
 import { DotFlashing, Wallet } from "components/Icons";
@@ -37,8 +37,8 @@ const AccountWrapper = styled(Row)`
 `;
 
 const ImageWrapper = styled(RowCenter)`
-  margin-top: 15px;
-  margin-bottom: 34px;
+  margin-top: 47.5px;
+  margin-bottom: 47.5px;
 `;
 
 const AcceptRiskWrapper = styled.div`
@@ -65,8 +65,8 @@ export default function TermsModal({
         <RowStart>Terms of Service</RowStart>
         <ImageWrapper>
           <Image
-            src={GRADIENT_CLOVERFIELD_LOGO}
-            alt="cloverfield_logo"
+            src={GRADIENT_THENA_LOGO}
+            alt="thena_logo"
             width={110}
             height={121}
           />

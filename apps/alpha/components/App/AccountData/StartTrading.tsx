@@ -8,7 +8,7 @@ import { SupportedChainId } from "@symmio-client/core/constants/chains";
 import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
 import {
   useAccountPartyAStat,
-  useActiveAccountAddress,
+  useActiveAccount,
 } from "@symmio-client/core/state/user/hooks";
 import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
 import {
@@ -16,7 +16,7 @@ import {
   useModalOpen,
 } from "@symmio-client/core/state/application/hooks";
 
-import GradientButton from "components/Button/GradientButton";
+import { PrimaryButton } from "components/Button";
 import { Row, RowStart, RowBetween, RowCenter, RowEnd } from "components/Row";
 import DepositModal from "components/ReviewModal/DepositModal";
 
@@ -24,7 +24,7 @@ const Wrapper = styled.div`
   border: none;
   width: 100%;
   min-height: 379px;
-  border-radius: 4px;
+  border-radius: 2px;
   background: ${({ theme }) => theme.bg0};
   ${({ theme }) => theme.mediaWidth.upToLarge`
     width: 100%;
@@ -43,7 +43,6 @@ const ContentWrapper = styled.div`
   display: flex;
   padding: 12px;
   flex-flow: column nowrap;
-  /* height: 100%; */
   position: relative;
 `;
 
@@ -53,6 +52,7 @@ const ImageWrapper = styled(RowCenter)`
 `;
 
 const Label = styled.div`
+  font-size: 14px;
   justify-self: start;
   color: ${({ theme }) => theme.text3};
 `;
@@ -72,8 +72,8 @@ const DepositText = styled.div`
 `;
 
 export default function StartTrading({ symbol }: { symbol?: string }) {
-  const account = useActiveAccountAddress();
-  const { collateralBalance } = useAccountPartyAStat(account);
+  const { accountAddress, name } = useActiveAccount() || {};
+  const { collateralBalance } = useAccountPartyAStat(accountAddress);
   const showDepositModal = useModalOpen(ApplicationModal.DEPOSIT);
   const toggleDepositModal = useDepositModalToggle();
   const imgSrc = useAssetSrc();
@@ -92,21 +92,20 @@ export default function StartTrading({ symbol }: { symbol?: string }) {
           <Image
             src={"/static/images/etc/Asset.svg"}
             alt="Asset"
-            width={174}
-            height={135}
+            width={314}
+            height={117}
           />
         </ImageWrapper>
         <DepositText>Deposit {symbol} and start trading</DepositText>
-        <RowBetween style={{ marginBottom: "24px" }}>
-          <Label>Account Balance:</Label>
+        <RowBetween style={{ marginBottom: "28px" }}>
+          <Label>[{`${name}`}] Account Balance:</Label>
           <Value>
             {formatAmount(collateralBalance)} {symbol}
           </Value>
         </RowBetween>
-        <GradientButton
-          label={`Deposit ${symbol}`}
-          onClick={() => toggleDepositModal()}
-        />
+        <PrimaryButton height={"40px"} onClick={() => toggleDepositModal()}>
+          Deposit {symbol}
+        </PrimaryButton>
       </ContentWrapper>
       {showDepositModal && <DepositModal />}
     </Wrapper>

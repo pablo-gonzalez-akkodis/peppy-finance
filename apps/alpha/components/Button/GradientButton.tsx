@@ -3,30 +3,17 @@ import styled from "styled-components";
 import { BaseButton } from "components/Button";
 import { useCallback } from "react";
 
-export const GradientButtonWrapper = styled(BaseButton)`
-  padding: 1px;
-  height: 40px;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.gradLight};
-
-  ${({ disabled }) =>
-    disabled &&
-    `
-      cursor: default;
-      opacity: 50%;
-
-  `}
-`;
-
 export const GradientColorButton = styled(BaseButton)`
-  height: 100%;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.bg1};
+  height: 40px;
+  background: ${({ theme }) => theme.secondaryButton};
+  border: 1px solid ${({ theme }) => theme.CTAPink};
 
   &:focus,
   &:hover,
   &:active {
-    background: ${({ theme }) => theme.black2};
+    background: ${({ theme }) => theme.hoverSecondaryButton};
+
+    cursor: ${({ disabled }) => !disabled && "pointer"};
   }
 
   ${({ disabled }) =>
@@ -37,24 +24,24 @@ export const GradientColorButton = styled(BaseButton)`
   `}
 `;
 
-export const GradientButtonLabel = styled.span`
+export const GradientButtonLabel = styled.span<{ whiteText?: boolean }>`
   font-weight: 600;
   font-size: 12px;
   line-height: 14px;
-  background: ${({ theme }) => theme.gradLight};
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: ${({ theme }) => theme.text0};
 `;
 
 export default function GradientButton({
   label,
   onClick,
   children,
+  whiteText,
   disabled,
 }: {
   label: string;
   onClick?: () => void;
   children?: React.ReactNode;
+  whiteText?: boolean;
   disabled?: boolean;
 }): JSX.Element {
   const handleClick = useCallback(() => {
@@ -62,11 +49,9 @@ export default function GradientButton({
   }, [disabled, onClick]);
 
   return (
-    <GradientButtonWrapper disabled={disabled}>
-      <GradientColorButton onClick={handleClick} disabled={disabled}>
-        <GradientButtonLabel>{label}</GradientButtonLabel>
-        <div>{children}</div>
-      </GradientColorButton>
-    </GradientButtonWrapper>
+    <GradientColorButton onClick={handleClick} disabled={disabled}>
+      <GradientButtonLabel whiteText={whiteText}>{label}</GradientButtonLabel>
+      <div>{children}</div>
+    </GradientColorButton>
   );
 }

@@ -18,7 +18,7 @@ const Wrapper = styled.div`
   min-height: 379px;
   display: flex;
   flex-flow: column nowrap;
-  border-radius: 4px;
+  border-radius: 2px;
   background: ${({ theme }) => theme.bg0};
   & > * {
     &:first-child {
@@ -67,7 +67,6 @@ export default function Overviews() {
             setPanelType(option as PanelType);
             if (option === PanelType.ACCOUNT_OVERVIEW) setQuoteDetail(null);
           }}
-          hideOuterBorder
         />
       )}
       {panelType === PanelType.ACCOUNT_OVERVIEW ? (
