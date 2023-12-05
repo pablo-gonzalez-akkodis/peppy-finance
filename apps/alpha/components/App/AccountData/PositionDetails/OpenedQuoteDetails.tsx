@@ -50,18 +50,6 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
 
-// const ShareOnTwitterButton = styled(RowEnd)`
-//   width: 40%;
-//   height: 20px;
-//   font-size: 10px;
-//   font-weight: 500;
-//   border-radius: 2px;
-//   cursor: pointer;
-//   padding: 4px 4px 4px 8px;
-//   color: ${({ theme }) => theme.text0};
-//   background: ${({ theme }) => theme.twitter};
-// `
-
 export default function OpenedQuoteDetails({
   quote,
   platformFee,
@@ -173,17 +161,9 @@ export default function OpenedQuoteDetails({
             </RowComponent>
             {!mobileVersion && <PositionDetailsNavigator />}
           </PositionInfoBox>
-          {/* {quoteStatus === QuoteStatus.CLOSED && (
-          <ShareOnTwitterButton onClick={() => togglePositionModal(!sharePositionModal)}>
-            <RowStart>Share on Twitter</RowStart>
-            <RowEnd width={'23%'}>
-              <Image src={TWITTER_ICON} width={19} height={16} alt={`twitter_icon`} />
-            </RowEnd>
-          </ShareOnTwitterButton>
-        )} */}
 
           {mobileVersion &&
-            (quoteStatus === QuoteStatus.CLOSED ? ( // fix this - write ueseMemo
+            (quoteStatus === QuoteStatus.CLOSED ? (
               <RowPnl>
                 <Label>PNL:</Label>
                 <PositionPnl color={PNLColor}>{`${PNL} (${Math.abs(
@@ -291,7 +271,6 @@ export default function OpenedQuoteDetails({
                   <Row>
                     <Label>Bid Price:</Label>
                     <Value>
-                      {/* `${formatCurrency(bidPrice)} ${collateralCurrency?.symbol}` */}
                       {bidPrice === "0" ? (
                         "-"
                       ) : (
@@ -306,7 +285,6 @@ export default function OpenedQuoteDetails({
                   <Row>
                     <Label>Ask Price:</Label>
                     <Value>
-                      {/* `${formatCurrency(askPrice)} ${collateralCurrency?.symbol}` */}
                       {askPrice === "0" ? (
                         "-"
                       ) : (
@@ -359,13 +337,6 @@ export default function OpenedQuoteDetails({
           </ContentWrapper>
         </Wrapper>
       )}
-
-      {/* <SharePositionModal
-        title={'Share on twitter'}
-        quote={quote}
-        isOpen={sharePositionModal}
-        toggleModal={togglePositionModal}
-      /> */}
     </>
   );
 }

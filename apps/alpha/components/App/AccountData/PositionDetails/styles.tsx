@@ -49,7 +49,7 @@ export const TopWrap = styled(RowComponent)<{
   cursor: ${({ mobileVersion }) => (mobileVersion ? "pointer" : "unset")};
   ${({ theme, expand }) => theme.mediaWidth.upToMedium`
     height: unset;
-    background: ${expand ? theme.bg3 : theme.bg2};
+    background: ${expand ? theme.bg3 : theme.bg1};
   `};
 `;
 
@@ -58,7 +58,7 @@ export const DataWrap = styled.div`
   padding: 4px 12px;
   flex-flow: column nowrap;
   position: relative;
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme }) => theme.bg};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     background: ${theme.bg1};
   `};
@@ -151,7 +151,7 @@ export const QuoteData = styled(Row)`
   border-radius: 2px;
   margin-left: 8px;
   color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg4};
+  background: ${({ theme }) => theme.bg2};
 `;
 
 export const Label = styled.div`
@@ -189,15 +189,6 @@ export const PositionPnl = styled(PnlValue)`
     font-size: 12px;
   `};
 `;
-
-// const ArrowWrap = styled.div`
-//   width: 36px;
-//   height: 20px;
-//   cursor: pointer;
-//   border-radius: 2px;
-//   padding: 0px 12px;
-//   background: ${({ theme }) => theme.bg5};
-// `
 
 export const PreviousIcon = styled(NextIcon)`
   rotate: 180deg;

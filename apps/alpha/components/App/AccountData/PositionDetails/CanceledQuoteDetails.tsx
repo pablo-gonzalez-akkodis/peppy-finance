@@ -113,14 +113,6 @@ export default function CanceledQuoteDetails({
       </TopWrap>
       {expanded && (
         <Wrapper>
-          {/* <Row>
-            <ArrowWrap>
-              <NextIcon />
-            </ArrowWrap>
-            <ArrowWrap>
-              <PreviousIcon />
-            </ArrowWrap>
-          </Row> */}
           <DataWrap>
             <Row>
               <Label>Cancel Time:</Label>
