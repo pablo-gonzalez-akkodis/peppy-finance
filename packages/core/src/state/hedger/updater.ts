@@ -1,15 +1,21 @@
 import { useCallback, useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-import { JsonValue } from "react-use-websocket/dist/lib/types";
-
-import { useAppDispatch, AppThunkDispatch } from "..";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
+// const useWebSocket = useWebSocketRaw.useWebSocket;
+// TODO: fix this { ReadyState } from "react-use-websocket"
+enum ReadyState {
+  UNINSTANTIATED = -1,
+  CONNECTING = 0,
+  OPEN = 1,
+  CLOSING = 2,
+  CLOSED = 3,
+}
+import { useAppDispatch, AppThunkDispatch } from "../declaration";
 import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
 import { autoRefresh, retry } from "../../utils/retry";
 
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 import {
-  ConnectionStatus,
   MarketDataMap as PricesType,
   MarketData,
   PriceResponse,
@@ -186,7 +192,7 @@ function usePriceWebSocket() {
         params: ["!markPrice@arr@1s"],
         id: 1,
       };
-      sendJsonMessage(json as unknown as JsonValue);
+      sendJsonMessage(json as any);
     }
   }, [connectionStatus, markets, sendJsonMessage, windowVisible]);
 

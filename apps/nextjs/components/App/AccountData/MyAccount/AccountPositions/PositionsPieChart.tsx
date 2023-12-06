@@ -3,7 +3,7 @@ import styled, { useTheme } from "styled-components";
 import Image from "next/legacy/image";
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
-import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 import { PositionType } from "@symmio/frontend-sdk/types/trade";
 import { AccountPositionsContext } from "./context";
 

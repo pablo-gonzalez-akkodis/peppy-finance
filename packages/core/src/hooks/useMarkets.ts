@@ -1,5 +1,7 @@
 import { useMemo } from "react";
-import { useSelect, SelectSearchOption } from "react-select-search";
+import { SelectSearchOption } from "react-select-search";
+import useSelectRaw from "react-select-search/dist/cjs/index.js";
+const { useSelect } = useSelectRaw;
 import Fuse from "fuse.js";
 import find from "lodash/find";
 

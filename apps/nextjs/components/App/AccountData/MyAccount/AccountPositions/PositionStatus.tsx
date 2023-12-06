@@ -3,7 +3,7 @@ import styled, { useTheme } from "styled-components";
 
 import { formatPrice } from "@symmio/frontend-sdk/utils/numbers";
 import { PositionType } from "@symmio/frontend-sdk/types/trade";
-import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 
 import { DefaultHeader } from "../styles";
 import { Row } from "components/Row";

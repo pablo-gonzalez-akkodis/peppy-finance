@@ -2,10 +2,9 @@ import React from "react";
 import { WagmiConfig } from "wagmi";
 import dynamic from "next/dynamic";
 import type { AppProps } from "next/app";
-import store, { ReduxProvider, persistor } from "@symmio/frontend-sdk/state";
+import store, { ReduxProvider } from "@symmio/frontend-sdk/state/declaration";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
 import { getWagmiConfig } from "utils/wagmi";
-import { PersistGate } from "redux-persist/integration/react";
 import ThemeProvider, { ThemedGlobalStyle } from "theme";
 import { ModalProvider } from "styled-react-modal";
 import { Toaster } from "react-hot-toast";
@@ -15,10 +14,11 @@ import Popups from "components/Popups";
 import { BlockNumberProvider } from "@symmio/frontend-sdk/lib/hooks/useBlockNumber";
 import ConfigSDKComponent from "./configSDK";
 import { setUseWhatChange } from "@simbathesailor/use-what-changed";
+import Updaters from "@symmio/frontend-sdk/state/updaters";
 
-const Updaters = dynamic(() => import("@symmio/frontend-sdk/state/updaters"), {
-  ssr: false,
-});
+// const Updaters = dynamic(() => import("@symmio/frontend-sdk/state/updaters"), {
+//   ssr: false,
+// });
 
 const { wagmiConfig, chains, initialChain } = getWagmiConfig();
 
@@ -29,37 +29,35 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <WagmiConfig config={wagmiConfig}>
-          <RainbowKitProvider
-            chains={chains}
-            initialChain={initialChain}
-            showRecentTransactions={true}
-            theme={darkTheme({
-              accentColor: "#AEE3FA",
-              accentColorForeground: "#151A1F",
-              borderRadius: "small",
-              fontStack: "system",
-              overlayBlur: "small",
-            })}
-          >
-            <ThemeProvider>
-              <ThemedGlobalStyle />
-              <ModalProvider backgroundComponent={ModalBackground}>
-                <Toaster position="bottom-center" />
-                <BlockNumberProvider>
-                  <Popups />
-                  <Updaters />
-                  <ConfigSDKComponent />
-                  <Layout>
-                    <Component {...pageProps} />
-                  </Layout>
-                </BlockNumberProvider>
-              </ModalProvider>
-            </ThemeProvider>
-          </RainbowKitProvider>
-        </WagmiConfig>
-      </PersistGate>
+      <WagmiConfig config={wagmiConfig}>
+        <RainbowKitProvider
+          chains={chains}
+          initialChain={initialChain}
+          showRecentTransactions={true}
+          theme={darkTheme({
+            accentColor: "#AEE3FA",
+            accentColorForeground: "#151A1F",
+            borderRadius: "small",
+            fontStack: "system",
+            overlayBlur: "small",
+          })}
+        >
+          <ThemeProvider>
+            <ThemedGlobalStyle />
+            <ModalProvider backgroundComponent={ModalBackground}>
+              <Toaster position="bottom-center" />
+              <BlockNumberProvider>
+                <Popups />
+                <Updaters />
+                <ConfigSDKComponent />
+                <Layout>
+                  <Component {...pageProps} />
+                </Layout>
+              </BlockNumberProvider>
+            </ModalProvider>
+          </ThemeProvider>
+        </RainbowKitProvider>
+      </WagmiConfig>
     </ReduxProvider>
   );
 }

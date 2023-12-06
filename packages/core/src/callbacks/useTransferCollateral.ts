@@ -227,7 +227,8 @@ export function useTransferCollateral(
         },
       };
     } catch (error) {
-      throw new Error(error);
+      if (error && typeof error === "string") throw new Error(error);
+      throw new Error("error3");
     }
   }, [
     account,

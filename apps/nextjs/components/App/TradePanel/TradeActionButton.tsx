@@ -20,7 +20,7 @@ import useTradePage from "@symmio/frontend-sdk/hooks/useTradePage";
 import { DEFAULT_PRECISION } from "@symmio/frontend-sdk/constants/misc";
 import { calculateString } from "utils/calculationalString";
 import { InputField } from "@symmio/frontend-sdk/types/trade";
-import { ConnectionStatus } from "@symmio/frontend-sdk/state/hedger/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 import {
   useUserWhitelist,
   useIsTermsAccepted,

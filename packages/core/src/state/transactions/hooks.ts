@@ -3,7 +3,7 @@ import { Token } from "@uniswap/sdk-core";
 
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "../declaration";
 import { addTransaction } from "./actions";
 import { TransactionDetails, TransactionInfo, TransactionType } from "./types";
 import useWagmi from "../../lib/hooks/useWagmi";

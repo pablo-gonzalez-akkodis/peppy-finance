@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
-import findIndex from "lodash/findIndex";
+import findIndex from "lodash/findIndex.js";
 
 import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 import {

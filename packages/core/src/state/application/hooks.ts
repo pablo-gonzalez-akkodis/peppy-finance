@@ -3,7 +3,7 @@ import { useCallback, useMemo } from "react";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
 import { DEFAULT_TXN_DISMISS_MS } from "../../constants/misc";
-import { AppState, useAppDispatch, useAppSelector } from "..";
+import { AppState, useAppDispatch, useAppSelector } from "../declaration";
 import { addPopup, removePopup, setOpenModal } from "./actions";
 import { ApplicationModal, Popup, PopupContent, PopupList } from "./reducer";
 

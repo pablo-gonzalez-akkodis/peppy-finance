@@ -77,7 +77,10 @@ export function Banner({
 export default function WrapperBanner() {
   const userWhitelisted = useUserWhitelist();
   const showBanner =
-    localStorage.getItem("risk_warning") === "true" ? false : true;
+    typeof window !== "undefined" &&
+    localStorage.getItem("risk_warning") === "true"
+      ? false
+      : true;
 
   if (!showBanner) return null;
 

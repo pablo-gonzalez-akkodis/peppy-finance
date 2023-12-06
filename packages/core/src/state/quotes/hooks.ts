@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useAppSelector, useAppDispatch } from "..";
+import { useAppSelector, useAppDispatch } from "../declaration";
 import uniqWith from "lodash/uniqWith";
 
 import { Quote } from "../../types/quote";

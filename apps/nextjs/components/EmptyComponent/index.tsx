@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useRouter } from "next/router";
-import find from "lodash/find";
+import find from "lodash/find.js";
 
 import { Market } from "@symmio/frontend-sdk/types/market";
 import { DEFAULT_HEDGER } from "constants/chains/hedgers";

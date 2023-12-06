@@ -6,10 +6,8 @@ import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { BALANCE_HISTORY_ITEMS_NUMBER } from "@symmio/frontend-sdk/constants/misc";
 
-import {
-  BalanceHistoryData,
-  ConnectionStatus,
-} from "@symmio/frontend-sdk/state/user/types";
+import { BalanceHistoryData } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveAccountAddress,

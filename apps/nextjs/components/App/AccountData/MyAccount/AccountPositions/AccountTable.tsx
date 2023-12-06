@@ -5,7 +5,7 @@ import { formatPrice } from "@symmio/frontend-sdk/utils/numbers";
 import { PositionType } from "@symmio/frontend-sdk/types/trade";
 import { ISingleQuoteInfo } from "@symmio/frontend-sdk/types/quotesOverview";
 import { AccountPositionsContext } from "./context";
-import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 
 import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 import { useTotalNotionalValue } from "@symmio/frontend-sdk/hooks/usePositionOverview";

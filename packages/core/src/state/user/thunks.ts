@@ -1,4 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createAsyncThunk } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { getBalanceHistoryApolloClient } from "../../apollo/client/balanceHistory";
 import {
   BALANCE_CHANGES_DATA,

@@ -13,7 +13,7 @@ import AccountTable from "./AccountTable";
 import PositionStatus from "./PositionStatus";
 import PositionsPieChart from "./PositionsPieChart";
 import { RowBetween } from "components/Row";
-import { ConnectionStatus } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
 const Container = styled(DefaultContainer)`

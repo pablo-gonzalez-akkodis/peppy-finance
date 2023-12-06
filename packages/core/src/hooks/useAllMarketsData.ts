@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { ApiState } from "../types/api";
-import { AppThunkDispatch, useAppDispatch } from "../state";
+import { AppThunkDispatch, useAppDispatch } from "../state/declaration";
 
 import { useHedgerInfo } from "../state/hedger/hooks";
 import { MarketsInfo } from "../state/hedger/types";

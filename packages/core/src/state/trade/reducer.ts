@@ -1,4 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createReducer } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { InputField, PositionType, OrderType } from "../../types/trade";
 import {
   setTradeState,

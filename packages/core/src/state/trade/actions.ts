@@ -1,4 +1,6 @@
-import { createAction } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createAction } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { InputField, OrderType, PositionType } from "../../types/trade";
 import { TradeState } from "./types";
 

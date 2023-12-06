@@ -1,4 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createReducer } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { setChains } from "./actions";
 import { HedgerInfoMap } from "../../types/hedger";
 import { SupportedChainId } from "../../constants/chains";

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { Activity } from "react-feather";
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/isEqual.js";
 import { lighten } from "polished";
 import { useConnect } from "wagmi";
 

@@ -1,0 +1,9 @@
+{
+  "version": "v1",
+  "packages": {
+    "@symmio/frontend-sdk": {
+      "signature": "3385f3c132997f1760a1d447a9c674be",
+      "file": true
+    }
+  }
+}

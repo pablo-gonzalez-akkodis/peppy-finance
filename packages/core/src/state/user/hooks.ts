@@ -8,15 +8,18 @@ import {
   UserPartyAStatDetail,
   initialUserPartyAStatDetail,
 } from "../../types/user";
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 import {
   BalanceHistoryData,
-  ConnectionStatus,
   GetWhiteListType,
   WhiteListResponse,
 } from "./types";
 import { getBalanceHistory } from "./thunks";
-import { AppThunkDispatch, useAppDispatch, useAppSelector } from "..";
+import {
+  AppThunkDispatch,
+  useAppDispatch,
+  useAppSelector,
+} from "../declaration";
 import { WEB_SETTING } from "../../config/index";
 
 import {

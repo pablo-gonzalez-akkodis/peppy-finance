@@ -5,8 +5,6 @@ import { SupportedChainId } from "../../constants/chains";
 import useWagmi from "./useWagmi";
 import { useSwitchNetwork } from "wagmi";
 
-import { toast } from "react-hot-toast";
-
 export default function useRpcChangerCallback() {
   const { chainId } = useWagmi();
   const { switchNetworkAsync } = useSwitchNetwork();
@@ -25,7 +23,7 @@ export default function useRpcChangerCallback() {
         // handle other "switch" errors
         if (switchError instanceof Error) {
           if (switchError.name === "ChainNotConfiguredForConnectorError") {
-            toast.error(
+            console.log(
               `The application does not currently accommodate chainId: ${targetChainId}`
             );
             return;

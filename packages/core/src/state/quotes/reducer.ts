@@ -1,4 +1,6 @@
-import { createReducer } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createReducer } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import find from "lodash/find";
 import unionBy from "lodash/unionBy";
 

@@ -8,7 +8,7 @@ import {
 import { usePartyAStats } from "../../hooks/usePartyAStats";
 import { useEffect, useState } from "react";
 import { updateAcceptTerms, updateAccountPartyAStat } from "./actions";
-import { useAppDispatch } from "..";
+import { useAppDispatch } from "../declaration";
 import { useCheckSignedMessage } from "../../hooks/useCheckSign";
 
 export function UpdaterUserContract(): null {
@@ -19,8 +19,9 @@ export function UpdaterUserContract(): null {
   const { account } = useActiveWagmi();
   const previousAccountPartyAStat = useAccountPartyAStat(account);
   const activeAccountAddress = useActiveAccountAddress();
-  const previousActiveAccountPartyAStat =
-    useAccountPartyAStat(activeAccountAddress);
+  const previousActiveAccountPartyAStat = useAccountPartyAStat(
+    activeAccountAddress
+  );
   const accountPartyAStat = usePartyAStats(account);
   const activePartyAStat = usePartyAStats(activeAccountAddress);
 

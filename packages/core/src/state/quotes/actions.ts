@@ -1,5 +1,7 @@
 import { Quote } from "../../types/quote";
-import { createAction } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createAction } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 
 export const addQuote = createAction<{ id: number }>("quotes/addQuote");
 export const removeQuote = createAction<{ id: number }>("quotes/removeQuote");

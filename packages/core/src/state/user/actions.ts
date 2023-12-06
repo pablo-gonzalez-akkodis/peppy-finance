@@ -1,8 +1,9 @@
-import { createAction } from "@reduxjs/toolkit";
-import { ConnectionStatus } from "../hedger/types";
-
+import * as toolkitRaw from "@reduxjs/toolkit";
+const { createAction } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { TermsStatus } from "./types";
 import { Account, AccountUpnl, UserPartyAStatDetail } from "../../types/user";
+import { ConnectionStatus } from "../../types/api";
 
 export const updateMatchesDarkMode = createAction<{ matchesDarkMode: boolean }>(
   "user/updateMatchesDarkMode"

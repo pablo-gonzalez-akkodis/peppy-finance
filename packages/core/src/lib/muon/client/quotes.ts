@@ -3,7 +3,7 @@ import { DEFAULT_MUON_APP_NAME } from "../config";
 import { MuonClient } from "./base";
 import { SchnorrerSign, SingleUpnlAndPriceSig } from "../../../types/muon";
 import { Address } from "viem";
-import { toast } from "react-hot-toast";
+
 export class QuotesClient extends MuonClient {
   constructor(app?: string) {
     super({
@@ -83,7 +83,7 @@ export class QuotesClient extends MuonClient {
       return { success: true, signature };
     } catch (error) {
       console.error(error);
-      toast.error("Unable to get response from muon");
+      console.log("Unable to get response from muon");
       return { success: false, error };
     }
   }

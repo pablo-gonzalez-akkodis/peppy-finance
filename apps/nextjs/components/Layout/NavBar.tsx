@@ -168,14 +168,18 @@ export default function NavBar() {
 
   const hasInjected = useInjectedAddress();
   const isNewNotification = useNewNotification();
+  console.log("looog", typeof window);
   const showBanner =
-    localStorage.getItem("risk_warning") === "true" ? false : true;
+    typeof window !== "undefined" &&
+    localStorage.getItem("risk_warning") === "true"
+      ? false
+      : true;
   const [showTopBanner, setShowTopBanner] = useState(showBanner);
   const bannerText =
     "Users interacting with this software do so entirely at their own risk";
 
   function setShowBanner(inp: boolean) {
-    if (!inp) {
+    if (!inp && typeof window !== "undefined") {
       localStorage.setItem("risk_warning", "true");
       setShowTopBanner(false);
     }
