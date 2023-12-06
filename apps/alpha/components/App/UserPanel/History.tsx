@@ -79,21 +79,13 @@ const QuoteWrap = styled(TableStructure)<{
   canceled?: boolean;
 }>`
   height: 40px;
-  /* opacity: ${({ canceled }) => (canceled ? 0.5 : 1)}; */
   color: ${({ theme }) => theme.text1};
-  background: ${({ theme }) => theme.bg1};
+  background: ${({ theme }) => theme.bg};
   font-weight: 500;
   cursor: pointer;
   &:hover {
-    background: ${({ theme }) => theme.bg6};
+    background: ${({ theme }) => theme.bg1};
   }
-
-  /* ${({ canceled }) =>
-    canceled &&
-    `& > * {
-      opacity: 0.5;
-  }
-  `} */
 
   & > * {
     opacity: ${({ canceled }) => (canceled ? 0.5 : 1)};

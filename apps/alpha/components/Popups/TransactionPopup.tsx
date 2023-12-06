@@ -26,7 +26,7 @@ const Wrapper = styled(Row)<{ success?: boolean; color: string }>`
   padding: 11px 16px;
 
   background: ${({ theme, success }) =>
-    success ? theme.bg4 : theme.bgWarning};
+    success ? theme.bg2 : theme.bgWarning};
   color: ${({ color }) => color};
   border: 1px solid ${({ color }) => color};
   border-radius: 4px;

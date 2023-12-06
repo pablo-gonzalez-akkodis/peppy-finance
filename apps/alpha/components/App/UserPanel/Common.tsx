@@ -23,7 +23,7 @@ export const PositionTypeWrap = styled(RowCenter)<{
   width: 20px;
   height: 40px;
   background: ${({ theme, liquidatePending }) =>
-    liquidatePending ? theme.red1 : theme.bg3};
+    liquidatePending ? theme.red1 : theme.bg0};
   margin-right: 8px;
 `;
 

@@ -15,14 +15,15 @@ import GuideThree from "./GuideThree";
 const ContentContainer = styled(Column)`
   gap: 12px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme }) => theme.bg0};
 `;
 
 const DropdownHeader = styled(Row)<{ borderBottom?: boolean }>`
   height: 40px;
   cursor: pointer;
   padding: 0px 12px;
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme, borderBottom }) =>
+    borderBottom ? theme.bg0 : theme.bg3};
   border-radius: ${({ borderBottom }) =>
     borderBottom ? "4px" : "4px 4px 0px 0px"};
 `;
@@ -32,7 +33,7 @@ const DropdownContent = styled(Card)<{ isOpen: boolean }>`
   padding: 0px 10px 10px 10px;
   max-height: 120px;
   display: ${(props) => (props.isOpen ? "flex" : "none")};
-  background: ${({ theme }) => theme.bg2};
+  background: ${({ theme }) => theme.bg0};
 `;
 
 const Chevron = styled(ChevronDown)<{ open: boolean }>`
@@ -75,8 +76,6 @@ export default memo(function GuidesDropDown({
     const postSolvencyValueBN = toBN(postSolvencyValue);
     const notionalValueBN = toBN(notionalValue);
     const remainingPositionSize = availableAmountBN.minus(availableToCloseBN);
-    // const maxCloseValueBN = availableToCloseBN
-    // const maxPartiallyClose = BigNumber.max(maxCloseValueBN, postSolvencyValueBN)
 
     if (notionalValueBN.lte(10)) {
       return {
@@ -134,10 +133,6 @@ export default memo(function GuidesDropDown({
       state: CloseGuides.ONE,
     };
   })();
-
-  // useEffect(() => {
-  //   console.table({ symbol, availableAmount, availableToClose, postSolvencyValue, state: values.state, notionalValue })
-  // }, [availableAmount, postSolvencyValue, availableToClose, symbol, values.state, notionalValue])
 
   function getTriggers(): React.ReactElement<any> | string {
     const { state, maxPartiallyClose } = values;

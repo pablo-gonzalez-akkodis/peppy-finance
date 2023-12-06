@@ -102,11 +102,11 @@ const QuoteWrap = styled(TableStructure)<{
 }>`
   @keyframes blinking {
     from {
-      background: #242836;
+      background: #1e1e30;
     }
 
     to {
-      background: #292c3b;
+      background: #26273a;
     }
   }
   height: 40px;
@@ -114,7 +114,7 @@ const QuoteWrap = styled(TableStructure)<{
   color: ${({ theme, liquidatePending }) =>
     liquidatePending ? theme.red1 : theme.text0};
   background: ${({ theme, expired, liquidatePending }) =>
-    liquidatePending ? theme.red5 : expired ? expired : theme.bg2};
+    liquidatePending ? theme.red5 : expired ? expired : theme.bg1};
   font-weight: 500;
   cursor: pointer;
   animation: ${({ pending, liquidatePending }) =>
@@ -123,7 +123,7 @@ const QuoteWrap = styled(TableStructure)<{
   &:hover {
     animation: none;
     background: ${({ theme, expired }) =>
-      expired ? lighten(0.05, expired) : theme.bg6};
+      expired ? lighten(0.05, expired) : theme.bg2};
   }
 `;
 

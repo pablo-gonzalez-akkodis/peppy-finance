@@ -17,7 +17,7 @@ const Container = styled(Row)<{
   cursor?: string;
 }>`
   border-radius: ${({ report }) => (report ? "4px 4px 0px 0px" : "4px")};
-  background: ${({ theme, bg }) => (bg ? bg : theme.bg5)};
+  background: ${({ theme, bg }) => (bg ? bg : theme.bg2)};
   cursor: ${({ cursor }) => (cursor ? cursor : "default")};
 
   ${({ border }) =>

@@ -31,9 +31,9 @@ export default function Rectangle({
           y2="10"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stopColor="#E5EFF3" />
-          <stop offset="0.5" stopColor="#A2D4EA" />
-          <stop offset="1" stopColor="#E5EFF3" />
+          <stop stopColor="#B300B8" />
+          <stop offset="0.5" stopColor="#B300B8" />
+          <stop offset="1" stopColor="#B300B8" />
         </linearGradient>
       </defs>
     </svg>

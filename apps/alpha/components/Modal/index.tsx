@@ -31,7 +31,7 @@ export const MobileModal = styled(BaseModal)`
 export const Modal = styled(BaseModal)<{
   width?: string;
 }>`
-  background: ${({ theme }) => theme.bg0};
+  background: ${({ theme }) => theme.bg1};
   width: ${({ width }: { width?: string }) => width ?? "404px"};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     max-height: 350px;
@@ -57,7 +57,7 @@ const HeaderWrapper = styled(RowBetween)`
   color: ${({ theme }) => theme.text0};
   padding: 12px 12px 0 12px;
   padding-bottom: 0;
-  background-color: ${({ theme }) => theme.bg0};
+  background-color: ${({ theme }) => theme.bg1};
   margin-bottom: 20px;
   ${({ theme }) => theme.mediaWidth.upToMedium`
     padding: 10px;

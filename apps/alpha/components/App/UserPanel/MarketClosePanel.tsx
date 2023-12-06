@@ -29,28 +29,6 @@ const Wrapper = styled(Column)`
   `};
 `;
 
-// const DefaultOptionButton = styled.div<{ active?: boolean }>`
-//   padding: 4px 8px;
-//   font-size: 12px;
-//   width: 100px;
-//   height: 28px;
-//   border-radius: 4px;
-//   white-space: nowrap;
-//   display: inline-flex;
-//   justify-content: flex-end;
-//   background: ${({ theme }) => theme.bg4};
-//   color: ${({ theme }) => theme.text1};
-//   border: 1px solid ${({ theme }) => theme.bg6};
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//       // margin-right: 5px;
-//       white-space: normal;
-//   `}
-// `
 const PriceWrap = styled(InnerCard)`
   padding-top: 8px;
   & > * {
@@ -100,30 +78,6 @@ export default function MarketClosePanel({ quote }: { quote: Quote | null }) {
   const { name: marketName, symbol } = useMarket(quote?.marketId) || {};
   const { markPrice } = useMarketData(marketName) || {};
   const [closePrice, setClosePrice] = useState("");
-  // const slippage = useSlippageTolerance()
-  // const [amount, setAmount] = useState<string | number>(slippage)
-  // const setSlippage = useSetSlippageToleranceCallback()
-
-  // const handleMinAmount = useCallback(() => {
-  //   if (amount && Number(amount) < 0) {
-  //     setAmount(0)
-  //   } else if (amount && Number(amount) > 0) {
-  //     setSlippage(Number(amount))
-  //   }
-  // }, [amount, setAmount, setSlippage])
-
-  // const handleCustomChange = useCallback(
-  //   (e: any) => {
-  //     const value = e.currentTarget.value
-  //     if (value !== '' && Number(value) >= 0) {
-  //       setAmount(value)
-  //       setSlippage(Number(value))
-  //     } else {
-  //       setAmount(value)
-  //     }
-  //   },
-  //   [setAmount, setSlippage]
-  // )
 
   return (
     <Wrapper>
@@ -135,18 +89,6 @@ export default function MarketClosePanel({ quote }: { quote: Quote | null }) {
         <RowBetween>
           <Title>Slippage</Title>
           <RowEnd>
-            {/* <DefaultOptionButton active={true}>
-              <InputAmount
-                value={amount ? (Number(amount) >= 0 ? amount : '') : ''}
-                active={true}
-                onBlur={() => {
-                  handleMinAmount()
-                }}
-                onChange={(e) => handleCustomChange(e)}
-                placeholder={amount ? amount.toString() : '0.0'}
-              />
-              %
-            </DefaultOptionButton> */}
             <SlippageTolerance />
           </RowEnd>
         </RowBetween>

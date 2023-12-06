@@ -35,12 +35,6 @@ const Wrapper = styled(Column)`
     padding: 1rem;
   `};
 `;
-const MainButton = styled(PrimaryButton).attrs({
-  height: "48px",
-})`
-  border-radius: px;
-  font-weight: 700;
-`;
 
 export default function CloseModal({
   modalOpen,
@@ -146,21 +140,21 @@ export default function CloseModal({
     if (!chainId || !account) return <ConnectWallet />;
     else if (isPendingTxs) {
       return (
-        <MainButton disabled>
+        <PrimaryButton disabled>
           Transacting <DotFlashing />
-        </MainButton>
+        </PrimaryButton>
       );
     } else if (awaitingCancelConfirmation) {
       return (
-        <MainButton disabled>
+        <PrimaryButton disabled>
           Awaiting Confirmation <DotFlashing />
-        </MainButton>
+        </PrimaryButton>
       );
     }
     return (
-      <MainButton height={"48px"} onClick={handleManage}>
+      <PrimaryButton height={"48px"} onClick={handleManage}>
         {buttonText}
-      </MainButton>
+      </PrimaryButton>
     );
   }
 

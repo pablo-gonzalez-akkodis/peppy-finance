@@ -7,29 +7,8 @@ import { RowBetween, RowEnd } from "components/Row";
 import { InnerCard } from "components/Card";
 import SlippageTolerance from "components/App/SlippageTolerance";
 
-// const DefaultOptionButton = styled.div<{ active?: boolean }>`
-//   padding: 4px 8px;
-//   font-size: 12px;
-//   width: 100px;
-//   height: 28px;
-//   border-radius: 4px;
-//   white-space: nowrap;
-//   display: inline-flex;
-//   justify-content: flex-end;
-//   background: ${({ theme }) => theme.bg4};
-//   color: ${({ theme }) => theme.text1};
-//   border: 1px solid ${({ theme }) => theme.bg6};
-
-//   &:hover {
-//     cursor: pointer;
-//   }
-
-//   ${({ theme }) => theme.mediaWidth.upToSmall`
-//       // margin-right: 5px;
-//       white-space: normal;
-//   `}
-// `
 const PriceWrap = styled(InnerCard)`
+  background: ${({ theme }) => theme.bg2};
   padding-top: 8px;
   & > * {
     &:last-child {
@@ -81,32 +60,6 @@ export default function MarketClose({
   price: string | undefined;
   symbol?: string;
 }) {
-  // const slippage = useSlippageTolerance()
-  // const [amount, setAmount] = useState<string | number>(slippage)
-  // const setSlippage = useSetSlippageToleranceCallback()
-
-  // const handleMinAmount = useCallback(() => {
-  //   if (amount && Number(amount) < 0) {
-  //     setAmount(0)
-  //   } else if (amount && Number(amount) > 0) {
-  //     setSlippage(Number(amount))
-  //   }
-  // }, [amount, setAmount, setSlippage])
-
-  // const handleCustomChange = useCallback(
-  //   (e: any) => {
-  //     const value = e.currentTarget.value
-  //     if (value !== '' && Number(value) >= 0) {
-  //       setAmount(value)
-  //       setSlippage(Number(value))
-  //     } else {
-  //       setAmount('auto')
-  //       setSlippage('auto')
-  //     }
-  //   },
-  //   [setAmount, setSlippage]
-  // )
-
   return (
     <>
       <PriceWrap>
@@ -119,18 +72,6 @@ export default function MarketClose({
         <RowBetween>
           <Title>Slippage</Title>
           <RowEnd>
-            {/* <DefaultOptionButton active={true}>
-              <InputAmount
-                value={amount ? (Number(amount) >= 0 ? amount : '') : ''}
-                active={true}
-                onBlur={() => {
-                  handleMinAmount()
-                }}
-                onChange={(e) => handleCustomChange(e)}
-                placeholder={amount ? amount.toString() : '0.0'}
-              />
-              %
-            </DefaultOptionButton> */}
             <SlippageTolerance />
           </RowEnd>
         </RowBetween>

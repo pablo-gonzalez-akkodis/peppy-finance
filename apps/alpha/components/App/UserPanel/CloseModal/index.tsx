@@ -62,6 +62,8 @@ import ErrorButton from "components/Button/ErrorButton";
 const Wrapper = styled(Column)`
   padding: 12px;
   padding-top: 0;
+  background: ${({ theme }) => theme.bg1};
+
   & > * {
     &:nth-child(2) {
       margin-top: 16px;
@@ -78,13 +80,6 @@ const Wrapper = styled(Column)`
   `};
 `;
 
-const MainButton = styled(PrimaryButton).attrs({
-  height: "48px",
-})`
-  border-radius: 8px;
-  font-weight: 700;
-`;
-
 const InfoWrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -92,10 +87,12 @@ const InfoWrapper = styled.div`
   margin-bottom: 18px;
   gap: 16px;
 `;
+
 interface FetchPriceRangeResponseType {
   max_price: number;
   min_price: number;
 }
+
 export default function CloseModal({
   modalOpen,
   toggleModal,
@@ -387,15 +384,15 @@ export default function CloseModal({
     if (!chainId || !account) return <ConnectWallet />;
     else if (isPendingTxs) {
       return (
-        <MainButton disabled>
+        <PrimaryButton disabled>
           Transacting <DotFlashing />
-        </MainButton>
+        </PrimaryButton>
       );
     } else if (awaitingCloseConfirmation) {
       return (
-        <MainButton disabled>
+        <PrimaryButton disabled>
           Awaiting Confirmation <DotFlashing />
-        </MainButton>
+        </PrimaryButton>
       );
     } else if (state === ErrorState.PARTIAL_CLOSE_WITH_SLIPPAGE) {
       return <ErrorButton state={state} liquidationButton={true} />;
@@ -405,19 +402,21 @@ export default function CloseModal({
       );
     } else if (calculationLoading) {
       return (
-        <MainButton disabled>
+        <PrimaryButton disabled>
           calculating
           <DotFlashing />
-        </MainButton>
+        </PrimaryButton>
       );
     } else if (calculationMode) {
-      return <MainButton onClick={onEnterPress}>calculate Amount</MainButton>;
+      return (
+        <PrimaryButton onClick={onEnterPress}>calculate Amount</PrimaryButton>
+      );
     }
 
     return (
-      <MainButton height={"48px"} onClick={handleManage}>
+      <PrimaryButton height={"48px"} onClick={handleManage}>
         Close Position
-      </MainButton>
+      </PrimaryButton>
     );
   }
 
