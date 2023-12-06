@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { updateAccount } from "@symmio-client/core/state/user/actions";
-// import { useActiveAccount } from "@symmio-client/core/src/state/user/hooks";
+
 import { useAppDispatch } from "@symmio-client/core/state";
 import { useUserAccounts } from "@symmio-client/core/hooks/useAccounts";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
@@ -61,7 +61,6 @@ export const BaseButton = styled(RowCenter)<{
 `;
 
 export default function MyFunction() {
-  // const activeAccount = useActiveAccount();
   const { openConnectModal } = useConnectModal();
   const dispatch = useAppDispatch();
   const { accounts } = useUserAccounts();
