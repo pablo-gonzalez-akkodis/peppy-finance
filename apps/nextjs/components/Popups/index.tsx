@@ -4,7 +4,7 @@ import { useActivePopups } from "@symmio-client/core/state/application/hooks";
 import useWindowSize from "lib/hooks/useWindowSize";
 
 import PopupItem from "./PopupItem";
-import { Z_INDEX } from "theme";
+import { MEDIA_WIDTHS, Z_INDEX } from "theme";
 import { useEffect } from "react";
 import { useNotificationAdderCallback } from "@symmio-client/core/state/notifications/hooks";
 import {
@@ -43,7 +43,7 @@ export default function Popups() {
 
   return (
     <>
-      {typeof width == "number" && width >= 500 ? (
+      {typeof width == "number" && width >= MEDIA_WIDTHS.upToExtraSmall ? (
         <ContainerLarge>
           {activePopups.map((item) => {
             return (
