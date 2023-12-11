@@ -1,4 +1,4 @@
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/isEqual.js";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import {
   useAccountPartyAStat,
@@ -19,9 +19,8 @@ export function UpdaterUserContract(): null {
   const { account } = useActiveWagmi();
   const previousAccountPartyAStat = useAccountPartyAStat(account);
   const activeAccountAddress = useActiveAccountAddress();
-  const previousActiveAccountPartyAStat = useAccountPartyAStat(
-    activeAccountAddress
-  );
+  const previousActiveAccountPartyAStat =
+    useAccountPartyAStat(activeAccountAddress);
   const accountPartyAStat = usePartyAStats(account);
   const activePartyAStat = usePartyAStats(activeAccountAddress);
 

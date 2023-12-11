@@ -3,7 +3,7 @@ import { SelectSearchOption } from "react-select-search";
 import useSelectRaw from "react-select-search/dist/cjs/index.js";
 const { useSelect } = useSelectRaw;
 import Fuse from "fuse.js";
-import find from "lodash/find";
+import find from "lodash/find.js";
 
 import { useFavorites } from "../state/user/hooks";
 import { Market } from "../types/market";

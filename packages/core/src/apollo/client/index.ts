@@ -1,6 +1,6 @@
-import * as apolloRaw from "@apollo/client";
-const { ApolloClient, HttpLink, InMemoryCache } = ((apolloRaw as any).default ??
-  apolloRaw) as typeof apolloRaw;
+import { ApolloClient, InMemoryCache } from "@apollo/client/core/index.js";
+import { HttpLink } from "@apollo/client/link/http/HttpLink.js";
+
 export function createApolloClient(uri: string) {
   return new ApolloClient({
     link: new HttpLink({

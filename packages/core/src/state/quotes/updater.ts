@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { AppThunkDispatch, useAppDispatch } from "../declaration";
-import find from "lodash/find";
-import isEqual from "lodash/isEqual";
+import find from "lodash/find.js";
+import isEqual from "lodash/isEqual.js";
 
 import {
   useGetPendingIds,

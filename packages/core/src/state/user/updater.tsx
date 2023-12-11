@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash/isEmpty.js";
 import { AppDispatch, AppThunkDispatch, useAppDispatch } from "../declaration";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
 // const useWebSocket = useWebSocketRaw.useWebSocket;

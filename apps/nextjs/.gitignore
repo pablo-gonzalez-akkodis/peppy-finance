@@ -4,3 +4,4 @@
 # dotenv environment variables file
 .env
 .env.development
+.yalc

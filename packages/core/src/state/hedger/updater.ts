@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import isEmpty from "lodash/isEmpty";
+import isEmpty from "lodash/isEmpty.js";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
 // const useWebSocket = useWebSocketRaw.useWebSocket;
 // TODO: fix this { ReadyState } from "react-use-websocket"

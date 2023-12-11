@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { WagmiConfig } from "wagmi";
-import dynamic from "next/dynamic";
+// import dynamic from "next/dynamic";
 import type { AppProps } from "next/app";
 import store, { ReduxProvider } from "@symmio/frontend-sdk/state/declaration";
 import { RainbowKitProvider, darkTheme } from "@rainbow-me/rainbowkit";
@@ -26,7 +26,17 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   if (process.env.NODE_ENV === "development") {
     setUseWhatChange(true);
   }
+  const [showChild, setShowChild] = useState(false);
+  useEffect(() => {
+    setShowChild(true);
+  }, []);
 
+  if (!showChild) {
+    return null;
+  }
+  if (typeof window === undefined) {
+    return <></>;
+  }
   return (
     <ReduxProvider store={store}>
       <WagmiConfig config={wagmiConfig}>

@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from "react";
 import { useAppSelector, useAppDispatch } from "../declaration";
-import uniqWith from "lodash/uniqWith";
+import uniqWith from "lodash/uniqWith.js";
 
 import { Quote } from "../../types/quote";
 import { ApiState } from "../../types/api";

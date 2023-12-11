@@ -12,6 +12,7 @@
     "clean": "yarn workspaces run clean",
     "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
+    "build-and-integrate": "node ./useful_script/pre_build.js &&cd packages/core &&  yalc publish && cd ../../apps/nextjs && yalc add @symmio/frontend-sdk && yarn build && cd ../../ && node ./useful_script/post_build.js",
     "lint": "eslint --ext js,ts,tsx ."
   },
   "devDependencies": {

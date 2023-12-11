@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import find from "lodash/find";
+import find from "lodash/find.js";
 
 import { Quote } from "../types/quote";
 import { BN_ZERO, toBN } from "../utils/numbers";
