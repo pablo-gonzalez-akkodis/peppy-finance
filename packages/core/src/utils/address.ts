@@ -12,6 +12,7 @@ export interface SymbolMap {
 }
 
 export function truncateAddress(address: string, size = 4) {
+  console.log("hyyyyyy");
   const parsed = isAddress(address);
   if (!parsed) {
     console.error(`Invalid 'address' parameter '${address}'.`);

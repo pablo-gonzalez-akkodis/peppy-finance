@@ -7,21 +7,21 @@ import { Option } from "components/Tab";
 import { Close as CloseIcon, DotFlashing } from "components/Icons";
 import { Row, RowBetween, RowStart } from "components/Row";
 import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
-import { formatPrice, toBN } from "@symmio-client/core/utils/numbers";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { formatPrice, toBN } from "@symmio/frontend-sdk/utils/numbers";
 import {
   useModalOpen,
   useWithdrawBarModalToggle,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { useTransferCollateral } from "@symmio/frontend-sdk/callbacks/useTransferCollateral";
 
 const Wrapper = styled.div`
   display: flex;

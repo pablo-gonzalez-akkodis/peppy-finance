@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { MEDIA_WIDTHS } from "theme";
 import { isMobile } from "react-device-detect";
 
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import useWindowSize from "lib/hooks/useWindowSize";
 

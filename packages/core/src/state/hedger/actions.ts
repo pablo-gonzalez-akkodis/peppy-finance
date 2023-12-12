@@ -1,12 +1,13 @@
-import { createAction } from "@reduxjs/toolkit";
-
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createAction } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import {
-  ConnectionStatus,
   MarketDataMap,
   MarketDepthMap,
   MarketDepthData,
   MarketNotionalCap,
 } from "./types";
+import { ConnectionStatus } from "../../types/api";
 
 export const updateWebSocketStatus = createAction<{ status: ConnectionStatus }>(
   "hedger/updateWebSocketStatus"

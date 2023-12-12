@@ -1,8 +1,16 @@
 import { useEffect, useMemo } from "react";
-import isEmpty from "lodash/isEmpty";
-import { AppDispatch, AppThunkDispatch, useAppDispatch } from "..";
-import useWebSocket, { ReadyState } from "react-use-websocket";
-
+import isEmpty from "lodash/isEmpty.js";
+import { AppDispatch, AppThunkDispatch, useAppDispatch } from "../declaration";
+import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
+// const useWebSocket = useWebSocketRaw.useWebSocket;
+// TODO: fix this { ReadyState } from "react-use-websocket"
+enum ReadyState {
+  UNINSTANTIATED = -1,
+  CONNECTING = 0,
+  OPEN = 1,
+  CLOSING = 2,
+  CLOSED = 3,
+}
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
 
@@ -16,8 +24,8 @@ import {
   useUserWhitelist,
 } from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
-import { ConnectionStatus } from "./types";
 import { useAppName } from "../chains/hooks";
+import { ConnectionStatus } from "../../types/api";
 
 export function UserUpdater(): null {
   const dispatch = useAppDispatch();

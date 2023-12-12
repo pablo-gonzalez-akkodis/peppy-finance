@@ -1,4 +1,6 @@
-import { createReducer, nanoid } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createReducer, nanoid } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { SupportedChainId } from "../../constants/chains";
 import { NotificationDetails } from "../notifications/types";
 import { TransactionInfo } from "../transactions/types";

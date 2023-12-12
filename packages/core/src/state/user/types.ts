@@ -1,10 +1,5 @@
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 import { Account, AccountUpnl, UserPartyAStatType } from "../../types/user";
-
-export enum ConnectionStatus {
-  OPEN,
-  CLOSED,
-}
 
 export interface UserState {
   matchesDarkMode: boolean; // whether the dark mode media query matches

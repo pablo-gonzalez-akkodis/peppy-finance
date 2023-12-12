@@ -2,28 +2,28 @@ import styled, { useTheme } from "styled-components";
 import { lighten } from "polished";
 import { useEffect, useMemo, useState } from "react";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { OrderType, PositionType } from "@symmio-client/core/types/trade";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { OrderType, PositionType } from "@symmio/frontend-sdk/types/trade";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 import {
   formatAmount,
   formatDollarAmount,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
-import { titleCase } from "@symmio-client/core/utils/string";
-import { ApiState } from "@symmio-client/core/types/api";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { titleCase } from "@symmio/frontend-sdk/utils/string";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import {
   useMarketData,
   useMarketsStatus,
-} from "@symmio-client/core/state/hedger/hooks";
+} from "@symmio/frontend-sdk/state/hedger/hooks";
 import { useIsMobile } from "lib/hooks/useWindowSize";
 import {
   useQuoteDetail,
   useSetQuoteDetailCallback,
-} from "@symmio-client/core/state/quotes/hooks";
+} from "@symmio/frontend-sdk/state/quotes/hooks";
 import {
   useQuoteSize,
   useQuoteLeverage,
@@ -31,12 +31,12 @@ import {
   useQuoteFillAmount,
   useClosingLastMarketPrice,
   useOpeningLastMarketPrice,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useNotionalValue } from "@symmio-client/core/hooks/useTradePage";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 import { Row, RowBetween, RowStart } from "components/Row";
 import {

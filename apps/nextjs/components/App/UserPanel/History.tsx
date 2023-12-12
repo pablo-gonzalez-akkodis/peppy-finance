@@ -2,25 +2,25 @@ import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import BigNumber from "bignumber.js";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { formatTimestamp } from "@symmio-client/core/utils/time";
-import { titleCase } from "@symmio-client/core/utils/string";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
+import { titleCase } from "@symmio/frontend-sdk/utils/string";
 
 import {
   useQuoteLeverage,
   useQuoteUpnlAndPnl,
-} from "@symmio-client/core/hooks/useQuotes";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
 import {
   useHistoryQuotes,
   useQuoteDetail,
   useSetQuoteDetailCallback,
-} from "@symmio-client/core/state/quotes/hooks";
-import { useMarketsStatus } from "@symmio-client/core/state/hedger/hooks";
-import { ApiState } from "@symmio-client/core/types/api";
+} from "@symmio/frontend-sdk/state/quotes/hooks";
+import { useMarketsStatus } from "@symmio/frontend-sdk/state/hedger/hooks";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
 import PositionDetails from "components/App/AccountData/PositionDetails";

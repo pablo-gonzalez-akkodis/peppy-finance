@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import styled from "styled-components";
 
-import { ApiState } from "@symmio-client/core/types/api";
-import { formatDollarAmount } from "@symmio-client/core/utils/numbers";
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
+import { formatDollarAmount } from "@symmio/frontend-sdk/utils/numbers";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
 import {
   useMarketNotionalCap,
   useMarketOpenInterest,
-} from "@symmio-client/core/state/hedger/hooks";
+} from "@symmio/frontend-sdk/state/hedger/hooks";
 
 import { Loader } from "components/Icons";
 import MarketInfo from "components/App/MarketBar/MarketInfo";

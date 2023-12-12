@@ -1,5 +1,6 @@
-import { combineReducers } from "@reduxjs/toolkit";
-
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { combineReducers } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import application from "./application/reducer";
 import transactions from "./transactions/reducer";
 import user from "./user/reducer";

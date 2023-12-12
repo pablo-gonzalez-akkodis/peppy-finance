@@ -5,7 +5,7 @@ import { Z_INDEX } from "theme";
 import {
   useFavoriteMarkets,
   useMarketsSearch,
-} from "@symmio-client/core/hooks/useMarkets";
+} from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import { Card } from "components/Card";
 import { RowStart, Row } from "components/Row";

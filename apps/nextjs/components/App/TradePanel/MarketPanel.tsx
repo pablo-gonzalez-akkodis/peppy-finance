@@ -1,22 +1,22 @@
 import React from "react";
 import styled from "styled-components";
 
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
 
-import { PositionType } from "@symmio-client/core/types/trade";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   usePositionType,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
 import { RowBetween, RowEnd } from "components/Row";
 import { InnerCard } from "components/Card";
 import SlippageTolerance from "components/App/SlippageTolerance";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
 
 const PriceWrap = styled(InnerCard)`
   padding-top: 8px;

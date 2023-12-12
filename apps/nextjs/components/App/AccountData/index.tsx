@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {
   useQuoteDetail,
   useSetQuoteDetailCallback,
-} from "@symmio-client/core/state/quotes/hooks";
+} from "@symmio/frontend-sdk/state/quotes/hooks";
 import { useIsMobile } from "lib/hooks/useWindowSize";
 import { Tab } from "components/Tab";
 import AccountOverview from "components/App/AccountData/AccountOverview";

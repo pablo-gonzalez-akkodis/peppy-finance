@@ -4,7 +4,7 @@ import TableBody from "./Body";
 import TableHeader from "./Header";
 import { RowBetween } from "components/Row";
 import { InputField } from "components/App/MarketBar/InputField";
-import { useMarketsSearch } from "@symmio-client/core/hooks/useMarkets";
+import { useMarketsSearch } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 const TableWrapper = styled.div`
   border-radius: 4px;

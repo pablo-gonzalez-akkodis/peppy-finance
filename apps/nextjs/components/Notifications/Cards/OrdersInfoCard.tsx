@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Account } from "@symmio-client/core/types/user";
-import { NotificationDetails } from "@symmio-client/core/state/notifications/types";
+import { Account } from "@symmio/frontend-sdk/types/user";
+import { NotificationDetails } from "@symmio/frontend-sdk/state/notifications/types";
 
 import BaseItem from "components/Notifications/Cards/BaseCard";
 

@@ -43,7 +43,7 @@ export function useMintCollateral(): {
       const args = [
         account as Address,
         BigInt(new BigNumber(50000).shiftedBy(18).toFixed()),
-      ] as const;
+      ];
 
       return {
         args,
@@ -60,7 +60,8 @@ export function useMintCollateral(): {
         },
       };
     } catch (error) {
-      throw new Error(error);
+      if (error && typeof error === "string") throw new Error(error);
+      throw new Error("error3");
     }
   }, [account, CollateralContract, isSupportedChainId]);
 

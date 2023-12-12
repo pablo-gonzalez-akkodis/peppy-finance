@@ -3,7 +3,7 @@ import styled, { useTheme } from "styled-components";
 import Image, { StaticImageData } from "next/legacy/image";
 import { isMobile } from "react-device-detect";
 
-import { formatTimestamp } from "@symmio-client/core/utils/time";
+import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
 
 import Column from "components/Column";
 import Logos from "components/Notifications/Logos";

@@ -1,4 +1,4 @@
-import isEqual from "lodash/isEqual";
+import isEqual from "lodash/isEqual.js";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import {
   useAccountPartyAStat,
@@ -8,7 +8,7 @@ import {
 import { usePartyAStats } from "../../hooks/usePartyAStats";
 import { useEffect, useState } from "react";
 import { updateAcceptTerms, updateAccountPartyAStat } from "./actions";
-import { useAppDispatch } from "..";
+import { useAppDispatch } from "../declaration";
 import { useCheckSignedMessage } from "../../hooks/useCheckSign";
 
 export function UpdaterUserContract(): null {

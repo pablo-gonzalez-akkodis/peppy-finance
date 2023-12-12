@@ -6,7 +6,7 @@ import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 import {
   useMarkAsReadAllNotificationsCallback,
   useUnreadNotifications,
-} from "@symmio-client/core/state/notifications/hooks";
+} from "@symmio/frontend-sdk/state/notifications/hooks";
 
 import { Bell } from "components/Icons";
 import { NavButton } from "components/Button";

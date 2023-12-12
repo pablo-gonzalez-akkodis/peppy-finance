@@ -4,7 +4,7 @@ import { Z_INDEX } from "theme";
 import Image from "next/legacy/image";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
-import { useNewNotification } from "@symmio-client/core/state/notifications/hooks";
+import { useNewNotification } from "@symmio/frontend-sdk/state/notifications/hooks";
 import { useInjectedAddress } from "lib/hooks/useInjectedAddress";
 
 import { Row } from "components/Row";
@@ -21,8 +21,8 @@ import Column from "components/Column";
 import {
   useModalOpen,
   useWithdrawBarModalToggle,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import WithdrawBarModal from "components/ReviewModal/WithdrawBarModal";
 
 const Wrapper = styled(Row)`
@@ -168,14 +168,18 @@ export default function NavBar() {
 
   const hasInjected = useInjectedAddress();
   const isNewNotification = useNewNotification();
+  console.log("looog", typeof window);
   const showBanner =
-    localStorage.getItem("risk_warning") === "true" ? false : true;
+    typeof window !== "undefined" &&
+    localStorage.getItem("risk_warning") === "true"
+      ? false
+      : true;
   const [showTopBanner, setShowTopBanner] = useState(showBanner);
   const bannerText =
     "Users interacting with this software do so entirely at their own risk";
 
   function setShowBanner(inp: boolean) {
-    if (!inp) {
+    if (!inp && typeof window !== "undefined") {
       localStorage.setItem("risk_warning", "true");
       setShowTopBanner(false);
     }

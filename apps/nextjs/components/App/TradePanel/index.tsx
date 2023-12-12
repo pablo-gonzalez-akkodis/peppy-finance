@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
-import { useModalOpen } from "@symmio-client/core/state/application/hooks";
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
+import { useModalOpen } from "@symmio/frontend-sdk/state/application/hooks";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
 import Column from "components/Column";
 

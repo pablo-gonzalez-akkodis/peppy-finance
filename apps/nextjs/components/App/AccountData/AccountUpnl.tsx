@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { useAccountUpnl } from "@symmio-client/core/state/user/hooks";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { useAccountUpnl } from "@symmio/frontend-sdk/state/user/hooks";
 
 export const UpnlValue = styled.div<{ color?: string; size?: string }>`
   font-weight: 500;

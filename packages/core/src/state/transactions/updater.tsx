@@ -3,7 +3,7 @@ import React, { useCallback, useMemo } from "react";
 import LibUpdater from "../../lib/hooks/transactions/updater";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "../declaration";
 import { useAddPopup } from "../application/hooks";
 import { L2_CHAIN_IDS } from "../../constants/chains";
 import {

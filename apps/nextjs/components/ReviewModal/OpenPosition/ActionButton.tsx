@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from "react";
 import toast from "react-hot-toast";
-import { useSentQuoteCallback } from "@symmio-client/core/callbacks/useSendQuote";
-import useTradePage from "@symmio-client/core/hooks/useTradePage";
+import { useSentQuoteCallback } from "@symmio/frontend-sdk/callbacks/useSendQuote";
+import useTradePage from "@symmio/frontend-sdk/hooks/useTradePage";
 import { ModalState, StateContext } from "./ModalData";
 import ErrorButton from "components/Button/ErrorButton";
 import OpenPositionButton from "components/Button/OpenPositionButton";

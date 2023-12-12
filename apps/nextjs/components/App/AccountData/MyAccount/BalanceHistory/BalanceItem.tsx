@@ -6,21 +6,21 @@ import DEPOSIT_ICON from "/public/static/images/etc/BalanceHistory/Deposit.svg";
 import WITHDRAW_ICON from "/public/static/images/etc/BalanceHistory/Withdraw.svg";
 import DEALLOCATE_ICON from "/public/static/images/etc/BalanceHistory/Deallocate.svg";
 
-import { BN_TEN, formatAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { formatTimestamp } from "@symmio-client/core/utils/time";
-import { ExplorerDataType } from "@symmio-client/core/utils/explorers";
+import { BN_TEN, formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
+import { ExplorerDataType } from "@symmio/frontend-sdk/utils/explorers";
 import {
   BalanceHistoryData,
   BalanceHistoryName,
   BalanceHistoryType,
-} from "@symmio-client/core/state/user/types";
+} from "@symmio/frontend-sdk/state/user/types";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { Row, RowStart } from "components/Row";
 import { ExplorerLink } from "components/Link";
 import ShimmerAnimation from "components/ShimmerAnimation";
-import { useCollateralDecimal } from "@symmio-client/core/state/chains/hooks";
+import { useCollateralDecimal } from "@symmio/frontend-sdk/state/chains/hooks";
 
 interface HistoryItemInputs {
   data: BalanceHistoryData;

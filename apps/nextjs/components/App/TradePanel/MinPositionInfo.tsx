@@ -1,23 +1,23 @@
 import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
-import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { DEFAULT_PRECISION } from "@symmio/frontend-sdk/constants/misc";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import {
   RoundMode,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { InputField } from "@symmio-client/core/types/trade";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { InputField } from "@symmio/frontend-sdk/types/trade";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   useActiveMarketPrice,
   useSetTypedValue,
-} from "@symmio-client/core/state/trade/hooks";
-import { useLeverage } from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { useLeverage } from "@symmio/frontend-sdk/state/user/hooks";
 
 import InfoItem from "components/InfoItem";
 

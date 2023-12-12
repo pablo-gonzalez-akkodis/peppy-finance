@@ -1,0 +1,10 @@
+{
+  "version": "v1",
+  "packages": {
+    "@symmio/frontend-sdk": {
+      "signature": "f97713ebcf47ecb8d7f2a0e97209c90b",
+      "file": true,
+      "replaced": "file:../../packages/core"
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 import { bsc, fantom, base, polygon, arbitrum, mainnet } from "wagmi/chains";
 
 const supportedWagmiChain = {

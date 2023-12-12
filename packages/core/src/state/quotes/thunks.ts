@@ -1,5 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createAsyncThunk } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { getOrderHistoryApolloClient } from "../../apollo/client/orderHistory";
 import { ORDER_HISTORY_DATA } from "../../apollo/queries";
 import { SubGraphData } from "./types";

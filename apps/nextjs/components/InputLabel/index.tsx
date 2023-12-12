@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { formatPrice, toBN } from "@symmio-client/core/utils/numbers";
+import { formatPrice, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import { NumericalInput } from "components/Input";
 import { RowBetween, RowEnd, RowStart } from "components/Row";

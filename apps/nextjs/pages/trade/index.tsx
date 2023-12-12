@@ -3,7 +3,7 @@ import { useEffect, useMemo } from "react";
 
 import { DEFAULT_HEDGER } from "constants/chains/hedgers";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 export default function Trade() {
   const router = useRouter();
