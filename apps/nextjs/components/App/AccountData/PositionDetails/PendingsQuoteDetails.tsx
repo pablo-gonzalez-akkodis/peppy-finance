@@ -42,9 +42,9 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import { PositionActionButton } from "components/Button";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
 const ExpiredStatus = styled.div`
   font-style: normal;

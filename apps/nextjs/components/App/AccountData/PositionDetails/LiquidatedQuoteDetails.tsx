@@ -37,9 +37,9 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import { RowEnd, Row as RowComponent } from "components/Row";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
 const LiquidateWrap = styled(DataWrap)`
   background: ${({ theme }) => theme.bgLoose};
