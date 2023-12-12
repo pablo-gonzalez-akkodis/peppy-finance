@@ -1,10 +1,9 @@
-import React, { useMemo } from "react";
-import { MEDIA_WIDTHS } from "theme";
+import React from "react";
 import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 import { OrderType } from "@symmio/frontend-sdk/types/trade";
 import { toBN } from "@symmio/frontend-sdk/utils/numbers";
 
-import useWindowSize from "lib/hooks/useWindowSize";
+import { useIsMobile } from "lib/hooks/useWindowSize";
 import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import LiquidatedQuoteDetails from "./LiquidatedQuoteDetails";
@@ -29,11 +28,7 @@ export default function PositionDetails({
   const { quantity, marketPrice, requestedOpenPrice, orderType, quoteStatus } =
     quote || {};
   const { tradingFee } = useMarket(quote?.marketId) || {};
-  const { width } = useWindowSize();
-  const mobileVersion = useMemo(
-    () => width <= MEDIA_WIDTHS.upToMedium,
-    [width]
-  );
+  const mobileVersion = useIsMobile();
 
   const platformFee = (() => {
     if (!quantity || !marketPrice || !tradingFee || !requestedOpenPrice)

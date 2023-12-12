@@ -346,9 +346,15 @@ export default function OpenedQuoteDetails({
             </Row>
             <Row>
               <Label>Platform Fee:</Label>
-              <Value>{`${formatAmount(platformFee, 6, true)} ${
-                collateralCurrency?.symbol
-              }`}</Value>
+              <Value>{`${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (OPEN) / ${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (CLOSE) ${collateralCurrency?.symbol}`}</Value>
             </Row>
           </ContentWrapper>
         </Wrapper>

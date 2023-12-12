@@ -42,6 +42,9 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import { PositionActionButton } from "components/Button";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
+import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
 
 const ExpiredStatus = styled.div`
   font-style: normal;
@@ -72,6 +75,7 @@ export default function PendingQuoteDetails({
   mobileVersion: boolean;
 }): JSX.Element {
   const theme = useTheme();
+  const { chainId } = useActiveWagmi();
   const {
     id,
     quantity,
@@ -86,6 +90,11 @@ export default function PendingQuoteDetails({
   const market = useMarket(marketId);
   const { symbol, name, asset } = market || {};
   const { ask: askPrice, bid: bidPrice } = useBidAskPrice(market);
+  const COLLATERAL_TOKEN = useCollateralToken();
+  const collateralCurrency = useGetTokenWithFallbackChainId(
+    COLLATERAL_TOKEN,
+    chainId
+  );
 
   const marketData = useMarketData(name);
   const quoteSize = useQuoteSize(quote);
@@ -224,17 +233,13 @@ export default function PendingQuoteDetails({
             <Row>
               <Label>Locked Amount:</Label>
               {expired ? (
-                <ExpiredStatus>{`${formatAmount(
-                  lockedAmount,
-                  6,
-                  true
-                )} ${asset}`}</ExpiredStatus>
+                <ExpiredStatus>{`${formatAmount(lockedAmount, 6, true)} ${
+                  collateralCurrency?.symbol
+                }`}</ExpiredStatus>
               ) : (
-                <Value>{`${formatAmount(
-                  lockedAmount,
-                  6,
-                  true
-                )} ${asset}`}</Value>
+                <Value>{`${formatAmount(lockedAmount, 6, true)} ${
+                  collateralCurrency?.symbol
+                }`}</Value>
               )}
             </Row>
           </DataWrap>
@@ -246,7 +251,15 @@ export default function PendingQuoteDetails({
             </Row>
             <Row>
               <Label>Platform Fee:</Label>
-              <Value>{`${formatAmount(platformFee, 6, true)} ${asset}`}</Value>
+              <Value>{`${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (OPEN) / ${formatAmount(
+                toBN(platformFee).div(2),
+                3,
+                true
+              )} (CLOSE) ${collateralCurrency?.symbol}`}</Value>
             </Row>
           </ContentWrapper>
         </Wrapper>
