@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Z_INDEX } from "theme";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
-import { useNewNotification } from "@symmio-client/core/state/notifications/hooks";
+import { useNewNotification } from "@symmio/frontend-sdk/state/notifications/hooks";
 import { useInjectedAddress } from "lib/hooks/useInjectedAddress";
 
 import { Row } from "components/Row";
@@ -21,8 +21,8 @@ import Column from "components/Column";
 import {
   useModalOpen,
   useWithdrawBarModalToggle,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import WithdrawBarModal from "components/ReviewModal/WithdrawBarModal";
 
 const Wrapper = styled(Row)`

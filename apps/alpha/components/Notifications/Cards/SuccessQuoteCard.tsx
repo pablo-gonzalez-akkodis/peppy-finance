@@ -1,14 +1,14 @@
 import React from "react";
 
-import { Account } from "@symmio-client/core/types/user";
-import { Quote } from "@symmio-client/core/types/quote";
+import { Account } from "@symmio/frontend-sdk/types/user";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
 import {
   NotificationMessages,
   NotificationDetails,
-} from "@symmio-client/core/state/notifications/types";
+} from "@symmio/frontend-sdk/state/notifications/types";
 
 import useCurrencyLogo, { useCollateralLogo } from "lib/hooks/useCurrencyLogo";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import { PartiallyFillText, PartiallyFillTitle } from "./styles";
 import BaseItem from "components/Notifications/Cards/BaseCard";

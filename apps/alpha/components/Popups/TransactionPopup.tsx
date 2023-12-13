@@ -28,7 +28,6 @@ const Wrapper = styled(Row)<{ success?: boolean; color: string }>`
   background: ${({ theme, success }) =>
     success ? theme.bg2 : theme.bgWarning};
   color: ${({ color }) => color};
-  border: 1px solid ${({ color }) => color};
   border-radius: 4px;
 `;
 

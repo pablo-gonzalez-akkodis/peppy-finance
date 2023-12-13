@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import { formatAmount } from "@symmio-client/core/utils/numbers";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
 
 import { CustomInputBox2 } from "components/InputBox";
-import { Quote } from "@symmio-client/core/types/quote";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 import { RowBetween, RowEnd } from "components/Row";
 import { InnerCard } from "components/Card";
 import { Column } from "components/Column";

@@ -2,14 +2,14 @@ import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import findIndex from "lodash/findIndex";
 
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 import {
   useHistoryQuotes,
   usePendingsQuotes,
   usePositionsQuotes,
   useQuoteDetail,
   useSetQuoteDetailCallback,
-} from "@symmio-client/core/state/quotes/hooks";
+} from "@symmio/frontend-sdk/state/quotes/hooks";
 
 import { PreviousIcon } from "./styles";
 import { RowEnd } from "components/Row";

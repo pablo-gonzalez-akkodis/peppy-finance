@@ -6,7 +6,7 @@ import "rc-slider/assets/index.css";
 import {
   MAX_LEVERAGE_VALUE,
   MIN_LEVERAGE_VALUE,
-} from "@symmio-client/core/constants/misc";
+} from "@symmio/frontend-sdk/constants/misc";
 
 const Wrapper = styled.div`
   margin-top: 10px;

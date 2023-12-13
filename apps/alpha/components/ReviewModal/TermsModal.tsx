@@ -8,12 +8,12 @@ import { Modal } from "components/Modal";
 import { DotFlashing, Wallet } from "components/Icons";
 
 import { Row, RowCenter, RowEnd, RowStart } from "components/Row";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { truncateAddress } from "@symmio-client/core/utils/address";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { truncateAddress } from "@symmio/frontend-sdk/utils/address";
 import Checkbox from "components/CheckBox";
-import { useSignMessage } from "@symmio-client/core/callbacks/useMultiAccount";
-import { useWriteSign } from "@symmio-client/core/callbacks/useWriteSign";
-import { useGetMessage } from "@symmio-client/core/src/hooks/useCheckSign";
+import { useSignMessage } from "@symmio/frontend-sdk/callbacks/useMultiAccount";
+import { useWriteSign } from "@symmio/frontend-sdk/callbacks/useWriteSign";
+import { useGetMessage } from "@symmio/frontend-sdk/hooks/useCheckSign";
 import GradientButton from "components/Button/GradientButton";
 
 const Wrapper = styled.div`

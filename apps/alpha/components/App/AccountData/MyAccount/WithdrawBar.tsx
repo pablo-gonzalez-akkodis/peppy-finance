@@ -1,16 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-import { formatAmount } from "@symmio-client/core/utils/numbers";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 import { Row, RowBetween } from "components/Row";
 import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";

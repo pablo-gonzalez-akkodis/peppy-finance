@@ -9,9 +9,9 @@ import {
   useActiveAccountAddress,
   useBalanceHistory,
   useGetBalanceHistoryCallback,
-} from "@symmio-client/core/state/user/hooks";
-import { ApiState } from "@symmio-client/core/types/api";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 const Container = styled(DefaultContainer)`
   position: relative;

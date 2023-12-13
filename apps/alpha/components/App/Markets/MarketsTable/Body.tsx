@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { useAllMarketsData } from "@symmio-client/core/hooks/useAllMarketsData";
-import { Market } from "@symmio-client/core/types/market";
-import { ApiState } from "@symmio-client/core/types/api";
+import { useAllMarketsData } from "@symmio/frontend-sdk/hooks/useAllMarketsData";
+import { Market } from "@symmio/frontend-sdk/types/market";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import MarketRow from "./Row";
 import Footer from "./Footer";
