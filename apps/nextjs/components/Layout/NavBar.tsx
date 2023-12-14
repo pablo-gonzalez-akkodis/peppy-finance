@@ -168,7 +168,6 @@ export default function NavBar() {
 
   const hasInjected = useInjectedAddress();
   const isNewNotification = useNewNotification();
-  console.log("looog", typeof window);
   const showBanner =
     typeof window !== "undefined" &&
     localStorage.getItem("risk_warning") === "true"
