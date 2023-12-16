@@ -2,18 +2,18 @@ import React, { useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Z_INDEX } from "theme";
 
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { ChainInfo } from "@symmio/frontend-sdk/constants/chainInfo";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import useRpcChangerCallback from "@symmio/frontend-sdk/lib/hooks/useRpcChangerCallback";
 
 import { Row } from "components/Row";
 import { Card } from "components/Card";
 import { Modal as ModalBody } from "components/Modal";
 import ImageWithFallback from "components/ImageWithFallback";
 import { getChainLogo } from "utils/chainLogo";
-import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
+import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
 
 const ModalWrapper = styled(Card)`
   padding: 0.6rem;

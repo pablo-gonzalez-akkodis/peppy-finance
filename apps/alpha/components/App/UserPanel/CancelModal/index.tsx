@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { CloseQuote } from "@symmio-client/core/types/trade";
-import { BN_ZERO, formatPrice, toBN } from "@symmio-client/core/utils/numbers";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { useQuoteFillAmount } from "@symmio-client/core/hooks/useQuotes";
-import { useCancelQuote } from "@symmio-client/core/callbacks/useCancelQuote";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { CloseQuote } from "@symmio/frontend-sdk/types/trade";
+import { BN_ZERO, formatPrice, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import { useQuoteFillAmount } from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useCancelQuote } from "@symmio/frontend-sdk/callbacks/useCancelQuote";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
 import { Modal, ModalHeader } from "components/Modal";

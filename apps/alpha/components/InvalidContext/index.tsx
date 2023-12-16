@@ -2,13 +2,13 @@ import { useMemo } from "react";
 import styled from "styled-components";
 import Image from "next/legacy/image";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
+import { ChainInfo } from "@symmio/frontend-sdk/constants/chainInfo";
 
-import { useSupportedChainId } from "@symmio-client/core/lib/hooks/useSupportedChainId";
-import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
+import { useSupportedChainId } from "@symmio/frontend-sdk/lib/hooks/useSupportedChainId";
+import useRpcChangerCallback from "@symmio/frontend-sdk/lib/hooks/useRpcChangerCallback";
 
 import { PrimaryButton } from "components/Button";
 import { SwitchWallet } from "components/Icons";

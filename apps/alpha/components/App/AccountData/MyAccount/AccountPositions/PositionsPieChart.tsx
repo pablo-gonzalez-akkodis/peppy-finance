@@ -3,14 +3,14 @@ import styled, { useTheme } from "styled-components";
 import Image from "next/legacy/image";
 import { PieChart, Pie, Cell, ResponsiveContainer, Sector } from "recharts";
 
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
-import { PositionType } from "@symmio-client/core/types/trade";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
 import { AccountPositionsContext } from "./context";
 
 import Clover from "/public/static/images/Clover.svg";
 import { RowCenter } from "components/Row";
 
-import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
+import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
 const shapeDim = {
   width: 36,

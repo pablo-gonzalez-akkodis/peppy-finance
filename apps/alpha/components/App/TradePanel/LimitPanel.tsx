@@ -1,17 +1,17 @@
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { toBN } from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
-import useTradePage from "@symmio-client/core/hooks/useTradePage";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useTradePage from "@symmio/frontend-sdk/hooks/useTradePage";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import {
   useActiveMarket,
   usePositionType,
   useSetLimitPrice,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
 import { CustomInputBox2 } from "components/InputBox";
 

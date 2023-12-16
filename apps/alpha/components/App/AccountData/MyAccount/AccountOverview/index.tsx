@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { formatAmount } from "@symmio-client/core/utils/numbers";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { Row } from "components/Row";
 import Column from "components/Column";
@@ -12,7 +12,7 @@ import InfoItem from "components/InfoItem";
 import { DefaultContainer } from "../styles";
 import AccountHealth from "./AccountHealth";
 import UPNLBar from "./UPNLBar";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
 const Container = styled(DefaultContainer)`
   padding-bottom: 16px;

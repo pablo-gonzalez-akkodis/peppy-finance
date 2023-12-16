@@ -3,47 +3,47 @@ import styled, { useTheme } from "styled-components";
 import toast from "react-hot-toast";
 import BigNumber from "bignumber.js";
 
-import { WEB_SETTING } from "@symmio-client/core/config";
-import { Quote } from "@symmio-client/core/types/quote";
-import { makeHttpRequest } from "@symmio-client/core/utils/http";
-import { PriceRange } from "@symmio-client/core/state/hedger/types";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
+import { makeHttpRequest } from "@symmio/frontend-sdk/utils/http";
+import { PriceRange } from "@symmio/frontend-sdk/state/hedger/types";
 import {
   ErrorState,
   OrderType,
   PositionType,
-} from "@symmio-client/core/types/trade";
+} from "@symmio/frontend-sdk/types/trade";
 import {
   BN_ZERO,
   formatAmount,
   toBN,
   formatPrice,
-} from "@symmio-client/core/utils/numbers";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { MARKET_PRICE_COEFFICIENT } from "@symmio-client/core/constants/misc";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+} from "@symmio/frontend-sdk/utils/numbers";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { MARKET_PRICE_COEFFICIENT } from "@symmio/frontend-sdk/constants/misc";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import { calculateString, calculationPattern } from "utils/calculationalString";
 
 import {
   useAccountPartyAStat,
   useAccountUpnl,
   useActiveAccount,
-} from "@symmio-client/core/state/user/hooks";
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import { getAppNameHeader } from "@symmio-client/core/state/hedger/thunks";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import { getAppNameHeader } from "@symmio/frontend-sdk/state/hedger/thunks";
 
 import {
   useClosingLastMarketPrice,
   useQuoteUpnlAndPnl,
   useQuoteLeverage,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useHedgerInfo } from "@symmio-client/core/state/hedger/hooks";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useHedgerInfo } from "@symmio/frontend-sdk/state/hedger/hooks";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 
-import { useClosePosition } from "@symmio-client/core/callbacks/useClosePosition";
-import { useAppName } from "@symmio-client/core/state/chains/hooks";
+import { useClosePosition } from "@symmio/frontend-sdk/callbacks/useClosePosition";
+import { useAppName } from "@symmio/frontend-sdk/state/chains/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
 import { TabModal } from "components/Tab";

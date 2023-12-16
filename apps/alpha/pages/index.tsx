@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { updateAccount } from "@symmio-client/core/state/user/actions";
+import { updateAccount } from "@symmio/frontend-sdk/state/user/actions";
 
-import { useAppDispatch } from "@symmio-client/core/state";
-import { useUserAccounts } from "@symmio-client/core/hooks/useAccounts";
+import { useAppDispatch } from "@symmio/frontend-sdk/state";
+import { useUserAccounts } from "@symmio/frontend-sdk/hooks/useAccounts";
 import { useConnectModal } from "@rainbow-me/rainbowkit";
 import styled from "styled-components";
 import { Box } from "rebass/styled-components";

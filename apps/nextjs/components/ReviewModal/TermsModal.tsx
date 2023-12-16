@@ -141,7 +141,6 @@ function ActionButton({ isTermsAccepted }: { isTermsAccepted: boolean }) {
           .then((sign) => {
             if (sign) {
               setSignature(sign);
-              console.log("Sign:", sign);
               onWriteSignCb(sign);
             }
           })

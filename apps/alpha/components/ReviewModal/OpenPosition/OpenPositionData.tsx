@@ -5,24 +5,24 @@ import InfoItem from "components/InfoItem";
 import { DisplayLabel } from "components/InputLabel";
 import ActionButton from "./ActionButton";
 import Column from "components/Column";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   useOrderType,
-} from "@symmio-client/core/state/trade/hooks";
-import { useLeverage } from "@symmio-client/core/state/user/hooks";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { useLeverage } from "@symmio/frontend-sdk/state/user/hooks";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import useTradePage, {
   useLockedValues,
   useNotionalValue,
-} from "@symmio-client/core/hooks/useTradePage";
+} from "@symmio/frontend-sdk/hooks/useTradePage";
 import {
   DEFAULT_PRECISION,
   MARKET_ORDER_DEADLINE,
-} from "@symmio-client/core/constants/misc";
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { OrderType } from "@symmio-client/core/types/trade";
+} from "@symmio/frontend-sdk/constants/misc";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { OrderType } from "@symmio/frontend-sdk/types/trade";
 
 const LabelsWrapper = styled(Column)`
   gap: 12px;

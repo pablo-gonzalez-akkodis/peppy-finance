@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { RowCenter, RowStart } from "components/Row";
 import { lighten } from "polished";
-import { PositionType } from "@symmio-client/core/types/trade";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
 
 export const TabWrapper = styled(RowCenter)`
   width: unset;

@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import styled from "styled-components";
 import { isMobile } from "react-device-detect";
 
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 
 import { ChevronDown, Loader } from "components/Icons";

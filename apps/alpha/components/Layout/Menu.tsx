@@ -29,8 +29,7 @@ const InlineModal = styled(Card)<{ isOpen: boolean }>`
   gap: 8px;
   padding: 11px;
   margin-top: 10px;
-  border: 1px solid ${({ theme }) => theme.bg7};
-  background: ${({ theme }) => theme.bg5};
+  background: ${({ theme }) => theme.bg1};
   border-radius: 4px;
 `;
 

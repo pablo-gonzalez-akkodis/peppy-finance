@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import { useReadNotifications } from "@symmio-client/core/state/notifications/hooks";
+import { useReadNotifications } from "@symmio/frontend-sdk/state/notifications/hooks";
 
 import { newNotificationsFirst } from ".";
 import Column from "components/Column";
