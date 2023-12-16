@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import { Activity } from "react-feather";
 import isEqual from "lodash/isEqual.js";
@@ -40,6 +40,12 @@ import Badge from "./Badge";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { getChainLogo } from "utils/chainLogo";
 import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
+import {
+  useCreateAccountModalToggle,
+  useModalOpen,
+} from "@symmio/frontend-sdk/state/application/hooks";
+import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 
 const Container = styled.div`
   display: inline-flex;
@@ -166,18 +172,12 @@ const AccountAddress = styled.div<{ width?: string; color?: string }>`
   padding: 13px 0px;
 `;
 
-const NetworkButton = styled(NavButton)<{ lighter?: boolean }>`
+const NetworkButton = styled(NavButton)`
   position: relative;
   cursor: pointer;
   overflow: visible;
   padding: 0px 5px;
   color: ${({ theme }) => theme.text1};
-
-  /* ${({ lighter }) =>
-    !lighter &&
-    `
-    opacity:0.5;
-  `} */
 
   background: ${({ theme }) => theme.red6};
   border: 1px solid ${({ theme }) => theme.red2};
@@ -207,6 +207,8 @@ export default function MultiAccount() {
   //TODO remove it and use rainbow
   const ENSName = undefined; //use ens from wagmi
   const activeAccount = useActiveAccount();
+  const showCreateAccountModal = useModalOpen(ApplicationModal.CREATE_ACCOUNT);
+  const showDepositModal = useModalOpen(ApplicationModal.DEPOSIT);
   const rpcChangerCallback = useRpcChangerCallback();
   const dispatch = useAppDispatch();
 
@@ -215,10 +217,12 @@ export default function MultiAccount() {
 
   const { loading: statsLoading } = useAccountPartyAStat(accountAddress);
   const ref = useRef(null);
-  // useOnOutsideClick(ref, () => setClickAccounts(false))
+  useOnOutsideClick(ref, () => {
+    if (!showCreateAccountModal && !showDepositModal) setClickAccounts(false);
+  });
 
   const [clickAccounts, setClickAccounts] = useState(false);
-  const [createAccountModal, setCreateAccountModal] = useState(false);
+  const toggleCreateAccountModal = useCreateAccountModalToggle();
   const v3_ids = useV3Ids();
   const Chain = ChainInfo[FALLBACK_CHAIN_ID];
 
@@ -251,7 +255,9 @@ export default function MultiAccount() {
 
   function getInnerContent() {
     return (
-      <InnerContentWrapper onClick={() => setClickAccounts(!clickAccounts)}>
+      <InnerContentWrapper
+        onClick={() => setClickAccounts((previousValue) => !previousValue)}
+      >
         {activeAccount ? (
           <>
             <UserStatus>
@@ -336,13 +342,8 @@ export default function MultiAccount() {
                 {ENSName || truncateAddress(account)}
               </AccountAddress>
 
-              <Button onClick={() => setCreateAccountModal(true)}>
-                Create Account
-              </Button>
-              <CreateAccountModal
-                isOpen={createAccountModal}
-                onDismiss={() => setCreateAccountModal(false)}
-              />
+              <Button onClick={toggleCreateAccountModal}>Create Account</Button>
+              <CreateAccountModal />
             </CreateAccountWrapper>
           </MainButton>
         );
@@ -361,7 +362,9 @@ export default function MultiAccount() {
               {clickAccounts && (
                 <div>
                   <AccountsModal
-                    onDismiss={() => setClickAccounts(!clickAccounts)}
+                    onDismiss={() =>
+                      setClickAccounts((previousValue) => !previousValue)
+                    }
                     data={accounts}
                   />
                 </div>
@@ -396,5 +399,5 @@ export default function MultiAccount() {
     }
   }
 
-  return <> {getContent()} </>;
+  return <React.Fragment> {getContent()} </React.Fragment>;
 }
