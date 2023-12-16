@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 
 import { Account as AccountType } from "@symmio-client/core/types/user";
@@ -10,6 +9,11 @@ import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
 import { RowCenter } from "components/Row";
 import CreateAccountModal from "components/ReviewModal/CreateAccountModal";
 import Account from "./Account";
+import {
+  useCreateAccountModalToggle,
+  useModalOpen,
+} from "@symmio-client/core/state/application/hooks";
+import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
 
 const HoverWrapper = styled.div`
   padding: 0px 8px 12px 8px;
@@ -53,7 +57,8 @@ export default function AccountsModal({
 }) {
   const activeAccountAddress = useActiveAccountAddress();
   const dispatch = useAppDispatch();
-  const [createAccountModal, setCreateAccountModal] = useState(false);
+  const showCreateAccountModal = useModalOpen(ApplicationModal.CREATE_ACCOUNT);
+  const toggleCreateAccountModal = useCreateAccountModalToggle();
 
   const onClick = (account: AccountType) => {
     dispatch(updateAccount(account));
@@ -78,7 +83,7 @@ export default function AccountsModal({
           );
         })}
 
-        <GradientColorButton onClick={() => setCreateAccountModal(true)}>
+        <GradientColorButton onClick={toggleCreateAccountModal}>
           <GradientButtonLabel>Create New Account</GradientButtonLabel>
         </GradientColorButton>
       </div>
@@ -88,10 +93,7 @@ export default function AccountsModal({
   return (
     <HoverWrapper>
       {getInnerContent()}
-      <CreateAccountModal
-        isOpen={createAccountModal}
-        onDismiss={() => setCreateAccountModal(false)}
-      />
+      {showCreateAccountModal && <CreateAccountModal />}
     </HoverWrapper>
   );
 }
