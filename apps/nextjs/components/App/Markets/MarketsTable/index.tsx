@@ -36,7 +36,7 @@ const InputWrapper = styled.div`
 
 export default function Table() {
   const { markets, searchProps } = useMarketsSearch();
-  const searchMarketsValue = searchProps.ref.current?.value || "";
+  const searchMarketsValue = searchProps?.ref?.current?.value || "";
 
   return (
     <TableWrapper>
