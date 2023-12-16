@@ -2,21 +2,25 @@ import React from "react";
 import styled, { useTheme } from "styled-components";
 import { Token } from "@uniswap/sdk-core";
 
-import { formatAmount, fromWei, toBN } from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
+import {
+  formatAmount,
+  fromWei,
+  toBN,
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 
-import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
+import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
-import { ApiState } from "@symmio-client/core/types/api";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
   useTotalDepositsAndWithdrawals,
-} from "@symmio-client/core/state/user/hooks";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { Row, RowBetween } from "components/Row";
 import { UpnlValue } from "components/App/AccountData/AccountUpnl";

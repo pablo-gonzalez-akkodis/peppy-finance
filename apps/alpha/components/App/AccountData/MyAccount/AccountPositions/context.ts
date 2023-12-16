@@ -1,4 +1,4 @@
-import { IQuotesInfo } from "@symmio-client/core/types/quotesOverview";
+import { IQuotesInfo } from "@symmio/frontend-sdk/types/quotesOverview";
 import { createContext } from "react";
 
 export const AccountPositionsContext = createContext<{

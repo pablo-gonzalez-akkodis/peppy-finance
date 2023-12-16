@@ -4,7 +4,7 @@ import ActionButton from "./ActionButton";
 import Column from "components/Column";
 import { RowCenter } from "components/Row";
 import { AlphaLottie } from "components/Icons";
-import { useStopLossValues } from "@symmio-client/core/state/trade/hooks";
+import { useStopLossValues } from "@symmio/frontend-sdk/state/trade/hooks";
 
 const SummaryWrap = styled(RowCenter)`
   font-size: 14px;

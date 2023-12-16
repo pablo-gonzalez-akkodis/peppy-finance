@@ -5,25 +5,25 @@ import isEqual from "lodash/isEqual";
 import { lighten } from "polished";
 import { useConnect } from "wagmi";
 
-import { useAppDispatch } from "@symmio-client/core/state";
-import { truncateAddress } from "@symmio-client/core/utils/address";
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
+import { useAppDispatch } from "@symmio/frontend-sdk/state";
+import { truncateAddress } from "@symmio/frontend-sdk/utils/address";
+import { ChainInfo } from "@symmio/frontend-sdk/constants/chainInfo";
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
-import useRpcChangerCallback from "@symmio-client/core/lib/hooks/useRpcChangerCallback";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import usePrevious from "@symmio-client/core/lib/hooks/usePrevious";
+import useRpcChangerCallback from "@symmio/frontend-sdk/lib/hooks/useRpcChangerCallback";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import usePrevious from "@symmio/frontend-sdk/lib/hooks/usePrevious";
 import {
   useAccountPartyAStat,
   useActiveAccount,
-} from "@symmio-client/core/state/user/hooks";
-import { updateAccount } from "@symmio-client/core/state/user/actions";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { updateAccount } from "@symmio/frontend-sdk/state/user/actions";
 
 import {
   useAccountsLength,
   useUserAccounts,
-} from "@symmio-client/core/hooks/useAccounts";
+} from "@symmio/frontend-sdk/hooks/useAccounts";
 
 import { NavButton } from "components/Button";
 import { ChevronDown, Switch, Status as StatusIcon } from "components/Icons";
@@ -36,7 +36,7 @@ import ImageWithFallback from "components/ImageWithFallback";
 import Badge from "./Badge";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { getChainLogo } from "utils/chainLogo";
-import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
+import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
 
 const Container = styled.div`
   display: inline-flex;

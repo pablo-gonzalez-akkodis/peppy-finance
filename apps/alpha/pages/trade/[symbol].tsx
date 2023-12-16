@@ -13,7 +13,7 @@ import AccountOverview from "components/App/AccountData";
 import { UpdaterRoot } from "components/EmptyComponent";
 import WrapperBanner from "components/Banner";
 import TermsAndServices from "components/TermsAndServices";
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
 export const Container = styled(Column)`
   background: ${({ theme }) => theme.bg};

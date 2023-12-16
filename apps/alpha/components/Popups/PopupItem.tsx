@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { animated } from "react-spring";
 import { useSpring } from "@react-spring/web";
 
-import { PopupContent } from "@symmio-client/core/state/application/reducer";
-import { useRemovePopup } from "@symmio-client/core/state/application/hooks";
+import { PopupContent } from "@symmio/frontend-sdk/state/application/reducer";
+import { useRemovePopup } from "@symmio/frontend-sdk/state/application/hooks";
 import TransactionPopup from "./TransactionPopup";
 import NotificationPopup from "./NotificationPopup";
 

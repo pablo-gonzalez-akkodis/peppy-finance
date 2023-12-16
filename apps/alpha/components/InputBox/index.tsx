@@ -4,9 +4,9 @@ import { Currency } from "@uniswap/sdk-core";
 import { isMobile } from "react-device-detect";
 import { darken } from "polished";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useCurrencyBalance } from "@symmio-client/core/lib/hooks/useCurrencyBalance";
-import { maxAmountSpend } from "@symmio-client/core/utils/currency";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { useCurrencyBalance } from "@symmio/frontend-sdk/lib/hooks/useCurrencyBalance";
+import { maxAmountSpend } from "@symmio/frontend-sdk/utils/currency";
 
 import ImageWithFallback from "components/ImageWithFallback";
 import { NumericalInput } from "components/Input";

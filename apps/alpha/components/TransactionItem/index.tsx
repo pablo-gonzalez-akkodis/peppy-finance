@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { useToken } from "@symmio-client/core/lib/hooks/useTokens";
-import { CloseQuoteMessages } from "@symmio-client/core/types/trade";
+import { useToken } from "@symmio/frontend-sdk/lib/hooks/useTokens";
+import { CloseQuoteMessages } from "@symmio/frontend-sdk/types/trade";
 
 import {
   TradeTransactionInfo,
@@ -10,13 +10,13 @@ import {
   TransferCollateralTransactionInfo,
   MintTransactionInfo,
   SignMessageTransactionInfo,
-} from "@symmio-client/core/state/transactions/types";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+} from "@symmio/frontend-sdk/state/transactions/types";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { TradeState } from "@symmio-client/core/types/trade";
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { TradeState } from "@symmio/frontend-sdk/types/trade";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 export const Summary = styled.div`
   font-size: 12px;

@@ -7,19 +7,19 @@ import WITHDRAW_USDT_ICON from "/public/static/images/etc/WithdrawUSDTPopUp.svg"
 import DEPOSIT_USDC_ICON from "/public/static/images/etc/DepositUSDCPopUp.svg";
 import WITHDRAW_USDC_ICON from "/public/static/images/etc/WithdrawUSDCPopUp.svg";
 
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import { ExplorerDataType } from "@symmio-client/core/utils/explorers";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import { ExplorerDataType } from "@symmio/frontend-sdk/utils/explorers";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
-import { useTransaction } from "@symmio-client/core/state/transactions/hooks";
-import { TransactionDetails } from "@symmio-client/core/state/transactions/types";
+import { useTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
+import { TransactionDetails } from "@symmio/frontend-sdk/state/transactions/types";
 
 import TransactionSummary from "components/Summaries/TransactionSummary ";
 import { ExplorerLink } from "components/Link";
 import { Row, RowEnd, RowStart } from "components/Row";
 import { CheckMark, Close } from "components/Icons";
 import ImageWithFallback from "components/ImageWithFallback";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 const Wrapper = styled(Row)<{ success?: boolean; color: string }>`
   height: 40px;

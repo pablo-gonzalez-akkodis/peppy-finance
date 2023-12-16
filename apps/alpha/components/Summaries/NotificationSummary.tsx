@@ -5,16 +5,16 @@ import {
   NotificationMessages,
   NotificationDetails,
   NotificationType,
-} from "@symmio-client/core/state/notifications/types";
+} from "@symmio/frontend-sdk/state/notifications/types";
 
 import { RowStart } from "components/Row";
 import {
   useErrorMessage,
   useMarket,
-} from "@symmio-client/core/hooks/useMarkets";
-import { useGetExistedQuoteByIdsCallback } from "@symmio-client/core/state/quotes/hooks";
-import { useGetQuoteByIds } from "@symmio-client/core/hooks/useQuotes";
-import { Quote } from "@symmio-client/core/types/quote";
+} from "@symmio/frontend-sdk/hooks/useMarkets";
+import { useGetExistedQuoteByIdsCallback } from "@symmio/frontend-sdk/state/quotes/hooks";
+import { useGetQuoteByIds } from "@symmio/frontend-sdk/hooks/useQuotes";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
 
 const NotificationText = styled(RowStart)`
   font-size: 12px;

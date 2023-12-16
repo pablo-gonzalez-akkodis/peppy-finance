@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { OrderType, InputField } from "@symmio-client/core/types/trade";
+import { OrderType, InputField } from "@symmio/frontend-sdk/types/trade";
 
 import {
   useOrderType,
   useSetLimitPrice,
   useSetOrderType,
   useSetTypedValue,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
 import { Tab } from "components/Tab";
 

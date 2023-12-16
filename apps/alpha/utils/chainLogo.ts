@@ -2,7 +2,7 @@ import { StaticImageData } from "next/legacy/image";
 import {
   SupportedChainId,
   isSupportedChain,
-} from "@symmio-client/core/constants/chains";
+} from "@symmio/frontend-sdk/constants/chains";
 export const ChainInfo: { [chainId: number]: StaticImageData } = {
   [SupportedChainId.MAINNET]: require("/public/static/images/networks/mainnet.svg"),
   [SupportedChainId.ROPSTEN]: require("/public/static/images/networks/mainnet.svg"),

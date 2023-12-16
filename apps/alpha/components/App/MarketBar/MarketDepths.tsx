@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
 
 import { Name, Value } from ".";
 import Column from "components/Column";

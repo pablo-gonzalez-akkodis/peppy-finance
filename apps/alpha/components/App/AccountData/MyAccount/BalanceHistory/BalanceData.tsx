@@ -2,27 +2,26 @@ import { useState } from "react";
 import styled from "styled-components";
 import InfiniteScroll from "react-infinite-scroll-component";
 
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { BALANCE_HISTORY_ITEMS_NUMBER } from "@symmio-client/core/constants/misc";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { BALANCE_HISTORY_ITEMS_NUMBER } from "@symmio/frontend-sdk/constants/misc";
 
-import {
-  BalanceHistoryData,
-  ConnectionStatus,
-} from "@symmio-client/core/state/user/types";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { BalanceHistoryData } from "@symmio/frontend-sdk/state/user/types";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
+
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveAccountAddress,
   useBalanceHistory,
   useGetBalanceHistoryCallback,
   useUpnlWebSocketStatus,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 import BalanceItem from "./BalanceItem";
 import { DotFlashing } from "components/Icons";
 import Column from "components/Column";
-import { usePositionValue } from "@symmio-client/core/hooks/usePositionOverview";
-import { usePositionsQuotes } from "@symmio-client/core/state/quotes/hooks";
+import { usePositionValue } from "@symmio/frontend-sdk/hooks/usePositionOverview";
+import { usePositionsQuotes } from "@symmio/frontend-sdk/state/quotes/hooks";
 
 const ScrollableDiv = styled(Column)<{ dataLength: number }>`
   width: 100%;
