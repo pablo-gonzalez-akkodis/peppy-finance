@@ -5,9 +5,9 @@ import { useRouter } from "next/router";
 import {
   useFavorites,
   useToggleUserFavoriteCallback,
-} from "@symmio-client/core/state/user/hooks";
-import { formatDollarAmount, toBN } from "@symmio-client/core/utils/numbers";
-import { Market } from "@symmio-client/core/types/market";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { formatDollarAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { Market } from "@symmio/frontend-sdk/types/market";
 
 import useCurrencyLogo from "lib/hooks/useCurrencyLogo";
 

@@ -1,17 +1,17 @@
 import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { OrderType } from "@symmio-client/core/types/trade";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
+import { OrderType } from "@symmio/frontend-sdk/types/trade";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 import {
   useQuoteLeverage,
   useQuoteUpnlAndPnl,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
 import { PnlValue } from "components/App/UserPanel/Common";
 import {

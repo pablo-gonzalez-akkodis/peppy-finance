@@ -1,8 +1,8 @@
 import React, { useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 
-import { ChainInfo } from "@symmio-client/core/constants/chainInfo";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { ChainInfo } from "@symmio/frontend-sdk/constants/chainInfo";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { NavButton } from "components/Button";
 import { ChevronDown } from "components/Icons";
@@ -11,7 +11,7 @@ import { isMobile } from "react-device-detect";
 import { NetworksModal } from "./NetworksModal";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 import { getChainLogo } from "utils/chainLogo";
-import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
+import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
 
 const Container = styled.div`
   display: inline-flex;

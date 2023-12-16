@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { isMobile } from "react-device-detect";
 
-import { formatAmount, toBN } from "@symmio-client/core/utils/numbers";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { useTheme } from "styled-components";
 
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
 
 import { ColumnCenter } from "components/Column";
 import { RowCenter } from "components/Row";

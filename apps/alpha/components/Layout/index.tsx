@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import "@rainbow-me/rainbowkit/styles.css";
 
-import { UNDER_MAINTENANCE } from "@symmio-client/core/constants/misc";
+import { UNDER_MAINTENANCE } from "@symmio/frontend-sdk/constants/misc";
 
 import NavBar from "./NavBar";
 import { RowCenter } from "components/Row";

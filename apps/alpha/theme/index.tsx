@@ -6,7 +6,7 @@ import {
   ThemeProvider as StyledComponentsThemeProvider,
 } from "styled-components";
 
-import { useIsDarkMode } from "@symmio-client/core/state/user/hooks";
+import { useIsDarkMode } from "@symmio/frontend-sdk/state/user/hooks";
 import { Colors, Shadows } from "./styled";
 import { useRouter } from "next/router";
 

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import styled from "styled-components";
 
-import { Account as AccountType } from "@symmio-client/core/types/user";
+import { Account as AccountType } from "@symmio/frontend-sdk/types/user";
 
-import { useAppDispatch } from "@symmio-client/core/state";
-import { updateAccount } from "@symmio-client/core/state/user/actions";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
+import { useAppDispatch } from "@symmio/frontend-sdk/state";
+import { updateAccount } from "@symmio/frontend-sdk/state/user/actions";
+import { useActiveAccountAddress } from "@symmio/frontend-sdk/state/user/hooks";
 
 import { RowCenter } from "components/Row";
 import CreateAccountModal from "components/ReviewModal/CreateAccountModal";

@@ -1,16 +1,17 @@
 {
-  "name": "@symmio-client/alpha",
+  "name": "@symmio/alpha",
   "private": true,
   "version": "0.0.1",
   "scripts": {
     "clean": "rimraf .next",
     "dev": "next dev",
+    "start": "next start",
     "build": "next build"
   },
   "dependencies": {
     "@rainbow-me/rainbowkit": "1.1.1",
     "@react-spring/web": "^9.7.3",
-    "@symmio-client/core": "0.0.1",
+    "@symmio/frontend-sdk": "file:.yalc/@symmio/frontend-sdk",
     "adblock-detect-react": "1.1.0",
     "next": "~13.5.0",
     "polished": "^3.7.2",
@@ -29,8 +30,7 @@
     "recharts": "2.6.2",
     "styled-components": "^5.3.6",
     "styled-react-modal": "^3.0.1",
-    "symbol-observable": "^4.0.0",
-    "wagmi": "1.4.3"
+    "symbol-observable": "^4.0.0"
   },
   "devDependencies": {
     "@simbathesailor/use-what-changed": "^2.0.0",

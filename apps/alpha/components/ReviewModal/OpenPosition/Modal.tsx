@@ -4,15 +4,15 @@ import styled from "styled-components";
 import {
   usePositionType,
   useStopLossValues,
-} from "@symmio-client/core/state/trade/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
-import { TransactionType } from "@symmio-client/core/state/transactions/types";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
+import { TransactionType } from "@symmio/frontend-sdk/state/transactions/types";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 import {
   useModalOpen,
   useToggleOpenPositionModal,
-} from "@symmio-client/core/state/application/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
 
 import { ModalState, StateContext } from "./ModalData";
 

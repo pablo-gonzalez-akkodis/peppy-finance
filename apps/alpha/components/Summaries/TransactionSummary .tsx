@@ -11,7 +11,7 @@ import {
 import {
   TransactionInfo,
   TransactionType,
-} from "@symmio-client/core/state/transactions/types";
+} from "@symmio/frontend-sdk/state/transactions/types";
 
 export default function TransactionSummary({
   info,

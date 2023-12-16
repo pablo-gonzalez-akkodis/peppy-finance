@@ -9,7 +9,7 @@ import {
   useSlippageTolerance,
   useSetSlippageToleranceCallback,
   useDarkModeManager,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 const MainModal = styled(Modal)`
   display: flex;

@@ -2,34 +2,34 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import { mix } from "polished";
 
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
 import { calculateString, calculationPattern } from "utils/calculationalString";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { APP_NAME } from "constants/chains/misc";
 import {
   DEFAULT_PRECISION,
   MAX_LEVERAGE_VALUE,
   MIN_LEVERAGE_VALUE,
-} from "@symmio-client/core/constants/misc";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { formatPrice, toBN } from "@symmio-client/core/utils/numbers";
-import { InputField, OrderType } from "@symmio-client/core/types/trade";
+} from "@symmio/frontend-sdk/constants/misc";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { formatPrice, toBN } from "@symmio/frontend-sdk/utils/numbers";
+import { InputField, OrderType } from "@symmio/frontend-sdk/types/trade";
 
 import {
   useLeverage,
   useSetLeverageCallback,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 import {
   useOrderType,
   useActiveMarket,
   useSetTypedValue,
   useGetLockedPercentages,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
-import useTradePage from "@symmio-client/core/hooks/useTradePage";
-import useDebounce from "@symmio-client/core/lib/hooks/useDebounce";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useTradePage from "@symmio/frontend-sdk/hooks/useTradePage";
+import useDebounce from "@symmio/frontend-sdk/lib/hooks/useDebounce";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { LeverageIcon } from "components/Icons";
 import { InputAmount } from "components/ReviewModal";
@@ -146,6 +146,7 @@ export default function AmountsPanel() {
 
   useEffect(() => {
     setLeverageCallback(debouncedLeverage);
+    setCustomLeverage(debouncedLeverage);
   }, [debouncedLeverage, setLeverageCallback]);
 
   useEffect(() => {

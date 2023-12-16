@@ -4,7 +4,7 @@ import { ExternalLink as LinkIconFeather } from "react-feather";
 import {
   ExplorerDataType,
   getExplorerLink,
-} from "@symmio-client/core/utils/explorers";
+} from "@symmio/frontend-sdk/utils/explorers";
 import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
 
 function handleClickExternalLink(event: React.MouseEvent<HTMLAnchorElement>) {
