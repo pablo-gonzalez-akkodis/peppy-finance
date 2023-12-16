@@ -146,6 +146,7 @@ export default function AmountsPanel() {
 
   useEffect(() => {
     setLeverageCallback(debouncedLeverage);
+    setCustomLeverage(debouncedLeverage);
   }, [debouncedLeverage, setLeverageCallback]);
 
   useEffect(() => {
