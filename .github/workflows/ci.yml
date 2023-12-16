@@ -16,13 +16,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - name: Install dependencies
+        run: yarn install
+
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-
-      - name: Install dependencies
-        run: yarn install
 
       - name: Install yalc globally
         run: yarn global add yalc
