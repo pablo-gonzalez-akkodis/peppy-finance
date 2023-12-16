@@ -5,7 +5,7 @@ import {
   useSetIsActiveStopLoss,
   useSetStopLossPrice,
   useStopLossValues,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
 import SwitchInput from "components/Input/SwitchInput";
 

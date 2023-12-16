@@ -1,10 +1,10 @@
 import React from "react";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { OrderType } from "@symmio-client/core/types/trade";
-import { toBN } from "@symmio-client/core/utils/numbers";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { OrderType } from "@symmio/frontend-sdk/types/trade";
+import { toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import { useIsMobile } from "lib/hooks/useWindowSize";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
 
 import LiquidatedQuoteDetails from "./LiquidatedQuoteDetails";
 import CanceledQuoteDetails from "./CanceledQuoteDetails";

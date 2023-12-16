@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-import { formatAmount } from "@symmio-client/core/utils/numbers";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
 
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
 
 import Emoji from "components/App/AccountData/Emoji";
 import { Row, RowBetween, RowEnd } from "components/Row";

@@ -5,14 +5,14 @@ import WITHDRAW_USDT_ICON from "/public/static/images/etc/WithdrawFUSDT.svg";
 import DEPOSIT_USDC_ICON from "/public/static/images/etc/DepositUSDC.svg";
 import WITHDRAW_USDC_ICON from "/public/static/images/etc/WithdrawUSDC.svg";
 
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { SupportedChainId } from "@symmio-client/core/constants/chains";
-import { Account } from "@symmio-client/core/types/user";
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
+import { Account } from "@symmio/frontend-sdk/types/user";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
-import { NotificationDetails } from "@symmio-client/core/state/notifications/types";
+import { NotificationDetails } from "@symmio/frontend-sdk/state/notifications/types";
 
 import BaseItem from "components/Notifications/Cards/BaseCard";
 

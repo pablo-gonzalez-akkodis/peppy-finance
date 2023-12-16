@@ -71,7 +71,6 @@ export default function MyFunction() {
       dispatch(updateAccount(lastSubAccount));
     }
   }, [accounts, dispatch]);
-
   return (
     <div>
       <BaseButton onClick={openConnectModal}>click me</BaseButton>

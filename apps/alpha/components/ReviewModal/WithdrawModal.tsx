@@ -7,25 +7,25 @@ import {
   toBN,
   formatAmount,
   formatPrice,
-} from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { TransferTab } from "@symmio-client/core/types/transfer";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import {
   useModalOpen,
   useWithdrawModalToggle,
-} from "@symmio-client/core/state/application/hooks";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
-import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
+import { useTransferCollateral } from "@symmio/frontend-sdk/callbacks/useTransferCollateral";
 
 import { Modal } from "components/Modal";
 import { Option } from "components/Tab";

@@ -1,20 +1,20 @@
 import React, { useContext } from "react";
 import styled, { useTheme } from "styled-components";
 
-import { formatPrice } from "@symmio-client/core/utils/numbers";
-import { PositionType } from "@symmio-client/core/types/trade";
-import { ConnectionStatus } from "@symmio-client/core/state/user/types";
+import { formatPrice } from "@symmio/frontend-sdk/utils/numbers";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 
 import { DefaultHeader } from "../styles";
 import { Row } from "components/Row";
 import Column from "components/Column";
 import { LongArrow, ShortArrow } from "components/Icons";
-import { IQuotesInfo } from "@symmio-client/core/types/quotesOverview";
-import { useTotalNotionalValue } from "@symmio-client/core/hooks/usePositionOverview";
+import { IQuotesInfo } from "@symmio/frontend-sdk/types/quotesOverview";
+import { useTotalNotionalValue } from "@symmio/frontend-sdk/hooks/usePositionOverview";
 import ShimmerAnimation from "components/ShimmerAnimation";
 import { AccountPositionsContext } from "./context";
 
-import { useUpnlWebSocketStatus } from "@symmio-client/core/state/user/hooks";
+import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 
 const Container = styled.div`
   display: grid;

@@ -1,15 +1,15 @@
 import React from "react";
 
-import { Quote } from "@symmio-client/core/types/quote";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
 
 import {
   NotificationDetails,
   NotificationType,
-} from "@symmio-client/core/state/notifications/types";
-import { useGetExistedQuoteByIdsCallback } from "@symmio-client/core/state/quotes/hooks";
+} from "@symmio/frontend-sdk/state/notifications/types";
+import { useGetExistedQuoteByIdsCallback } from "@symmio/frontend-sdk/state/quotes/hooks";
 
-import { useGetQuoteByIds } from "@symmio-client/core/hooks/useQuotes";
-import { useUserAccounts } from "@symmio-client/core/hooks/useAccounts";
+import { useGetQuoteByIds } from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useUserAccounts } from "@symmio/frontend-sdk/hooks/useAccounts";
 
 import TransferCollateral from "./TransferCollateralCard";
 import LiquidationAlert from "./LiquidationAlertCard";

@@ -4,16 +4,16 @@ import Image from "next/legacy/image";
 
 import GRADIENT_THENA_LOGO from "/public/static/images/etc/GradientThena.svg";
 
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { truncateAddress } from "@symmio-client/core/utils/address";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { truncateAddress } from "@symmio/frontend-sdk/utils/address";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
-import { useAddAccountToContract } from "@symmio-client/core/callbacks/useMultiAccount";
+import { useAddAccountToContract } from "@symmio/frontend-sdk/callbacks/useMultiAccount";
 import {
   useIsTermsAccepted,
   useUserWhitelist,
-} from "@symmio-client/core/state/user/hooks";
+} from "@symmio/frontend-sdk/state/user/hooks";
 
 import Column from "components/Column";
 import { Row, RowCenter, RowEnd, RowStart } from "components/Row";
@@ -23,7 +23,7 @@ import {
   Close as CloseIcon,
   DotFlashing,
 } from "components/Icons";
-import { WEB_SETTING } from "@symmio-client/core/config";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 import { PrimaryButton } from "components/Button";
 
 const Wrapper = styled.div<{ modal?: boolean }>`

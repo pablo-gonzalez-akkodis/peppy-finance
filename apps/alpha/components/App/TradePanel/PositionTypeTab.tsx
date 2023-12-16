@@ -1,5 +1,5 @@
 import { useTheme } from "styled-components";
-import { PositionType } from "@symmio-client/core/types/trade";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
 
 import { LongArrow, ShortArrow } from "components/Icons";
 import { RowCenter } from "components/Row";
@@ -7,7 +7,7 @@ import { TabModalJSX } from "components/Tab";
 import {
   usePositionType,
   useSetPositionType,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
 
 export default function PositionTypeTab() {
   const theme = useTheme();

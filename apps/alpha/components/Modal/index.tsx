@@ -4,7 +4,7 @@ import StyledModal from "styled-react-modal";
 import { Z_INDEX } from "theme";
 import { Text } from "rebass";
 
-import { PositionType } from "@symmio-client/core/types/trade";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
 
 import { Close as CloseIcon, LongArrow, ShortArrow } from "components/Icons";
 import { ChevronDown } from "components/Icons";

@@ -7,26 +7,26 @@ import {
   formatAmount,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
 import {
   useAccountPartyAStat,
   useActiveAccount,
   useExpertMode,
   useSetExpertModeCallback,
-} from "@symmio-client/core/state/user/hooks";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import {
   useDepositModalToggle,
   useModalOpen,
   useWithdrawModalToggle,
-} from "@symmio-client/core/state/application/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
 
-import { useAccountsLength } from "@symmio-client/core/hooks/useAccounts";
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
+import { useAccountsLength } from "@symmio/frontend-sdk/hooks/useAccounts";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
 
 import { ColumnCenter } from "components/Column";
 import { Row, RowBetween, RowEnd } from "components/Row";
