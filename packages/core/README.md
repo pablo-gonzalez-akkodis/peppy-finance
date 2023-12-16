@@ -24,3 +24,7 @@
 - move thena to sdk
 - move testNet branch to sdk
 - move pear to sdk
+
+## Explanation
+
+here is a detailed explanation of the `postbuild` command defined in the `package.json` :

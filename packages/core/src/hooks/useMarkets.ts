@@ -1,7 +1,49 @@
 import { useMemo } from "react";
 import { SelectSearchOption } from "react-select-search";
-import { useSelect } from "react-select-search/dist/cjs/index.js";
-// const { useSelect } = useSelectRaw;
+let useSelect = ({}) => [
+  {
+    search: "",
+    focus: false,
+    option: null,
+    value: null,
+    fetching: false,
+    highlighted: -1,
+    options: [],
+    displayValue: "",
+  },
+  {
+    tabIndex: "0",
+    readOnly: false,
+    value: "",
+    ref: {
+      current: { value: null },
+    },
+  },
+  {
+    tabIndex: "-1",
+  },
+];
+async function loadSelect() {
+  let useSelectTemp;
+
+  if (process.env.NODE_ENV === "production") {
+    // Import the production version of the module
+    const useSelectRaw = await import("react-select-search/dist/cjs/index.js");
+    useSelectTemp = useSelectRaw.useSelect;
+  } else {
+    // Import the development version of the module
+    const useSelectRaw = await import("react-select-search");
+    useSelectTemp = useSelectRaw.useSelect;
+  }
+
+  return useSelectTemp;
+}
+
+// Usage
+loadSelect().then((useSelectTemp) => {
+  useSelect = useSelectTemp;
+});
+
 import Fuse from "fuse.js";
 import find from "lodash/find.js";
 

@@ -2,7 +2,7 @@
   "version": "v1",
   "packages": {
     "@symmio/frontend-sdk": {
-      "signature": "f97713ebcf47ecb8d7f2a0e97209c90b",
+      "signature": "0523ec4e1ad6cada9274974ac449fc0f",
       "file": true,
       "replaced": "file:../../packages/core"
     }
