@@ -6,8 +6,8 @@ import CreateAccount from "components/App/AccountData/CreateAccount";
 import {
   useCreateAccountModalToggle,
   useModalOpen,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 
 const Wrapper = styled.div`
   display: flex;

@@ -36,12 +36,12 @@ import ImageWithFallback from "components/ImageWithFallback";
 import Badge from "./Badge";
 import { useAccountModal, useConnectModal } from "@rainbow-me/rainbowkit";
 import { getChainLogo } from "utils/chainLogo";
-import { useV3Ids } from "@symmio-client/core/state/chains/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import {
   useCreateAccountModalToggle,
   useModalOpen,
-} from "@symmio-client/core/state/application/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
 
 const Container = styled.div`
