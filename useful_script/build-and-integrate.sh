@@ -1,10 +1,13 @@
 #!/bin/bash
+
+# Exit immediately if a command exits with a non-zero status.
+set -e
+
 cd ./apps/ 
 
 for folder in */ ; do
-    echo "Processing $folder..."
+    echo "Dvelopment Processing $folder..."
 
-    # Navigate into the folder
     cd "$folder"
 
     echo "removed .next"
@@ -29,7 +32,7 @@ yalc publish
 cd ../../apps
 
 for folder in */ ; do
-    echo "Processing $folder..."
+    echo "Production Processing $folder..."
 
     cd "$folder"
 
