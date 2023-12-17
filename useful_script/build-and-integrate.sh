@@ -7,10 +7,12 @@ for folder in */ ; do
     # Navigate into the folder
     cd "$folder"
 
-    # Execute your commands
+    echo "removed .next"
+
+    rm -rf .next
+
     yarn build
 
-    # Navigate back to the 'apps' directory
     cd ..
 
     echo "$folder processing complete."
@@ -29,14 +31,15 @@ cd ../../apps
 for folder in */ ; do
     echo "Processing $folder..."
 
-    # Navigate into the folder
     cd "$folder"
 
-    # Execute your commands
+    rm -rf .next
+
+    echo "removed .next"
+    
     yalc add @symmio/frontend-sdk
     yarn build
 
-    # Navigate back to the 'apps' directory
     cd ..
 
     echo "$folder processing complete."
