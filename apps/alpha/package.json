@@ -11,7 +11,6 @@
   "dependencies": {
     "@rainbow-me/rainbowkit": "1.1.1",
     "@react-spring/web": "^9.7.3",
-    "@symmio/frontend-sdk": "file:.yalc/@symmio/frontend-sdk",
     "adblock-detect-react": "1.1.0",
     "next": "~13.5.0",
     "polished": "^3.7.2",
