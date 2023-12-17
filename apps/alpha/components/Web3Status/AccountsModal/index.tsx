@@ -12,8 +12,8 @@ import Account from "./Account";
 import {
   useCreateAccountModalToggle,
   useModalOpen,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 
 const HoverWrapper = styled.div`
   padding: 0px 8px 12px 8px;
