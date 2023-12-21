@@ -8,7 +8,7 @@ import TermsModal from "components/ReviewModal/TermsModal";
 export default function TermsAndServices() {
   const { account } = useActiveWagmi();
   const isTermsAccepted = useIsTermsAccepted();
-  // TODO: fix this
+
   if (account && !isTermsAccepted) {
     return <TermsModal onDismiss={() => {}} />;
   }
