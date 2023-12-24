@@ -1,4 +1,8 @@
-import { prepareSendTransaction, sendTransaction } from "@wagmi/core";
+import {
+  prepareSendTransaction,
+  sendTransaction,
+  waitForTransaction,
+} from "@wagmi/core";
 import { UserRejectedRequestError } from "viem";
 import { ContractFunctionRevertedError, BaseError } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -45,6 +49,12 @@ export async function createTransactionCallback(
     const data = await sendTransaction({
       ...request,
       gas: calculateGasMargin(gas),
+    });
+    await waitForTransaction({
+      hash: data?.hash,
+      onReplaced: (replace) => {
+        data.hash = replace.transaction.hash;
+      },
     });
     addTransaction(data.hash, txInfo, summary);
     addRecentTransaction({

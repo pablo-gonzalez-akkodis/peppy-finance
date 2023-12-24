@@ -15,6 +15,7 @@ import { BlockNumberProvider } from "@symmio/frontend-sdk/lib/hooks/useBlockNumb
 import ConfigSDKComponent from "./configSDK";
 import { setUseWhatChange } from "@simbathesailor/use-what-changed";
 import Updaters from "@symmio/frontend-sdk/state/updaters";
+import ErrorBoundary from "components/App/ErrorBoundaries";
 
 // const Updaters = dynamic(() => import("@symmio/frontend-sdk/state/updaters"), {
 //   ssr: false,
@@ -38,36 +39,38 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     return <></>;
   }
   return (
-    <ReduxProvider store={store}>
-      <WagmiConfig config={wagmiConfig}>
-        <RainbowKitProvider
-          chains={chains}
-          initialChain={initialChain}
-          showRecentTransactions={true}
-          theme={darkTheme({
-            accentColor: "#AEE3FA",
-            accentColorForeground: "#151A1F",
-            borderRadius: "small",
-            fontStack: "system",
-            overlayBlur: "small",
-          })}
-        >
-          <ThemeProvider>
-            <ThemedGlobalStyle />
-            <ModalProvider backgroundComponent={ModalBackground}>
-              <Toaster position="bottom-center" />
-              <BlockNumberProvider>
-                <Popups />
-                <Updaters />
-                <ConfigSDKComponent />
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </BlockNumberProvider>
-            </ModalProvider>
-          </ThemeProvider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </ReduxProvider>
+    <ErrorBoundary>
+      <ReduxProvider store={store}>
+        <WagmiConfig config={wagmiConfig}>
+          <RainbowKitProvider
+            chains={chains}
+            initialChain={initialChain}
+            showRecentTransactions={true}
+            theme={darkTheme({
+              accentColor: "#AEE3FA",
+              accentColorForeground: "#151A1F",
+              borderRadius: "small",
+              fontStack: "system",
+              overlayBlur: "small",
+            })}
+          >
+            <ThemeProvider>
+              <ThemedGlobalStyle />
+              <ModalProvider backgroundComponent={ModalBackground}>
+                <Toaster position="bottom-center" />
+                <BlockNumberProvider>
+                  <Popups />
+                  <Updaters />
+                  <ConfigSDKComponent />
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                </BlockNumberProvider>
+              </ModalProvider>
+            </ThemeProvider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </ReduxProvider>
+    </ErrorBoundary>
   );
 }
