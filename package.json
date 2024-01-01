@@ -1,5 +1,5 @@
 {
-  "name": "symmio-client",
+  "name": "symmio",
   "version": "0.0.1",
   "description": "The Symmio Client project is a monorepo managed by Lerna, designed to streamline the development, management, and versioning of interconnected packages. The project leverages React and TypeScript to ensure a type-safe, component-driven architecture, and Webpack for bundling and optimization.",
   "private": true,
@@ -12,6 +12,7 @@
     "clean": "yarn workspaces run clean",
     "build": "yarn workspaces run build",
     "test": "yarn workspaces run test",
+    "build-and-integrate": ". ./useful_script/build-and-integrate.sh",
     "lint": "eslint --ext js,ts,tsx ."
   },
   "devDependencies": {

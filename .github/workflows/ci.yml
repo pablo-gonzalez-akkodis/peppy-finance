@@ -1,0 +1,41 @@
+name: Build and Integration
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build-and-integrate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.18.2]
+
+    env:
+      NEXT_PUBLIC_GOOGLE_ANALYTICS_ID: "Sample"
+      NEXT_PUBLIC_INFURA_KEY: "Sample"
+      NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID: "Sample"
+      NEXT_PUBLIC_ANKR_API_Key: "Sample"
+      NEXT_PUBLIC_BSC_PUBLIC_RPC_URL: "Sample"
+      NEXT_PUBLIC_FANTOM_PUBLIC_RPC_URL: "Sample"
+      NEXT_PUBLIC_FANTOM_HEDGER_URL: "Sample"
+      NEXT_PUBLIC_BSC_HEDGER_URL: "Sample"
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install yalc globally
+        run: yarn global add yalc
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run build-and-integrate script
+        run: yarn build-and-integrate

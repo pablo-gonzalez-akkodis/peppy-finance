@@ -1,22 +1,23 @@
 import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
-import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+import { DEFAULT_PRECISION } from "@symmio/frontend-sdk/constants/misc";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import {
   RoundMode,
   formatPrice,
   toBN,
-} from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { InputField } from "@symmio-client/core/types/trade";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { InputField } from "@symmio/frontend-sdk/types/trade";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveMarket,
   useActiveMarketPrice,
   useSetTypedValue,
-} from "@symmio-client/core/state/trade/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { useLeverage } from "@symmio/frontend-sdk/state/user/hooks";
 
 import InfoItem from "components/InfoItem";
 
@@ -29,6 +30,7 @@ export default function MinPositionInfo() {
     chainId
   );
 
+  const leverage = useLeverage();
   const market = useActiveMarket();
   const marketPrice = useActiveMarketPrice();
   const [
@@ -54,19 +56,26 @@ export default function MinPositionInfo() {
     const quantity = BigNumber.max(
       toBN(minAcceptableQuoteValue)
         .div(marketPrice)
+        .times(leverage)
         .toFixed(quantityPrecision, RoundMode.ROUND_UP),
       toBN(10)
         .pow(quantityPrecision * -1)
         .toFixed(quantityPrecision, RoundMode.ROUND_UP)
     );
-    const value = toBN(quantity).times(marketPrice);
+    const value = toBN(quantity).times(marketPrice).div(leverage);
 
     if (value.isNaN()) return ["-", "-"];
     return [
       value.toFixed(pricePrecision, RoundMode.ROUND_UP),
       quantity.toFixed(quantityPrecision, RoundMode.ROUND_UP),
     ];
-  }, [marketPrice, minAcceptableQuoteValue, pricePrecision, quantityPrecision]);
+  }, [
+    leverage,
+    marketPrice,
+    minAcceptableQuoteValue,
+    pricePrecision,
+    quantityPrecision,
+  ]);
 
   return (
     <InfoItem

@@ -1,7 +1,7 @@
 import { useCallback } from "react";
-import find from "lodash/find";
+import find from "lodash/find.js";
 
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "../declaration";
 import { NotificationDetails } from "./types";
 import {
   addReadNotification,

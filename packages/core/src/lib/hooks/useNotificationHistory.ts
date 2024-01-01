@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from "react";
 
-import { useAppDispatch } from "../../state";
+import { useAppDispatch } from "../../state/declaration";
 import { updateTimestamp } from "../../state/notifications/actions";
 
 export default function useNotificationHistory() {

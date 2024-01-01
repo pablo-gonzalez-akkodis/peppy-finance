@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { AppState, useAppDispatch, useAppSelector } from "..";
+import { AppState, useAppDispatch, useAppSelector } from "../declaration";
 import { setChains } from "./actions";
 import { ChainsState } from "./reducer";
 

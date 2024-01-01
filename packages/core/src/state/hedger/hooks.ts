@@ -1,10 +1,9 @@
 import { useCallback, useMemo } from "react";
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "../declaration";
 
 import {
   MarketDataMap,
   MarketData,
-  ConnectionStatus,
   MarketDepthData,
   MarketNotionalCap,
   FundingRateMap,
@@ -20,7 +19,7 @@ import {
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
 import useDebounce from "../../lib/hooks/useDebounce";
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 import { useHedgerAddress } from "../chains/hooks";
 import { SupportedChainId } from "../../constants/chains";
 

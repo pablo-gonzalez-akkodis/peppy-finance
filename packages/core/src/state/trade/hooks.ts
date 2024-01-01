@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { useAppDispatch, useAppSelector } from "..";
+import { useAppDispatch, useAppSelector } from "../declaration";
 import { InputField, OrderType, PositionType } from "../../types/trade";
 import { BN_ZERO, formatPrice, toBN } from "../../utils/numbers";
 import { Market } from "../../types/market";
@@ -15,7 +15,6 @@ import {
   updateStopLossPrice,
   updateIsActiveStopLoss,
 } from "./actions";
-import { toast } from "react-hot-toast";
 import { useMarket } from "../../hooks/useMarkets";
 import { makeHttpRequest } from "../../utils/http";
 import { GetLockedParamUrlResponse } from "./types";
@@ -210,7 +209,7 @@ export function useGetLockedPercentages(
           console.log("AbortError getLockedParam", error.message);
         } else {
           console.log("Unable to fetch locked params");
-          toast.error("Unable to fetch locked params");
+          console.log("Unable to fetch locked params");
         }
       }
     },

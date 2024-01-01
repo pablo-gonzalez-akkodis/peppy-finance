@@ -1,34 +1,33 @@
 import { useTheme } from "styled-components";
 import React, { useEffect, useState } from "react";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { Quote, QuoteStatus } from "@symmio-client/core/types/quote";
-import { PositionType } from "@symmio-client/core/types/trade";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
+import { PositionType } from "@symmio/frontend-sdk/types/trade";
 import {
   formatTimestamp,
   getRemainingTime,
-} from "@symmio-client/core/utils/time";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+} from "@symmio/frontend-sdk/utils/time";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import {
   formatAmount,
   toBN,
   formatCurrency,
-} from "@symmio-client/core/utils/numbers";
-import { FundingRateData } from "@symmio-client/core/state/hedger/types";
-import useFetchFundingRate from "@symmio-client/core/src/hooks/useFetchFundingRate";
-import { useMarketData } from "@symmio-client/core/state/hedger/hooks";
-import { useMarket } from "@symmio-client/core/hooks/useMarkets";
-import useBidAskPrice from "@symmio-client/core/hooks/useBidAskPrice";
+} from "@symmio/frontend-sdk/utils/numbers";
+
+import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
+import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
+import useBidAskPrice from "@symmio/frontend-sdk/hooks/useBidAskPrice";
 import {
   useLockedMargin,
   useQuoteLeverage,
   useQuoteSize,
   useQuoteUpnlAndPnl,
-} from "@symmio-client/core/hooks/useQuotes";
-import { useNotionalValue } from "@symmio-client/core/hooks/useTradePage";
-import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
+} from "@symmio/frontend-sdk/hooks/useQuotes";
+import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
 
 import { RowEnd, Row as RowComponent } from "components/Row";
 import ClosePendingDetails from "./ClosedSizeDetails/ClosePendingDetails";
@@ -54,6 +53,8 @@ import {
   FlexColumn,
 } from "components/App/AccountData/PositionDetails/styles";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
+import { FundingRateData } from "@symmio/frontend-sdk/state/hedger/types";
+import useFetchFundingRate from "@symmio/frontend-sdk/hooks/useFetchFundingRate";
 
 export default function OpenedQuoteDetails({
   quote,

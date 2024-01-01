@@ -92,6 +92,7 @@ export class QuotesClient extends MuonClient {
       return { success: true, signature: generatedSignature };
     } catch (error) {
       console.error(error);
+      console.log("Unable to get response from Muon");
       return { success: false, error };
     }
   }

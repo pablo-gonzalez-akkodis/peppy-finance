@@ -1,4 +1,8 @@
-import { prepareSendTransaction, sendTransaction } from "@wagmi/core";
+import {
+  prepareSendTransaction,
+  sendTransaction,
+  waitForTransaction,
+} from "@wagmi/core";
 import { UserRejectedRequestError } from "viem";
 import { ContractFunctionRevertedError, BaseError } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -46,6 +50,12 @@ export async function createTransactionCallback(
       ...request,
       gas: calculateGasMargin(gas),
     });
+    await waitForTransaction({
+      hash: data?.hash,
+      onReplaced: (replace) => {
+        data.hash = replace.transaction.hash;
+      },
+    });
     addTransaction(data.hash, txInfo, summary);
     addRecentTransaction({
       hash: data.hash,
@@ -56,10 +66,12 @@ export async function createTransactionCallback(
     if (error instanceof Error) {
       console.log("Error", { error });
       if (error instanceof BaseError) {
-        if (error.cause instanceof UserRejectedRequestError) {
+        if (error instanceof UserRejectedRequestError) {
+          // TODO: error.cause
           console.log("UserRejectedRequestError", { error });
           // TODO: handle error in client
-        } else if (error.cause instanceof ContractFunctionRevertedError) {
+        } else if (error instanceof ContractFunctionRevertedError) {
+          // TODO: error.cause
           console.log("ContractFunctionRevertedError", { error });
           // TODO: handle error in client
         } else {

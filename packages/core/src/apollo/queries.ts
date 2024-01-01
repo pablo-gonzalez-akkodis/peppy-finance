@@ -77,3 +77,11 @@ export const TOTAL_DEPOSITS_AND_WITHDRAWALS = gql`
     }
   }
 `;
+
+export const GET_PAID_AMOUNT = gql`
+  query GetPaidAmount($id: String!) {
+    resultEntities(where: { quoteId: $id }) {
+      fee
+    }
+  }
+`;

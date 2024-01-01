@@ -1,6 +1,8 @@
-import { createReducer } from "@reduxjs/toolkit";
-import find from "lodash/find";
-import remove from "lodash/remove";
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createReducer } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
+import find from "lodash/find.js";
+import remove from "lodash/remove.js";
 
 import {
   addReadNotification,

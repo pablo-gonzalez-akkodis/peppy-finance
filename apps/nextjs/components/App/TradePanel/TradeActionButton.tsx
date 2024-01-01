@@ -1,31 +1,31 @@
 import { useEffect, useMemo, useState } from "react";
 import { DotFlashing } from "components/Icons";
-import { useToggleOpenPositionModal } from "@symmio-client/core/state/application/hooks";
+import { useToggleOpenPositionModal } from "@symmio/frontend-sdk/state/application/hooks";
 import {
   ContextError,
   InvalidContext,
   useInvalidContext,
 } from "components/InvalidContext";
 import ErrorButton from "components/Button/ErrorButton";
-import { useWebSocketStatus } from "@symmio-client/core/state/hedger/hooks";
+import { useWebSocketStatus } from "@symmio/frontend-sdk/state/hedger/hooks";
 import {
   useSetLimitPrice,
   useActiveMarket,
   useSetTypedValue,
-} from "@symmio-client/core/state/trade/hooks";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+} from "@symmio/frontend-sdk/state/trade/hooks";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 import { MainButton } from "components/Button";
 import { RowStart } from "components/Row";
-import useTradePage from "@symmio-client/core/hooks/useTradePage";
-import { DEFAULT_PRECISION } from "@symmio-client/core/constants/misc";
+import useTradePage from "@symmio/frontend-sdk/hooks/useTradePage";
+import { DEFAULT_PRECISION } from "@symmio/frontend-sdk/constants/misc";
 import { calculateString } from "utils/calculationalString";
-import { InputField } from "@symmio-client/core/types/trade";
-import { ConnectionStatus } from "@symmio-client/core/state/hedger/types";
+import { InputField } from "@symmio/frontend-sdk/types/trade";
+import { ConnectionStatus } from "@symmio/frontend-sdk/types/api";
 import {
   useUserWhitelist,
   useIsTermsAccepted,
-} from "@symmio-client/core/state/user/hooks";
-import { WEB_SETTING } from "@symmio-client/core/config";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 import OpenPositionButton from "components/Button/OpenPositionButton";
 
 export default function TradeActionButtons(): JSX.Element | null {

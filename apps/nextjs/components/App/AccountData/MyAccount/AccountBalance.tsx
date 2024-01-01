@@ -1,22 +1,22 @@
 import styled from "styled-components";
 
-import { formatAmount } from "@symmio-client/core/utils/numbers";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
+import { formatAmount } from "@symmio/frontend-sdk/utils/numbers";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import useAccountData from "@symmio-client/core/hooks/useAccountData";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import useAccountData from "@symmio/frontend-sdk/hooks/useAccountData";
 
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
 import {
   useDepositModalToggle,
   useModalOpen,
   useWithdrawModalToggle,
-} from "@symmio-client/core/state/application/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
 
 import { DefaultContainer, DefaultHeader } from "./styles";
 import Column from "components/Column";

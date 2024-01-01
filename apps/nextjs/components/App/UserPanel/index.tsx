@@ -1,19 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 
-import { Quote } from "@symmio-client/core/types/quote";
+import { Quote } from "@symmio/frontend-sdk/types/quote";
 
-import { AppThunkDispatch, useAppDispatch } from "@symmio-client/core/state";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
-import { useActiveAccountAddress } from "@symmio-client/core/state/user/hooks";
-import { getHistory } from "@symmio-client/core/state/quotes/thunks";
+import { AppThunkDispatch, useAppDispatch } from "@symmio/frontend-sdk/state";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
+import { useActiveAccountAddress } from "@symmio/frontend-sdk/state/user/hooks";
+import { getHistory } from "@symmio/frontend-sdk/state/quotes/thunks";
 import {
   useHistoryQuotes,
   usePendingsQuotes,
   usePositionsQuotes,
   useQuoteDetail,
   useSetQuoteDetailCallback,
-} from "@symmio-client/core/state/quotes/hooks";
+} from "@symmio/frontend-sdk/state/quotes/hooks";
 
 import { Card } from "components/Card";
 import History from "./History";

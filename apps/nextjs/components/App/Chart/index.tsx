@@ -5,7 +5,7 @@ import { useDetectAdBlock } from "adblock-detect-react";
 
 import LOADING_CHART from "/public/static/images/etc/LoadChart.svg";
 
-import { useActiveMarket } from "@symmio-client/core/state/trade/hooks";
+import { useActiveMarket } from "@symmio/frontend-sdk/state/trade/hooks";
 
 import { Card } from "components/Card";
 import { LottieCloverfield } from "components/Icons";

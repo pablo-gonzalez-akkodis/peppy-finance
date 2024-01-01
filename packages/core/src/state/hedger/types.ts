@@ -1,11 +1,6 @@
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 import { OpenInterest } from "../../types/hedger";
 import { Market } from "../../types/market";
-
-export enum ConnectionStatus {
-  OPEN,
-  CLOSED,
-}
 
 export interface MarketData {
   fundingRate: string;

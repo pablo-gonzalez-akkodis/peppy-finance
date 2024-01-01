@@ -1,6 +1,8 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { ApiState } from "../../types/api";
-import { ConnectionStatus, TermsStatus, UserState } from "./types";
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createReducer } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
+import { ApiState, ConnectionStatus } from "../../types/api";
+import { TermsStatus, UserState } from "./types";
 
 import {
   updateUserSlippageTolerance,

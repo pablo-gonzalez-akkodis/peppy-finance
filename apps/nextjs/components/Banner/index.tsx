@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { useUserWhitelist } from "@symmio-client/core/state/user/hooks";
+import { useUserWhitelist } from "@symmio/frontend-sdk/state/user/hooks";
 
 import { Info } from "components/Icons";
 import { Close as CloseIcon } from "components/Icons";
@@ -77,7 +77,10 @@ export function Banner({
 export default function WrapperBanner() {
   const userWhitelisted = useUserWhitelist();
   const showBanner =
-    localStorage.getItem("risk_warning") === "true" ? false : true;
+    typeof window !== "undefined" &&
+    localStorage.getItem("risk_warning") === "true"
+      ? false
+      : true;
 
   if (!showBanner) return null;
 

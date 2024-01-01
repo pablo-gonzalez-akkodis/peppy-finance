@@ -6,7 +6,7 @@ This repository contains scripts that assist in maintaining the project.
 
 ### Overview
 
-At the beginning of the project, we prefixed all import paths in the core package with `@symmio-client/core/`. As the project evolved, this strategy posed challenges:
+At the beginning of the project, we prefixed all import paths in the core package with `@symmio/frontend-sdk/`. As the project evolved, this strategy posed challenges:
 
 - We had to add multiple paths to `tsconfig.json`.
 - Monorepo setups became more complex.

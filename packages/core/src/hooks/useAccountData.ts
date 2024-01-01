@@ -2,7 +2,6 @@ import { useMemo } from "react";
 
 import { toBN } from "../utils/numbers";
 import { WEB_SETTING } from "../config";
-import { ConnectionStatus } from "../state/user/types";
 
 import {
   useAccountPartyAStat,
@@ -10,6 +9,7 @@ import {
   useActiveAccount,
   useUpnlWebSocketStatus,
 } from "../state/user/hooks";
+import { ConnectionStatus } from "../types/api";
 
 export interface Emoji {
   symbol: string;

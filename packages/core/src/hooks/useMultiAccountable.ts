@@ -6,7 +6,6 @@ import { Address, encodeFunctionData } from "viem";
 import { ConstructCallReturnType } from "../types/web3";
 import useWagmi from "../lib/hooks/useWagmi";
 import { ContractFunctionRevertedError, BaseError } from "viem";
-import { toast } from "react-hot-toast";
 
 export function useMultiAccountable(
   constructCall: () => ConstructCallReturnType,
@@ -64,10 +63,11 @@ export function useMultiAccountable(
           (err) => err instanceof ContractFunctionRevertedError
         );
         if (revertError instanceof ContractFunctionRevertedError) {
-          toast.error(revertError.reason?.toString() || "");
+          console.log(revertError.reason?.toString() || "");
         }
       }
-      throw new Error(error);
+      if (error && typeof error === "string") throw new Error(error);
+      throw new Error("error3");
     }
   }, [
     DiamondContract,

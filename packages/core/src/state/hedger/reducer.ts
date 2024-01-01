@@ -1,5 +1,7 @@
-import { createReducer, current } from "@reduxjs/toolkit";
-import { ConnectionStatus, HedgerState } from "./types";
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createReducer, current } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
+import { HedgerState } from "./types";
 
 import {
   updateWebSocketStatus,
@@ -17,7 +19,7 @@ import {
   getOpenInterest,
   getPriceRange,
 } from "./thunks";
-import { ApiState } from "../../types/api";
+import { ApiState, ConnectionStatus } from "../../types/api";
 
 const initialState: HedgerState = {
   hedgerId: "",

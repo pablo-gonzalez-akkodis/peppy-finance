@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { toast } from "react-hot-toast";
 
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import {
   useActiveAccount,
   useAddInWhitelist,
   useIsWhiteList,
   useUserWhitelist,
-} from "@symmio-client/core/state/user/hooks";
-import { GetWhiteListType } from "@symmio-client/core/state/user/types";
-import { WEB_SETTING } from "@symmio-client/core/config";
-import { useMultiAccountContract } from "@symmio-client/core/hooks/useContract";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { GetWhiteListType } from "@symmio/frontend-sdk/state/user/types";
+import { WEB_SETTING } from "@symmio/frontend-sdk/config";
+import { useMultiAccountContract } from "@symmio/frontend-sdk/hooks/useContract";
 
 export default function Updater() {
   const { account } = useActiveWagmi();

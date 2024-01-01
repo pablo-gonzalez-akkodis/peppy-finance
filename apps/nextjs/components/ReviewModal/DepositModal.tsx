@@ -8,24 +8,24 @@ import {
   formatAmount,
   BN_ZERO,
   formatPrice,
-} from "@symmio-client/core/utils/numbers";
-import { useGetTokenWithFallbackChainId } from "@symmio-client/core/utils/token";
-import { useCollateralToken } from "@symmio-client/core/constants/tokens";
+} from "@symmio/frontend-sdk/utils/numbers";
+import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
+import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 
-import { TransferTab } from "@symmio-client/core/types/transfer";
+import { TransferTab } from "@symmio/frontend-sdk/types/transfer";
 import {
   useDepositModalToggle,
   useModalOpen,
-} from "@symmio-client/core/state/application/hooks";
-import { ApplicationModal } from "@symmio-client/core/state/application/reducer";
-import { useIsHavePendingTransaction } from "@symmio-client/core/state/transactions/hooks";
+} from "@symmio/frontend-sdk/state/application/hooks";
+import { ApplicationModal } from "@symmio/frontend-sdk/state/application/reducer";
+import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 import {
   useAccountPartyAStat,
   useActiveAccountAddress,
-} from "@symmio-client/core/state/user/hooks";
-import { useApproveCallback } from "@symmio-client/core/lib/hooks/useApproveCallback";
-import { ApprovalState } from "@symmio-client/core/lib/hooks/useApproval";
-import useActiveWagmi from "@symmio-client/core/lib/hooks/useActiveWagmi";
+} from "@symmio/frontend-sdk/state/user/hooks";
+import { useApproveCallback } from "@symmio/frontend-sdk/lib/hooks/useApproveCallback";
+import { ApprovalState } from "@symmio/frontend-sdk/lib/hooks/useApproval";
+import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { Modal } from "components/Modal";
 import InfoItem from "components/InfoItem";
@@ -34,9 +34,9 @@ import { DotFlashing } from "components/Icons";
 import { PrimaryButton } from "components/Button";
 import { CustomInputBox2 } from "components/InputBox";
 import { Close as CloseIcon } from "components/Icons";
-import { useTransferCollateral } from "@symmio-client/core/callbacks/useTransferCollateral";
+import { useTransferCollateral } from "@symmio/frontend-sdk/callbacks/useTransferCollateral";
 import { Row, RowBetween, RowStart } from "components/Row";
-import { useMultiAccountAddress } from "@symmio-client/core/state/chains/hooks";
+import { useMultiAccountAddress } from "@symmio/frontend-sdk/state/chains/hooks";
 
 const Wrapper = styled.div`
   display: flex;

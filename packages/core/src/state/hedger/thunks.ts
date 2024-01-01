@@ -1,4 +1,6 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
+import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+const { createAsyncThunk } = ((toolkitRaw as any).default ??
+  toolkitRaw) as typeof toolkitRaw;
 import { makeHttpRequest } from "../../utils/http";
 import {
   Market,
@@ -20,6 +22,8 @@ import {
   MarketsInfoRes,
   PriceRange,
 } from "./types";
+import { createApolloClient } from "../../apollo/client";
+import { GET_PAID_AMOUNT } from "../../apollo/queries";
 
 export const getMarkets = createAsyncThunk(
   "hedger/getAllApi",
@@ -325,7 +329,8 @@ export const getMarketsInfo = createAsyncThunk(
       }
     } catch (error) {
       console.error(error, "happened in getMarketsInfo");
-      throw new Error(error);
+      if (error && typeof error === "string") throw new Error(error);
+      throw new Error("error3");
     }
 
     return { marketsInfo };
@@ -372,6 +377,32 @@ export const getFundingRate = createAsyncThunk(
     }
 
     return {};
+  }
+);
+
+export const getPaidAmount = createAsyncThunk(
+  "hedger/getPaidAmount",
+  async ({ quoteId }: { quoteId: number }) => {
+    try {
+      const client = createApolloClient(
+        "https://api.thegraph.com/subgraphs/name/symmiograph/funding-rate-calculator"
+      );
+
+      const {
+        data: { resultEntities },
+      } = await client.query<{
+        resultEntities: { fee: string; __typename: string }[];
+      }>({
+        query: GET_PAID_AMOUNT,
+        variables: { id: `${quoteId}` },
+        fetchPolicy: "no-cache",
+      });
+      if (resultEntities.length) return { fee: resultEntities[0].fee };
+      return { fee: "" };
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Unable to query Paid Amount from Client`);
+    }
   }
 );
 

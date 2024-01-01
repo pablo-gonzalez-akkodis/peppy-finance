@@ -2,7 +2,7 @@ import { useMemo } from "react";
 import styled, { useTheme } from "styled-components";
 import { Z_INDEX } from "theme";
 
-import { Account as AccountType } from "@symmio-client/core/types/user";
+import { Account as AccountType } from "@symmio/frontend-sdk/types/user";
 
 import { RowBetween, RowEnd, RowStart } from "components/Row";
 
