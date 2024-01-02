@@ -16,20 +16,21 @@ import {
   updateUpnlWebSocketStatus,
   updateAccountPartyAStat,
   updateAcceptTerms,
+  updateAllAccountsUpnl,
 } from "./actions";
 import {
   getBalanceHistory,
   getIsWhiteList,
   getTotalDepositsAndWithdrawals,
 } from "./thunks";
+import { AccountUpnl } from "../../types/user";
 
 const currentTimestamp = () => new Date().getTime();
 
 const activeAccountUpnlInitialState = {
   upnl: 0,
   timestamp: 0,
-  available_balance: 0,
-};
+} as AccountUpnl;
 
 export const initialState: UserState = {
   matchesDarkMode: false,
@@ -43,6 +44,7 @@ export const initialState: UserState = {
   upnlWebSocketStatus: ConnectionStatus.CLOSED,
   activeAccountUpnl: activeAccountUpnlInitialState,
   accountsPartyAStat: {},
+  allAccountsUpnl: [],
 
   whiteListAccount: null,
   whiteListAccountState: ApiState.LOADING,
@@ -88,6 +90,20 @@ export default createReducer(initialState, (builder) =>
     })
     .addCase(updateUpnlWebSocketStatus, (state, { payload }) => {
       state.upnlWebSocketStatus = payload.status;
+    })
+    .addCase(updateAllAccountsUpnl, (state, action) => {
+      if (!state.allAccountsUpnl?.length) {
+        state.allAccountsUpnl = [];
+      }
+      const item = state.allAccountsUpnl.find(
+        (x) => x.account === action.payload.account
+      );
+
+      if (item) {
+        item.upnl = action.payload.upnl;
+      } else {
+        state.allAccountsUpnl.push(action.payload);
+      }
     })
 
     .addCase(updateAccountPartyAStat, (state, action) => {

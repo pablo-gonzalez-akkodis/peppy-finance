@@ -26,7 +26,6 @@ import {
 import { ConstructCallReturnType } from "../types/web3";
 import {
   useActiveMarketId,
-  useActiveMarketPrice,
   useLockedPercentages,
   useOrderType,
   usePositionType,
@@ -37,7 +36,6 @@ import {
   toBN,
   toWei,
   formatPrice,
-  toWeiBN,
 } from "../utils/numbers";
 import {
   createTransactionCallback,
@@ -58,8 +56,7 @@ import useTradePage, {
   usePartyALockedMM,
   usePartyBLockedMM,
 } from "../hooks/useTradePage";
-import { SendOrCloseQuoteClient } from "../lib/muon";
-import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
+import { SendQuoteClient } from "../lib/muon";
 import { encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import {
@@ -94,28 +91,28 @@ export function useSentQuoteCallback(): {
 
   const marketId = useActiveMarketId();
   const market = useMarket(marketId);
-  const marketPrice = useActiveMarketPrice();
   const slippage = useSlippageTolerance();
   const pricePrecision = useMemo(
     () => market?.pricePrecision ?? DEFAULT_PRECISION,
     [market]
   );
   const openPrice = useMemo(() => (price ? price : "0"), [price]);
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
 
   const openPriceFinal = useMemo(() => {
     if (orderType === OrderType.LIMIT) return openPrice;
 
     if (slippage === "auto") {
       return positionType === PositionType.SHORT
-        ? toBN(openPrice).div(MARKET_PRICE_COEFFICIENT).toString()
-        : toBN(openPrice).times(MARKET_PRICE_COEFFICIENT).toString();
+        ? toBN(openPrice).div(autoSlippage).toString()
+        : toBN(openPrice).times(autoSlippage).toString();
     }
 
     const spSigned =
       positionType === PositionType.SHORT ? slippage : slippage * -1;
     const slippageFactored = toBN(100 - spSigned).div(100);
     return toBN(openPrice).times(slippageFactored).toString();
-  }, [openPrice, slippage, positionType, orderType]);
+  }, [orderType, openPrice, slippage, positionType, autoSlippage]);
 
   const openPriceWied = useMemo(
     () => toWei(formatPrice(openPriceFinal, pricePrecision)),
@@ -147,36 +144,29 @@ export function useSentQuoteCallback(): {
     [FALLBACK_CHAIN_ID, PARTY_B_WHITELIST, chainId]
   );
 
-  const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
   const getSignature = useCallback(async () => {
-    if (!SendOrCloseQuoteClient) {
-      return { signature: fakeSignature, price: marketPrice.toString() };
-    }
-
-    if (!activeAccountAddress || !chainId || !DiamondContract || !marketId) {
+    if (
+      !activeAccountAddress ||
+      !chainId ||
+      !DiamondContract ||
+      !marketId ||
+      !SendQuoteClient
+    ) {
       throw new Error("Missing muon params");
     }
 
-    const { success, signature, error } =
-      await SendOrCloseQuoteClient.getMuonSig(
-        activeAccountAddress,
-        chainId,
-        DiamondContract.address,
-        marketId
-      );
+    const { success, signature, error } = await SendQuoteClient.getMuonSig(
+      activeAccountAddress,
+      chainId,
+      DiamondContract.address,
+      marketId
+    );
 
     if (success === false || !signature) {
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
     return { signature };
-  }, [
-    DiamondContract,
-    activeAccountAddress,
-    chainId,
-    fakeSignature,
-    marketId,
-    marketPrice,
-  ]);
+  }, [DiamondContract, activeAccountAddress, chainId, marketId]);
 
   const getNotionalCap = useCallback(async () => {
     if (!market) {

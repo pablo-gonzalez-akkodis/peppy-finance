@@ -13,7 +13,6 @@ import {
 } from "../../hooks/useQuotes";
 
 function toQuoteFromGraph(entity: SubGraphData) {
-  // TODO: fix sub graph
   return {
     id: Number(entity.quoteId),
     partyBsWhiteList: entity.partyBsWhiteList,

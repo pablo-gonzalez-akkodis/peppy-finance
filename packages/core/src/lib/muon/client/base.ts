@@ -1,9 +1,6 @@
 import { makeHttpRequest } from "../../../utils/http";
-import { MUON_BASE_URL } from "../config";
-import { MuonResponseType } from "./types";
 
 export class MuonClient {
-  readonly baseURL: string = MUON_BASE_URL;
   public APP: string;
   public APP_METHOD: string;
 
@@ -12,16 +9,22 @@ export class MuonClient {
     this.APP_METHOD = APP_METHOD;
   }
 
-  public async _sendRequest(requestParams: string[][]) {
-    const MuonURL = new URL(this.baseURL);
+  public async _sendRequest(baseUrl: string, requestParams: string[][]) {
+    const MuonURL = new URL(baseUrl);
     MuonURL.searchParams.set("app", this.APP);
     MuonURL.searchParams.append("method", this.APP_METHOD);
     requestParams.forEach((param) => {
       MuonURL.searchParams.append(`params[${param[0]}]`, param[1]);
     });
 
-    const response = await makeHttpRequest<MuonResponseType>(MuonURL.href);
-    if (!response) throw new Error("Couldn't send Request");
-    return response;
+    try {
+      const response = await makeHttpRequest<{ result: any; success: boolean }>(
+        MuonURL.href
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error during request to ${baseUrl}:`, error);
+      throw error;
+    }
   }
 }

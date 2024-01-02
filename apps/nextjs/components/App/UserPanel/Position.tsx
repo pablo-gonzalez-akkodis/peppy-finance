@@ -654,7 +654,7 @@ function QuoteRow({
 export default function Positions({ quotes }: { quotes: Quote[] }) {
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const mobileVersion = useIsMobile();
+  const isMobile = useIsMobile();
   const [quote, setQuote] = useState<Quote | null>(null);
 
   return (
@@ -675,13 +675,13 @@ export default function Positions({ quotes }: { quotes: Quote[] }) {
       )}
 
       <Wrapper>
-        <TableHeader mobileVersion={mobileVersion} />
+        <TableHeader mobileVersion={isMobile} />
         <TableBody
           quotes={quotes}
           setQuote={setQuote}
           toggleCloseModal={() => setShowCloseModal(true)}
           toggleCancelModal={() => setShowCancelModal(true)}
-          mobileVersion={mobileVersion}
+          mobileVersion={isMobile}
         />
       </Wrapper>
     </>

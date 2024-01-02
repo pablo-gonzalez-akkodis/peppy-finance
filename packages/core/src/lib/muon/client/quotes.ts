@@ -1,19 +1,18 @@
-import { toWei } from "../../../utils/numbers";
-import { DEFAULT_MUON_APP_NAME } from "../config";
+import { toast } from "react-hot-toast";
+
+import { APP_NAME, MUON_BASE_URLS } from "../config";
 import { MuonClient } from "./base";
+import { toWei } from "../../../utils/numbers";
 import { Address } from "viem";
 
 export class QuotesClient extends MuonClient {
   constructor(app?: string) {
-    super({
-      APP: app ?? DEFAULT_MUON_APP_NAME,
-      APP_METHOD: "uPnl_A_withSymbolPrice",
-    });
+    super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A_withSymbolPrice" });
   }
 
   static createInstance(isEnabled: boolean, app?: string): QuotesClient | null {
     if (isEnabled) {
-      return new QuotesClient(app ?? DEFAULT_MUON_APP_NAME);
+      return new QuotesClient(app ?? APP_NAME);
     }
     return null;
   }
@@ -44,7 +43,6 @@ export class QuotesClient extends MuonClient {
     contractAddress?: string,
     marketId?: number
   ) {
-    // TODO: add return type
     try {
       const requestParams = this._getRequestParams(
         account,
@@ -52,22 +50,35 @@ export class QuotesClient extends MuonClient {
         contractAddress,
         marketId
       );
-      if (requestParams instanceof Error) {
-        return {
-          success: false,
-          error: requestParams,
-        };
-      }
+      if (requestParams instanceof Error)
+        throw new Error(requestParams.message);
       console.info("Requesting data from Muon: ", requestParams);
 
-      const { result, success } = await this._sendRequest(requestParams);
+      const toastId = toast.loading("requesting data from Muon...");
+      let result, success;
+
+      for (const url of MUON_BASE_URLS) {
+        try {
+          const res = await this._sendRequest(url, requestParams);
+          if (res) {
+            result = res.result;
+            success = res.success;
+          }
+
+          break; // Exit the loop if successful
+        } catch (error) {
+          console.log("Retrying with the next URL...");
+        }
+      }
+
+      toast.success("Muon responded", {
+        id: toastId,
+      });
+
       console.info("Response from Muon: ", result);
 
       if (!success) {
-        return {
-          success: false,
-          error: new Error("Error in response of Muon"),
-        };
+        throw new Error("");
       }
 
       const reqId = result["reqId"] as Address;
@@ -80,19 +91,20 @@ export class QuotesClient extends MuonClient {
       const owner = result["signatures"][0]["owner"] as Address;
       const nonce = result["data"]["init"]["nonceAddress"] as Address;
 
-      const generatedSignature = [
+      const generatedSignature = {
         reqId,
         timestamp,
         upnl,
-        price ? price : toWei(0),
+        price: price ? price : toWei(0),
         gatewaySignature,
-        [signature, owner, nonce],
-      ];
+        sigs: { signature, owner, nonce },
+      };
 
       return { success: true, signature: generatedSignature };
     } catch (error) {
       console.error(error);
-      console.log("Unable to get response from Muon");
+      toast.remove();
+      toast.error("Unable to get response from Muon");
       return { success: false, error };
     }
   }

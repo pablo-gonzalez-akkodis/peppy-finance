@@ -1,6 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import useWebSocket, { ReadyState } from "react-use-websocket";
-import { JsonValue } from "react-use-websocket/dist/lib/types";
 
 import useIsWindowVisible from "../lib/hooks/useIsWindowVisible";
 
@@ -52,7 +51,7 @@ export default function useFetchFundingRate(name?: string) {
       const json = {
         symbols: windowVisible ? [name] : [],
       };
-      sendJsonMessage(json as unknown as JsonValue);
+      sendJsonMessage(json as any);
     }
   }, [connectionStatus, name, sendJsonMessage, windowVisible]);
 

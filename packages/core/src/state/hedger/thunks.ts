@@ -24,6 +24,7 @@ import {
 } from "./types";
 import { createApolloClient } from "../../apollo/client";
 import { GET_PAID_AMOUNT } from "../../apollo/queries";
+import { toBN } from "../../utils/numbers";
 
 export const getMarkets = createAsyncThunk(
   "hedger/getAllApi",
@@ -67,10 +68,15 @@ export const getMarkets = createAsyncThunk(
             tradingFee: market.trading_fee,
             maxLeverage: market.max_leverage,
             maxNotionalValue: market.max_notional_value,
+            maxFundingRate: market.max_funding_rate,
             rfqAllowed: market?.rfq_allowed,
             hedgerFeeOpen: market.hedger_fee_open,
             hedgerFeeClose: market.hedger_fee_close,
-            maxFundingRate: market.max_funding_rate,
+            autoSlippage: toBN(60)
+              .div(market.max_leverage)
+              .div(100)
+              .plus(1)
+              .toNumber(),
           }));
           count = marketsRes.value.count;
         }

@@ -157,16 +157,7 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
-          <Column>
-            <Name>Funding Rate/Time</Name>
-            <Value>
-              {notionalCapUsed === -1 ? (
-                <Loader size={"12px"} stroke="#EBEBEC" />
-              ) : (
-                <MarketFundingRate />
-              )}
-            </Value>
-          </Column>
+          <MarketFundingRate />
         </HedgerInfos>
       </DataWrap>
       <MarketDepths />

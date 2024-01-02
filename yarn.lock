@@ -1134,7 +1134,7 @@
   dependencies:
     tslib "^2.4.0"
 
-"@symmio/frontend-sdk@file:packages/core":
+"@symmio/frontend-sdk@file:apps/alpha/.yalc/@symmio/frontend-sdk":
   version "0.0.1"
   dependencies:
     "@apollo/client" "^3.7.12"

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
 import toast from "react-hot-toast";
-import BigNumber from "bignumber.js";
 
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 import { Quote } from "@symmio/frontend-sdk/types/quote";
@@ -19,16 +18,11 @@ import {
   formatPrice,
 } from "@symmio/frontend-sdk/utils/numbers";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
-import { MARKET_PRICE_COEFFICIENT } from "@symmio/frontend-sdk/constants/misc";
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import { calculateString, calculationPattern } from "utils/calculationalString";
 
-import {
-  useAccountPartyAStat,
-  useAccountUpnl,
-  useActiveAccount,
-} from "@symmio/frontend-sdk/state/user/hooks";
+import { useActiveAccount } from "@symmio/frontend-sdk/state/user/hooks";
 import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
 import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
@@ -114,7 +108,8 @@ export default function CloseModal({
   const appName = useAppName();
 
   const { accountAddress: account } = useActiveAccount() || {};
-  const { CVA, MM, LF, openedPrice, marketId, positionType } = quote || {};
+  const { CVA, partyAMM, LF, openedPrice, marketId, positionType } =
+    quote || {};
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
@@ -131,7 +126,7 @@ export default function CloseModal({
   } = market || {};
   const correctOpenPrice = formatPrice(openedPrice ?? "0", pricePrecision);
   const marketData = useMarketData(marketName);
-  const { upnl } = useAccountUpnl() || {};
+
   const { markPrice } = marketData || {};
   const { baseUrl, fetchData } = useHedgerInfo() || {};
   const [calculationMode, setCalculationMode] = useState(false);
@@ -141,9 +136,6 @@ export default function CloseModal({
     [markPrice]
   );
   const lastMarketPrice = useClosingLastMarketPrice(quote, market);
-
-  const { allocatedBalance, lockedCVA, lockedLF } =
-    useAccountPartyAStat(account);
 
   const leverage = useQuoteLeverage(quote ?? ({} as Quote));
   const [marketUpnlBN] = useQuoteUpnlAndPnl(
@@ -199,10 +191,10 @@ export default function CloseModal({
   );
 
   const quoteLockedMargin = useMemo(() => {
-    return CVA && MM && LF
-      ? toBN(CVA).plus(MM).plus(LF).toString()
+    return CVA && partyAMM && LF
+      ? toBN(CVA).plus(partyAMM).plus(LF).toString()
       : BN_ZERO.toString();
-  }, [CVA, LF, MM]);
+  }, [CVA, LF, partyAMM]);
 
   const outOfRangePrice = useMemo(() => {
     // check limit price range)
@@ -236,52 +228,6 @@ export default function CloseModal({
         : "0",
     [quote, quantityPrecision]
   );
-
-  const postSolvencyValue = useMemo(() => {
-    if (!quote) return BN_ZERO.toString();
-
-    const { CVA, LF, positionType } = quote;
-
-    if (activeTab === OrderType.LIMIT) {
-      const priceBN = toBN(price);
-      if (
-        (positionType === PositionType.LONG &&
-          priceBN.minus(markPriceBN).gt(0)) ||
-        (positionType === PositionType.SHORT &&
-          toBN(markPriceBN).minus(priceBN).gt(0))
-      ) {
-        return availableAmount;
-      }
-    }
-
-    const quoteUnlockedAmount = toBN(CVA).plus(LF).div(availableAmount);
-    const effectivePrice =
-      activeTab === OrderType.MARKET
-        ? toBN(markPriceBN).times(MARKET_PRICE_COEFFICIENT - 1)
-        : toBN(markPriceBN).minus(price).abs();
-
-    const numerator = toBN(lockedCVA)
-      .plus(lockedLF)
-      .minus(allocatedBalance)
-      .minus(upnl);
-    const denominator = quoteUnlockedAmount.minus(effectivePrice);
-    if (denominator.isGreaterThanOrEqualTo(0)) return availableAmount;
-    return formatPrice(
-      BigNumber.min(numerator.div(denominator), availableAmount),
-      quantityPrecision
-    );
-  }, [
-    activeTab,
-    allocatedBalance,
-    availableAmount,
-    lockedCVA,
-    lockedLF,
-    markPriceBN,
-    price,
-    quantityPrecision,
-    quote,
-    upnl,
-  ]);
 
   const availableToClose = useMemo(() => {
     if (!minAcceptableQuoteValue) return BN_ZERO.toString();
@@ -344,18 +290,8 @@ export default function CloseModal({
       return ErrorState.REMAINING_AMOUNT_UNDER_10;
     }
 
-    if (toBN(postSolvencyValue).lt(size)) {
-      return ErrorState.PARTIAL_CLOSE_WITH_SLIPPAGE;
-    }
-
     return ErrorState.VALID;
-  }, [
-    availableAmount,
-    size,
-    outOfRangePrice,
-    availableToClose,
-    postSolvencyValue,
-  ]);
+  }, [availableAmount, size, outOfRangePrice, availableToClose]);
 
   const closeModal = useCallback(() => {
     setSize("");
@@ -394,8 +330,6 @@ export default function CloseModal({
           Awaiting Confirmation <DotFlashing />
         </PrimaryButton>
       );
-    } else if (state === ErrorState.PARTIAL_CLOSE_WITH_SLIPPAGE) {
-      return <ErrorButton state={state} liquidationButton={true} />;
     } else if (state) {
       return (
         <ErrorButton state={state} exclamationMark={true} disabled={true} />
@@ -511,20 +445,18 @@ export default function CloseModal({
             />
           </>
         )}
-        {!toBN(postSolvencyValue).isNaN() && (
-          <GuidesDropDown
-            symbol={symbol}
-            setSize={setSize}
-            setActiveTab={setActiveTab}
-            notionalValue={formatPrice(
-              toBN(markPriceBN).times(availableAmount),
-              pricePrecision
-            )}
-            availableAmount={availableAmount}
-            postSolvencyValue={postSolvencyValue}
-            availableToClose={availableToClose}
-          />
-        )}
+
+        <GuidesDropDown
+          symbol={symbol}
+          setSize={setSize}
+          setActiveTab={setActiveTab}
+          notionalValue={formatPrice(
+            toBN(markPriceBN).times(availableAmount),
+            pricePrecision
+          )}
+          availableAmount={availableAmount}
+          availableToClose={availableToClose}
+        />
 
         <InfoWrapper>
           <DataRow>

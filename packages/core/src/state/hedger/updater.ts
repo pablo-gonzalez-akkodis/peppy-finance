@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty.js";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
-import { JsonValue } from "react-use-websocket/dist/lib/types";
 
 // const useWebSocket = useWebSocketRaw.useWebSocket;
 // TODO: fix this { ReadyState } from "react-use-websocket"
@@ -333,7 +332,7 @@ function useFundingRateWebSocket() {
       const json = {
         symbols: windowVisible ? [activeMarket.name] : [],
       };
-      sendJsonMessage(json as unknown as JsonValue);
+      sendJsonMessage(json as any);
     }
   }, [connectionStatus, sendJsonMessage, windowVisible, activeMarket]);
 

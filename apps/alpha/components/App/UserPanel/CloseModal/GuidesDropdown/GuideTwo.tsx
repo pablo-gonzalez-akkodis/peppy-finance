@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { useTheme } from "styled-components";
 
 import { toBN } from "@symmio/frontend-sdk/utils/numbers";
@@ -45,13 +46,13 @@ export default function GuideTwo({
     availabilityColor?: string
   ): JSX.Element {
     return (
-      <>
+      <React.Fragment>
         <ColoredBox color={boxColor} />
         <Label color={availabilityColor}>
           <div>{text}</div>
           {availability && <div>({availability})</div>}
         </Label>
-      </>
+      </React.Fragment>
     );
   }
 
@@ -120,12 +121,12 @@ export default function GuideTwo({
             {toBN(maxPartiallyClose).isEqualTo(0) ? (
               ""
             ) : (
-              <>
+              <React.Fragment>
                 <span onClick={() => setSize(maxPartiallyClose)}>
                   Partial close
                 </span>
                 , or
-              </>
+              </React.Fragment>
             )}{" "}
             <span onClick={() => setActiveTab(OrderType.LIMIT)}>
               Limit Orders

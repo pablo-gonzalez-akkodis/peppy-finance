@@ -6,7 +6,6 @@ export type Account = {
 export type AccountUpnl = {
   upnl: number;
   timestamp: number;
-  available_balance: number;
 };
 
 export type UserPartyAStatDetail = {

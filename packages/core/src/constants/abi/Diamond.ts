@@ -1,97 +1,608 @@
 export default [
   {
+    anonymous: false,
     inputs: [
       {
-        internalType: "bytes4",
-        name: "_functionSelector",
-        type: "bytes4",
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
       },
-    ],
-    name: "facetAddress",
-    outputs: [
       {
-        internalType: "address",
-        name: "facetAddress_",
-        type: "address",
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
-    type: "function",
+    name: "ExpireQuote",
+    type: "event",
   },
   {
-    inputs: [],
-    name: "facetAddresses",
-    outputs: [
+    anonymous: false,
+    inputs: [
       {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "ForceCancelCloseRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "ForceCancelQuote",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "closedPrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "ForceClosePosition",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "RequestToCancelCloseRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "RequestToCancelQuote",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "closePrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quantityToClose",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum OrderType",
+        name: "orderType",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "RequestToClosePosition",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
         internalType: "address[]",
-        name: "facetAddresses_",
+        name: "partyBsWhiteList",
         type: "address[]",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "symbolId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum PositionType",
+        name: "positionType",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "enum OrderType",
+        name: "orderType",
+        type: "uint8",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "marketPrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "cva",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "lf",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "partyAmm",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "partyBmm",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tradingFee",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
     ],
-    stateMutability: "view",
+    name: "SendQuote",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256[]",
+        name: "expiredQuoteIds",
+        type: "uint256[]",
+      },
+    ],
+    name: "expireQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
       {
-        internalType: "address",
-        name: "_facet",
-        type: "address",
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
       },
     ],
-    name: "facetFunctionSelectors",
-    outputs: [
-      {
-        internalType: "bytes4[]",
-        name: "_facetFunctionSelectors",
-        type: "bytes4[]",
-      },
-    ],
-    stateMutability: "view",
+    name: "forceCancelCloseRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [],
-    name: "facets",
-    outputs: [
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "forceCancelQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
       {
         components: [
           {
-            internalType: "address",
-            name: "facetAddress",
-            type: "address",
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
           },
           {
-            internalType: "bytes4[]",
-            name: "functionSelectors",
-            type: "bytes4[]",
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
           },
         ],
-        internalType: "struct IDiamondLoupe.Facet[]",
-        name: "facets_",
-        type: "tuple[]",
+        internalType: "struct PairUpnlAndPriceSig",
+        name: "upnlSig",
+        type: "tuple",
       },
     ],
-    stateMutability: "view",
+    name: "forceClosePosition",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
       {
-        internalType: "bytes4",
-        name: "_interfaceId",
-        type: "bytes4",
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
       },
     ],
-    name: "supportsInterface",
-    outputs: [
+    name: "requestToCancelCloseRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
       {
-        internalType: "bool",
-        name: "",
-        type: "bool",
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
       },
     ],
-    stateMutability: "view",
+    name: "requestToCancelQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "closePrice",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "quantityToClose",
+        type: "uint256",
+      },
+      {
+        internalType: "enum OrderType",
+        name: "orderType",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+    ],
+    name: "requestToClosePosition",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address[]",
+        name: "partyBsWhiteList",
+        type: "address[]",
+      },
+      {
+        internalType: "uint256",
+        name: "symbolId",
+        type: "uint256",
+      },
+      {
+        internalType: "enum PositionType",
+        name: "positionType",
+        type: "uint8",
+      },
+      {
+        internalType: "enum OrderType",
+        name: "orderType",
+        type: "uint8",
+      },
+      {
+        internalType: "uint256",
+        name: "price",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "quantity",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "cva",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "lf",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "partyAmm",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "partyBmm",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "maxFundingRate",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "deadline",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlAndPriceSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "sendQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -898,29 +1409,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "collateral",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "feeCollector",
-        type: "address",
-      },
-    ],
-    name: "init",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     inputs: [],
     name: "pauseAccounting",
     outputs: [],
@@ -1332,6 +1820,19 @@ export default [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "address",
+        name: "owner",
+        type: "address",
+      },
+    ],
+    name: "transferOwnership",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [],
     name: "unpauseAccounting",
     outputs: [],
@@ -1377,6 +1878,1802 @@ export default [
     name: "unsuspendedAddress",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256[]",
+        name: "quoteIds",
+        type: "uint256[]",
+      },
+      {
+        indexed: false,
+        internalType: "int256[]",
+        name: "rates",
+        type: "int256[]",
+      },
+    ],
+    name: "ChargeFundingRate",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        internalType: "uint256[]",
+        name: "quoteIds",
+        type: "uint256[]",
+      },
+      {
+        internalType: "int256[]",
+        name: "rates",
+        type: "int256[]",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct PairUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "chargeFundingRate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "facetAddress",
+            type: "address",
+          },
+          {
+            internalType: "enum IDiamondCut.FacetCutAction",
+            name: "action",
+            type: "uint8",
+          },
+          {
+            internalType: "bytes4[]",
+            name: "functionSelectors",
+            type: "bytes4[]",
+          },
+        ],
+        indexed: false,
+        internalType: "struct IDiamondCut.FacetCut[]",
+        name: "_diamondCut",
+        type: "tuple[]",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "_init",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "bytes",
+        name: "_calldata",
+        type: "bytes",
+      },
+    ],
+    name: "DiamondCut",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "facetAddress",
+            type: "address",
+          },
+          {
+            internalType: "enum IDiamondCut.FacetCutAction",
+            name: "action",
+            type: "uint8",
+          },
+          {
+            internalType: "bytes4[]",
+            name: "functionSelectors",
+            type: "bytes4[]",
+          },
+        ],
+        internalType: "struct IDiamondCut.FacetCut[]",
+        name: "_diamondCut",
+        type: "tuple[]",
+      },
+      {
+        internalType: "address",
+        name: "_init",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "_calldata",
+        type: "bytes",
+      },
+    ],
+    name: "diamondCut",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "AcceptCancelCloseRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "AcceptCancelRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "AllocatePartyB",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "closedPrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "EmergencyClosePosition",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "closedPrice",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "FillCloseRequest",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "LockQuote",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "openedPrice",
+        type: "uint256",
+      },
+    ],
+    name: "OpenPosition",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "enum QuoteStatus",
+        name: "quoteStatus",
+        type: "uint8",
+      },
+    ],
+    name: "UnlockQuote",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "acceptCancelCloseRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "acceptCancelRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct PairUpnlAndPriceSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "emergencyClosePosition",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "closedPrice",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct PairUpnlAndPriceSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "fillCloseRequest",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "openedPrice",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct PairUpnlAndPriceSig",
+        name: "pairUpnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "lockAndOpenQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "lockQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "filledAmount",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "openedPrice",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyA",
+            type: "int256",
+          },
+          {
+            internalType: "int256",
+            name: "upnlPartyB",
+            type: "int256",
+          },
+          {
+            internalType: "uint256",
+            name: "price",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct PairUpnlAndPriceSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "openPosition",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "quoteId",
+        type: "uint256",
+      },
+    ],
+    name: "unlockQuote",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "AllocateForPartyB",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "AllocatePartyA",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyB",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "DeallocateForPartyB",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "DeallocatePartyA",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Deposit",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "origin",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+    ],
+    name: "TransferAllocation",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "sender",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "Withdraw",
+    type: "event",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "allocate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+    ],
+    name: "allocateForPartyB",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "deallocate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "deallocateForPartyB",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "deposit",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "depositAndAllocate",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "depositFor",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+      {
+        internalType: "address",
+        name: "origin",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "recipient",
+        type: "address",
+      },
+      {
+        components: [
+          {
+            internalType: "bytes",
+            name: "reqId",
+            type: "bytes",
+          },
+          {
+            internalType: "uint256",
+            name: "timestamp",
+            type: "uint256",
+          },
+          {
+            internalType: "int256",
+            name: "upnl",
+            type: "int256",
+          },
+          {
+            internalType: "bytes",
+            name: "gatewaySignature",
+            type: "bytes",
+          },
+          {
+            components: [
+              {
+                internalType: "uint256",
+                name: "signature",
+                type: "uint256",
+              },
+              {
+                internalType: "address",
+                name: "owner",
+                type: "address",
+              },
+              {
+                internalType: "address",
+                name: "nonce",
+                type: "address",
+              },
+            ],
+            internalType: "struct SchnorrSign",
+            name: "sigs",
+            type: "tuple",
+          },
+        ],
+        internalType: "struct SingleUpnlSig",
+        name: "upnlSig",
+        type: "tuple",
+      },
+    ],
+    name: "transferAllocation",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "withdraw",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
+    ],
+    name: "withdrawTo",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "aggregate",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes[]",
+        name: "returnData",
+        type: "bytes[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "allowFailure",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call3[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "aggregate3",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "success",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "returnData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bool",
+            name: "allowFailure",
+            type: "bool",
+          },
+          {
+            internalType: "uint256",
+            name: "value",
+            type: "uint256",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call3Value[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "aggregate3Value",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "success",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "returnData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "blockAndAggregate",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "blockHash",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "success",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "returnData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getBasefee",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "basefee",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+    ],
+    name: "getBlockHash",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "blockHash",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getBlockNumber",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getChainId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "chainid",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCurrentBlockCoinbase",
+    outputs: [
+      {
+        internalType: "address",
+        name: "coinbase",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCurrentBlockDifficulty",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "difficulty",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCurrentBlockGasLimit",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "gaslimit",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getCurrentBlockTimestamp",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "timestamp",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "addr",
+        type: "address",
+      },
+    ],
+    name: "getEthBalance",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "balance",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getLastBlockHash",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "blockHash",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "requireSuccess",
+        type: "bool",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "tryAggregate",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "success",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "returnData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bool",
+        name: "requireSuccess",
+        type: "bool",
+      },
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "target",
+            type: "address",
+          },
+          {
+            internalType: "bytes",
+            name: "callData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Call[]",
+        name: "calls",
+        type: "tuple[]",
+      },
+    ],
+    name: "tryBlockAndAggregate",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "blockNumber",
+        type: "uint256",
+      },
+      {
+        internalType: "bytes32",
+        name: "blockHash",
+        type: "bytes32",
+      },
+      {
+        components: [
+          {
+            internalType: "bool",
+            name: "success",
+            type: "bool",
+          },
+          {
+            internalType: "bytes",
+            name: "returnData",
+            type: "bytes",
+          },
+        ],
+        internalType: "struct Multicall3.Result[]",
+        name: "returnData",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -1792,6 +4089,19 @@ export default [
         internalType: "address",
         name: "validGateway",
         type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "getNextQuoteId",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
       },
     ],
     stateMutability: "view",
@@ -3664,6 +5974,101 @@ export default [
     type: "function",
   },
   {
+    inputs: [
+      {
+        internalType: "bytes4",
+        name: "_functionSelector",
+        type: "bytes4",
+      },
+    ],
+    name: "facetAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "facetAddress_",
+        type: "address",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "facetAddresses",
+    outputs: [
+      {
+        internalType: "address[]",
+        name: "facetAddresses_",
+        type: "address[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "_facet",
+        type: "address",
+      },
+    ],
+    name: "facetFunctionSelectors",
+    outputs: [
+      {
+        internalType: "bytes4[]",
+        name: "_facetFunctionSelectors",
+        type: "bytes4[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "facets",
+    outputs: [
+      {
+        components: [
+          {
+            internalType: "address",
+            name: "facetAddress",
+            type: "address",
+          },
+          {
+            internalType: "bytes4[]",
+            name: "functionSelectors",
+            type: "bytes4[]",
+          },
+        ],
+        internalType: "struct IDiamondLoupe.Facet[]",
+        name: "facets_",
+        type: "tuple[]",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes4",
+        name: "_interfaceId",
+        type: "bytes4",
+      },
+    ],
+    name: "supportsInterface",
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     anonymous: false,
     inputs: [
       {
@@ -3680,6 +6085,19 @@ export default [
       },
     ],
     name: "DisputeForLiquidation",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+    ],
+    name: "FullyLiquidatedPartyA",
     type: "event",
   },
   {
@@ -3716,6 +6134,24 @@ export default [
         name: "partyA",
         type: "address",
       },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "allocatedBalance",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "int256",
+        name: "upnl",
+        type: "int256",
+      },
+      {
+        indexed: false,
+        internalType: "int256",
+        name: "totalUnrealizedLoss",
+        type: "int256",
+      },
     ],
     name: "LiquidatePartyA",
     type: "event",
@@ -3740,6 +6176,18 @@ export default [
         internalType: "address",
         name: "partyA",
         type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "partyBAllocatedBalance",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "int256",
+        name: "upnl",
+        type: "int256",
       },
     ],
     name: "LiquidatePartyB",
@@ -3839,6 +6287,37 @@ export default [
       {
         indexed: false,
         internalType: "address",
+        name: "partyA",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "address[]",
+        name: "partyBs",
+        type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "int256[]",
+        name: "amounts",
+        type: "int256[]",
+      },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "disputed",
+        type: "bool",
+      },
+    ],
+    name: "ResolveLiquidationDispute",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: "address",
         name: "liquidator",
         type: "address",
       },
@@ -3878,6 +6357,12 @@ export default [
         internalType: "address[]",
         name: "partyBs",
         type: "address[]",
+      },
+      {
+        indexed: false,
+        internalType: "int256[]",
+        name: "amounts",
+        type: "int256[]",
       },
     ],
     name: "SettlePartyALiquidation",
@@ -4261,2408 +6746,6 @@ export default [
     name: "settlePartyALiquidation",
     outputs: [],
     stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "ExpireQuote",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "ForceCancelCloseRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "ForceCancelQuote",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "closedPrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "ForceClosePosition",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "RequestToCancelCloseRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "RequestToCancelQuote",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "closePrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quantityToClose",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum OrderType",
-        name: "orderType",
-        type: "uint8",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "deadline",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "RequestToClosePosition",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address[]",
-        name: "partyBsWhiteList",
-        type: "address[]",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "symbolId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum PositionType",
-        name: "positionType",
-        type: "uint8",
-      },
-      {
-        indexed: false,
-        internalType: "enum OrderType",
-        name: "orderType",
-        type: "uint8",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "marketPrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quantity",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "cva",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "lf",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "partyAmm",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "partyBmm",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "maxFundingRate",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "deadline",
-        type: "uint256",
-      },
-    ],
-    name: "SendQuote",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256[]",
-        name: "expiredQuoteIds",
-        type: "uint256[]",
-      },
-    ],
-    name: "expireQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "forceCancelCloseRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "forceCancelQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlAndPriceSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "forceClosePosition",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "requestToCancelCloseRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "requestToCancelQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "closePrice",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "quantityToClose",
-        type: "uint256",
-      },
-      {
-        internalType: "enum OrderType",
-        name: "orderType",
-        type: "uint8",
-      },
-      {
-        internalType: "uint256",
-        name: "deadline",
-        type: "uint256",
-      },
-    ],
-    name: "requestToClosePosition",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address[]",
-        name: "partyBsWhiteList",
-        type: "address[]",
-      },
-      {
-        internalType: "uint256",
-        name: "symbolId",
-        type: "uint256",
-      },
-      {
-        internalType: "enum PositionType",
-        name: "positionType",
-        type: "uint8",
-      },
-      {
-        internalType: "enum OrderType",
-        name: "orderType",
-        type: "uint8",
-      },
-      {
-        internalType: "uint256",
-        name: "price",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "quantity",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "cva",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "lf",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "partyAmm",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "partyBmm",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "maxFundingRate",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "deadline",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlAndPriceSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "sendQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "facetAddress",
-            type: "address",
-          },
-          {
-            internalType: "enum IDiamondCut.FacetCutAction",
-            name: "action",
-            type: "uint8",
-          },
-          {
-            internalType: "bytes4[]",
-            name: "functionSelectors",
-            type: "bytes4[]",
-          },
-        ],
-        indexed: false,
-        internalType: "struct IDiamondCut.FacetCut[]",
-        name: "_diamondCut",
-        type: "tuple[]",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "_init",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "bytes",
-        name: "_calldata",
-        type: "bytes",
-      },
-    ],
-    name: "DiamondCut",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "facetAddress",
-            type: "address",
-          },
-          {
-            internalType: "enum IDiamondCut.FacetCutAction",
-            name: "action",
-            type: "uint8",
-          },
-          {
-            internalType: "bytes4[]",
-            name: "functionSelectors",
-            type: "bytes4[]",
-          },
-        ],
-        internalType: "struct IDiamondCut.FacetCut[]",
-        name: "_diamondCut",
-        type: "tuple[]",
-      },
-      {
-        internalType: "address",
-        name: "_init",
-        type: "address",
-      },
-      {
-        internalType: "bytes",
-        name: "_calldata",
-        type: "bytes",
-      },
-    ],
-    name: "diamondCut",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "AllocateForPartyB",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "AllocatePartyA",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "DeallocateForPartyB",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "DeallocatePartyA",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "Deposit",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "origin",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-    ],
-    name: "TransferAllocation",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "Withdraw",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "allocate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-    ],
-    name: "allocateForPartyB",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "deallocate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "deallocateForPartyB",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "deposit",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "depositAndAllocate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "depositFor",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-      {
-        internalType: "address",
-        name: "origin",
-        type: "address",
-      },
-      {
-        internalType: "address",
-        name: "recipient",
-        type: "address",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "transferAllocation",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdraw",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "user",
-        type: "address",
-      },
-      {
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "withdrawTo",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "AcceptCancelCloseRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "AcceptCancelRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "AllocatePartyB",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256[]",
-        name: "quoteIds",
-        type: "uint256[]",
-      },
-      {
-        indexed: false,
-        internalType: "int256[]",
-        name: "rates",
-        type: "int256[]",
-      },
-    ],
-    name: "ChargeFundingRate",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "closedPrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "EmergencyClosePosition",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "closedPrice",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "FillCloseRequest",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "LockQuote",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "openedPrice",
-        type: "uint256",
-      },
-    ],
-    name: "OpenPosition",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: false,
-        internalType: "address",
-        name: "partyB",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
-        internalType: "enum QuoteStatus",
-        name: "quoteStatus",
-        type: "uint8",
-      },
-    ],
-    name: "UnlockQuote",
-    type: "event",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "acceptCancelCloseRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "acceptCancelRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "partyA",
-        type: "address",
-      },
-      {
-        internalType: "uint256[]",
-        name: "quoteIds",
-        type: "uint256[]",
-      },
-      {
-        internalType: "int256[]",
-        name: "rates",
-        type: "int256[]",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "chargeFundingRate",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlAndPriceSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "emergencyClosePosition",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "closedPrice",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlAndPriceSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "fillCloseRequest",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "openedPrice",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlAndPriceSig",
-        name: "pairUpnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "lockAndOpenQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnl",
-            type: "int256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct SingleUpnlSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "lockQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "filledAmount",
-        type: "uint256",
-      },
-      {
-        internalType: "uint256",
-        name: "openedPrice",
-        type: "uint256",
-      },
-      {
-        components: [
-          {
-            internalType: "bytes",
-            name: "reqId",
-            type: "bytes",
-          },
-          {
-            internalType: "uint256",
-            name: "timestamp",
-            type: "uint256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyA",
-            type: "int256",
-          },
-          {
-            internalType: "int256",
-            name: "upnlPartyB",
-            type: "int256",
-          },
-          {
-            internalType: "uint256",
-            name: "price",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "gatewaySignature",
-            type: "bytes",
-          },
-          {
-            components: [
-              {
-                internalType: "uint256",
-                name: "signature",
-                type: "uint256",
-              },
-              {
-                internalType: "address",
-                name: "owner",
-                type: "address",
-              },
-              {
-                internalType: "address",
-                name: "nonce",
-                type: "address",
-              },
-            ],
-            internalType: "struct SchnorrSign",
-            name: "sigs",
-            type: "tuple",
-          },
-        ],
-        internalType: "struct PairUpnlAndPriceSig",
-        name: "upnlSig",
-        type: "tuple",
-      },
-    ],
-    name: "openPosition",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "quoteId",
-        type: "uint256",
-      },
-    ],
-    name: "unlockQuote",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "aggregate",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "blockNumber",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes[]",
-        name: "returnData",
-        type: "bytes[]",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bool",
-            name: "allowFailure",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call3[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "aggregate3",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "bool",
-            name: "success",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "returnData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Result[]",
-        name: "returnData",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bool",
-            name: "allowFailure",
-            type: "bool",
-          },
-          {
-            internalType: "uint256",
-            name: "value",
-            type: "uint256",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call3Value[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "aggregate3Value",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "bool",
-            name: "success",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "returnData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Result[]",
-        name: "returnData",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "blockAndAggregate",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "blockNumber",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes32",
-        name: "blockHash",
-        type: "bytes32",
-      },
-      {
-        components: [
-          {
-            internalType: "bool",
-            name: "success",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "returnData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Result[]",
-        name: "returnData",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getBasefee",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "basefee",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "uint256",
-        name: "blockNumber",
-        type: "uint256",
-      },
-    ],
-    name: "getBlockHash",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "blockHash",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getBlockNumber",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "blockNumber",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getChainId",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "chainid",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getCurrentBlockCoinbase",
-    outputs: [
-      {
-        internalType: "address",
-        name: "coinbase",
-        type: "address",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getCurrentBlockDifficulty",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "difficulty",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getCurrentBlockGasLimit",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "gaslimit",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getCurrentBlockTimestamp",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "timestamp",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "address",
-        name: "addr",
-        type: "address",
-      },
-    ],
-    name: "getEthBalance",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "balance",
-        type: "uint256",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [],
-    name: "getLastBlockHash",
-    outputs: [
-      {
-        internalType: "bytes32",
-        name: "blockHash",
-        type: "bytes32",
-      },
-    ],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "requireSuccess",
-        type: "bool",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "tryAggregate",
-    outputs: [
-      {
-        components: [
-          {
-            internalType: "bool",
-            name: "success",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "returnData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Result[]",
-        name: "returnData",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
-    inputs: [
-      {
-        internalType: "bool",
-        name: "requireSuccess",
-        type: "bool",
-      },
-      {
-        components: [
-          {
-            internalType: "address",
-            name: "target",
-            type: "address",
-          },
-          {
-            internalType: "bytes",
-            name: "callData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Call[]",
-        name: "calls",
-        type: "tuple[]",
-      },
-    ],
-    name: "tryBlockAndAggregate",
-    outputs: [
-      {
-        internalType: "uint256",
-        name: "blockNumber",
-        type: "uint256",
-      },
-      {
-        internalType: "bytes32",
-        name: "blockHash",
-        type: "bytes32",
-      },
-      {
-        components: [
-          {
-            internalType: "bool",
-            name: "success",
-            type: "bool",
-          },
-          {
-            internalType: "bytes",
-            name: "returnData",
-            type: "bytes",
-          },
-        ],
-        internalType: "struct Multicall3.Result[]",
-        name: "returnData",
-        type: "tuple[]",
-      },
-    ],
-    stateMutability: "payable",
     type: "function",
   },
 ] as const;

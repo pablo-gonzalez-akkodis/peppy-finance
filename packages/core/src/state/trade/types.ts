@@ -20,5 +20,4 @@ export interface GetLockedParamUrlResponse {
   partyAmm: string;
   partyBmm: string;
   lf: string;
-  leverage: string;
 }

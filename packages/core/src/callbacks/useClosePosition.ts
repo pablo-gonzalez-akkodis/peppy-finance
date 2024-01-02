@@ -64,8 +64,6 @@ export function useClosePosition(
 
   const functionName = "requestToClosePosition";
 
-  const slippage = useSlippageTolerance();
-
   const market = useMarket(quote?.marketId);
   const marketData = useMarketData(market?.name);
   const positionType = quote?.positionType;
@@ -73,6 +71,9 @@ export function useClosePosition(
     () => market?.pricePrecision ?? DEFAULT_PRECISION,
     [market]
   );
+
+  const slippage = useSlippageTolerance();
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
 
   const markPriceBN = useMemo(() => {
     if (!marketData || !marketData.markPrice) return BN_ZERO;
@@ -97,15 +98,15 @@ export function useClosePosition(
 
     if (slippage === "auto") {
       return positionType === PositionType.SHORT
-        ? closePriceBN.times(MARKET_PRICE_COEFFICIENT)
-        : closePriceBN.div(MARKET_PRICE_COEFFICIENT);
+        ? closePriceBN.times(autoSlippage)
+        : closePriceBN.div(autoSlippage);
     }
 
     const spSigned =
       positionType === PositionType.SHORT ? slippage * -1 : slippage;
     const slippageFactored = toBN(100 - spSigned).div(100);
     return toBN(closePriceBN).times(slippageFactored);
-  }, [closePriceBN, slippage, positionType, orderType]);
+  }, [orderType, closePriceBN, slippage, positionType, autoSlippage]);
 
   //TODO: remove this way
   const closePriceWied = useMemo(

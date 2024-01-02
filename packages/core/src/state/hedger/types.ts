@@ -17,7 +17,8 @@ export interface MarketDepthData {
 
 export interface FundingRateData {
   next_funding_time: number;
-  next_funding_rate: string;
+  next_funding_rate_long: string;
+  next_funding_rate_short: string;
 }
 
 export interface PriceResponse {

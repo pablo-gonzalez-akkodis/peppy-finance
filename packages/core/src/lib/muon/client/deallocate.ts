@@ -1,10 +1,11 @@
-import { Address } from "viem";
-import { DEFAULT_MUON_APP_NAME } from "../config";
+import { toast } from "react-hot-toast";
+import { APP_NAME, MUON_BASE_URLS } from "../config";
 import { MuonClient } from "./base";
+import { Address } from "viem";
 
 export class DeallocateClient extends MuonClient {
   constructor(app?: string) {
-    super({ APP: app ?? DEFAULT_MUON_APP_NAME, APP_METHOD: "uPnl_A" });
+    super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A" });
   }
 
   static createInstance(
@@ -12,7 +13,7 @@ export class DeallocateClient extends MuonClient {
     app?: string
   ): DeallocateClient | null {
     if (isEnabled) {
-      return new DeallocateClient(app ?? DEFAULT_MUON_APP_NAME);
+      return new DeallocateClient(app ?? APP_NAME);
     }
     return null;
   }
@@ -39,31 +40,41 @@ export class DeallocateClient extends MuonClient {
     chainId?: number,
     contractAddress?: string
   ) {
-    // TODO: add return type
-
     try {
       const requestParams = this._getRequestParams(
         account,
         chainId,
         contractAddress
       );
+      if (requestParams instanceof Error)
+        throw new Error(requestParams.message);
+      console.info("Requesting data from Muon: ", requestParams);
 
-      if (requestParams instanceof Error) {
-        return {
-          success: false,
-          error: requestParams,
-        };
+      const toastId = toast.loading("requesting data from Muon...");
+      let result, success;
+
+      for (const url of MUON_BASE_URLS) {
+        try {
+          const res = await this._sendRequest(url, requestParams);
+          if (res) {
+            result = res.result;
+            success = res.success;
+          }
+
+          break; // Exit the loop if successful
+        } catch (error) {
+          console.log("Retrying with the next URL...");
+        }
       }
 
-      console.info("Requesting data from Muon: ", requestParams);
-      const { result, success } = await this._sendRequest(requestParams);
+      toast.success("Muon responded", {
+        id: toastId,
+      });
+
       console.info("Response from Muon: ", result);
 
       if (!success) {
-        return {
-          success: false,
-          error: new Error("Error in response of Muon"),
-        };
+        throw new Error("");
       }
 
       const reqId = result["reqId"] as Address;
@@ -73,18 +84,20 @@ export class DeallocateClient extends MuonClient {
       const signature = BigInt(result["signatures"][0]["signature"]);
       const owner = result["signatures"][0]["owner"] as Address;
       const nonce = result["data"]["init"]["nonceAddress"] as Address;
-      const generatedSignature = [
+
+      const generatedSignature = {
         reqId,
         timestamp,
         upnl,
         gatewaySignature,
-        [signature, owner, nonce],
-      ];
+        sigs: { signature, owner, nonce },
+      };
 
       return { success: true, signature: generatedSignature };
     } catch (error) {
       console.error(error);
-      console.log("Unable to get response from Muon");
+      toast.remove();
+      toast.error("Unable to get response from Muon");
       return { success: false, error };
     }
   }

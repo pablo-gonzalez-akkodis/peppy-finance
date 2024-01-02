@@ -46,13 +46,13 @@ export default function GuideTwo({
     availabilityColor?: string
   ): JSX.Element {
     return (
-      <>
+      <React.Fragment>
         <ColoredBox color={boxColor} />
         <Label color={availabilityColor}>
           <div>{text}</div>
           {availability && <div>({availability})</div>}
         </Label>
-      </>
+      </React.Fragment>
     );
   }
 

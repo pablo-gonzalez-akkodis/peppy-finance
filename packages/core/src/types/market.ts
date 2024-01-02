@@ -12,9 +12,10 @@ export interface Market {
   maxLeverage: number;
   maxNotionalValue: number;
   rfqAllowed?: boolean;
+  maxFundingRate: string;
   hedgerFeeOpen: string;
   hedgerFeeClose: string;
-  maxFundingRate: string;
+  autoSlippage: number;
 }
 
 export interface MarketResponseType {

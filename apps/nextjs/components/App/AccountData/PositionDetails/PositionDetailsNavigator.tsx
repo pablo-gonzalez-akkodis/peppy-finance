@@ -15,7 +15,7 @@ import { PreviousIcon } from "./styles";
 import { RowEnd } from "components/Row";
 import { NextIcon } from "components/Icons";
 import { ItemsPerPage } from "components/App/UserPanel/PaginateTable";
-import { sortQuotesByModifyTimestamp } from "@symmio-client/core/hooks/useQuotes";
+import { sortQuotesByModifyTimestamp } from "@symmio/frontend-sdk/hooks/useQuotes";
 
 const ChangePositionBtn = styled.button<{ disabled?: boolean }>`
   display: flex;

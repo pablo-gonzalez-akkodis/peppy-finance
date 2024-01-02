@@ -28,11 +28,17 @@ import {
   useQuoteUpnlAndPnl,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
 import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
+import { FundingRateData } from "@symmio/frontend-sdk/state/hedger/types";
+import useFetchFundingRate, {
+  shouldPayFundingRate,
+  useGetPaidAmount,
+} from "@symmio/frontend-sdk/hooks/useFundingRate";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import { RowEnd, Row as RowComponent } from "components/Row";
 import ClosePendingDetails from "./ClosedSizeDetails/ClosePendingDetails";
 import ClosedAmountDetails from "./ClosedSizeDetails/ClosedAmountDetails";
-import { LongArrow, ShortArrow } from "components/Icons";
+import { Loader, LongArrow, ShortArrow } from "components/Icons";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 import { PositionActionButton } from "components/Button";
 import {
@@ -53,8 +59,6 @@ import {
   FlexColumn,
 } from "components/App/AccountData/PositionDetails/styles";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
-import { FundingRateData } from "@symmio/frontend-sdk/state/hedger/types";
-import useFetchFundingRate from "@symmio/frontend-sdk/hooks/useFetchFundingRate";
 
 export default function OpenedQuoteDetails({
   quote,
@@ -323,6 +327,8 @@ export default function OpenedQuoteDetails({
                 name={name}
                 symbol={collateralCurrency?.symbol}
                 positionType={positionType}
+                quoteId={id}
+                quoteStatus={quoteStatus}
               />
             )}
             <Row>
@@ -353,57 +359,95 @@ export default function OpenedQuoteDetails({
 function FundingRate({
   notionalValue,
   positionType,
+  quoteId,
   name,
   symbol,
+  quoteStatus,
 }: {
   notionalValue: string;
   positionType: PositionType;
+  quoteId: number;
+  quoteStatus: QuoteStatus;
   name?: string;
   symbol?: string;
 }) {
   const theme = useTheme();
-  const fundingRates = useFetchFundingRate(name);
+  const fundingRates = useFetchFundingRate(
+    quoteStatus !== QuoteStatus.CLOSED ? name : undefined
+  );
   const fundingRate =
-    name && fundingRates[name]
-      ? fundingRates[name]
-      : ({ next_funding_rate: "-", next_funding_time: 0 } as FundingRateData);
+    name && fundingRates
+      ? fundingRates
+      : ({
+          next_funding_time: 0,
+          next_funding_rate_long: "",
+          next_funding_rate_short: "",
+        } as FundingRateData);
 
-  const { next_funding_rate, next_funding_time } = fundingRate;
+  const { paidAmount, status } = useGetPaidAmount(quoteId);
+
+  const { next_funding_rate_long, next_funding_rate_short, next_funding_time } =
+    fundingRate;
   const { diff, hours, minutes, seconds } = getRemainingTime(next_funding_time);
-  const color =
-    next_funding_rate === "-"
-      ? theme.text0
-      : positionType === PositionType.LONG
-      ? toBN(next_funding_rate).isGreaterThan(0)
-        ? theme.red1
-        : theme.green1
-      : toBN(next_funding_rate).isGreaterThan(0)
-      ? theme.green1
-      : theme.red1;
+
+  const nextFunding =
+    positionType === PositionType.LONG
+      ? next_funding_rate_long
+      : next_funding_rate_short;
+
+  const color = shouldPayFundingRate(
+    positionType,
+    next_funding_rate_long,
+    next_funding_rate_short
+  )
+    ? theme.red1
+    : theme.green1;
+
+  const paidAmountBN = toBN(paidAmount).div(1e18);
 
   return (
     <React.Fragment>
       <Row>
         <Label>Paid Funding:</Label>
-        <Value>{`- ${symbol}`}</Value>
+        <PositionPnl
+          color={
+            paidAmountBN.lt(0)
+              ? theme.green1
+              : paidAmountBN.isEqualTo(0)
+              ? theme.text0
+              : theme.red1
+          }
+        >
+          {status === ApiState.LOADING ? (
+            <Loader />
+          ) : (
+            `${formatAmount(
+              paidAmountBN.isGreaterThanOrEqualTo(1) || paidAmountBN.lt(0)
+                ? paidAmountBN.abs()
+                : "0"
+            )} ${symbol}`
+          )}
+        </PositionPnl>
       </Row>
-      <Row>
-        <Label>Next Funding:</Label>
-        <Value>
-          <PositionPnl color={color}>
-            {!toBN(next_funding_rate).isNaN()
-              ? `${formatAmount(
-                  toBN(notionalValue).times(next_funding_rate).abs()
-                )} `
-              : "-"}
-          </PositionPnl>
-          {symbol} in
-          {diff > 0 &&
-            ` ${hours.toString().padStart(2, "0")}:${minutes
-              .toString()
-              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
-        </Value>
-      </Row>
+      {quoteStatus !== QuoteStatus.CLOSED && (
+        <Row>
+          <Label>Next Funding:</Label>
+          <Value>
+            <PositionPnl color={color}>
+              {!toBN(nextFunding).isNaN()
+                ? `${formatAmount(
+                    toBN(notionalValue).times(nextFunding).abs()
+                  )} `
+                : "-"}
+            </PositionPnl>
+            {symbol} in
+            {diff > 0 &&
+              ` ${hours.toString().padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
+          </Value>
+        </Row>
+      )}
     </React.Fragment>
   );
 }

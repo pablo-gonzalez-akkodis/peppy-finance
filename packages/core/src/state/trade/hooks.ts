@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../declaration";
 import { InputField, OrderType, PositionType } from "../../types/trade";
-import { BN_ZERO, formatPrice, toBN } from "../../utils/numbers";
+import { BN_ZERO, formatPrice } from "../../utils/numbers";
 import { Market } from "../../types/market";
 import { useHedgerInfo, useMarketData } from "../hedger/hooks";
 import {
@@ -202,13 +202,11 @@ export function useGetLockedPercentages(
           options
         );
 
-        if (response && toBN(leverage).isEqualTo(response.leverage))
-          dispatch(updateLockedPercentages({ ...response }));
+        if (response) dispatch(updateLockedPercentages({ ...response }));
       } catch (error: unknown) {
         if (error instanceof Error && error.name === "AbortError") {
           console.log("AbortError getLockedParam", error.message);
         } else {
-          console.log("Unable to fetch locked params");
           console.log("Unable to fetch locked params");
         }
       }
