@@ -16,7 +16,7 @@ export interface ChainType {
   readonly MULTICALL3_ADDRESS: string;
   readonly USDC_ADDRESS: string;
   readonly WRAPPED_NATIVE_ADDRESS: string;
-  readonly BALANCE_HISTORY_SUBGRAPH_ADDRESS: string;
+  readonly ANALYTICS_SUBGRAPH_ADDRESS: string;
   readonly ORDER_HISTORY_SUBGRAPH_ADDRESS: string;
 }
 
