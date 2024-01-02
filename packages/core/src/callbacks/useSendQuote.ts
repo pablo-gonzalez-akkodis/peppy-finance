@@ -176,7 +176,7 @@ export function useSentQuoteCallback(): {
       throw new Error("contract is missing");
     }
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}/${MultiAccountContract.address}`,
+      `notional_cap/${market.id}/${MultiAccountContract.address}`,
       baseUrl
     );
 

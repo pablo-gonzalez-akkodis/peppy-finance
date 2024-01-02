@@ -4,8 +4,8 @@ import { Hedger, OpenInterest } from "@symmio/frontend-sdk/types/hedger";
 export const DEFAULT_HEDGER = {
   apiUrl: "https://fapi.binance.com/",
   webSocketUrl: "wss://fstream.binance.com/stream",
-  baseUrl: "https://alpha-hedger2.rasa.capital",
-  webSocketFundingRateUrl: "",
+  baseUrl: "https://alpha-hedger.rasa.capital",
+  webSocketFundingRateUrl: "wss://alpha-hedger.rasa.capital/ws/funding-rate-ws",
   webSocketUpnlUrl: "",
   webSocketNotificationUrl: "",
   defaultMarketId: 1,

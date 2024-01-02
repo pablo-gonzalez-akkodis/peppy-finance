@@ -166,7 +166,7 @@ export const getNotionalCap = createAsyncThunk(
     }
 
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}/${multiAccountAddress}`,
+      `notional_cap/${market.id}/${multiAccountAddress}`,
       hedgerUrl
     );
 
