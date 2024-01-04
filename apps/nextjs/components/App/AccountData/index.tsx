@@ -46,7 +46,6 @@ export default function Overviews() {
   );
   const quoteDetail = useQuoteDetail();
   const setQuoteDetail = useSetQuoteDetailCallback();
-
   const mobileVersion = useIsMobile();
 
   useEffect(() => {

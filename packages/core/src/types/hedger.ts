@@ -15,6 +15,7 @@ export type Hedger = {
   webSocketNotificationUrl: string;
   defaultMarketId: number;
   markets: Market[];
+  webSocketFundingRateUrl: string;
   openInterest: OpenInterest;
   fetchData: boolean;
   clientName?: string;

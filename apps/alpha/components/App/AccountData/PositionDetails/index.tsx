@@ -16,13 +16,11 @@ export default function PositionDetails({
   quote,
   buttonText,
   disableButton,
-  expired,
   onClickButton,
 }: {
   quote: Quote | null;
   buttonText?: string;
   disableButton?: boolean;
-  expired?: boolean;
   onClickButton?: (event: React.MouseEvent<HTMLDivElement>) => void;
 }): JSX.Element {
   const { quantity, marketPrice, requestedOpenPrice, orderType, quoteStatus } =
@@ -54,7 +52,6 @@ export default function PositionDetails({
           platformFee={platformFee}
           buttonText={buttonText}
           disableButton={disableButton}
-          expired={expired}
           onClickButton={onClickButton}
         />
       );
@@ -69,11 +66,11 @@ export default function PositionDetails({
           mobileVersion={mobileVersion}
           buttonText={buttonText}
           disableButton={disableButton}
-          expired={expired}
           onClickButton={onClickButton}
         />
       );
     case QuoteStatus.CANCELED:
+    case QuoteStatus.EXPIRED:
       return (
         <CanceledQuoteDetails quote={quote} mobileVersion={mobileVersion} />
       );

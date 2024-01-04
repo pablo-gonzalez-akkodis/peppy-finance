@@ -138,7 +138,7 @@ export default function AccountOverview({
   const {
     allocatedBalance,
     accountBalance,
-    lockedMM,
+    lockedPartyAMM,
     loading: statsLoading,
     liquidationStatus,
   } = useAccountPartyAStat(accountAddress);
@@ -226,7 +226,7 @@ export default function AccountOverview({
             />
             <DataRow
               label={"Locked Margin:"}
-              value={formatAmount(formatPrice(lockedMM))}
+              value={formatAmount(formatPrice(lockedPartyAMM))}
               ticker={collateralCurrency?.symbol}
             />
             <DataRow

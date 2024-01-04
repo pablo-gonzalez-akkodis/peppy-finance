@@ -121,6 +121,7 @@ export default function TradeOverview() {
           } ${collateralCurrency?.symbol}`}
           // tooltip="Maintenance Margin"
         />
+
         <InfoItem
           label="Platform Fee:"
           amount={`${

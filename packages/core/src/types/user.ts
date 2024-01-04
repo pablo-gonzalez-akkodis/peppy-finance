@@ -6,7 +6,6 @@ export type Account = {
 export type AccountUpnl = {
   upnl: number;
   timestamp: number;
-  available_balance: number;
 };
 
 export type UserPartyAStatDetail = {
@@ -16,12 +15,18 @@ export type UserPartyAStatDetail = {
   accountBalanceLimit: string;
   withdrawCooldown: string;
   cooldownMA: string;
+
   allocatedBalance: string;
   lockedCVA: string;
-  lockedMM: string;
   lockedLF: string;
-  totalLocked: string;
-  totalPendingLocked: string;
+  lockedPartyAMM: string;
+  lockedPartyBMM: string;
+
+  pendingLockedCVA: string;
+  pendingLockedLF: string;
+  pendingLockedPartyAMM: string;
+  pendingLockedPartyBMM: string;
+
   positionsCount: number;
   pendingCount: number;
   nonces: number;
@@ -37,12 +42,18 @@ export const initialUserPartyAStatDetail: UserPartyAStatDetail = {
   accountBalanceLimit: "0",
   withdrawCooldown: "0",
   cooldownMA: "0",
+
   allocatedBalance: "0",
   lockedCVA: "0",
-  lockedMM: "0",
   lockedLF: "0",
-  totalLocked: "0",
-  totalPendingLocked: "0",
+  lockedPartyAMM: "0",
+  lockedPartyBMM: "0",
+
+  pendingLockedCVA: "0",
+  pendingLockedLF: "0",
+  pendingLockedPartyAMM: "0",
+  pendingLockedPartyBMM: "0",
+
   positionsCount: 0,
   pendingCount: 0,
   nonces: 0,

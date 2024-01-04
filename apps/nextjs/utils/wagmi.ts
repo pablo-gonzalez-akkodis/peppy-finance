@@ -1,5 +1,4 @@
 import { configureChains, createConfig } from "wagmi";
-import { infuraProvider } from "wagmi/providers/infura";
 import { publicProvider } from "wagmi/providers/public";
 import { connectorsForWallets } from "@rainbow-me/rainbowkit";
 import {
@@ -27,10 +26,7 @@ export const getWagmiConfig = () => {
   const projectId = process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID;
   const { chains, publicClient, webSocketPublicClient } = configureChains(
     APP_CHAINS,
-    [
-      infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_KEY }),
-      publicProvider(),
-    ],
+    [publicProvider()],
     {
       batch: { multicall: true },
       retryCount: 5,

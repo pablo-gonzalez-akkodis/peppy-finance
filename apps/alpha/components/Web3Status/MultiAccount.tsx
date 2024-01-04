@@ -43,6 +43,7 @@ import {
   useModalOpen,
 } from "@symmio/frontend-sdk/state/application/hooks";
 import useOnOutsideClick from "lib/hooks/useOnOutsideClick";
+import { AllAccountsUpdater } from "@symmio/frontend-sdk/state/user/allAccountsUpdater";
 
 const Container = styled.div`
   display: inline-flex;
@@ -361,6 +362,7 @@ export default function MultiAccount() {
                     }
                     data={accounts}
                   />
+                  <AllAccountsUpdater />
                 </div>
               )}
               {getInnerContent()}

@@ -59,6 +59,11 @@ export function isBSC(chainId: number): boolean {
 export function isFTM(chainId: number): chainId is SupportedChainId.FANTOM {
   return chainId === SupportedChainId.FANTOM;
 }
+export function isPolygon(
+  chainId: number
+): chainId is SupportedChainId.POLYGON {
+  return chainId === SupportedChainId.POLYGON;
+}
 
 class BscNativeCurrency extends NativeCurrency {
   equals(other: Currency): boolean {
@@ -96,6 +101,24 @@ class FtmNativeCurrency extends NativeCurrency {
   }
 }
 
+class PolygonNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isPolygon(this.chainId)) throw new Error("Not Matic");
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    invariant(wrapped instanceof Token);
+    return wrapped;
+  }
+
+  public constructor(chainId: number) {
+    if (!isPolygon(chainId)) throw new Error("Not Matic");
+    super(chainId, 18, "Matic", "Matic");
+  }
+}
+
 class ExtendedEther extends Ether {
   public get wrapped(): Token {
     const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId];
@@ -116,6 +139,8 @@ export function nativeOnChain(chainId: number): NativeCurrency | Token {
     nativeCurrency = new BscNativeCurrency(chainId);
   } else if (isFTM(chainId)) {
     nativeCurrency = new FtmNativeCurrency(chainId);
+  } else if (isPolygon(chainId)) {
+    nativeCurrency = new PolygonNativeCurrency(chainId);
   } else {
     nativeCurrency = ExtendedEther.onChain(chainId);
   }

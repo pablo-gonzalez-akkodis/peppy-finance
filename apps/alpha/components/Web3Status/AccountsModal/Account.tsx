@@ -5,6 +5,8 @@ import { Z_INDEX } from "theme";
 import { Account as AccountType } from "@symmio/frontend-sdk/types/user";
 
 import { RowBetween, RowEnd, RowStart } from "components/Row";
+import { useCustomAccountUpnl } from "@symmio/frontend-sdk/state/user/hooks";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 const AccountWrapper = styled.div<{ active?: boolean }>`
   position: relative;
@@ -55,14 +57,16 @@ export default function Account({
   onClick: () => void;
 }): JSX.Element {
   const theme = useTheme();
+  const customAccount = useCustomAccountUpnl(account.accountAddress);
 
-  // const [value, color] = useMemo(() => {
-  const [, color] = useMemo(() => {
-    const upnl = { upnl: 0 };
-    if (upnl.upnl > 0) return [`+ $${upnl.upnl}`, theme.green1];
-    else if (upnl.upnl < 0) [`$${upnl.upnl}`, theme.red1];
-    return [`$${upnl.upnl}`, undefined];
-  }, [theme]);
+  const [value, color] = useMemo(() => {
+    const upnlBN = toBN(customAccount?.upnl || 0);
+    if (upnlBN.isGreaterThan(0))
+      return [`+ $${formatAmount(upnlBN)}`, theme.green1];
+    else if (upnlBN.isLessThan(0))
+      return [`- $${formatAmount(Math.abs(upnlBN.toNumber()))}`, theme.red1];
+    return [`-`, undefined];
+  }, [customAccount?.upnl, theme]);
 
   return (
     <AccountWrapper active={active} onClick={onClick}>
@@ -71,7 +75,7 @@ export default function Account({
 
         <UpnlText>
           uPNL:
-          <UpnlValue color={color}>{/* {value} */}-</UpnlValue>
+          <UpnlValue color={color}>{value}</UpnlValue>
         </UpnlText>
       </Row>
       <Row>

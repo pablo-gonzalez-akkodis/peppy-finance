@@ -39,3 +39,7 @@ export const updateAccountPartyAStat = createAction<{
 export const updateAcceptTerms = createAction<TermsStatus>(
   "user/updateAcceptTerms"
 );
+export const updateAllAccountsUpnl = createAction<{
+  account: string;
+  upnl: AccountUpnl;
+}>("user/updateAllAccountsUpnl");

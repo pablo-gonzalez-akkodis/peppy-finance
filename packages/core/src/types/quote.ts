@@ -24,6 +24,7 @@ export type Quote = {
 
   // Price of quote which PartyA requested in 18 decimals
   openedPrice: string;
+  initialOpenedPrice: string;
   requestedOpenPrice: string;
   marketPrice: string;
   openSlippage: string;
@@ -32,12 +33,15 @@ export type Quote = {
   // Quantity of quote which PartyA requested in 18 decimals
   closedAmount: string;
   initialCVA: string;
-  initialMM: string;
   initialLF: string;
+  initialPartyAMM: string;
+  initialPartyBMM: string;
+
   CVA: string;
-  MM: string;
   LF: string;
-  maxInterestRate: string;
+  partyAMM: string;
+  partyBMM: string;
+  maxFundingRate: string;
   //PartyA & PartyB address
   partyA: string;
   partyB: string;
@@ -49,8 +53,11 @@ export type Quote = {
   liquidateAmount: string;
   liquidatePrice: string;
   // handle partially open positionType
+
   parentId: string;
   createTimestamp: number;
-  modifyTimestamp: number;
+  statusModifyTimestamp: number;
+  lastFundingPaymentTimestamp: number;
   deadline: number;
+  tradingFee: number;
 };

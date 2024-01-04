@@ -72,7 +72,7 @@ export default function UserPanel(): JSX.Element | null {
   const positionQuotes: Quote[] = useMemo(() => {
     return [...pendings, ...positions].sort(
       (a: Quote, b: Quote) =>
-        Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
+        Number(b.statusModifyTimestamp) - Number(a.statusModifyTimestamp)
     );
   }, [pendings, positions]);
 

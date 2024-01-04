@@ -14,6 +14,7 @@ import {
   setQuoteDetail,
 } from "./actions";
 import { useActiveAccountAddress } from "../user/hooks";
+import { sortQuotesByModifyTimestamp } from "../../hooks/useQuotes";
 
 // returns all the histories
 export function useHistoryQuotes(): {
@@ -35,10 +36,7 @@ export function useHistoryQuotes(): {
             (h: Quote) =>
               account && h.partyA.toLowerCase() === account.toLowerCase()
           )
-          .sort(
-            (a: Quote, b: Quote) =>
-              Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-          ),
+          .sort(sortQuotesByModifyTimestamp),
         (quoteA, quoteB) => {
           return quoteA.id === quoteB.id;
         }
@@ -67,10 +65,7 @@ export function useAllQuotes(): { quotes: Quote[]; state: ApiState } {
   return useMemo(() => {
     const allQuotes = [...pendings, ...positions, ...history];
     return {
-      quotes: allQuotes.sort(
-        (a: Quote, b: Quote) =>
-          Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-      ),
+      quotes: allQuotes.sort(sortQuotesByModifyTimestamp),
       state: historyState,
     };
   }, [history, historyState, pendings, positions]);

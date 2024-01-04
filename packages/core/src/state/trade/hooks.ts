@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../declaration";
 import { InputField, OrderType, PositionType } from "../../types/trade";
-import { BN_ZERO, formatPrice, toBN } from "../../utils/numbers";
+import { BN_ZERO, formatPrice } from "../../utils/numbers";
 import { Market } from "../../types/market";
 import { useHedgerInfo, useMarketData } from "../hedger/hooks";
 import {
@@ -75,19 +75,22 @@ export function useStopLossValues(): {
 
 export function useLockedPercentages(): {
   cva: string | undefined;
-  mm: string | undefined;
+  partyAmm: string | undefined;
+  partyBmm: string | undefined;
   lf: string | undefined;
 } {
   const cva = useAppSelector((state) => state.trade.cva);
-  const mm = useAppSelector((state) => state.trade.mm);
+  const partyAmm = useAppSelector((state) => state.trade.partyAmm);
+  const partyBmm = useAppSelector((state) => state.trade.partyBmm);
   const lf = useAppSelector((state) => state.trade.lf);
   return useMemo(
     () => ({
       cva,
-      mm,
+      partyAmm,
+      partyBmm,
       lf,
     }),
-    [cva, lf, mm]
+    [cva, lf, partyAmm, partyBmm]
   );
 }
 
@@ -198,13 +201,12 @@ export function useGetLockedPercentages(
           url,
           options
         );
-        if (response && toBN(leverage).isEqualTo(response.leverage))
-          dispatch(updateLockedPercentages({ ...response }));
+
+        if (response) dispatch(updateLockedPercentages({ ...response }));
       } catch (error: unknown) {
         if (error instanceof Error && error.name === "AbortError") {
           console.log("AbortError getLockedParam", error.message);
         } else {
-          console.log("Unable to fetch locked params");
           console.log("Unable to fetch locked params");
         }
       }

@@ -24,7 +24,6 @@ import {
   useDiamondContract,
   useMultiAccountContract,
 } from "../hooks/useContract";
-import { useDeallocateSign } from "../hooks/useDeallocateSign";
 import { ConstructCallReturnType } from "../types/web3";
 import { Address, encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
@@ -51,13 +50,13 @@ export function useTransferCollateral(
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
 
-  const fakeSignature = useDeallocateSign();
-
   const getSignature = useCallback(async () => {
-    if (!DeallocateCollateralClient) {
-      return { signature: fakeSignature };
-    }
-    if (!chainId || !DiamondContract || !activeAccount) {
+    if (
+      !chainId ||
+      !DiamondContract ||
+      !activeAccount ||
+      !DeallocateCollateralClient
+    ) {
       throw new Error("Missing muon params");
     }
 
@@ -71,7 +70,7 @@ export function useTransferCollateral(
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
     return { signature };
-  }, [DiamondContract, activeAccount, chainId, fakeSignature]);
+  }, [DiamondContract, activeAccount, chainId]);
 
   const methodName = useMemo(() => {
     return activeTab === TransferTab.DEPOSIT

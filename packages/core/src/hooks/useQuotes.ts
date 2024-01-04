@@ -37,6 +37,10 @@ export function getQuoteStateByIndex(x: number): QuoteStatus {
   ];
 }
 
+export function sortQuotesByModifyTimestamp(a: Quote, b: Quote) {
+  return Number(b.statusModifyTimestamp) - Number(a.statusModifyTimestamp);
+}
+
 export function useGetPositions(): {
   positions: Quote[] | undefined;
   loading: boolean;
@@ -85,10 +89,7 @@ export function useGetPositions(): {
       quotesValue
         ?.filter((quote) => quote[0]?.toString() !== "0") //remove garbage outputs
         .map((quote) => toQuote(quote))
-        .sort(
-          (a: Quote, b: Quote) =>
-            Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-        ) || []
+        .sort(sortQuotesByModifyTimestamp) || []
     );
   }, [quotesValue]);
 
@@ -144,10 +145,7 @@ export function useGetQuoteByIds(ids: number[]): {
     return quotesValue
       .filter((quote) => quote)
       .map((quote) => toQuote(quote))
-      .sort(
-        (a: Quote, b: Quote) =>
-          Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-      );
+      .sort(sortQuotesByModifyTimestamp);
   }, [quotesValue]);
 
   return useMemo(
@@ -291,57 +289,49 @@ export function useQuoteSize(quote: Quote): string {
 
 export function useQuoteLeverage(quote: Quote): string {
   const {
-    orderType,
     quantity,
-    marketPrice,
     requestedOpenPrice,
     quoteStatus,
     openedPrice,
     initialCVA,
     initialLF,
-    initialMM,
+    initialPartyAMM,
   } = quote;
 
   const quoteSize = useQuoteSize(quote);
   const lockedMargin = useLockedMargin(quote);
   const initialLockedMargin = toBN(initialCVA)
-    .plus(initialMM)
+    .plus(initialPartyAMM)
     .plus(initialLF)
     .toString();
 
-  if (
-    quoteStatus === QuoteStatus.OPENED ||
-    quoteStatus === QuoteStatus.CLOSE_PENDING ||
-    quoteStatus === QuoteStatus.CANCEL_CLOSE_PENDING
-  ) {
-    return toBN(quoteSize).times(openedPrice).div(lockedMargin).toFixed(0);
-  } else if (
-    quoteStatus === QuoteStatus.PENDING ||
-    quoteStatus === QuoteStatus.LOCKED ||
-    quoteStatus === QuoteStatus.CANCEL_PENDING
-  ) {
-    return toBN(quantity)
-      .times(orderType === OrderType.LIMIT ? requestedOpenPrice : marketPrice)
-      .div(lockedMargin)
-      .toFixed(0);
-  } else if (
-    quoteStatus === QuoteStatus.CLOSED ||
-    quoteStatus === QuoteStatus.LIQUIDATED
-  ) {
-    return toBN(quantity)
-      .times(openedPrice)
-      .div(initialLockedMargin)
-      .toFixed(0);
-  } else {
-    return toBN(quantity)
-      .times(orderType === OrderType.LIMIT ? requestedOpenPrice : marketPrice)
-      .div(lockedMargin)
-      .toFixed(0);
+  switch (quoteStatus) {
+    case QuoteStatus.OPENED:
+    case QuoteStatus.CLOSE_PENDING:
+    case QuoteStatus.CANCEL_CLOSE_PENDING:
+      return toBN(quoteSize).times(openedPrice).div(lockedMargin).toFixed(0);
+
+    case QuoteStatus.PENDING:
+    case QuoteStatus.LOCKED:
+    case QuoteStatus.CANCEL_PENDING:
+    case QuoteStatus.CANCELED:
+    case QuoteStatus.EXPIRED:
+      return toBN(quantity)
+        .times(requestedOpenPrice)
+        .div(initialLockedMargin)
+        .toFixed(0);
+
+    case QuoteStatus.CLOSED:
+    case QuoteStatus.LIQUIDATED:
+      return toBN(quantity)
+        .times(requestedOpenPrice)
+        .div(initialLockedMargin)
+        .toFixed(0);
   }
 }
 
 export function useQuoteFillAmount(quote: Quote): string | null {
-  const { quoteStatus, orderType, id, modifyTimestamp } = quote;
+  const { quoteStatus, orderType, id, statusModifyTimestamp } = quote;
   const partiallyFillNotifications: NotificationDetails[] =
     usePartialFillNotifications();
   let foundNotification: NotificationDetails | undefined | null;
@@ -350,7 +340,7 @@ export function useQuoteFillAmount(quote: Quote): string | null {
       (notification) =>
         notification.quoteId === id.toString() &&
         notification.notificationType === NotificationType.PARTIAL_FILL &&
-        toBN(modifyTimestamp).lt(notification.modifyTime)
+        toBN(statusModifyTimestamp).lt(notification.modifyTime)
     );
   } catch (error) {
     foundNotification = null;
@@ -417,7 +407,7 @@ export function useOpeningLastMarketPrice(
   return "0";
 }
 
-function toQuote(quote) {
+function toQuote(quote: any) {
   return {
     id: Number(quote["id"].toString()),
     partyBsWhiteList: quote["partyBsWhiteList"],
@@ -434,6 +424,7 @@ function toQuote(quote) {
     openedPrice: fromWei(quote["openedPrice"].toString()),
 
     // Price of quote which PartyA requested in 18 decimals
+    initialOpenedPrice: fromWei(quote["initialOpenedPrice"].toString()),
     requestedOpenPrice: fromWei(quote["requestedOpenPrice"].toString()),
     marketPrice: fromWei(quote["marketPrice"].toString()),
 
@@ -442,14 +433,20 @@ function toQuote(quote) {
     closedAmount: fromWei(quote["closedAmount"].toString()),
 
     initialCVA: fromWei(quote["initialLockedValues"]["cva"].toString()),
-    initialMM: fromWei(quote["initialLockedValues"]["mm"].toString()),
     initialLF: fromWei(quote["initialLockedValues"]["lf"].toString()),
+    initialPartyAMM: fromWei(
+      quote["initialLockedValues"]["partyBmm"].toString()
+    ),
+    initialPartyBMM: fromWei(
+      quote["initialLockedValues"]["partyBmm"].toString()
+    ),
 
     CVA: fromWei(quote["lockedValues"]["cva"].toString()),
-    MM: fromWei(quote["lockedValues"]["mm"].toString()),
     LF: fromWei(quote["lockedValues"]["lf"].toString()),
+    partyAMM: fromWei(quote["lockedValues"]["partyAmm"].toString()),
+    partyBMM: fromWei(quote["lockedValues"]["partyBmm"].toString()),
 
-    maxInterestRate: fromWei(quote["maxInterestRate"].toString()),
+    maxFundingRate: fromWei(quote["maxFundingRate"].toString()),
     partyA: quote["partyA"].toString(),
     partyB: quote["partyB"].toString(),
     quoteStatus: getQuoteStateByIndex(Number(quote["quoteStatus"].toString())),
@@ -460,11 +457,15 @@ function toQuote(quote) {
     // handle partially open position
     parentId: quote["parentId"].toString(),
     createTimestamp: Number(quote["createTimestamp"].toString()),
-    modifyTimestamp: Number(quote["modifyTimestamp"].toString()),
+    statusModifyTimestamp: Number(quote["statusModifyTimestamp"].toString()),
+    lastFundingPaymentTimestamp: Number(
+      quote["lastFundingPaymentTimestamp"].toString()
+    ),
     deadline: Number(quote["deadline"].toString()),
+    tradingFee: Number(quote["tradingFee"].toString()),
   } as Quote;
 }
 
 export function useLockedMargin(quote: Quote): string {
-  return toBN(quote.CVA).plus(quote.MM).plus(quote.LF).toString();
+  return toBN(quote.CVA).plus(quote.partyAMM).plus(quote.LF).toString();
 }
