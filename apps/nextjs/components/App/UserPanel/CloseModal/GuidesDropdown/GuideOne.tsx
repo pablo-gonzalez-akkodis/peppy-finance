@@ -1,7 +1,7 @@
 import styled, { useTheme } from "styled-components";
 
 import { toBN } from "@symmio/frontend-sdk/utils/numbers";
-import { CloseGuides, OrderType } from "@symmio/frontend-sdk/types/trade";
+import { CloseGuides } from "@symmio/frontend-sdk/types/trade";
 
 import { Amount, Child, ColoredBox, Full, Label } from "./styles";
 import Item from "components/App/UserPanel/CloseModal/Item";
@@ -15,7 +15,6 @@ export default function GuideOne({
   values,
   symbol,
   setSize,
-  setActiveTab,
 }: {
   values: {
     maxClose: string;
@@ -26,7 +25,6 @@ export default function GuideOne({
   };
   symbol?: string;
   setSize: (size: string) => void;
-  setActiveTab: (orderType: OrderType) => void;
 }) {
   const theme = useTheme();
   const {
@@ -131,11 +129,7 @@ export default function GuideOne({
         amount={
           toBN(maxPartiallyClose).isLessThanOrEqualTo(0) ? (
             <Amount>
-              Use <span onClick={() => setSize(maxClose)}>Full close</span>, or{" "}
-              <span onClick={() => setActiveTab(OrderType.LIMIT)}>
-                Limit Orders
-              </span>{" "}
-              instead
+              Use <span onClick={() => setSize(maxClose)}>Full close</span>
             </Amount>
           ) : (
             getItemAmount(

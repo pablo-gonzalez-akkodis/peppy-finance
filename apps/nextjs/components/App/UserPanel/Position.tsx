@@ -62,6 +62,7 @@ import CloseModal from "./CloseModal/index";
 import CancelModal from "./CancelModal/index";
 import Column from "components/Column";
 import PositionDetails from "components/App/AccountData/PositionDetails";
+import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
 
 const TableStructure = styled(RowBetween)<{ active?: boolean }>`
   width: 100%;
@@ -206,22 +207,12 @@ function TableRow({
   toggleCancelModal: () => void;
   mobileVersion: boolean;
 }) {
-  const theme = useTheme();
-  const { quoteStatus, deadline } = quote;
+  const { quoteStatus } = quote;
 
   const activeAccountAddress = useActiveAccountAddress();
   const { liquidationStatus } = useAccountPartyAStat(activeAccountAddress);
 
-  const currentTimestamp = Math.floor(Date.now() / 1000);
-
-  const [expired, expiredColor] = useMemo(() => {
-    const checkDeadline = currentTimestamp > Number(deadline);
-    if (quoteStatus === QuoteStatus.PENDING && checkDeadline)
-      return [checkDeadline, theme.bgWarning];
-    if (quoteStatus === QuoteStatus.CLOSE_PENDING)
-      return [checkDeadline, undefined];
-    return [false, undefined];
-  }, [currentTimestamp, deadline, quoteStatus, theme.bgWarning]);
+  const { expired, expiredColor } = useCheckQuoteIsExpired(quote);
 
   const [buttonText, disableButton] = useMemo(() => {
     if (liquidationStatus) {
@@ -256,7 +247,6 @@ function TableRow({
       quote={quote}
       disableButton={disableButton}
       buttonText={buttonText}
-      expired={expired}
       onClickButton={onClickCloseButton}
     />
   ) : (
@@ -578,24 +568,26 @@ function QuoteRow({
                   <PnlValue color={color}>{` ${value}`}</PnlValue>
                 </Row>
                 {expired ? (
-                  <ExpiredStatusValue>Close EXPIRED</ExpiredStatusValue>
+                  <QuoteStatusValue liq={false} expired={true}>
+                    Close EXPIRED
+                  </QuoteStatusValue>
                 ) : (
-                  <QuoteStatusValue liq={false}>
+                  <QuoteStatusValue liq={false} expired={false}>
                     {titleCase(quoteStatus)}
                   </QuoteStatusValue>
                 )}
               </TwoColumnPnl>
             ) : (
-              <QuoteStatusValue liq={false}>
+              <QuoteStatusValue liq={false} expired={false}>
                 {titleCase(quoteStatus)}
               </QuoteStatusValue>
             )
           ) : (
             <TwoColumn>
-              <QuoteStatusValue liq={false}>
+              <QuoteStatusValue liq={false} expired={false}>
                 {titleCase(quoteStatus)}
               </QuoteStatusValue>
-              <QuoteStatusValue liq={false}>
+              <QuoteStatusValue liq={false} expired={false}>
                 {fillAmountPercent}
               </QuoteStatusValue>
             </TwoColumn>
@@ -662,7 +654,7 @@ function QuoteRow({
 export default function Positions({ quotes }: { quotes: Quote[] }) {
   const [showCloseModal, setShowCloseModal] = useState(false);
   const [showCancelModal, setShowCancelModal] = useState(false);
-  const mobileVersion = useIsMobile();
+  const isMobile = useIsMobile();
   const [quote, setQuote] = useState<Quote | null>(null);
 
   return (
@@ -683,13 +675,13 @@ export default function Positions({ quotes }: { quotes: Quote[] }) {
       )}
 
       <Wrapper>
-        <TableHeader mobileVersion={mobileVersion} />
+        <TableHeader mobileVersion={isMobile} />
         <TableBody
           quotes={quotes}
           setQuote={setQuote}
           toggleCloseModal={() => setShowCloseModal(true)}
           toggleCancelModal={() => setShowCancelModal(true)}
-          mobileVersion={mobileVersion}
+          mobileVersion={isMobile}
         />
       </Wrapper>
     </>

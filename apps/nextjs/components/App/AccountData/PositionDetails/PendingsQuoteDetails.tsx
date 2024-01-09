@@ -42,6 +42,7 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import { PositionActionButton } from "components/Button";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
+import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
@@ -60,7 +61,6 @@ const ExpiredStatus = styled.div`
 export default function PendingQuoteDetails({
   quote,
   platformFee,
-  expired,
   buttonText,
   disableButton,
   onClickButton,
@@ -68,7 +68,6 @@ export default function PendingQuoteDetails({
 }: {
   quote: Quote;
   platformFee: string;
-  expired?: boolean;
   buttonText?: string;
   disableButton?: boolean;
   onClickButton?: (event: React.MouseEvent<HTMLDivElement>) => void;
@@ -101,6 +100,7 @@ export default function PendingQuoteDetails({
   const leverage = useQuoteLeverage(quote);
   const lockedAmount = useLockedMargin(quote);
   const notionalValue = useNotionalValue(quoteSize, marketData?.markPrice || 0);
+  const { expired } = useCheckQuoteIsExpired(quote);
 
   const [expanded, setExpanded] = useState(!mobileVersion);
   useEffect(() => {

@@ -36,9 +36,10 @@ export default function useAccountData(): AccountData {
     allocatedBalance,
     lockedCVA,
     lockedLF,
-    lockedMM,
-    totalLocked,
-    totalPendingLocked,
+    lockedPartyAMM,
+    pendingLockedCVA,
+    pendingLockedLF,
+    pendingLockedPartyAMM,
     loading: statsLoading,
     liquidationStatus,
   } = useAccountPartyAStat(accountAddress);
@@ -64,6 +65,15 @@ export default function useAccountData(): AccountData {
     return { health, healthColor, healthEmoji };
   }, [allocatedBalance, equity, liquidationStatus, maintenanceMargin]);
 
+  const totalLocked = toBN(lockedCVA)
+    .plus(lockedLF)
+    .plus(lockedPartyAMM)
+    .toString();
+  const totalPendingLocked = toBN(pendingLockedCVA)
+    .plus(pendingLockedLF)
+    .plus(pendingLockedPartyAMM)
+    .toString();
+
   const availableForOrder = useMemo(() => {
     if (upnl >= 0)
       return toBN(allocatedBalance)
@@ -72,9 +82,9 @@ export default function useAccountData(): AccountData {
         .minus(totalPendingLocked)
         .toString();
     else {
-      const considering_mm = toBN(upnl).times(-1).minus(lockedMM).gt(0)
+      const considering_mm = toBN(upnl).times(-1).minus(lockedPartyAMM).gt(0)
         ? toBN(upnl).times(-1)
-        : lockedMM;
+        : lockedPartyAMM;
       return toBN(allocatedBalance)
         .minus(lockedCVA)
         .minus(lockedLF)
@@ -86,7 +96,7 @@ export default function useAccountData(): AccountData {
     allocatedBalance,
     lockedCVA,
     lockedLF,
-    lockedMM,
+    lockedPartyAMM,
     totalLocked,
     totalPendingLocked,
     upnl,

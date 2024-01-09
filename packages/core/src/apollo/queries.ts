@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const ORDER_HISTORY_DATA = gql`
   query OrderHistory($address: String!, $first: Int!, $skip: Int!) {
@@ -7,10 +7,11 @@ export const ORDER_HISTORY_DATA = gql`
       skip: $skip
       orderBy: timeStamp
       orderDirection: desc
-      where: { partyA: $address, quoteStatus_in: [3, 7, 8] }
+      where: { partyA: $address, quoteStatus_in: [3, 7, 8, 9] }
     ) {
       orderTypeOpen
-      mm
+      partyAmm
+      partyBmm
       lf
       cva
       partyA
@@ -22,7 +23,7 @@ export const ORDER_HISTORY_DATA = gql`
       quantity
       orderTypeClose
       openedPrice
-      price
+      requestedOpenPrice
       closedPrice
       quantityToClose
       timeStamp
@@ -39,12 +40,13 @@ export const ORDER_HISTORY_DATA = gql`
       initialData {
         cva
         lf
-        mm
+        partyAmm
+        partyBmm
         timeStamp
       }
     }
   }
-`
+`;
 
 export const BALANCE_CHANGES_DATA = gql`
   query BalanceChanges($account: String!, $first: Int!, $skip: Int!) {
@@ -62,7 +64,7 @@ export const BALANCE_CHANGES_DATA = gql`
       type
     }
   }
-`
+`;
 
 export const TOTAL_DEPOSITS_AND_WITHDRAWALS = gql`
   query TotalDepositsAndWithdrawals($id: String!) {
@@ -74,4 +76,12 @@ export const TOTAL_DEPOSITS_AND_WITHDRAWALS = gql`
       updateTimestamp
     }
   }
-`
+`;
+
+export const GET_PAID_AMOUNT = gql`
+  query GetPaidAmount($id: String!) {
+    resultEntities(where: { quoteId: $id }) {
+      fee
+    }
+  }
+`;

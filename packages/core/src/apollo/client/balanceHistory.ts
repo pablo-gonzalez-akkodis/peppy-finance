@@ -1,24 +1,15 @@
 import { SupportedChainId } from "../../constants/chains";
 import { createApolloClient } from "./index";
 
-const fantomClient = createApolloClient(
+const polygonClient = createApolloClient(
   `https://api.thegraph.com/subgraphs/name/${getSubgraphName(250)}`
-);
-const bscClient = createApolloClient(
-  `https://api.thegraph.com/subgraphs/name/${getSubgraphName(56)}`
-);
-const bscTestnetClient = createApolloClient(
-  `https://api.thegraph.com/subgraphs/name/${getSubgraphName(97)}`
 );
 
 export function getBalanceHistoryApolloClient(chainId: SupportedChainId) {
   switch (chainId) {
-    case SupportedChainId.FANTOM:
-      return fantomClient;
-    case SupportedChainId.BSC:
-      return bscClient;
-    case SupportedChainId.BSC_TESTNET:
-      return bscTestnetClient;
+    case SupportedChainId.POLYGON:
+      return polygonClient;
+
     default:
       console.error(`${chainId} is not a supported subgraph network`);
       return null;
@@ -27,12 +18,9 @@ export function getBalanceHistoryApolloClient(chainId: SupportedChainId) {
 
 export function getSubgraphName(chainId: SupportedChainId) {
   switch (chainId) {
-    case SupportedChainId.FANTOM:
-      return "navid-fkh/symmetrical_fantom";
-    case SupportedChainId.BSC:
-      return "navid-fkh/symmetrical_bsc";
-    case SupportedChainId.BSC_TESTNET:
-      return "";
+    case SupportedChainId.POLYGON:
+      return "symmiograph/symmioanalytics_polygon_8_2";
+
     default:
       console.error(`${chainId} is not a supported subgraph network`);
       return null;

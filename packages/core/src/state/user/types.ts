@@ -15,6 +15,7 @@ export interface UserState {
   whiteListAccount: boolean | null;
   accountsPartyAStat: UserPartyAStatType;
   whiteListAccountState: ApiState;
+  allAccountsUpnl: { account: string; upnl: AccountUpnl }[];
 
   balanceHistory?: { [txHash: string]: BalanceHistoryData };
   balanceHistoryState: ApiState;

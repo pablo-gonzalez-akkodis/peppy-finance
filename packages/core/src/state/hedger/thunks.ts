@@ -13,6 +13,7 @@ import { OpenInterest } from "../../types/hedger";
 import {
   DepthResponse,
   ErrorMessages,
+  FundingRateRes,
   MarketDepthData,
   MarketDepthMap,
   MarketInfoValue,
@@ -21,6 +22,9 @@ import {
   MarketsInfoRes,
   PriceRange,
 } from "./types";
+import { createApolloClient } from "../../apollo/client";
+import { GET_PAID_AMOUNT } from "../../apollo/queries";
+import { toBN } from "../../utils/numbers";
 
 export const getMarkets = createAsyncThunk(
   "hedger/getAllApi",
@@ -36,7 +40,6 @@ export const getMarkets = createAsyncThunk(
     }
 
     const { href: marketsUrl } = new URL(`contract-symbols`, hedgerUrl);
-    const { href: openUrl } = new URL(`open-interest`, hedgerUrl);
     const { href: errorMessagesUrl } = new URL(`error_codes`, hedgerUrl);
 
     let count = 0;
@@ -45,9 +48,8 @@ export const getMarkets = createAsyncThunk(
     const openInterest: OpenInterest = { used: 0, total: 0 };
 
     try {
-      const [marketsRes, openRes, errorMessagesRes] = await Promise.allSettled([
+      const [marketsRes, errorMessagesRes] = await Promise.allSettled([
         makeHttpRequest<MarketApiType>(marketsUrl, options),
-        makeHttpRequest<OpenInterestResponseType>(openUrl, options),
         makeHttpRequest<ErrorMessages>(errorMessagesUrl, options),
       ]);
 
@@ -66,17 +68,19 @@ export const getMarkets = createAsyncThunk(
             tradingFee: market.trading_fee,
             maxLeverage: market.max_leverage,
             maxNotionalValue: market.max_notional_value,
+            maxFundingRate: market.max_funding_rate,
             rfqAllowed: market?.rfq_allowed,
             hedgerFeeOpen: market.hedger_fee_open,
             hedgerFeeClose: market.hedger_fee_close,
+            autoSlippage: toBN(60)
+              .div(market.max_leverage)
+              .div(100)
+              .plus(1)
+              .toNumber(),
           }));
           count = marketsRes.value.count;
         }
 
-        if (openRes.status === "fulfilled" && openRes.value) {
-          openInterest.total = openRes.value.total_cap;
-          openInterest.used = openRes.value.used;
-        }
         if (
           errorMessagesRes.status === "fulfilled" &&
           errorMessagesRes?.value
@@ -92,6 +96,50 @@ export const getMarkets = createAsyncThunk(
   }
 );
 
+export const getOpenInterest = createAsyncThunk(
+  "hedger/getOpenInterest",
+  async ({
+    hedgerUrl,
+    multiAccountAddress,
+    options,
+  }: {
+    hedgerUrl: string | undefined;
+    multiAccountAddress: string | undefined;
+    options?: { [x: string]: any };
+  }) => {
+    if (!hedgerUrl) {
+      throw new Error("hedgerUrl is empty");
+    }
+
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
+
+    const { href: openUrl } = new URL(
+      `open-interest/${multiAccountAddress}`,
+      hedgerUrl
+    );
+
+    const openInterest: OpenInterest = { used: 0, total: 0 };
+
+    try {
+      const [openRes] = await Promise.allSettled([
+        makeHttpRequest<OpenInterestResponseType>(openUrl, options),
+      ]);
+
+      if (openRes.status === "fulfilled" && openRes.value) {
+        openInterest.total = openRes.value.total_cap;
+        openInterest.used = openRes.value.used;
+      }
+    } catch (error) {
+      console.error(error, "happened in getOpenInterest");
+      throw new Error("error in getOpenInterest");
+    }
+
+    return { openInterest };
+  }
+);
+
 export const getNotionalCap = createAsyncThunk(
   "hedger/getNotionalCap",
   async ({
@@ -99,11 +147,13 @@ export const getNotionalCap = createAsyncThunk(
     market,
     appName,
     preNotional,
+    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     market: Market | undefined;
     appName: string;
     preNotional?: MarketNotionalCap;
+    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -111,9 +161,12 @@ export const getNotionalCap = createAsyncThunk(
     if (!market) {
       throw new Error("market is empty");
     }
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
 
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}`,
+      `notional_cap/${market.id}/${multiAccountAddress}`,
       hedgerUrl
     );
 
@@ -145,6 +198,7 @@ export const getNotionalCap = createAsyncThunk(
       }
     } catch (error) {
       console.error(error, "happened in getNotionalCap");
+      throw new Error("error in get notional cap");
     }
 
     return { notionalCap };
@@ -238,14 +292,22 @@ export const getMarketsInfo = createAsyncThunk(
   async ({
     hedgerUrl,
     appName,
+    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     appName: string;
+    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
-    const { href: marketsInfoUrl } = new URL(`get_market_info`, hedgerUrl);
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
+    }
+    const { href: marketsInfoUrl } = new URL(
+      `get_market_info/${multiAccountAddress}`,
+      hedgerUrl
+    );
     const marketsInfo: MarketsInfo = {};
     try {
       const [marketsInfoRes] = await Promise.allSettled([
@@ -278,6 +340,75 @@ export const getMarketsInfo = createAsyncThunk(
     }
 
     return { marketsInfo };
+  }
+);
+
+export const getFundingRate = createAsyncThunk(
+  "hedger/getFundingRate",
+  async ({
+    hedgerUrl,
+    markets,
+    appName,
+  }: {
+    hedgerUrl: string | undefined;
+    markets: string[] | undefined;
+    appName: string;
+  }) => {
+    console.log("in the thunks");
+    if (!hedgerUrl) {
+      throw new Error("hedgerUrl is empty");
+    }
+    if (!markets) {
+      throw new Error("markets is empty");
+    }
+
+    const fundingRateUrl = new URL(`get_funding_info`, hedgerUrl);
+    markets.forEach((m) => {
+      fundingRateUrl.searchParams.append("symbols", m);
+    });
+    console.log(fundingRateUrl, fundingRateUrl.href);
+
+    try {
+      const [fundingRateRes] = await Promise.allSettled([
+        makeHttpRequest<FundingRateRes>(
+          fundingRateUrl.href,
+          getAppNameHeader(appName)
+        ),
+      ]);
+
+      if (fundingRateRes.status === "fulfilled") {
+      }
+    } catch (error) {
+      console.error(error, "happened in getFundingRate");
+    }
+
+    return {};
+  }
+);
+
+export const getPaidAmount = createAsyncThunk(
+  "hedger/getPaidAmount",
+  async ({ quoteId }: { quoteId: number }) => {
+    try {
+      const client = createApolloClient(
+        "https://api.thegraph.com/subgraphs/name/symmiograph/funding-rate-calculator"
+      );
+
+      const {
+        data: { resultEntities },
+      } = await client.query<{
+        resultEntities: { fee: string; __typename: string }[];
+      }>({
+        query: GET_PAID_AMOUNT,
+        variables: { id: `${quoteId}` },
+        fetchPolicy: "no-cache",
+      });
+      if (resultEntities.length) return { fee: resultEntities[0].fee };
+      return { fee: "" };
+    } catch (error) {
+      console.error(error);
+      throw new Error(`Unable to query Paid Amount from Client`);
+    }
   }
 );
 

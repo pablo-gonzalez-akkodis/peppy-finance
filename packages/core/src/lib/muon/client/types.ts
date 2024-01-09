@@ -1,8 +1,5 @@
-import { Address } from "@wagmi/core";
-
+// TODO : fix Muon response type
 export interface MuonResponseType {
-  nodeSignature: Address;
-  uPnl: string;
-  price: string;
-  timestamp: number;
+  result: any;
+  success: boolean;
 }

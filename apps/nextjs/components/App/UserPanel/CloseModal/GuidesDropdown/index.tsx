@@ -57,7 +57,6 @@ export default memo(function GuidesDropDown({
   notionalValue,
   availableAmount,
   availableToClose,
-  postSolvencyValue,
 }: {
   symbol?: string;
   setSize: (size: string) => void;
@@ -65,18 +64,14 @@ export default memo(function GuidesDropDown({
   notionalValue: string;
   availableAmount: string;
   availableToClose: string;
-  postSolvencyValue: string;
 }) {
   const [border, setBorder] = useState(true);
 
   const values = (() => {
     const availableAmountBN = toBN(availableAmount);
     const availableToCloseBN = toBN(availableToClose);
-    const postSolvencyValueBN = toBN(postSolvencyValue);
     const notionalValueBN = toBN(notionalValue);
     const remainingPositionSize = availableAmountBN.minus(availableToCloseBN);
-    // const maxCloseValueBN = availableToCloseBN
-    // const maxPartiallyClose = BigNumber.max(maxCloseValueBN, postSolvencyValueBN)
 
     if (notionalValueBN.lte(10)) {
       return {
@@ -88,43 +83,22 @@ export default memo(function GuidesDropDown({
       };
     }
 
-    if (postSolvencyValueBN.gte(availableAmountBN)) {
-      if (availableToCloseBN.isEqualTo(0)) {
-        return {
-          maxClose: availableAmountBN.toString(),
-          maxPartiallyClose: BN_ZERO.toString(),
-          minPositionSize: remainingPositionSize.toString(),
-          liquidationAfterClose: BN_ZERO.toString(),
-          state: CloseGuides.ONE,
-        };
-      }
+    if (availableToCloseBN.isEqualTo(0)) {
       return {
         maxClose: availableAmountBN.toString(),
-        maxPartiallyClose: availableToCloseBN.toString(),
+        maxPartiallyClose: BN_ZERO.toString(),
         minPositionSize: remainingPositionSize.toString(),
         liquidationAfterClose: BN_ZERO.toString(),
         state: CloseGuides.ONE,
       };
     }
-
-    if (postSolvencyValueBN.lt(availableAmountBN)) {
-      if (postSolvencyValueBN.gte(availableToCloseBN)) {
-        return {
-          maxClose: availableAmountBN.toString(),
-          maxPartiallyClose: availableToCloseBN.toString(),
-          minPositionSize: remainingPositionSize.toString(),
-          liquidationAfterClose: BN_ZERO.toString(),
-          state: CloseGuides.TWO,
-        };
-      }
-      return {
-        maxClose: availableAmountBN.toString(),
-        maxPartiallyClose: postSolvencyValueBN.toString(),
-        minPositionSize: availableToCloseBN.toString(),
-        liquidationAfterClose: postSolvencyValueBN.toString(),
-        state: CloseGuides.TWO,
-      };
-    }
+    return {
+      maxClose: availableAmountBN.toString(),
+      maxPartiallyClose: availableToCloseBN.toString(),
+      minPositionSize: remainingPositionSize.toString(),
+      liquidationAfterClose: BN_ZERO.toString(),
+      state: CloseGuides.ONE,
+    };
 
     return {
       maxClose: BN_ZERO.toString(),
@@ -134,10 +108,6 @@ export default memo(function GuidesDropDown({
       state: CloseGuides.ONE,
     };
   })();
-
-  // useEffect(() => {
-  //   console.table({ symbol, availableAmount, availableToClose, postSolvencyValue, state: values.state, notionalValue })
-  // }, [availableAmount, postSolvencyValue, availableToClose, symbol, values.state, notionalValue])
 
   function getTriggers(): React.ReactElement<any> | string {
     const { state, maxPartiallyClose } = values;
@@ -170,14 +140,7 @@ export default memo(function GuidesDropDown({
 
     switch (state) {
       case CloseGuides.ONE:
-        return (
-          <GuideOne
-            values={values}
-            symbol={symbol}
-            setSize={setSize}
-            setActiveTab={setActiveTab}
-          />
-        );
+        return <GuideOne values={values} symbol={symbol} setSize={setSize} />;
       case CloseGuides.TWO:
         return (
           <GuideTwo

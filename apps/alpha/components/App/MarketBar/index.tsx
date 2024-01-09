@@ -15,6 +15,7 @@ import Column from "components/Column";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 import { Row, RowBetween } from "components/Row";
 import MarketDepths from "./MarketDepths";
+import MarketFundingRate from "./MarketFundingRate";
 
 const Wrapper = styled(Row)`
   min-height: 56px;
@@ -156,6 +157,7 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
+          <MarketFundingRate />
         </HedgerInfos>
       </DataWrap>
       <MarketDepths />

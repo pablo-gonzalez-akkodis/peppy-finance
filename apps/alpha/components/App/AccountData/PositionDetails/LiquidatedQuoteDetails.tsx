@@ -65,7 +65,7 @@ export default function LiquidatedQuoteDetails({
     positionType,
     marketId,
     createTimestamp,
-    modifyTimestamp,
+    statusModifyTimestamp,
     liquidateAmount,
     liquidatePrice,
     openedPrice,
@@ -191,7 +191,7 @@ export default function LiquidatedQuoteDetails({
           <ContentWrapper>
             <Row>
               <Label>Liquidated Time:</Label>
-              <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
+              <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
             </Row>
             <Row>
               <Label>Created Time:</Label>

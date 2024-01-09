@@ -18,10 +18,15 @@ export const getIsWhiteList = createAsyncThunk(
   async (payload: {
     baseUrl: string;
     account: Address;
-    clientName: string | undefined;
+    multiAccountAddress: string | undefined;
     appName: string;
   }) => {
-    const { baseUrl: hedgerUrl, account, clientName, appName } = payload;
+    const {
+      baseUrl: hedgerUrl,
+      account,
+      multiAccountAddress,
+      appName,
+    } = payload;
 
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -29,11 +34,12 @@ export const getIsWhiteList = createAsyncThunk(
     if (!account) {
       throw new Error("account is empty");
     }
-    if (!clientName) {
-      throw new Error("clientName is empty");
+    if (!multiAccountAddress) {
+      throw new Error("multiAccountAddress is empty");
     }
+
     const { href: isWhiteListUrl } = new URL(
-      `/check_in-whitelist/${account}/${clientName}`,
+      `/check_in-whitelist/${account}/${multiAccountAddress}`,
       hedgerUrl
     );
 

@@ -1,5 +1,9 @@
 export default [
-  { inputs: [], stateMutability: "nonpayable", type: "constructor" },
+  {
+    inputs: [],
+    stateMutability: "nonpayable",
+    type: "constructor",
+  },
   {
     anonymous: false,
     inputs: [
@@ -15,7 +19,12 @@ export default [
         name: "account",
         type: "address",
       },
-      { indexed: false, internalType: "string", name: "name", type: "string" },
+      {
+        indexed: false,
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
     ],
     name: "AddAccount",
     type: "event",
@@ -63,10 +72,15 @@ export default [
       {
         indexed: false,
         internalType: "bytes",
-        name: "_calldata",
+        name: "_callData",
         type: "bytes",
       },
-      { indexed: false, internalType: "bool", name: "_success", type: "bool" },
+      {
+        indexed: false,
+        internalType: "bool",
+        name: "_success",
+        type: "bool",
+      },
       {
         indexed: false,
         internalType: "bytes",
@@ -149,7 +163,12 @@ export default [
   {
     anonymous: false,
     inputs: [
-      { indexed: false, internalType: "uint8", name: "version", type: "uint8" },
+      {
+        indexed: false,
+        internalType: "uint8",
+        name: "version",
+        type: "uint8",
+      },
     ],
     name: "Initialized",
     type: "event",
@@ -170,7 +189,12 @@ export default [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
       {
         indexed: true,
         internalType: "bytes32",
@@ -190,7 +214,12 @@ export default [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
       {
         indexed: true,
         internalType: "address",
@@ -210,7 +239,12 @@ export default [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
+      {
+        indexed: true,
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
       {
         indexed: true,
         internalType: "address",
@@ -262,7 +296,7 @@ export default [
         type: "address",
       },
     ],
-    name: "SetDeusV3Address",
+    name: "SetSymmioAddress",
     type: "event",
   },
   {
@@ -306,35 +340,67 @@ export default [
   {
     inputs: [],
     name: "DEFAULT_ADMIN_ROLE",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "PAUSER_ROLE",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "SETTER_ROLE",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [],
     name: "UNPAUSER_ROLE",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "bytes[]", name: "_calldatas", type: "bytes[]" },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "bytes[]",
+        name: "_callDatas",
+        type: "bytes[]",
+      },
     ],
     name: "_call",
     outputs: [],
@@ -343,20 +409,42 @@ export default [
   },
   {
     inputs: [],
-    name: "accountImplementaion",
-    outputs: [{ internalType: "bytes", name: "", type: "bytes" }],
+    name: "accountImplementation",
+    outputs: [
+      {
+        internalType: "bytes",
+        name: "",
+        type: "bytes",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "", type: "address" },
-      { internalType: "uint256", name: "", type: "uint256" },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
     ],
     name: "accounts",
     outputs: [
-      { internalType: "address", name: "accountAddress", type: "address" },
-      { internalType: "string", name: "name", type: "string" },
+      {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
     ],
     stateMutability: "view",
     type: "function",
@@ -364,12 +452,24 @@ export default [
   {
     inputs: [],
     name: "accountsAdmin",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [{ internalType: "string", name: "name", type: "string" }],
+    inputs: [
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
+    ],
     name: "addAccount",
     outputs: [],
     stateMutability: "nonpayable",
@@ -377,8 +477,16 @@ export default [
   },
   {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "depositAndAllocateForAccount",
     outputs: [],
@@ -387,8 +495,16 @@ export default [
   },
   {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "depositForAccount",
     outputs: [],
@@ -396,16 +512,17 @@ export default [
     type: "function",
   },
   {
-    inputs: [],
-    name: "deusV3Address",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [
-      { internalType: "address", name: "accountAddress", type: "address" },
-      { internalType: "string", name: "name", type: "string" },
+      {
+        internalType: "address",
+        name: "accountAddress",
+        type: "address",
+      },
+      {
+        internalType: "string",
+        name: "name",
+        type: "string",
+      },
     ],
     name: "editAccountName",
     outputs: [],
@@ -414,18 +531,38 @@ export default [
   },
   {
     inputs: [
-      { internalType: "address", name: "user", type: "address" },
-      { internalType: "uint256", name: "start", type: "uint256" },
-      { internalType: "uint256", name: "size", type: "uint256" },
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "start",
+        type: "uint256",
+      },
+      {
+        internalType: "uint256",
+        name: "size",
+        type: "uint256",
+      },
     ],
     name: "getAccounts",
     outputs: [
       {
         components: [
-          { internalType: "address", name: "accountAddress", type: "address" },
-          { internalType: "string", name: "name", type: "string" },
+          {
+            internalType: "address",
+            name: "accountAddress",
+            type: "address",
+          },
+          {
+            internalType: "string",
+            name: "name",
+            type: "string",
+          },
         ],
-        internalType: "struct IDeusV3MultiAccount.Account[]",
+        internalType: "struct IMultiAccount.Account[]",
         name: "",
         type: "tuple[]",
       },
@@ -434,23 +571,55 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "user", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "user",
+        type: "address",
+      },
+    ],
     name: "getAccountsLength",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "bytes32", name: "role", type: "bytes32" }],
-    name: "getRoleAdmin",
-    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "role", type: "bytes32" },
-      { internalType: "address", name: "account", type: "address" },
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+    ],
+    name: "getRoleAdmin",
+    outputs: [
+      {
+        internalType: "bytes32",
+        name: "",
+        type: "bytes32",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
     ],
     name: "grantRole",
     outputs: [],
@@ -459,26 +628,64 @@ export default [
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "role", type: "bytes32" },
-      { internalType: "address", name: "account", type: "address" },
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
     ],
     name: "hasRole",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "indexOfAccount",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "admin", type: "address" },
-      { internalType: "address", name: "deusV3Address_", type: "address" },
-      { internalType: "bytes", name: "accountImplementaion_", type: "bytes" },
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "indexOfAccount",
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      {
+        internalType: "address",
+        name: "admin",
+        type: "address",
+      },
+      {
+        internalType: "address",
+        name: "symmioAddress_",
+        type: "address",
+      },
+      {
+        internalType: "bytes",
+        name: "accountImplementation_",
+        type: "bytes",
+      },
     ],
     name: "initialize",
     outputs: [],
@@ -486,9 +693,21 @@ export default [
     type: "function",
   },
   {
-    inputs: [{ internalType: "address", name: "", type: "address" }],
-    name: "owner",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
+    inputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
+    name: "owners",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
@@ -502,14 +721,28 @@ export default [
   {
     inputs: [],
     name: "paused",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "role", type: "bytes32" },
-      { internalType: "address", name: "account", type: "address" },
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
     ],
     name: "renounceRole",
     outputs: [],
@@ -518,8 +751,16 @@ export default [
   },
   {
     inputs: [
-      { internalType: "bytes32", name: "role", type: "bytes32" },
-      { internalType: "address", name: "account", type: "address" },
+      {
+        internalType: "bytes32",
+        name: "role",
+        type: "bytes32",
+      },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
     ],
     name: "revokeRole",
     outputs: [],
@@ -529,43 +770,72 @@ export default [
   {
     inputs: [],
     name: "saltCounter",
-    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    outputs: [
+      {
+        internalType: "uint256",
+        name: "",
+        type: "uint256",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "bytes", name: "accountImplementaion_", type: "bytes" },
+      {
+        internalType: "bytes",
+        name: "accountImplementation_",
+        type: "bytes",
+      },
     ],
-    name: "setAccountImplementaion",
+    name: "setAccountImplementation",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
     inputs: [
-      { internalType: "address", name: "deusV3Address_", type: "address" },
+      {
+        internalType: "address",
+        name: "addr",
+        type: "address",
+      },
     ],
-    name: "setDeusV3Address",
+    name: "setSymmioAddress",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
   },
   {
-    inputs: [{ internalType: "bytes4", name: "interfaceId", type: "bytes4" }],
+    inputs: [
+      {
+        internalType: "bytes4",
+        name: "interfaceId",
+        type: "bytes4",
+      },
+    ],
     name: "supportsInterface",
-    outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    outputs: [
+      {
+        internalType: "bool",
+        name: "",
+        type: "bool",
+      },
+    ],
     stateMutability: "view",
     type: "function",
   },
   {
-    inputs: [
-      { internalType: "address", name: "newOwner", type: "address" },
-      { internalType: "address", name: "accountAddress", type: "address" },
+    inputs: [],
+    name: "symmioAddress",
+    outputs: [
+      {
+        internalType: "address",
+        name: "",
+        type: "address",
+      },
     ],
-    name: "trasnferAccount",
-    outputs: [],
-    stateMutability: "nonpayable",
+    stateMutability: "view",
     type: "function",
   },
   {
@@ -577,8 +847,16 @@ export default [
   },
   {
     inputs: [
-      { internalType: "address", name: "account", type: "address" },
-      { internalType: "uint256", name: "amount", type: "uint256" },
+      {
+        internalType: "address",
+        name: "account",
+        type: "address",
+      },
+      {
+        internalType: "uint256",
+        name: "amount",
+        type: "uint256",
+      },
     ],
     name: "withdrawFromAccount",
     outputs: [],

@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 
 import {
   DEFAULT_PRECISION,
+  MARKET_PRICE_COEFFICIENT,
   MAX_PENDINGS_POSITIONS_NUMBER,
 } from "../constants/misc";
 import { removeTrailingZeros, RoundMode, toBN } from "../utils/numbers";
@@ -17,7 +18,7 @@ import {
   useMarketOpenInterest,
   useMarketPriceRange,
 } from "../state/hedger/hooks";
-import { useLeverage } from "../state/user/hooks";
+import { useLeverage, useSlippageTolerance } from "../state/user/hooks";
 import {
   useActiveMarket,
   useActiveMarketPrice,
@@ -57,6 +58,8 @@ export default function useTradePage(): {
   } = marketNotionalCap;
   const { used: usedOpenInterest, total: totalOpenInterest } = openInterest;
   const leverage = useLeverage();
+  const slippage = useSlippageTolerance();
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
 
   const [pricePrecision, quantityPrecision] = useMemo(
     () =>
@@ -66,10 +69,30 @@ export default function useTradePage(): {
     [market]
   );
 
-  const price: string = useMemo(
-    () => (orderType === OrderType.LIMIT ? limitPrice : marketPrice.toString()),
-    [orderType, limitPrice, marketPrice]
-  );
+  const price: string = useMemo(() => {
+    const marketPriceBN = toBN(marketPrice);
+
+    if (orderType === OrderType.LIMIT) {
+      return limitPrice;
+    } else {
+      if (slippage === "auto") {
+        return positionType === PositionType.SHORT
+          ? marketPriceBN.div(autoSlippage).toString()
+          : marketPriceBN.times(autoSlippage).toString();
+      }
+      const spSigned =
+        positionType === PositionType.SHORT ? slippage : slippage * -1;
+      const slippageFactored = toBN(100 - spSigned).div(100);
+      return marketPriceBN.times(slippageFactored).toString();
+    }
+  }, [
+    orderType,
+    limitPrice,
+    marketPrice,
+    slippage,
+    positionType,
+    autoSlippage,
+  ]);
 
   const independentValue = useMemo(() => {
     if (!typedValue || toBN(price).isZero()) return null;
@@ -224,19 +247,33 @@ export function useLockedCVA(notionalValue: string): string {
   );
 }
 
-//Maintenance Margin
-export function useLockedMM(notionalValue: string): string {
-  const leverage = useLeverage();
-  const { mm } = useLockedPercentages();
+// partyB mm => percent of notional value
+export function usePartyBLockedMM(notionalValue: string): string {
+  const { partyBmm } = useLockedPercentages();
 
   return useMemo(
     () =>
       toBN(notionalValue)
-        .times(mm ?? 0)
+        .times(partyBmm ?? 0)
+        .div(100)
+        .toString(),
+    [partyBmm, notionalValue]
+  );
+}
+
+//Maintenance Margin
+export function usePartyALockedMM(notionalValue: string): string {
+  const leverage = useLeverage();
+  const { partyAmm } = useLockedPercentages();
+
+  return useMemo(
+    () =>
+      toBN(notionalValue)
+        .times(partyAmm ?? 0)
         .div(100)
         .div(leverage)
         .toString(),
-    [leverage, mm, notionalValue]
+    [leverage, partyAmm, notionalValue]
   );
 }
 
@@ -256,30 +293,28 @@ export function useLockedLF(notionalValue: string): string {
   );
 }
 
-export function useMaxInterestRate(notionalValue: string): string {
-  return useMemo(
-    () => toBN(notionalValue).times(1).div(100).toString(),
-    [notionalValue]
-  );
+export function useMaxFundingRate(): string {
+  const market = useActiveMarket();
+  return useMemo(() => market?.maxFundingRate ?? "0", [market?.maxFundingRate]);
 }
 
 export function useLockedValues(notionalValue: string): {
   cva: string;
   lf: string;
-  mm: string;
+  partyAmm: string;
   total: string;
 } {
   const lf = useLockedLF(notionalValue);
-  const mm = useLockedMM(notionalValue);
+  const partyAmm = usePartyALockedMM(notionalValue);
   const cva = useLockedCVA(notionalValue);
 
   return useMemo(
     () => ({
       cva,
       lf,
-      mm,
-      total: toBN(cva).plus(mm).plus(lf).toString(),
+      partyAmm,
+      total: toBN(cva).plus(partyAmm).plus(lf).toString(),
     }),
-    [lf, mm, cva]
+    [lf, partyAmm, cva]
   );
 }

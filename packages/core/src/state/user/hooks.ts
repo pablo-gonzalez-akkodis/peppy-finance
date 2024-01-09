@@ -5,6 +5,7 @@ import { makeHttpRequest } from "../../utils/http";
 import { BALANCE_HISTORY_ITEMS_NUMBER } from "../../constants/misc";
 import {
   Account,
+  AccountUpnl,
   UserPartyAStatDetail,
   initialUserPartyAStatDetail,
 } from "../../types/user";
@@ -206,42 +207,59 @@ export function useUpnlWebSocketStatus() {
   );
   return upnlWebSocketStatus;
 }
+
 export function useIsWhiteList(
-  account: string | undefined
+  account: string | undefined,
+  multiAccountAddress: string | undefined
 ): () => Promise<WhiteListResponse> {
-  const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
+  const { baseUrl, fetchData } = useHedgerInfo() || {};
   const appName = useAppName();
 
   const isWhiteList = useCallback(async () => {
-    if (!WEB_SETTING.checkWhiteList || !fetchData || !account || !baseUrl) {
+    if (
+      !WEB_SETTING.checkWhiteList ||
+      !fetchData ||
+      !account ||
+      !baseUrl ||
+      !multiAccountAddress
+    ) {
       return Promise.reject("");
     }
 
-    const url = new URL(`/check_in-whitelist/${account}/${clientName}`, baseUrl)
-      .href;
+    const { href: url } = new URL(
+      `/check_in-whitelist/${account}/${multiAccountAddress}`,
+      baseUrl
+    );
     return makeHttpRequest<WhiteListResponse>(url, getAppNameHeader(appName));
-  }, [fetchData, account, baseUrl, clientName, appName]);
+  }, [fetchData, account, baseUrl, multiAccountAddress, appName]);
 
   return isWhiteList;
 }
 
 export function useAddInWhitelist(
-  subAccount: string | undefined
+  subAccount: string | undefined,
+  multiAccountAddress: string | undefined
 ): () => Promise<GetWhiteListType | null> {
-  const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
+  const { baseUrl, fetchData } = useHedgerInfo() || {};
   const appName = useAppName();
 
   const addInWhitelist = useCallback(async () => {
-    if (!WEB_SETTING.checkWhiteList || !fetchData || !subAccount || !baseUrl) {
+    if (
+      !WEB_SETTING.checkWhiteList ||
+      !fetchData ||
+      !subAccount ||
+      !baseUrl ||
+      !multiAccountAddress
+    ) {
       return Promise.reject("");
     }
 
-    const url = new URL(
-      `/add-sub-address-in-whitelist/${subAccount}/${clientName}`,
+    const { href: url } = new URL(
+      `/add-sub-address-in-whitelist/${subAccount}/${multiAccountAddress}`,
       baseUrl
-    ).href;
+    );
     return makeHttpRequest<GetWhiteListType>(url, getAppNameHeader(appName));
-  }, [appName, baseUrl, clientName, fetchData, subAccount]);
+  }, [appName, baseUrl, fetchData, multiAccountAddress, subAccount]);
 
   return addInWhitelist;
 }
@@ -275,4 +293,10 @@ export function useTotalDepositsAndWithdrawals() {
 export function useIsTermsAccepted() {
   const isTermsAccepted = useAppSelector((state) => state.user.isTermsAccepted);
   return isTermsAccepted;
+}
+
+export function useCustomAccountUpnl(account: string): AccountUpnl | undefined {
+  return useAppSelector((state) =>
+    (state.user.allAccountsUpnl || []).find((x: any) => x.account === account)
+  )?.upnl;
 }

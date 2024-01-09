@@ -180,7 +180,7 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
     positionType,
     openedPrice,
     avgClosedPrice,
-    modifyTimestamp,
+    statusModifyTimestamp,
     quoteStatus,
     liquidatePrice,
     liquidateAmount,
@@ -211,6 +211,8 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
   const setQuoteDetail = useSetQuoteDetailCallback();
 
   const activeDetail = id === quoteDetail?.id;
+  const canceledOrExpired =
+    quoteStatus === QuoteStatus.CANCELED || quoteStatus === QuoteStatus.EXPIRED;
 
   const averagePrice = toBN(liquidatePrice)
     .times(liquidateAmount)
@@ -225,7 +227,7 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
     () => (
       <>
         <QuoteWrap
-          canceled={quoteStatus === QuoteStatus.CANCELED}
+          canceled={canceledOrExpired}
           onClick={() => setQuoteDetail(quote)}
         >
           <RowStart>
@@ -249,10 +251,13 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
               ? formatPrice(averagePrice)
               : formatPrice(avgClosedPrice)}
           </div>
-          <QuoteStatusValue liq={quoteStatus === QuoteStatus.LIQUIDATED}>
+          <QuoteStatusValue
+            liq={quoteStatus === QuoteStatus.LIQUIDATED}
+            expired={quoteStatus === QuoteStatus.EXPIRED}
+          >
             {titleCase(quoteStatus)}
           </QuoteStatusValue>
-          {quoteStatus === QuoteStatus.CANCELED ? (
+          {canceledOrExpired ? (
             <div>-</div>
           ) : (
             <PnlValue color={color}>{`${value} (${Math.abs(
@@ -260,7 +265,7 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
             )}%)`}</PnlValue>
           )}
 
-          <Timestamp>{formatTimestamp(modifyTimestamp * 1000)}</Timestamp>
+          <Timestamp>{formatTimestamp(statusModifyTimestamp * 1000)}</Timestamp>
           <div
             style={{
               width: "12px",
@@ -275,6 +280,7 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
       </>
     ),
     [
+      canceledOrExpired,
       quoteStatus,
       activeDetail,
       positionType,
@@ -290,7 +296,7 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
       color,
       value,
       upnlPercent,
-      modifyTimestamp,
+      statusModifyTimestamp,
       setQuoteDetail,
       quote,
     ]
@@ -298,13 +304,12 @@ function QuoteRow({ quote }: { quote: Quote }): JSX.Element | null {
 }
 
 export default function History({ quotes }: { quotes: Quote[] }) {
-  const mobileVersion = useIsMobile();
-
+  const isMobile = useIsMobile();
   return (
     <>
       <Wrapper>
-        <TableHeader mobileVersion={mobileVersion} />
-        <TableBody quotes={quotes} mobileVersion={mobileVersion} />
+        <TableHeader mobileVersion={isMobile} />
+        <TableBody quotes={quotes} mobileVersion={isMobile} />
       </Wrapper>
     </>
   );
