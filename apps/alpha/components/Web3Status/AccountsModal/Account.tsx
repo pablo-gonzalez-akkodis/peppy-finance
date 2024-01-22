@@ -8,7 +8,7 @@ import {
 } from "@symmio/frontend-sdk/types/user";
 import { ApiState } from "@symmio/frontend-sdk/types/api";
 import { useCustomAccountUpnl } from "@symmio/frontend-sdk/state/user/hooks";
-import { formatAmount, toBN } from "@symmio/frontend-sdk//utils/numbers";
+import { formatAmount, toBN } from "@symmio/frontend-sdk/utils/numbers";
 
 import { RowBetween, RowEnd, RowStart } from "components/Row";
 import { Loader } from "components/Icons";
