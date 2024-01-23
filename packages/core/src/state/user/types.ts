@@ -15,6 +15,7 @@ export interface UserState {
   whiteListAccount: boolean | null;
   accountsPartyAStat: UserPartyAStatType;
   whiteListAccountState: ApiState;
+  allAccountsUpnl: { account: string; upnl: AccountUpnl }[];
 
   balanceHistory?: { [txHash: string]: BalanceHistoryData };
   balanceHistoryState: ApiState;
@@ -68,3 +69,21 @@ export enum TermsStatus {
   ACCEPTED,
   UNCLEAR,
 }
+
+export interface BalanceInfo {
+  allocatedBalance: number;
+  cva: number;
+  mm: number;
+  lf: number;
+  pendingCva: number;
+  pendingMm: number;
+  pendingLf: number;
+  upnl: number;
+  notional: number;
+  timestamp: number;
+  availableBalance: number;
+}
+
+export type BalanceInfosType = {
+  [address: string]: BalanceInfo;
+};

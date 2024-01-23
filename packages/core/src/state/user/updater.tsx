@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import isEmpty from "lodash/isEmpty.js";
 import { AppDispatch, AppThunkDispatch, useAppDispatch } from "../declaration";
 import { useWebSocket } from "react-use-websocket/dist/lib/use-websocket.js";
-// const useWebSocket = useWebSocketRaw.useWebSocket;
+
 // TODO: fix this { ReadyState } from "react-use-websocket"
 enum ReadyState {
   UNINSTANTIATED = -1,
@@ -11,6 +11,7 @@ enum ReadyState {
   CLOSING = 2,
   CLOSED = 3,
 }
+
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import useIsWindowVisible from "../../lib/hooks/useIsWindowVisible";
 
@@ -25,6 +26,7 @@ import {
 } from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
 import { useAppName } from "../chains/hooks";
+import { useMultiAccountContract } from "../../hooks/useContract";
 import { ConnectionStatus } from "../../types/api";
 
 export function UserUpdater(): null {
@@ -32,15 +34,30 @@ export function UserUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
   const { account, chainId } = useActiveWagmi();
   const activeAccountAddress = useActiveAccountAddress();
+  const MultiAccountContract = useMultiAccountContract();
   const appName = useAppName();
 
-  const { baseUrl, fetchData, clientName } = useHedgerInfo() || {};
+  const { baseUrl, fetchData } = useHedgerInfo() || {};
   useUpnlWebSocket(dispatch);
 
   useEffect(() => {
-    if (fetchData && account)
-      thunkDispatch(getIsWhiteList({ baseUrl, account, clientName, appName }));
-  }, [thunkDispatch, baseUrl, account, fetchData, clientName, appName]);
+    if (fetchData && account && MultiAccountContract)
+      thunkDispatch(
+        getIsWhiteList({
+          baseUrl,
+          account,
+          multiAccountAddress: MultiAccountContract.address,
+          appName,
+        })
+      );
+  }, [
+    thunkDispatch,
+    baseUrl,
+    account,
+    fetchData,
+    appName,
+    MultiAccountContract,
+  ]);
 
   useEffect(() => {
     if (chainId)

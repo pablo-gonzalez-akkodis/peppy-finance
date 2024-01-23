@@ -14,6 +14,7 @@ import {
   useQuoteDetail,
   useSetQuoteDetailCallback,
 } from "@symmio/frontend-sdk/state/quotes/hooks";
+import { sortQuotesByModifyTimestamp } from "@symmio/frontend-sdk/hooks/useQuotes";
 
 import { Card } from "components/Card";
 import History from "./History";
@@ -70,10 +71,7 @@ export default function UserPanel(): JSX.Element | null {
   }
 
   const positionQuotes: Quote[] = useMemo(() => {
-    return [...pendings, ...positions].sort(
-      (a: Quote, b: Quote) =>
-        Number(b.modifyTimestamp) - Number(a.modifyTimestamp)
-    );
+    return [...pendings, ...positions].sort(sortQuotesByModifyTimestamp);
   }, [pendings, positions]);
 
   const currentOrders = useMemo(() => {

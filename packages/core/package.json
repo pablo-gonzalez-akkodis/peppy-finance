@@ -192,9 +192,9 @@
       "types": "./dist/hooks/useContract.d.ts",
       "default": "./dist/hooks/useContract.js"
     },
-    "./hooks/useDeallocateSign": {
-      "types": "./dist/hooks/useDeallocateSign.d.ts",
-      "default": "./dist/hooks/useDeallocateSign.js"
+    "./hooks/useFundingRate": {
+      "types": "./dist/hooks/useFundingRate.d.ts",
+      "default": "./dist/hooks/useFundingRate.js"
     },
     "./hooks/useIsCooldownActive": {
       "types": "./dist/hooks/useIsCooldownActive.d.ts",
@@ -207,10 +207,6 @@
     "./hooks/useMultiAccountable": {
       "types": "./dist/hooks/useMultiAccountable.d.ts",
       "default": "./dist/hooks/useMultiAccountable.js"
-    },
-    "./hooks/useMuonSign": {
-      "types": "./dist/hooks/useMuonSign.d.ts",
-      "default": "./dist/hooks/useMuonSign.js"
     },
     "./hooks/usePartyAStats": {
       "types": "./dist/hooks/usePartyAStats.d.ts",
@@ -487,6 +483,10 @@
     "./state/user/actions": {
       "types": "./dist/state/user/actions.d.ts",
       "default": "./dist/state/user/actions.js"
+    },
+    "./state/user/allAccountsUpdater": {
+      "types": "./dist/state/user/allAccountsUpdater.d.ts",
+      "default": "./dist/state/user/allAccountsUpdater.js"
     },
     "./state/user/hooks": {
       "types": "./dist/state/user/hooks.d.ts",

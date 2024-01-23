@@ -16,7 +16,6 @@ import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
 import { getAppNameHeader } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
-  useLeverage,
   useSlippageTolerance,
 } from "../state/user/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
@@ -27,7 +26,6 @@ import {
 import { ConstructCallReturnType } from "../types/web3";
 import {
   useActiveMarketId,
-  useActiveMarketPrice,
   useLockedPercentages,
   useOrderType,
   usePositionType,
@@ -38,9 +36,6 @@ import {
   toBN,
   toWei,
   formatPrice,
-  BN_ZERO,
-  fromWei,
-  toWeiBN,
 } from "../utils/numbers";
 import {
   createTransactionCallback,
@@ -56,12 +51,12 @@ import { useMultiAccountable } from "../hooks/useMultiAccountable";
 import useTradePage, {
   useLockedCVA,
   useLockedLF,
-  useLockedMM,
-  useMaxInterestRate,
+  useMaxFundingRate,
   useNotionalValue,
+  usePartyALockedMM,
+  usePartyBLockedMM,
 } from "../hooks/useTradePage";
-import { SendOrCloseQuoteClient } from "../lib/muon";
-import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
+import { SendQuoteClient } from "../lib/muon";
 import { encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import {
@@ -92,33 +87,32 @@ export function useSentQuoteCallback(): {
   const orderType = useOrderType();
   const positionType = usePositionType();
   const { price, formattedAmounts } = useTradePage();
-  const leverage = useLeverage();
   const appName = useAppName();
 
   const marketId = useActiveMarketId();
   const market = useMarket(marketId);
-  const marketPrice = useActiveMarketPrice();
   const slippage = useSlippageTolerance();
   const pricePrecision = useMemo(
     () => market?.pricePrecision ?? DEFAULT_PRECISION,
     [market]
   );
-  const openPriceBN = useMemo(() => (price ? toBN(price) : BN_ZERO), [price]);
+  const openPrice = useMemo(() => (price ? price : "0"), [price]);
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
 
   const openPriceFinal = useMemo(() => {
-    if (orderType === OrderType.LIMIT) return openPriceBN;
+    if (orderType === OrderType.LIMIT) return openPrice;
 
     if (slippage === "auto") {
       return positionType === PositionType.SHORT
-        ? openPriceBN.div(MARKET_PRICE_COEFFICIENT)
-        : openPriceBN.times(MARKET_PRICE_COEFFICIENT);
+        ? toBN(openPrice).div(autoSlippage).toString()
+        : toBN(openPrice).times(autoSlippage).toString();
     }
 
     const spSigned =
       positionType === PositionType.SHORT ? slippage : slippage * -1;
     const slippageFactored = toBN(100 - spSigned).div(100);
-    return toBN(openPriceBN).times(slippageFactored);
-  }, [openPriceBN, slippage, positionType, orderType]);
+    return toBN(openPrice).times(slippageFactored).toString();
+  }, [orderType, openPrice, slippage, positionType, autoSlippage]);
 
   const openPriceWied = useMemo(
     () => toWei(formatPrice(openPriceFinal, pricePrecision)),
@@ -126,20 +120,22 @@ export function useSentQuoteCallback(): {
   );
 
   const quantityAsset = useMemo(
-    () =>
-      toBN(formattedAmounts[1]).isNaN() ? toBN(0) : toBN(formattedAmounts[1]),
+    () => (toBN(formattedAmounts[1]).isNaN() ? "0" : formattedAmounts[1]),
     [formattedAmounts]
   );
 
-  const notionalValue = useNotionalValue(quantityAsset.toString(), openPriceBN);
+  const notionalValue = useNotionalValue(
+    quantityAsset,
+    formatPrice(openPriceFinal, pricePrecision)
+  );
   const lockedCVA = useLockedCVA(notionalValue);
-  const lockedMM = useLockedMM(notionalValue);
   const lockedLF = useLockedLF(notionalValue);
-  const { cva, mm, lf } = useLockedPercentages();
+  const lockedPartyAMM = usePartyALockedMM(notionalValue);
+  const lockedPartyBMM = usePartyBLockedMM(notionalValue);
+  const { cva, partyAmm, partyBmm, lf } = useLockedPercentages();
   const updateNotionalCap = useSetNotionalCap();
 
-  const maxInterestRate = useMaxInterestRate(notionalValue);
-  const fakeSignature = useSingleUpnlAndPriceSig(toWeiBN(marketPrice));
+  const maxFundingRate = useMaxFundingRate();
   const { baseUrl } = useHedgerInfo() || {};
   const PARTY_B_WHITELIST = usePartyBWhitelistAddress();
   const FALLBACK_CHAIN_ID = useFallbackChainId();
@@ -149,43 +145,41 @@ export function useSentQuoteCallback(): {
   );
 
   const getSignature = useCallback(async () => {
-    if (!SendOrCloseQuoteClient) {
-      return { signature: fakeSignature, price: marketPrice.toString() };
-    }
-
-    if (!activeAccountAddress || !chainId || !DiamondContract || !marketId) {
+    if (
+      !activeAccountAddress ||
+      !chainId ||
+      !DiamondContract ||
+      !marketId ||
+      !SendQuoteClient
+    ) {
       throw new Error("Missing muon params");
     }
 
-    const { success, signature, error } =
-      await SendOrCloseQuoteClient.getMuonSig(
-        activeAccountAddress,
-        chainId,
-        DiamondContract.address,
-        marketId
-      );
+    const { success, signature, error } = await SendQuoteClient.getMuonSig(
+      activeAccountAddress,
+      chainId,
+      DiamondContract.address,
+      marketId
+    );
 
     if (success === false || !signature) {
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
-    return { signature, price: fromWei(signature.price.toString()) };
-  }, [
-    DiamondContract,
-    activeAccountAddress,
-    chainId,
-    fakeSignature,
-    marketId,
-    marketPrice,
-  ]);
+    return { signature };
+  }, [DiamondContract, activeAccountAddress, chainId, marketId]);
 
   const getNotionalCap = useCallback(async () => {
     if (!market) {
       throw new Error("market is missing");
     }
+    if (!MultiAccountContract) {
+      throw new Error("contract is missing");
+    }
     const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.name}`,
+      `notional_cap/${market.id}/${MultiAccountContract.address}`,
       baseUrl
     );
+
     const tempResponse = await makeHttpRequest<{
       total_cap: number;
       used: number;
@@ -195,11 +189,19 @@ export function useSentQuoteCallback(): {
       tempResponse;
 
     const freeCap = toBN(total_cap).minus(used);
-    const notionalValue = openPriceBN.times(quantityAsset);
+    const notionalValue = toBN(openPrice).times(quantityAsset);
     updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [appName, baseUrl, market, openPriceBN, quantityAsset, updateNotionalCap]);
+  }, [
+    MultiAccountContract,
+    appName,
+    baseUrl,
+    market,
+    openPrice,
+    quantityAsset,
+    updateNotionalCap,
+  ]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {
@@ -211,23 +213,19 @@ export function useSentQuoteCallback(): {
         !partyBWhiteList ||
         !isSupportedChainId ||
         !cva ||
-        !mm ||
+        !partyAmm ||
+        !partyBmm ||
         !lf
       ) {
         throw new Error("Missing dependencies.");
       }
 
       await getNotionalCap();
-      const { signature, price } = await getSignature();
+      const { signature } = await getSignature();
 
       if (!signature) {
         throw new Error("Missing signature for constructCall.");
       }
-
-      const muonNotionalValue = toBN(quantityAsset).times(price);
-      const muonCVA = muonNotionalValue.times(cva).div(100).div(leverage);
-      const muonMM = muonNotionalValue.times(mm).div(100).div(leverage);
-      const muonLF = muonNotionalValue.times(lf).div(100).div(leverage);
 
       const deadline =
         orderType === OrderType.MARKET
@@ -241,10 +239,12 @@ export function useSentQuoteCallback(): {
         (orderType === OrderType.MARKET ? 1 : 0) as number,
         BigInt(openPriceWied),
         BigInt(toWei(quantityAsset, 18)),
-        orderType === OrderType.MARKET ? toWei(muonCVA) : toWei(lockedCVA),
-        orderType === OrderType.MARKET ? toWei(muonMM) : toWei(lockedMM),
-        orderType === OrderType.MARKET ? toWei(muonLF) : toWei(lockedLF),
-        toWei(maxInterestRate),
+        toWei(lockedCVA),
+        toWei(lockedLF),
+        toWei(lockedPartyAMM), // partyAmm
+        toWei(lockedPartyBMM), // partyBmm
+        toWei(maxFundingRate),
+
         BigInt(deadline),
         signature,
       ];
@@ -275,19 +275,20 @@ export function useSentQuoteCallback(): {
     partyBWhiteList,
     isSupportedChainId,
     cva,
-    mm,
+    partyAmm,
+    partyBmm,
     lf,
     getNotionalCap,
     getSignature,
     quantityAsset,
-    leverage,
     orderType,
     positionType,
     openPriceWied,
     lockedCVA,
-    lockedMM,
     lockedLF,
-    maxInterestRate,
+    lockedPartyAMM,
+    lockedPartyBMM,
+    maxFundingRate,
   ]);
 
   const constructCall = useMultiAccountable(preConstructCall);
@@ -309,14 +310,14 @@ export function useSentQuoteCallback(): {
       };
     }
 
-    if (openPriceBN.lte(0)) {
+    if (toBN(openPrice).lte(0)) {
       return {
         state: TransactionCallbackState.INVALID,
         callback: null,
         error: "Price is out of range",
       };
     }
-    if (quantityAsset.lte(0)) {
+    if (toBN(quantityAsset).lte(0)) {
       return {
         state: TransactionCallbackState.INVALID,
         callback: null,
@@ -360,7 +361,7 @@ export function useSentQuoteCallback(): {
     orderType,
     quantityAsset,
     activeAccountAddress,
-    openPriceBN,
+    openPrice,
     price,
     pricePrecision,
     slippage,

@@ -6,12 +6,15 @@ import {
   MarketData,
   MarketDepthData,
   MarketNotionalCap,
+  FundingRateMap,
+  FundingRateData,
 } from "./types";
 import {
   updateWebSocketStatus,
   updatePrices,
   updateDepth,
   updateNotionalCap,
+  updateFundingRates,
 } from "./actions";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import { useSupportedChainId } from "../../lib/hooks/useSupportedChainId";
@@ -25,6 +28,13 @@ export function useMarketsStatus(): ApiState {
     (state) => state.hedger.marketsStatus
   );
   return marketsStatus;
+}
+
+export function useOpenInterestStatus(): ApiState {
+  const openInterestStatus: ApiState = useAppSelector(
+    (state) => state.hedger.openInterestStatus
+  );
+  return openInterestStatus;
 }
 
 export function useSetWebSocketStatus() {
@@ -107,6 +117,13 @@ export function useMarketData(name: string | undefined): MarketData | null {
   return name ? prices[name] : null;
 }
 
+export function useFundingRateData(
+  name: string | undefined
+): FundingRateData | null {
+  const fundingRates = useAppSelector((state) => state.hedger.fundingRates);
+  return name ? fundingRates[name] : null;
+}
+
 export function useMarketDepth(
   name: string | undefined
 ): MarketDepthData | null {
@@ -119,6 +136,16 @@ export function useSetPrices() {
   return useCallback(
     (prices: MarketDataMap) => {
       dispatch(updatePrices({ prices }));
+    },
+    [dispatch]
+  );
+}
+
+export function useSetFundingRates() {
+  const dispatch = useAppDispatch();
+  return useCallback(
+    (fundingRates: FundingRateMap) => {
+      dispatch(updateFundingRates({ fundingRates }));
     },
     [dispatch]
   );

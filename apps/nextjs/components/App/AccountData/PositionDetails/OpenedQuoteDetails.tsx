@@ -1,12 +1,16 @@
 import { useTheme } from "styled-components";
 import React, { useEffect, useState } from "react";
 
+import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { Quote, QuoteStatus } from "@symmio/frontend-sdk/types/quote";
 import { PositionType } from "@symmio/frontend-sdk/types/trade";
-import { formatTimestamp } from "@symmio/frontend-sdk/utils/time";
+import {
+  formatTimestamp,
+  getRemainingTime,
+} from "@symmio/frontend-sdk/utils/time";
 import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import {
   formatAmount,
@@ -24,11 +28,17 @@ import {
   useQuoteUpnlAndPnl,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
 import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
+import { FundingRateData } from "@symmio/frontend-sdk/state/hedger/types";
+import useFetchFundingRate, {
+  shouldPayFundingRate,
+  useGetPaidAmount,
+} from "@symmio/frontend-sdk/hooks/useFundingRate";
+import { ApiState } from "@symmio/frontend-sdk/types/api";
 
 import { RowEnd, Row as RowComponent } from "components/Row";
 import ClosePendingDetails from "./ClosedSizeDetails/ClosePendingDetails";
 import ClosedAmountDetails from "./ClosedSizeDetails/ClosedAmountDetails";
-import { LongArrow, ShortArrow } from "components/Icons";
+import { Loader, LongArrow, ShortArrow } from "components/Icons";
 import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 import { PositionActionButton } from "components/Button";
 import {
@@ -50,24 +60,11 @@ import {
 } from "components/App/AccountData/PositionDetails/styles";
 import PositionDetailsNavigator from "./PositionDetailsNavigator";
 
-// const ShareOnTwitterButton = styled(RowEnd)`
-//   width: 40%;
-//   height: 20px;
-//   font-size: 10px;
-//   font-weight: 500;
-//   border-radius: 2px;
-//   cursor: pointer;
-//   padding: 4px 4px 4px 8px;
-//   color: ${({ theme }) => theme.text0};
-//   background: ${({ theme }) => theme.twitter};
-// `
-
 export default function OpenedQuoteDetails({
   quote,
   platformFee,
   buttonText,
   disableButton,
-  expired,
   onClickButton,
   mobileVersion = false,
 }: {
@@ -75,7 +72,6 @@ export default function OpenedQuoteDetails({
   platformFee: string;
   buttonText?: string;
   disableButton?: boolean;
-  expired?: boolean;
   onClickButton?: (event: React.MouseEvent<HTMLDivElement>) => void;
   mobileVersion: boolean;
 }): JSX.Element {
@@ -89,7 +85,7 @@ export default function OpenedQuoteDetails({
     quoteStatus,
     avgClosedPrice,
     createTimestamp,
-    modifyTimestamp,
+    statusModifyTimestamp,
   } = quote;
   const market = useMarket(marketId);
   const { symbol, name, asset } = market || {};
@@ -112,7 +108,8 @@ export default function OpenedQuoteDetails({
     undefined
   );
   const [expanded, setExpanded] = useState(!mobileVersion);
-  // const [sharePositionModal, togglePositionModal] = useState(false)
+  const { expired } = useCheckQuoteIsExpired(quote);
+
   useEffect(() => {
     if (!mobileVersion) {
       setExpanded(true);
@@ -173,14 +170,6 @@ export default function OpenedQuoteDetails({
             </RowComponent>
             {!mobileVersion && <PositionDetailsNavigator />}
           </PositionInfoBox>
-          {/* {quoteStatus === QuoteStatus.CLOSED && (
-          <ShareOnTwitterButton onClick={() => togglePositionModal(!sharePositionModal)}>
-            <RowStart>Share on Twitter</RowStart>
-            <RowEnd width={'23%'}>
-              <Image src={TWITTER_ICON} width={19} height={16} alt={`twitter_icon`} />
-            </RowEnd>
-          </ShareOnTwitterButton>
-        )} */}
 
           {mobileVersion &&
             (quoteStatus === QuoteStatus.CLOSED ? ( // fix this - write ueseMemo
@@ -273,17 +262,13 @@ export default function OpenedQuoteDetails({
 
             <Row>
               <Label>Open Price</Label>
-              <Value>{`${formatAmount(openedPrice)} ${
-                collateralCurrency?.symbol
-              }`}</Value>
+              <Value>{`${formatAmount(openedPrice)} ${asset}`}</Value>
             </Row>
 
             {quoteStatus === QuoteStatus.CLOSED ? (
               <Row>
                 <Label>Closed Price:</Label>
-                <Value>{`${formatAmount(avgClosedPrice)} ${
-                  collateralCurrency?.symbol
-                }`}</Value>
+                <Value>{`${formatAmount(avgClosedPrice)} ${asset}`}</Value>
               </Row>
             ) : (
               <>
@@ -327,16 +312,24 @@ export default function OpenedQuoteDetails({
               <Label>Created Time:</Label>
               <Value>{formatTimestamp(createTimestamp * 1000)}</Value>
             </Row>
-            {quoteStatus === QuoteStatus.CLOSED ? (
-              <Row>
-                <Label>Close Time:</Label>
-                <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
-              </Row>
-            ) : (
-              <Row>
-                <Label>Last modified Time:</Label>
-                <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
-              </Row>
+            <Row>
+              <Label>
+                {quoteStatus === QuoteStatus.CLOSED
+                  ? "Close Time:"
+                  : "Last modified Time:"}
+              </Label>
+              <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
+            </Row>
+
+            {quoteStatus !== QuoteStatus.CLOSED && (
+              <FundingRate
+                notionalValue={notionalValue}
+                name={name}
+                symbol={collateralCurrency?.symbol}
+                positionType={positionType}
+                quoteId={id}
+                quoteStatus={quoteStatus}
+              />
             )}
             <Row>
               <Label>Locked Amount:</Label>
@@ -359,13 +352,102 @@ export default function OpenedQuoteDetails({
           </ContentWrapper>
         </Wrapper>
       )}
-
-      {/* <SharePositionModal
-        title={'Share on twitter'}
-        quote={quote}
-        isOpen={sharePositionModal}
-        toggleModal={togglePositionModal}
-      /> */}
     </>
+  );
+}
+
+function FundingRate({
+  notionalValue,
+  positionType,
+  quoteId,
+  name,
+  symbol,
+  quoteStatus,
+}: {
+  notionalValue: string;
+  positionType: PositionType;
+  quoteId: number;
+  quoteStatus: QuoteStatus;
+  name?: string;
+  symbol?: string;
+}) {
+  const theme = useTheme();
+  const fundingRates = useFetchFundingRate(
+    quoteStatus !== QuoteStatus.CLOSED ? name : undefined
+  );
+  const fundingRate =
+    name && fundingRates
+      ? fundingRates
+      : ({
+          next_funding_time: 0,
+          next_funding_rate_long: "",
+          next_funding_rate_short: "",
+        } as FundingRateData);
+
+  const { paidAmount, status } = useGetPaidAmount(quoteId);
+
+  const { next_funding_rate_long, next_funding_rate_short, next_funding_time } =
+    fundingRate;
+  const { diff, hours, minutes, seconds } = getRemainingTime(next_funding_time);
+
+  const nextFunding =
+    positionType === PositionType.LONG
+      ? next_funding_rate_long
+      : next_funding_rate_short;
+
+  const color = shouldPayFundingRate(
+    positionType,
+    next_funding_rate_long,
+    next_funding_rate_short
+  )
+    ? theme.red1
+    : theme.green1;
+
+  const paidAmountBN = toBN(paidAmount).div(1e18);
+
+  return (
+    <React.Fragment>
+      <Row>
+        <Label>Paid Funding:</Label>
+        <PositionPnl
+          color={
+            paidAmountBN.lt(0)
+              ? theme.green1
+              : paidAmountBN.isEqualTo(0)
+              ? theme.text0
+              : theme.red1
+          }
+        >
+          {status === ApiState.LOADING ? (
+            <Loader />
+          ) : (
+            `${formatAmount(
+              paidAmountBN.isGreaterThanOrEqualTo(1) || paidAmountBN.lt(0)
+                ? paidAmountBN.abs()
+                : "0"
+            )} ${symbol}`
+          )}
+        </PositionPnl>
+      </Row>
+      {quoteStatus !== QuoteStatus.CLOSED && (
+        <Row>
+          <Label>Next Funding:</Label>
+          <Value>
+            <PositionPnl color={color}>
+              {!toBN(nextFunding).isNaN()
+                ? `${formatAmount(
+                    toBN(notionalValue).times(nextFunding).abs()
+                  )} `
+                : "-"}
+            </PositionPnl>
+            {symbol} in
+            {diff > 0 &&
+              ` ${hours.toString().padStart(2, "0")}:${minutes
+                .toString()
+                .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`}
+          </Value>
+        </Row>
+      )}
+    </React.Fragment>
   );
 }

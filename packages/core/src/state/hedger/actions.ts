@@ -6,6 +6,7 @@ import {
   MarketDepthMap,
   MarketDepthData,
   MarketNotionalCap,
+  FundingRateMap,
 } from "./types";
 import { ConnectionStatus } from "../../types/api";
 
@@ -28,3 +29,8 @@ export const updateDepth = createAction<{
 export const updateNotionalCap = createAction<{
   notionalCap: MarketNotionalCap;
 }>("hedger/updateNotionalCap");
+
+// TODO: Is it better to save all symbols or only the symbol for active market?
+export const updateFundingRates = createAction<{
+  fundingRates: FundingRateMap;
+}>("hedger/updateFundingRates");

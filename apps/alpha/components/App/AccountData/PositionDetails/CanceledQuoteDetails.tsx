@@ -52,7 +52,7 @@ export default function CanceledQuoteDetails({
     marketId,
     requestedOpenPrice,
     orderType,
-    modifyTimestamp,
+    statusModifyTimestamp,
   } = quote;
   const { symbol, asset } = useMarket(marketId) || {};
   const quoteSize = useQuoteSize(quote);
@@ -116,7 +116,7 @@ export default function CanceledQuoteDetails({
           <DataWrap>
             <Row>
               <Label>Cancel Time:</Label>
-              <Value>{formatTimestamp(modifyTimestamp * 1000)}</Value>
+              <Value>{formatTimestamp(statusModifyTimestamp * 1000)}</Value>
             </Row>
             <Row>
               <Label>Position Value:</Label>

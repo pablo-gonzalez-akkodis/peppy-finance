@@ -11,19 +11,10 @@ export interface QuotesState {
   hasMoreHistory?: boolean;
 }
 
-export interface InitialSubGraphData {
-  mm: string;
-  lf: string;
-  cva: string;
-  partyA: string;
-  quoteId: string;
-  quoteStatus: number;
-  timeStamp: string;
-}
-
 export interface SubGraphData {
   orderTypeOpen: number;
-  mm: string;
+  partyAmm: string;
+  partyBmm: string;
   lf: string;
   cva: string;
   partyA: string;
@@ -35,7 +26,7 @@ export interface SubGraphData {
   quantity: string;
   orderTypeClose: number;
   openedPrice: string;
-  price: string;
+  requestedOpenPrice: string;
   closedPrice: string;
   quantityToClose: string;
   closePrice: string;
@@ -52,7 +43,8 @@ export interface SubGraphData {
   initialData: {
     cva: string;
     lf: string;
-    mm: string;
+    partyAmm: string;
+    partyBmm: string;
     timeStamp: string;
   };
 }

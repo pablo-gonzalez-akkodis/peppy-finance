@@ -15,6 +15,12 @@ export interface MarketDepthData {
   bestBidQuantity: string;
 }
 
+export interface FundingRateData {
+  next_funding_time: number;
+  next_funding_rate_long: string;
+  next_funding_rate_short: string;
+}
+
 export interface PriceResponse {
   r: string;
   T: number;
@@ -54,6 +60,10 @@ export interface MarketDepthMap {
   [symbol: string]: MarketDepthData;
 }
 
+export interface FundingRateMap {
+  [symbol: string]: FundingRateData;
+}
+
 export interface MarketNotionalCap {
   name: string;
   used: number;
@@ -86,16 +96,21 @@ export interface MarketInfoValue {
 }
 
 export type MarketsInfoRes = { [key: string]: MarketInfoValue };
+
+export type FundingRateRes = { [key: string]: FundingRateData };
+
 export interface HedgerState {
   hedgerId: string | number | undefined;
   prices: MarketDataMap; // load from hedger socket
   depths: MarketDepthMap;
   markets: Market[]; //load from hedger api
+  fundingRates: FundingRateMap;
   openInterest: OpenInterest;
   webSocketStatus: ConnectionStatus;
   marketsStatus: ApiState;
   marketNotionalCap: MarketNotionalCap;
   marketNotionalCapStatus: ApiState;
+  openInterestStatus: ApiState;
   priceRange: PriceRange;
   priceRangeStatus: ApiState;
   errorMessages: ErrorMessages;

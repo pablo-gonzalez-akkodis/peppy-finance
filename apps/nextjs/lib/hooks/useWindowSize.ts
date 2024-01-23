@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState, useMemo } from "react";
+import { useLayoutEffect, useState } from "react";
 
 import useEventListener from "./useEventListener";
 import { MEDIA_WIDTHS } from "theme";
@@ -34,5 +34,5 @@ export default function useWindowSize(): WindowSize {
 
 export function useIsMobile() {
   const { width } = useWindowSize();
-  return useMemo(() => width <= MEDIA_WIDTHS.upToMedium, [width]);
+  return width > 0 && width <= MEDIA_WIDTHS.upToMedium;
 }

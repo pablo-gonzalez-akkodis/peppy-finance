@@ -24,10 +24,7 @@ import { Quote } from "../types/quote";
 import { OrderType, PositionType, TradeState } from "../types/trade";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
-import {
-  useActiveAccountAddress,
-  useSlippageTolerance,
-} from "../state/user/hooks";
+import { useSlippageTolerance } from "../state/user/hooks";
 import { useMarketData } from "../state/hedger/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
@@ -41,8 +38,6 @@ import {
   useMultiAccountContract,
 } from "../hooks/useContract";
 import { useMultiAccountable } from "../hooks/useMultiAccountable";
-import { SendOrCloseQuoteClient } from "../lib/muon";
-import { useSingleUpnlAndPriceSig } from "../hooks/useMuonSign";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
@@ -68,9 +63,6 @@ export function useClosePosition(
   const MultiAccountContract = useMultiAccountContract();
 
   const functionName = "requestToClosePosition";
-  const activeAccountAddress = useActiveAccountAddress();
-
-  const slippage = useSlippageTolerance();
 
   const market = useMarket(quote?.marketId);
   const marketData = useMarketData(market?.name);
@@ -79,6 +71,9 @@ export function useClosePosition(
     () => market?.pricePrecision ?? DEFAULT_PRECISION,
     [market]
   );
+
+  const slippage = useSlippageTolerance();
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
 
   const markPriceBN = useMemo(() => {
     if (!marketData || !marketData.markPrice) return BN_ZERO;
@@ -103,50 +98,21 @@ export function useClosePosition(
 
     if (slippage === "auto") {
       return positionType === PositionType.SHORT
-        ? closePriceBN.times(MARKET_PRICE_COEFFICIENT)
-        : closePriceBN.div(MARKET_PRICE_COEFFICIENT);
+        ? closePriceBN.times(autoSlippage)
+        : closePriceBN.div(autoSlippage);
     }
 
     const spSigned =
       positionType === PositionType.SHORT ? slippage * -1 : slippage;
     const slippageFactored = toBN(100 - spSigned).div(100);
     return toBN(closePriceBN).times(slippageFactored);
-  }, [closePriceBN, slippage, positionType, orderType]);
-
-  const fakeSignature = useSingleUpnlAndPriceSig(markPriceBN);
+  }, [orderType, closePriceBN, slippage, positionType, autoSlippage]);
 
   //TODO: remove this way
   const closePriceWied = useMemo(
     () => toWei(formatPrice(fromWei(closePriceFinal), pricePrecision)),
     [closePriceFinal, pricePrecision]
   );
-
-  const getSignature = useCallback(async () => {
-    try {
-      if (!quote || !chainId || !Contract || !activeAccountAddress) {
-        throw new Error("Missing Muon params");
-      }
-      if (!SendOrCloseQuoteClient) {
-        return { signature: fakeSignature };
-      }
-
-      const result = await SendOrCloseQuoteClient.getMuonSig(
-        activeAccountAddress,
-        chainId,
-        Contract?.address,
-        quote?.marketId
-      );
-
-      const { success, signature, error } = result;
-      if (success === false || !signature) {
-        throw new Error(`Unable to fetch Muon signature: ${error}`);
-      }
-      return { signature };
-    } catch (error) {
-      if (error && typeof error === "string") throw new Error(error);
-      throw new Error("error3");
-    }
-  }, [Contract, activeAccountAddress, chainId, fakeSignature, quote]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {
@@ -160,11 +126,6 @@ export function useClosePosition(
         throw new Error("Missing dependencies for constructCall.");
       }
 
-      const { signature } = await getSignature();
-      if (!signature) {
-        throw new Error("Missing signature for constructCall.");
-      }
-
       const deadline =
         orderType === OrderType.MARKET
           ? Math.floor(Date.now() / 1000) + MARKET_ORDER_DEADLINE
@@ -176,7 +137,6 @@ export function useClosePosition(
         BigInt(toWei(quantityToClose)),
         orderType === OrderType.MARKET ? 1 : 0,
         BigInt(deadline),
-        signature,
       ] as const;
 
       return {
@@ -194,7 +154,6 @@ export function useClosePosition(
               BigInt(toWei(quantityToClose)),
               orderType === OrderType.MARKET ? 1 : 0,
               BigInt(deadline),
-              signature,
             ],
           }),
           value: BigInt(0),
@@ -210,7 +169,6 @@ export function useClosePosition(
     quote,
     quantityToClose,
     isSupportedChainId,
-    getSignature,
     orderType,
     closePriceWied,
   ]);

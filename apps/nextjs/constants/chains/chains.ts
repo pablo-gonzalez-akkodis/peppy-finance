@@ -14,8 +14,8 @@ function getWagmiChain(supportChainList: number[]) {
   return supportChainList.map((chainId) => supportedWagmiChain[chainId]);
 }
 
-export const ClientChain = [SupportedChainId.FANTOM, SupportedChainId.BSC];
+export const ClientChain = [SupportedChainId.POLYGON, SupportedChainId.BSC];
 
 export const APP_CHAINS = getWagmiChain(ClientChain);
 
-export const FALLBACK_CHAIN_ID = SupportedChainId.BSC;
+export const FALLBACK_CHAIN_ID = SupportedChainId.POLYGON;

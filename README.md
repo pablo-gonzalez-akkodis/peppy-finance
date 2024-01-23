@@ -2,6 +2,25 @@
 
 ## An SDK to interact with SYMMIO contracts, hedgers and peripherals.
 
+### setup:
+
+- First Execute the following command:
+
+      yarn install
+
+- Navigate to one of our apps folders. For example:
+
+      cd apps/alpha/
+
+- Obtain the `.env` file from the Frontend Developer.
+- Execute the following command:
+
+      yarn dev
+
+- If you need to change the SDK file, you can find it in the `packages/core/` path
+
+### More Info:
+
 - To enable path completion suggestions in VSCode, first build the project by running yarn build. Then, in the VSCode settings, ensure that "TypeScript > Tsc: Auto Detect" is set to 'on'.
 
 - Be sure not to use the publicProvider from Wagmi, as it causes some errors in the SDK. [Wagmi Website](https://wagmi.sh/core/getting-started#configure-chains):

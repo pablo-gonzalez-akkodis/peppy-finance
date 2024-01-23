@@ -47,7 +47,7 @@ export default function AccountBalance() {
   const { chainId } = useActiveWagmi();
   const { availableForOrder, loading } = useAccountData();
   const activeAccountAddress = useActiveAccountAddress();
-  const { allocatedBalance, lockedMM } =
+  const { allocatedBalance, lockedPartyAMM } =
     useAccountPartyAStat(activeAccountAddress);
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
@@ -81,7 +81,7 @@ export default function AccountBalance() {
             />
             <DataRow
               label={"Locked Margin:"}
-              value={formatAmount(lockedMM)}
+              value={formatAmount(lockedPartyAMM)}
               ticker={collateralCurrency?.symbol}
               margin={"0px"}
               loading={loading}

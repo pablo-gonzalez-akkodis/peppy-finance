@@ -77,6 +77,8 @@ export const MarketName = styled(RowStart)`
 
 export const QuoteStatusValue = styled.div<{
   liq: boolean;
+  expired: boolean;
 }>`
-  color: ${({ theme, liq }) => (liq ? theme.red1 : theme.text1)};
+  color: ${({ theme, liq, expired }) =>
+    liq ? theme.red1 : expired ? theme.warning : theme.text1};
 `;
