@@ -165,6 +165,20 @@ export function useAppName() {
   return appName;
 }
 
+export function useOrderHistorySubgraphAddress() {
+  const subgraphAddress = useAppSelector(
+    (state: AppState) => state.chains.ORDER_HISTORY_SUBGRAPH_ADDRESS
+  );
+  return subgraphAddress;
+}
+
+export function useAnalyticsSubgraphAddress() {
+  const subgraphAddress = useAppSelector(
+    (state: AppState) => state.chains.ANALYTICS_SUBGRAPH_ADDRESS
+  );
+  return subgraphAddress;
+}
+
 export function useSetSdkConfig(): ({
   chains,
   V3_CHAIN_IDS,

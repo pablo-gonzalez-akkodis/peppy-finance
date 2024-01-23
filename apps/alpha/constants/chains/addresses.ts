@@ -16,10 +16,10 @@ export const BSCChain: ChainType = {
   USDC_ADDRESS: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
   WRAPPED_NATIVE_ADDRESS: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
 
-  BALANCE_HISTORY_SUBGRAPH_ADDRESS:
+  ANALYTICS_SUBGRAPH_ADDRESS:
     "https://api.thegraph.com/subgraphs/name/symmiograph/symmioanalytics_bnb_8_2",
   ORDER_HISTORY_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_bnb_8_2",
+    "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest",
 };
 
 export const contractInfo: { [chainId: number]: ChainType } = {
