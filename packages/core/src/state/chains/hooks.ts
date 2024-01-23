@@ -191,6 +191,7 @@ export function useSetSdkConfig(): ({
   FALLBACK_CHAIN_ID,
   hedgers,
   appName,
+  MuonData,
 }: ChainsState) => void {
   const dispatch = useAppDispatch();
   return useCallback(
