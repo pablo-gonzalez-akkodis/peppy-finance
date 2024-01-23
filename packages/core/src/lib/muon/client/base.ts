@@ -1,17 +1,19 @@
 import { makeHttpRequest } from "../../../utils/http";
 
 export class MuonClient {
-  public APP: string;
   public APP_METHOD: string;
 
-  constructor({ APP, APP_METHOD }: { APP: string; APP_METHOD: string }) {
-    this.APP = APP;
+  constructor({ APP_METHOD }: { APP_METHOD: string }) {
     this.APP_METHOD = APP_METHOD;
   }
 
-  public async _sendRequest(baseUrl: string, requestParams: string[][]) {
+  public async _sendRequest(
+    baseUrl: string,
+    appName: string,
+    requestParams: string[][]
+  ) {
     const MuonURL = new URL(baseUrl);
-    MuonURL.searchParams.set("app", this.APP);
+    MuonURL.searchParams.set("app", appName);
     MuonURL.searchParams.append("method", this.APP_METHOD);
     requestParams.forEach((param) => {
       MuonURL.searchParams.append(`params[${param[0]}]`, param[1]);
