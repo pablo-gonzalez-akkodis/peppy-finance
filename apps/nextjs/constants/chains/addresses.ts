@@ -39,7 +39,7 @@ export const BSCChain: ChainType = {
   ANALYTICS_SUBGRAPH_ADDRESS:
     "https://api.thegraph.com/subgraphs/name/symmiograph/symmioanalytics_bnb_8_2",
   ORDER_HISTORY_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_bnb_8_2",
+    "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest",
 };
 
 export const PolygonChain: ChainType = {
@@ -48,7 +48,7 @@ export const PolygonChain: ChainType = {
   COLLATERAL_ADDRESS: "0x50E88C692B137B8a51b6017026Ef414651e0d5ba",
 
   DIAMOND_ADDRESS: "0x976c87Cd3eB2DE462Db249cCA711E4C89154537b",
-  MULTI_ACCOUNT_ADDRESS: "0x3adc81CC43d9e1636de9cbac764Afcb1F3ae6cde",
+  MULTI_ACCOUNT_ADDRESS: "0xffE2C25404525D2D4351D75177B92F18D9DaF4Af",
   PARTY_B_WHITELIST: "0x5044238ea045585C704dC2C6387D66d29eD56648",
   SIGNATURE_STORE_ADDRESS: "0x6B6f6A6CCdB4Df5cc462096bEAdFd609D8e281d1",
 
