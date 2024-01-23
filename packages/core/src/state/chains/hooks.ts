@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { AppState, useAppDispatch, useAppSelector } from "../declaration";
 import { setChains } from "./actions";
-import { ChainsState } from "./reducer";
+import { ChainsState, MuonDataType } from "./reducer";
 
 function compatibleWithLegacyStructure(chains, v3_ids, parameter_name) {
   return Object.keys(chains)
@@ -179,6 +179,11 @@ export function useAnalyticsSubgraphAddress() {
   return subgraphAddress;
 }
 
+export function useMuonData(): { [chainId: number]: MuonDataType } {
+  const MuonData = useAppSelector((state: AppState) => state.chains.MuonData);
+  return MuonData;
+}
+
 export function useSetSdkConfig(): ({
   chains,
   V3_CHAIN_IDS,
@@ -186,6 +191,7 @@ export function useSetSdkConfig(): ({
   FALLBACK_CHAIN_ID,
   hedgers,
   appName,
+  MuonData,
 }: ChainsState) => void {
   const dispatch = useAppDispatch();
   return useCallback(
@@ -196,6 +202,7 @@ export function useSetSdkConfig(): ({
       FALLBACK_CHAIN_ID,
       hedgers,
       appName,
+      MuonData,
     }: ChainsState) => {
       dispatch(
         setChains({
@@ -205,6 +212,7 @@ export function useSetSdkConfig(): ({
           FALLBACK_CHAIN_ID,
           hedgers,
           appName,
+          MuonData,
         })
       );
     },

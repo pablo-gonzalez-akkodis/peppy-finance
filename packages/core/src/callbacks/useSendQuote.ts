@@ -7,7 +7,11 @@ import {
   MARKET_ORDER_DEADLINE,
   MARKET_PRICE_COEFFICIENT,
 } from "../constants/misc";
-import { useAppName, useFallbackChainId } from "../state/chains/hooks";
+import {
+  useAppName,
+  useFallbackChainId,
+  useMuonData,
+} from "../state/chains/hooks";
 import { makeHttpRequest } from "../utils/http";
 import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
@@ -98,6 +102,7 @@ export function useSentQuoteCallback(): {
   );
   const openPrice = useMemo(() => (price ? price : "0"), [price]);
   const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
+  const MuonData = useMuonData();
 
   const openPriceFinal = useMemo(() => {
     if (orderType === OrderType.LIMIT) return openPrice;
@@ -150,13 +155,17 @@ export function useSentQuoteCallback(): {
       !chainId ||
       !DiamondContract ||
       !marketId ||
-      !SendQuoteClient
+      !SendQuoteClient ||
+      !MuonData
     ) {
       throw new Error("Missing muon params");
     }
 
+    const { AppName, Urls } = MuonData[chainId];
     const { success, signature, error } = await SendQuoteClient.getMuonSig(
       activeAccountAddress,
+      AppName,
+      Urls,
       chainId,
       DiamondContract.address,
       marketId
@@ -166,7 +175,7 @@ export function useSentQuoteCallback(): {
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
     return { signature };
-  }, [DiamondContract, activeAccountAddress, chainId, marketId]);
+  }, [DiamondContract, MuonData, activeAccountAddress, chainId, marketId]);
 
   const getNotionalCap = useCallback(async () => {
     if (!market) {

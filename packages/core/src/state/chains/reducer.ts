@@ -20,6 +20,11 @@ export interface ChainType {
   readonly ORDER_HISTORY_SUBGRAPH_ADDRESS: string;
 }
 
+export interface MuonDataType {
+  AppName: string;
+  Urls: string[];
+}
+
 export interface AbisType {
   COLLATERAL_ABI: any;
   DIAMOND_ABI: any;
@@ -36,6 +41,7 @@ export interface ChainsState {
   readonly contract_ABIs: AbisType;
   readonly hedgers: HedgerInfoMap;
   readonly appName: string;
+  readonly MuonData: { [chainId: number]: MuonDataType };
 }
 
 const initialState: ChainsState = {
@@ -52,6 +58,7 @@ const initialState: ChainsState = {
   },
   hedgers: { [SupportedChainId.NOT_SET]: [] },
   appName: "",
+  MuonData: {},
 };
 
 export default createReducer(initialState, (builder) =>
@@ -63,6 +70,7 @@ export default createReducer(initialState, (builder) =>
       FALLBACK_CHAIN_ID,
       hedgers,
       appName,
+      MuonData,
     } = payload;
     state.chains = chains;
     state.V3_CHAIN_IDS = V3_CHAIN_IDS;
@@ -70,5 +78,6 @@ export default createReducer(initialState, (builder) =>
     state.FALLBACK_CHAIN_ID = FALLBACK_CHAIN_ID;
     state.hedgers = hedgers;
     state.appName = appName;
+    state.MuonData = MuonData;
   })
 );

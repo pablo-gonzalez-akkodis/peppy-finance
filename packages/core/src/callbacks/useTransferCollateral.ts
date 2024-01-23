@@ -28,6 +28,7 @@ import { ConstructCallReturnType } from "../types/web3";
 import { Address, encodeFunctionData } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 import { SendTransactionResult } from "@wagmi/core";
+import { useMuonData } from "../state/chains";
 
 export function useTransferCollateral(
   typedAmount: string,
@@ -49,19 +50,24 @@ export function useTransferCollateral(
   );
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
+  const MuonData = useMuonData();
 
   const getSignature = useCallback(async () => {
     if (
       !chainId ||
       !DiamondContract ||
       !activeAccount ||
-      !DeallocateCollateralClient
+      !DeallocateCollateralClient ||
+      !MuonData
     ) {
       throw new Error("Missing muon params");
     }
 
+    const { AppName, Urls } = MuonData[chainId];
     const result = await DeallocateCollateralClient.getMuonSig(
       activeAccount.accountAddress,
+      AppName,
+      Urls,
       chainId,
       DiamondContract?.address
     );
@@ -70,7 +76,7 @@ export function useTransferCollateral(
       throw new Error(`Unable to fetch Muon signature: ${error}`);
     }
     return { signature };
-  }, [DiamondContract, activeAccount, chainId]);
+  }, [DiamondContract, MuonData, activeAccount, chainId]);
 
   const methodName = useMemo(() => {
     return activeTab === TransferTab.DEPOSIT

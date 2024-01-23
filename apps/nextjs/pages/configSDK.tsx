@@ -6,6 +6,7 @@ import { ClientChain, FALLBACK_CHAIN_ID } from "constants/chains/chains";
 import { AbisInfo } from "constants/chains/abi";
 import { HedgerInfo } from "constants/chains/hedgers";
 import { APP_NAME } from "constants/chains/misc";
+import { MuonInfo } from "constants/chains/muon";
 
 export default function ConfigSDKComponent() {
   const setConfigCallBack = useSetSdkConfig();
@@ -18,6 +19,7 @@ export default function ConfigSDKComponent() {
       FALLBACK_CHAIN_ID,
       hedgers: HedgerInfo,
       appName: APP_NAME,
+      MuonData: MuonInfo,
     });
   }, [setConfigCallBack]);
 

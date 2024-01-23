@@ -1,18 +1,17 @@
 import { toast } from "react-hot-toast";
 
-import { APP_NAME, MUON_BASE_URLS } from "../config";
 import { MuonClient } from "./base";
 import { toWei } from "../../../utils/numbers";
 import { Address } from "viem";
 
 export class QuotesClient extends MuonClient {
-  constructor(app?: string) {
-    super({ APP: app ?? APP_NAME, APP_METHOD: "uPnl_A_withSymbolPrice" });
+  constructor() {
+    super({ APP_METHOD: "uPnl_A_withSymbolPrice" });
   }
 
-  static createInstance(isEnabled: boolean, app?: string): QuotesClient | null {
+  static createInstance(isEnabled: boolean): QuotesClient | null {
     if (isEnabled) {
-      return new QuotesClient(app ?? APP_NAME);
+      return new QuotesClient();
     }
     return null;
   }
@@ -39,6 +38,8 @@ export class QuotesClient extends MuonClient {
 
   public async getMuonSig(
     account: string | null,
+    appName: string,
+    urls: string[],
     chainId?: number,
     contractAddress?: string,
     marketId?: number
@@ -57,9 +58,9 @@ export class QuotesClient extends MuonClient {
       const toastId = toast.loading("requesting data from Muon...");
       let result, success;
 
-      for (const url of MUON_BASE_URLS) {
+      for (const url of urls) {
         try {
-          const res = await this._sendRequest(url, requestParams);
+          const res = await this._sendRequest(url, appName, requestParams);
           if (res) {
             result = res.result;
             success = res.success;
