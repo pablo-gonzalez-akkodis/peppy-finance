@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import toast from "react-hot-toast";
 
@@ -155,18 +155,36 @@ function CancelWithdraw() {
   const { chainId } = useActiveWagmi();
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
   const activeAccountAddress = useActiveAccountAddress();
-  const { accountBalance } = useAccountPartyAStat(activeAccountAddress);
+  const { accountBalance, accountBalanceLimit, allocatedBalance } =
+    useAccountPartyAStat(activeAccountAddress);
   const COLLATERAL_TOKEN = useCollateralToken();
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
   );
 
+  const cancelAmount = useMemo(() => {
+    if (
+      toBN(accountBalance)
+        .plus(allocatedBalance)
+        .isGreaterThan(accountBalanceLimit)
+    ) {
+      const allocatableAmount =
+        toBN(accountBalanceLimit).minus(allocatedBalance);
+
+      if (allocatableAmount.isLessThan(0)) return "0";
+      return allocatableAmount.toString();
+    } else {
+      return accountBalance;
+    }
+  }, [accountBalance, accountBalanceLimit, allocatedBalance]);
+
   const { callback: transferBalanceCallback, error: transferBalanceError } =
     useTransferCollateral(
-      formatPrice(accountBalance, collateralCurrency?.decimals),
+      formatPrice(cancelAmount, collateralCurrency?.decimals),
       TransferTab.ALLOCATE
     );
+
   const handleAction = useCallback(async () => {
     if (!transferBalanceCallback) {
       toast.error(transferBalanceError);
@@ -194,6 +212,9 @@ function CancelWithdraw() {
         <DotFlashing />
       </CancelBtn>
     );
+  }
+  if (toBN(cancelAmount).isEqualTo(0)) {
+    return <CancelBtn disabled={true}>Cancel</CancelBtn>;
   }
   return <CancelBtn onClick={handleAction}>Cancel</CancelBtn>;
 }
