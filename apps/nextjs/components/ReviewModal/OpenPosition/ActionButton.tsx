@@ -25,6 +25,7 @@ export default function ActionButton() {
       const tx = await tradeCallback();
       console.log("tx", tx);
       if (tx) setTxHash(tx.hash);
+      else setState(ModalState.START);
     } catch (e) {
       setState(ModalState.START);
       setTxHash("");
