@@ -5,7 +5,7 @@ export const DEFAULT_HEDGER = {
   apiUrl: "https://fapi.binance.com/",
   webSocketUrl: "wss://fstream.binance.com/stream",
   baseUrl: "https://hedger.deus.finance",
-  webSocketFundingRateUrl: "wss://hedger.deus.finance/ws/funding-rate-w",
+  webSocketFundingRateUrl: "wss://hedger.deus.finance/ws/funding-rate-ws",
   webSocketUpnlUrl: "",
   webSocketNotificationUrl: "",
   defaultMarketId: 1,

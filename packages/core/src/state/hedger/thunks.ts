@@ -100,25 +100,16 @@ export const getOpenInterest = createAsyncThunk(
   "hedger/getOpenInterest",
   async ({
     hedgerUrl,
-    multiAccountAddress,
     options,
   }: {
     hedgerUrl: string | undefined;
-    multiAccountAddress: string | undefined;
     options?: { [x: string]: any };
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
 
-    if (!multiAccountAddress) {
-      throw new Error("multiAccountAddress is empty");
-    }
-
-    const { href: openUrl } = new URL(
-      `open-interest/${multiAccountAddress}`,
-      hedgerUrl
-    );
+    const { href: openUrl } = new URL(`open-interest`, hedgerUrl);
 
     const openInterest: OpenInterest = { used: 0, total: 0 };
 
@@ -147,13 +138,11 @@ export const getNotionalCap = createAsyncThunk(
     market,
     appName,
     preNotional,
-    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     market: Market | undefined;
     appName: string;
     preNotional?: MarketNotionalCap;
-    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
@@ -161,14 +150,8 @@ export const getNotionalCap = createAsyncThunk(
     if (!market) {
       throw new Error("market is empty");
     }
-    if (!multiAccountAddress) {
-      throw new Error("multiAccountAddress is empty");
-    }
 
-    const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.id}/${multiAccountAddress}`,
-      hedgerUrl
-    );
+    const notionalCapUrl = getNotionalCapUrl(market.id, hedgerUrl);
 
     const notionalCap: MarketNotionalCap = { name: "", totalCap: -1, used: -1 };
 
@@ -292,22 +275,15 @@ export const getMarketsInfo = createAsyncThunk(
   async ({
     hedgerUrl,
     appName,
-    multiAccountAddress,
   }: {
     hedgerUrl: string | undefined;
     appName: string;
-    multiAccountAddress: string | undefined;
   }) => {
     if (!hedgerUrl) {
       throw new Error("hedgerUrl is empty");
     }
-    if (!multiAccountAddress) {
-      throw new Error("multiAccountAddress is empty");
-    }
-    const { href: marketsInfoUrl } = new URL(
-      `get_market_info/${multiAccountAddress}`,
-      hedgerUrl
-    );
+
+    const { href: marketsInfoUrl } = new URL(`get_market_info`, hedgerUrl);
     const marketsInfo: MarketsInfo = {};
     try {
       const [marketsInfoRes] = await Promise.allSettled([
@@ -417,4 +393,9 @@ export function getAppNameHeader(appName: string) {
     headers: [["App-Name", appName]],
   };
   return options;
+}
+
+export function getNotionalCapUrl(marketId: number, baseUrl: string) {
+  const { href: notionalCapUrl } = new URL(`notional_cap/${marketId}`, baseUrl);
+  return notionalCapUrl;
 }

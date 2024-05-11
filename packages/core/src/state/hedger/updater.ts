@@ -44,7 +44,6 @@ import { useActiveMarket } from "../trade/hooks";
 import { Hedger, HedgerWebsocketType } from "../../types/hedger";
 import { Market } from "../../types/market";
 import { useAppName } from "../chains/hooks";
-import { useMultiAccountContract } from "../../hooks/useContract";
 
 export function HedgerUpdater(): null {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
@@ -129,7 +128,6 @@ function useFetchOpenInterest(
   const appName = useAppName();
   const { baseUrl } = hedger || {};
   const marketsStatus = useOpenInterestStatus();
-  const MultiAccountContract = useMultiAccountContract();
 
   const hedgerOpenInterest = useCallback(
     (options?: { [x: string]: any }) => {
@@ -138,27 +136,25 @@ function useFetchOpenInterest(
         getOpenInterest({
           hedgerUrl: baseUrl,
           options: allOptions,
-          multiAccountAddress: MultiAccountContract.address,
         })
       );
     },
-    [appName, baseUrl, MultiAccountContract, thunkDispatch]
+    [appName, baseUrl, thunkDispatch]
   );
 
   // TODO: fix auto update
   //auto update per each 3000 seconds
   useEffect(() => {
     const controller = new AbortController();
-    if (MultiAccountContract) {
-      hedgerOpenInterest({
-        signal: controller.signal,
-      });
-    }
+
+    hedgerOpenInterest({
+      signal: controller.signal,
+    });
 
     return () => {
       controller.abort();
     };
-  }, [MultiAccountContract, hedgerOpenInterest]);
+  }, [hedgerOpenInterest]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {
@@ -179,7 +175,6 @@ function useFetchNotionalCap(
   const { marketNotionalCap, marketNotionalCapStatus } = useMarketNotionalCap();
   const { baseUrl } = hedger || {};
   const appName = useAppName();
-  const MultiAccountContract = useMultiAccountContract();
 
   const notionalCaps = useCallback(
     () =>
@@ -189,17 +184,15 @@ function useFetchNotionalCap(
           market: activeMarket,
           preNotional: marketNotionalCap,
           appName,
-          multiAccountAddress: MultiAccountContract.address,
         })
       ),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [thunkDispatch, baseUrl, activeMarket, appName, MultiAccountContract]
+    [thunkDispatch, baseUrl, activeMarket, appName]
   );
   //auto update notional cap per symbol, every 1 hours
   useEffect(() => {
-    if (activeMarket && MultiAccountContract)
-      return autoRefresh(notionalCaps, 60 * 60);
-  }, [MultiAccountContract, activeMarket, notionalCaps]);
+    if (activeMarket) return autoRefresh(notionalCaps, 60 * 60);
+  }, [activeMarket, notionalCaps]);
 
   //if error occurs it will retry to fetch markets 5 times
   useEffect(() => {

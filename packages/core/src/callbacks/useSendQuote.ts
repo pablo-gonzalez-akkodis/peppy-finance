@@ -17,7 +17,7 @@ import { OrderType, TradeState, PositionType } from "../types/trade";
 import { useCurrency } from "../lib/hooks/useTokens";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
-import { getAppNameHeader } from "../state/hedger/thunks";
+import { getAppNameHeader, getNotionalCapUrl } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
   useSlippageTolerance,
@@ -181,13 +181,8 @@ export function useSentQuoteCallback(): {
     if (!market) {
       throw new Error("market is missing");
     }
-    if (!MultiAccountContract) {
-      throw new Error("contract is missing");
-    }
-    const { href: notionalCapUrl } = new URL(
-      `notional_cap/${market.id}/${MultiAccountContract.address}`,
-      baseUrl
-    );
+
+    const notionalCapUrl = getNotionalCapUrl(market.id, baseUrl);
 
     const tempResponse = await makeHttpRequest<{
       total_cap: number;
@@ -202,15 +197,7 @@ export function useSentQuoteCallback(): {
     updateNotionalCap({ name: market.name, used, totalCap: total_cap });
 
     if (freeCap.minus(notionalValue).lte(0)) throw new Error("Cap is reached.");
-  }, [
-    MultiAccountContract,
-    appName,
-    baseUrl,
-    market,
-    openPrice,
-    quantityAsset,
-    updateNotionalCap,
-  ]);
+  }, [appName, baseUrl, market, openPrice, quantityAsset, updateNotionalCap]);
 
   const preConstructCall = useCallback(async (): ConstructCallReturnType => {
     try {
