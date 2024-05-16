@@ -490,9 +490,18 @@ export default function CloseModal({
         </InfoWrapper>
 
         {getActionButton()}
+        <InstantClose />
 
         {/* <div>* This position cannot be market closed as it may result in direct account liquidation.</div> */}
       </Wrapper>
     </Modal>
+  );
+}
+
+function InstantClose() {
+  return (
+    <PrimaryButton height={"48px"} onClick={() => console.log("close")}>
+      Close Position
+    </PrimaryButton>
   );
 }

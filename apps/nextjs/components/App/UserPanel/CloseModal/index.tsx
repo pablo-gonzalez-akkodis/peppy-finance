@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
+import { SiweMessage } from "siwe";
 import toast from "react-hot-toast";
 
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
@@ -22,7 +23,10 @@ import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import { calculateString, calculationPattern } from "utils/calculationalString";
 
-import { useActiveAccount } from "@symmio/frontend-sdk/state/user/hooks";
+import {
+  useActiveAccount,
+  useActiveAccountAddress,
+} from "@symmio/frontend-sdk/state/user/hooks";
 import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
 import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
@@ -52,6 +56,8 @@ import InfoItem, { DataRow, Label } from "components/InfoItem";
 import { PnlValue } from "components/App/UserPanel/Common";
 import GuidesDropDown from "components/App/UserPanel/CloseModal/GuidesDropdown";
 import ErrorButton from "components/Button/ErrorButton";
+import { useSignMessage } from "@symmio/frontend-sdk/callbacks/useMultiAccount";
+import { Address, encodeFunctionData } from "viem";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -90,6 +96,10 @@ interface FetchPriceRangeResponseType {
   max_price: number;
   min_price: number;
 }
+interface NonceResponseType {
+  nonce: string;
+}
+
 export default function CloseModal({
   modalOpen,
   toggleModal,
@@ -489,9 +499,98 @@ export default function CloseModal({
         </InfoWrapper>
 
         {getActionButton()}
+        <InstantClose />
 
         {/* <div>* This position cannot be market closed as it may result in direct account liquidation.</div> */}
       </Wrapper>
     </Modal>
+  );
+}
+
+function createSiweMessage(
+  address: Address,
+  statement: string,
+  chainId: number,
+  nonce: string
+) {
+  const domain = "deus.finance";
+  const message = new SiweMessage({
+    domain,
+    address,
+    statement,
+    chainId,
+    nonce,
+    version: "1",
+    uri: `https://${domain}/`,
+    issuedAt: new Date().toISOString(),
+    expirationTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+  });
+  return message.prepareMessage();
+}
+
+function InstantClose() {
+  const { account, chainId } = useActiveWagmi();
+  const activeAddress = useActiveAccountAddress();
+  const { baseUrl } = useHedgerInfo() || {};
+  const [nonce, setNonce] = useState("");
+
+  const message = useMemo(() => {
+    if (account && chainId)
+      return createSiweMessage(
+        account,
+        `msg: ${activeAddress}`,
+        chainId,
+        nonce
+      );
+    return "";
+  }, [nonce, activeAddress, account, chainId]);
+
+  console.log(message, nonce);
+
+  const { callback: signMessageCallback } = useSignMessage(message);
+
+  const getNonce = useCallback(async () => {
+    try {
+      const { href: nonceUrl } = new URL(`nonce/${activeAddress}`, baseUrl);
+      const nonceResponse = await makeHttpRequest<NonceResponseType>(nonceUrl);
+      if (nonceResponse) setNonce(nonceResponse.nonce);
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e);
+      } else {
+        console.debug(e);
+      }
+      throw new Error(e.message);
+    }
+  }, [activeAddress, baseUrl]);
+
+  const onSignMessage = useCallback(async () => {
+    if (!signMessageCallback) return;
+    try {
+      const sign = await signMessageCallback();
+      return sign;
+    } catch (e) {
+      if (e instanceof Error) {
+        console.error(e);
+      } else {
+        console.debug(e);
+      }
+      throw new Error(e.message);
+    }
+  }, [signMessageCallback]);
+
+  const onClickButton = useCallback(async () => {
+    try {
+      await getNonce();
+      onSignMessage().then((sign) => {
+        console.log(sign);
+      });
+    } catch (error) {}
+  }, []);
+
+  return (
+    <PrimaryButton height={"48px"} marginTop={"20px"} onClick={onClickButton}>
+      Instant Close
+    </PrimaryButton>
   );
 }
