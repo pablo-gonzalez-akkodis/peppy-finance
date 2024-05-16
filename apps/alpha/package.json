@@ -12,6 +12,7 @@
     "@rainbow-me/rainbowkit": "1.1.1",
     "@react-spring/web": "^9.7.3",
     "adblock-detect-react": "1.1.0",
+    "ethers": "^6.12.1",
     "next": "~13.5.0",
     "polished": "^3.7.2",
     "rc-slider": "10.1.1",
@@ -27,6 +28,7 @@
     "react-tooltip": "^4.2.21",
     "rebass": "^4.0.7",
     "recharts": "2.6.2",
+    "siwe": "^2.3.2",
     "styled-components": "^5.3.6",
     "styled-react-modal": "^3.0.1",
     "symbol-observable": "^4.0.0"
