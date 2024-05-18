@@ -305,7 +305,7 @@ export const DeveloperModeTitle = ({
         } #${tries}`
       );
     }
-  }, [tries, setExpertMode, isExpertMode]);
+  }, [tries, setExpertMode]);
 
   const handleAccountOverviewClick = () => {
     setTries(tries + 1);
