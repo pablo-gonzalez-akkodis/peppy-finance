@@ -19,7 +19,7 @@ import { useBalanceInfos } from "@symmio/frontend-sdk/hooks/useAccounts";
 const HoverWrapper = styled.div`
   padding: 0px 8px 12px 8px;
   width: clamp(200px, 360px, 99%);
-  max-height: 240px;
+  max-height: 330px;
   position: absolute;
   top: 48px;
   right: 0;
