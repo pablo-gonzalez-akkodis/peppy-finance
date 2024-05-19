@@ -20,6 +20,7 @@ import { useHedgerInfo, useSetNotionalCap } from "../state/hedger/hooks";
 import { getAppNameHeader, getNotionalCapUrl } from "../state/hedger/thunks";
 import {
   useActiveAccountAddress,
+  useExpertMode,
   useSlippageTolerance,
 } from "../state/user/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
@@ -76,6 +77,7 @@ export function useSentQuoteCallback(): {
 } {
   const { account, chainId } = useActiveWagmi();
   const addTransaction = useTransactionAdder();
+  const userExpertMode = useExpertMode();
   const addRecentTransaction = useAddRecentTransaction();
 
   const activeAccountAddress = useActiveAccountAddress();
@@ -346,7 +348,8 @@ export function useSentQuoteCallback(): {
           addRecentTransaction,
           txInfo,
           summary,
-          true
+          true,
+          userExpertMode
         ),
     };
   }, [
@@ -366,5 +369,6 @@ export function useSentQuoteCallback(): {
     constructCall,
     addTransaction,
     addRecentTransaction,
+    userExpertMode,
   ]);
 }

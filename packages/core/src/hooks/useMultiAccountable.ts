@@ -20,6 +20,7 @@ export function useMultiAccountable(
     if (disable || GLOBAL_MULTI_ACCOUNTABLE_PAUSED)
       return await constructCall();
 
+    let callData: any = null;
     try {
       if (
         !constructCall ||
@@ -32,7 +33,9 @@ export function useMultiAccountable(
       }
 
       const call = await constructCall();
+      if ("error" in call) throw call;
       const { config, args: preArgs, functionName } = call;
+      callData = { config, args: preArgs, functionName }; // Store the call data
 
       if (functionName) {
         // @ts-ignore
@@ -64,9 +67,13 @@ export function useMultiAccountable(
         );
         if (revertError instanceof ContractFunctionRevertedError) {
           console.log(revertError.reason?.toString() || "");
+          throw error;
         }
       }
       if (error && typeof error === "string") throw new Error(error);
+
+      if (callData) return { ...callData, error };
+
       throw new Error("error3");
     }
   }, [

@@ -24,7 +24,7 @@ import { Quote } from "../types/quote";
 import { OrderType, PositionType, TradeState } from "../types/trade";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 
-import { useSlippageTolerance } from "../state/user/hooks";
+import { useExpertMode, useSlippageTolerance } from "../state/user/hooks";
 import { useMarketData } from "../state/hedger/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
@@ -58,6 +58,7 @@ export function useClosePosition(
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
   const isSupportedChainId = useSupportedChainId();
+  const userExpertMode = useExpertMode();
 
   const Contract = useDiamondContract();
   const MultiAccountContract = useMultiAccountContract();
@@ -232,7 +233,8 @@ export function useClosePosition(
           addRecentTransaction,
           txInfo,
           summary,
-          true
+          true,
+          userExpertMode
         ),
     };
   }, [
@@ -249,5 +251,6 @@ export function useClosePosition(
     constructCall,
     addTransaction,
     addRecentTransaction,
+    userExpertMode,
   ]);
 }

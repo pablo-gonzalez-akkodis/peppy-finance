@@ -10,7 +10,7 @@ import { useCollateralToken } from "../constants/tokens";
 import { useGetTokenWithFallbackChainId } from "../utils/token";
 import { TransferTab } from "../types/transfer";
 
-import { useActiveAccount } from "../state/user/hooks";
+import { useActiveAccount, useExpertMode } from "../state/user/hooks";
 import { useTransactionAdder } from "../state/transactions/hooks";
 import {
   TransactionType,
@@ -44,6 +44,8 @@ export function useTransferCollateral(
   const activeAccount = useActiveAccount();
   const isSupportedChainId = useSupportedChainId();
   const COLLATERAL_TOKEN = useCollateralToken();
+  const userExpertMode = useExpertMode();
+
   const collateralCurrency = useGetTokenWithFallbackChainId(
     COLLATERAL_TOKEN,
     chainId
@@ -286,7 +288,9 @@ export function useTransferCollateral(
           addTransaction,
           addRecentTransaction,
           txInfo,
-          summary
+          summary,
+          undefined,
+          userExpertMode
         ),
     };
   }, [
@@ -302,5 +306,6 @@ export function useTransferCollateral(
     constructCall,
     addTransaction,
     addRecentTransaction,
+    userExpertMode,
   ]);
 }

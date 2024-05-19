@@ -3,7 +3,7 @@ import {
   sendTransaction,
   waitForTransaction,
 } from "@wagmi/core";
-import { UserRejectedRequestError } from "viem";
+import { UserRejectedRequestError, parseEther } from "viem";
 import { ContractFunctionRevertedError, BaseError } from "viem";
 import { useAddRecentTransaction } from "@rainbow-me/rainbowkit";
 
@@ -13,6 +13,7 @@ import { useContract } from "../lib/hooks/contract";
 import { ConstructCallReturnType } from "../types/web3";
 import { toBN } from "./numbers";
 import { WEB_SETTING } from "../config";
+import { useExpertMode } from "../state/user/hooks";
 
 export function calculateGasMargin(value: bigint): bigint {
   return BigInt(toBN(value.toString()).times(12_000).div(10_000).toFixed(0));
@@ -32,20 +33,20 @@ export async function createTransactionCallback(
   addRecentTransaction: ReturnType<typeof useAddRecentTransaction>,
   txInfo: TransactionInfo,
   summary?: string,
-  isMultiAccount?: boolean
-
-  // expertMode?: ReturnType<typeof useExpertMode>
+  isMultiAccount?: boolean,
+  expertMode?: ReturnType<typeof useExpertMode>
 ) {
+  let call: any;
   try {
     if (WEB_SETTING.notAllowedMethods.includes(functionName)) {
       throw new Error(`${functionName} not allowed`);
     }
 
-    const { args, config } = await constructCall();
+    call = await constructCall();
     const gas: bigint = await Contract.estimateGas[
       isMultiAccount ? "_call" : functionName
-    ](args);
-    const request = await prepareSendTransaction(config);
+    ](call.args);
+    const request = await prepareSendTransaction(call.config);
     const data = await sendTransaction({
       ...request,
       gas: calculateGasMargin(gas),
@@ -65,6 +66,30 @@ export async function createTransactionCallback(
   } catch (error) {
     if (error instanceof Error) {
       console.log("Error", { error });
+
+      if (expertMode && error) {
+        console.log(
+          "Proceeding with transaction despite the error due to expert mode"
+        );
+
+        const config = call.config;
+        const tx = !config.value
+          ? { from: config.account, to: config.to, data: config.data }
+          : {
+              from: config.account,
+              to: config.to,
+              data: config.data,
+              value: parseEther(config.value),
+            };
+        const data = await sendTransaction(tx);
+        addTransaction(data.hash, txInfo, summary);
+        addRecentTransaction({
+          hash: data.hash,
+          description: summary || "-------",
+        });
+        return data;
+      }
+
       if (error instanceof BaseError) {
         if (error instanceof UserRejectedRequestError) {
           // TODO: error.cause

@@ -25,6 +25,7 @@ import { ConstructCallReturnType } from "../types/web3";
 import { encodeFunctionData } from "viem";
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
 import { SendTransactionResult } from "@wagmi/core";
+import { useExpertMode } from "../state/user/hooks";
 
 export function useCancelQuote(
   quote: Quote | null,
@@ -38,6 +39,7 @@ export function useCancelQuote(
   const addTransaction = useTransactionAdder();
   const addRecentTransaction = useAddRecentTransaction();
   const isSupportedChainId = useSupportedChainId();
+  const userExpertMode = useExpertMode();
 
   const Contract = useDiamondContract();
   const MultiAccountContract = useMultiAccountContract();
@@ -132,7 +134,8 @@ export function useCancelQuote(
           addRecentTransaction,
           txInfo,
           summary,
-          true
+          true,
+          userExpertMode
         ),
     };
   }, [
@@ -147,5 +150,6 @@ export function useCancelQuote(
     constructCall,
     addTransaction,
     addRecentTransaction,
+    userExpertMode,
   ]);
 }
