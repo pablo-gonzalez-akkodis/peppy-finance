@@ -1,7 +1,7 @@
 import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 const { createAsyncThunk } = ((toolkitRaw as any).default ??
   toolkitRaw) as typeof toolkitRaw;
-import { getBalanceHistoryApolloClient } from "../../apollo/client/balanceHistory";
 import {
   BALANCE_CHANGES_DATA,
   TOTAL_DEPOSITS_AND_WITHDRAWALS,
@@ -74,11 +74,13 @@ export const getBalanceHistory = createAsyncThunk(
     chainId,
     skip,
     first,
+    client,
   }: {
     account: string | null | undefined;
     chainId: number | undefined;
     skip: number;
     first: number;
+    client: ApolloClient<NormalizedCacheObject>;
   }) => {
     if (!account) {
       throw new Error("account is undefined");
@@ -86,9 +88,11 @@ export const getBalanceHistory = createAsyncThunk(
     if (!chainId) {
       throw new Error("chainId is empty");
     }
+    if (!client) {
+      throw new Error("Apollo client is not provided");
+    }
+
     try {
-      const client = getBalanceHistoryApolloClient(chainId);
-      if (!client) return {};
       let hasMore = true;
 
       const {
@@ -118,9 +122,11 @@ export const getTotalDepositsAndWithdrawals = createAsyncThunk(
   async ({
     account,
     chainId,
+    client,
   }: {
     account: string | null | undefined;
     chainId: number | undefined;
+    client: ApolloClient<NormalizedCacheObject>;
   }) => {
     if (!account) {
       throw new Error("account is undefined");
@@ -128,11 +134,11 @@ export const getTotalDepositsAndWithdrawals = createAsyncThunk(
     if (!chainId) {
       throw new Error("chainId is empty");
     }
+    if (!client) {
+      throw new Error("Apollo client is not provided");
+    }
 
     try {
-      const client = getBalanceHistoryApolloClient(chainId);
-      if (!client) return { result: null };
-
       const {
         data: { accounts },
       } = await client.query<{ accounts: DepositWithdrawalsData[] }>({

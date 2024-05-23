@@ -1,34 +1,24 @@
-import { SupportedChainId } from "../../constants/chains";
 import { createApolloClient } from "./index";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
+import { useOrderHistorySubgraphAddress } from "../../state/chains";
 
-const polygonClient = createApolloClient(
-  `${getSubgraphName(SupportedChainId.POLYGON)}`
-);
+// ORDER HISTORY SUBGRAPH
+const apolloClients = {};
 
-const bscClient = createApolloClient(
-  `${getSubgraphName(SupportedChainId.BSC)}`
-);
+export function useOrderHistoryApolloClient() {
+  const { chainId } = useActiveWagmi();
+  const uri = useOrderHistorySubgraphAddress();
 
-export function getOrderHistoryApolloClient(chainId: SupportedChainId) {
-  switch (chainId) {
-    case SupportedChainId.BSC:
-      return bscClient;
-    case SupportedChainId.POLYGON:
-      return polygonClient;
-    default:
-      console.error(`${chainId} is not a supported subgraph network`);
-      return null;
+  if (!chainId || !uri) {
+    return;
   }
-}
 
-export function getSubgraphName(chainId: SupportedChainId) {
-  switch (chainId) {
-    case SupportedChainId.BSC:
-      return "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest";
-    case SupportedChainId.POLYGON:
-      return "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest";
-    default:
-      console.error(`${chainId} is not a supported subgraph network`);
-      return null;
+  // Check if there's already a client for this chainId
+  if (!apolloClients[chainId]) {
+    // No client exists, create a new one
+    apolloClients[chainId] = createApolloClient(uri);
   }
+
+  // Return the existing or new client
+  return apolloClients[chainId];
 }

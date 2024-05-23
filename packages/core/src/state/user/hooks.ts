@@ -34,7 +34,8 @@ import {
 import { useHedgerInfo } from "../hedger/hooks";
 import useDebounce from "../../lib/hooks/useDebounce";
 import { getAppNameHeader } from "../hedger/thunks";
-import { useAppName } from "../chains/hooks";
+import { useAnalyticsSubgraphAddress, useAppName } from "../chains/hooks";
+import { useAnalyticsApolloClient } from "../../apollo/client/balanceHistory";
 
 export function useIsDarkMode(): boolean {
   const { userDarkMode, matchesDarkMode } = useAppSelector(
@@ -180,6 +181,9 @@ export function useSetUpnlWebSocketStatus() {
 
 export function useGetBalanceHistoryCallback() {
   const thunkDispatch: AppThunkDispatch = useAppDispatch();
+  const client = useAnalyticsApolloClient();
+  const subgraphAddress = useAnalyticsSubgraphAddress();
+
   return useCallback(
     (
       chainId: number | undefined,
@@ -192,12 +196,14 @@ export function useGetBalanceHistoryCallback() {
         getBalanceHistory({
           account,
           chainId,
+          client,
           first: first ?? BALANCE_HISTORY_ITEMS_NUMBER,
           skip: skip ? skip : 0,
         })
       );
     },
-    [thunkDispatch]
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [thunkDispatch, subgraphAddress]
   );
 }
 

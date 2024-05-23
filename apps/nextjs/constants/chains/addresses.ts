@@ -37,7 +37,7 @@ export const BSCChain: ChainType = {
   WRAPPED_NATIVE_ADDRESS: "0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c",
 
   ANALYTICS_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/symmiograph/symmioanalytics_bnb_8_2",
+    "https://api.studio.thegraph.com/query/62454/analytics_bnb_8_2/version/latest",
   ORDER_HISTORY_SUBGRAPH_ADDRESS:
     "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest",
 };
@@ -56,9 +56,9 @@ export const PolygonChain: ChainType = {
   USDC_ADDRESS: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
   WRAPPED_NATIVE_ADDRESS: "0x0d500B1d8E8eF31E21C99d1Db9A6444d3ADf1270",
   ANALYTICS_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_polygon_8_2",
+    "https://api.studio.thegraph.com/query/62454/analytics_polygon_8_2/version/latest",
   ORDER_HISTORY_SUBGRAPH_ADDRESS:
-    "https://api.thegraph.com/subgraphs/name/symmiograph/symmiomain_polygon_8_2",
+    "https://api.studio.thegraph.com/query/62454/main_polygon_8_2/version/latest",
 };
 
 export const contractInfo: { [chainId: number]: ChainType } = {

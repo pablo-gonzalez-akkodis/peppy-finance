@@ -25,9 +25,10 @@ import {
   useUserWhitelist,
 } from "./hooks";
 import { getIsWhiteList, getTotalDepositsAndWithdrawals } from "./thunks";
-import { useAppName } from "../chains/hooks";
+import { useAnalyticsSubgraphAddress, useAppName } from "../chains/hooks";
 import { useMultiAccountContract } from "../../hooks/useContract";
 import { ConnectionStatus } from "../../types/api";
+import { useAnalyticsApolloClient } from "../../apollo/client/balanceHistory";
 
 export function UserUpdater(): null {
   const dispatch = useAppDispatch();
@@ -35,6 +36,8 @@ export function UserUpdater(): null {
   const { account, chainId } = useActiveWagmi();
   const activeAccountAddress = useActiveAccountAddress();
   const MultiAccountContract = useMultiAccountContract();
+  const client = useAnalyticsApolloClient();
+  const subgraphAddress = useAnalyticsSubgraphAddress();
   const appName = useAppName();
 
   const { baseUrl, fetchData } = useHedgerInfo() || {};
@@ -65,9 +68,11 @@ export function UserUpdater(): null {
         getTotalDepositsAndWithdrawals({
           account: activeAccountAddress,
           chainId,
+          client,
         })
       );
-  }, [activeAccountAddress, chainId, thunkDispatch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeAccountAddress, chainId, subgraphAddress, thunkDispatch]);
 
   // keep dark mode in sync with the system
   useEffect(() => {
