@@ -3,11 +3,10 @@ import styled from "styled-components";
 
 import { Quote } from "@symmio/frontend-sdk/types/quote";
 
-import { AppThunkDispatch, useAppDispatch } from "@symmio/frontend-sdk/state";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import { useActiveAccountAddress } from "@symmio/frontend-sdk/state/user/hooks";
-import { getHistory } from "@symmio/frontend-sdk/state/quotes/thunks";
 import {
+  useGetOrderHistoryCallback,
   useHistoryQuotes,
   usePendingsQuotes,
   usePositionsQuotes,
@@ -58,16 +57,14 @@ export default function UserPanel(): JSX.Element | null {
   const { quotes: closed, hasMoreHistory } = useHistoryQuotes();
   const { quotes: positions } = usePositionsQuotes();
   const { quotes: pendings } = usePendingsQuotes();
-  const thunkDispatch: AppThunkDispatch = useAppDispatch();
+  const getHistory = useGetOrderHistoryCallback();
 
   function getHistoryQuotes() {
     const skip = page * ItemsPerPage;
     const first = ItemsPerPage + 1;
     if (skip + first < closed.length) return;
     if (account && chainId && hasMoreHistory)
-      thunkDispatch(
-        getHistory({ account, chainId, first, skip, ItemsPerPage })
-      );
+      getHistory(account, chainId, first, skip, ItemsPerPage);
   }
 
   const positionQuotes: Quote[] = useMemo(() => {

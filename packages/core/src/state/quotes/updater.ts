@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from "react";
-import { AppThunkDispatch, useAppDispatch } from "../declaration";
+import { useAppDispatch } from "../declaration";
 import find from "lodash/find.js";
 import isEqual from "lodash/isEqual.js";
 
@@ -16,6 +16,7 @@ import {
 } from "./actions";
 import {
   useAddQuotesToListenerCallback,
+  useGetOrderHistoryCallback,
   useListenersQuotes,
   usePendingsQuotes,
   usePositionsQuotes,
@@ -23,13 +24,11 @@ import {
 import { QuoteStatus } from "../../types/quote";
 import usePrevious from "../../lib/hooks/usePrevious";
 import { autoRefresh } from "../../utils/retry";
-import { getHistory } from "./thunks";
 import { useActiveAccountAddress } from "../user/hooks";
 import useWagmi from "../../lib/hooks/useWagmi";
 
 export function QuotesUpdater(): null {
   const dispatch = useAppDispatch();
-  const thunkDispatch: AppThunkDispatch = useAppDispatch();
   const account = useActiveAccountAddress();
   const { chainId } = useWagmi();
 
@@ -37,17 +36,12 @@ export function QuotesUpdater(): null {
 
   const { quotes: pendings } = useGetQuoteByIds(pendingIds);
   const { positions } = useGetPositions();
+  const getHistory = useGetOrderHistoryCallback();
 
   useEffect(() => {
     if (account && chainId)
-      return autoRefresh(
-        () =>
-          thunkDispatch(
-            getHistory({ account, chainId, first: 8, skip: 0, ItemsPerPage: 7 })
-          ),
-        3000
-      );
-  }, [account, chainId, thunkDispatch]);
+      return autoRefresh(() => getHistory(account, chainId, 8, 0, 7), 3000);
+  }, [account, chainId, getHistory]);
 
   useEffect(() => {
     dispatch(setPositions({ quotes: positions ?? [] }));
