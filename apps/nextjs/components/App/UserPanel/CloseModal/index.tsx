@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled, { useTheme } from "styled-components";
 import { SiweMessage } from "siwe";
 import toast from "react-hot-toast";
@@ -57,7 +63,7 @@ import { PnlValue } from "components/App/UserPanel/Common";
 import GuidesDropDown from "components/App/UserPanel/CloseModal/GuidesDropdown";
 import ErrorButton from "components/Button/ErrorButton";
 import { useSignMessage } from "@symmio/frontend-sdk/callbacks/useMultiAccount";
-import { Address, encodeFunctionData } from "viem";
+import { Address } from "viem";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -92,12 +98,16 @@ const InfoWrapper = styled.div`
   margin-bottom: 18px;
   gap: 16px;
 `;
+
 interface FetchPriceRangeResponseType {
   max_price: number;
   min_price: number;
 }
-interface NonceResponseType {
+interface INonceResponseType {
   nonce: string;
+}
+interface ILoginResponseType {
+  access_token: string;
 }
 
 export default function CloseModal({
@@ -514,6 +524,9 @@ function createSiweMessage(
   nonce: string
 ) {
   const domain = "deus.finance";
+  const issuedAt = new Date().toISOString();
+  const expirationTime = new Date(Date.now() + 60 * 60 * 1000).toISOString();
+  console.log({ issuedAt, expirationTime });
   const message = new SiweMessage({
     domain,
     address,
@@ -522,10 +535,10 @@ function createSiweMessage(
     nonce,
     version: "1",
     uri: `https://${domain}/`,
-    issuedAt: new Date().toISOString(),
-    expirationTime: new Date(Date.now() + 60 * 60 * 1000).toISOString(), // 1 hour from now
+    issuedAt,
+    expirationTime, // 1 hour from now
   });
-  return message.prepareMessage();
+  return { message: message.prepareMessage(), issuedAt, expirationTime };
 }
 
 function InstantClose() {
@@ -533,41 +546,77 @@ function InstantClose() {
   const activeAddress = useActiveAccountAddress();
   const { baseUrl } = useHedgerInfo() || {};
   const [nonce, setNonce] = useState("");
+  const Nonce = useRef("");
+  const [issuedAt, setIssuedAt] = useState("");
+  const [expirationTime, setExpirationTime] = useState("");
 
   const message = useMemo(() => {
-    if (account && chainId)
-      return createSiweMessage(
+    if (account && chainId && nonce) {
+      const { expirationTime, issuedAt, message } = createSiweMessage(
         account,
         `msg: ${activeAddress}`,
         chainId,
         nonce
       );
+      setExpirationTime(expirationTime);
+      setIssuedAt(issuedAt);
+      return message;
+    }
+    setExpirationTime("");
+    setIssuedAt("");
     return "";
   }, [nonce, activeAddress, account, chainId]);
-
-  console.log(message, nonce);
 
   const { callback: signMessageCallback } = useSignMessage(message);
 
   const getNonce = useCallback(async () => {
-    try {
-      const { href: nonceUrl } = new URL(`nonce/${activeAddress}`, baseUrl);
-      const nonceResponse = await makeHttpRequest<NonceResponseType>(nonceUrl);
-      if (nonceResponse) setNonce(nonceResponse.nonce);
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-      } else {
-        console.debug(e);
-      }
-      throw new Error(e.message);
+    const { href: nonceUrl } = new URL(`nonce/${activeAddress}`, baseUrl);
+    const nonceResponse = await makeHttpRequest<INonceResponseType>(nonceUrl);
+    if (nonceResponse) {
+      Nonce.current = nonceResponse.nonce;
+      setNonce(nonceResponse.nonce);
+    } else {
+      Nonce.current = "";
+      setNonce("");
     }
   }, [activeAddress, baseUrl]);
 
+  const login = useCallback(
+    async (signature: string) => {
+      const { href: loginUrl } = new URL(`siwe`, baseUrl);
+      const body = JSON.stringify({
+        account_address: `${activeAddress}`,
+        expiration_time: expirationTime,
+        issued_at: issuedAt,
+        signature,
+      });
+      const response = await makeHttpRequest<ILoginResponseType>(loginUrl, {
+        method: "POST",
+        headers: [["Content-Type", "application/json"]],
+        body,
+      });
+      if (response) {
+        localStorage.setItem("access_token", response.access_token);
+        localStorage.setItem("expiration_time", expirationTime);
+        localStorage.setItem("issued_at", issuedAt);
+      } else {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("expiration_time");
+        localStorage.removeItem("issued_at");
+      }
+    },
+    [activeAddress, baseUrl, expirationTime, issuedAt]
+  );
+
   const onSignMessage = useCallback(async () => {
-    if (!signMessageCallback) return;
+    // console.log("in the onSignMessage", !signMessageCallback);
+    if (!signMessageCallback) return "";
+    // console.log("in the onSignMessage 2");
+
     try {
+      console.log("in the try");
       const sign = await signMessageCallback();
+
       return sign;
     } catch (e) {
       if (e instanceof Error) {
@@ -582,11 +631,16 @@ function InstantClose() {
   const onClickButton = useCallback(async () => {
     try {
       await getNonce();
-      onSignMessage().then((sign) => {
-        console.log(sign);
-      });
-    } catch (error) {}
-  }, []);
+      onSignMessage()
+        .then(async (sign) => {
+          console.log(sign);
+          if (sign) await login(sign);
+        })
+        .catch((e) => console.log(e));
+    } catch (error) {
+      console.log(error);
+    }
+  }, [getNonce, login, onSignMessage]);
 
   return (
     <PrimaryButton height={"48px"} marginTop={"20px"} onClick={onClickButton}>
