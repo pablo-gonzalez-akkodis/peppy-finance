@@ -35,6 +35,7 @@ import { PrimaryButton } from "components/Button";
 import { CustomInputBox2 } from "components/InputBox";
 import { Close as CloseIcon } from "components/Icons";
 import { useTransferCollateral } from "@symmio/frontend-sdk/callbacks/useTransferCollateral";
+import { useMintCollateral } from "@symmio/frontend-sdk/callbacks/useMintTestCollateral";
 import { Row, RowBetween, RowStart } from "components/Row";
 import { useMultiAccountAddress } from "@symmio/frontend-sdk/state/chains/hooks";
 
@@ -99,7 +100,9 @@ export default function DepositModal() {
 
   const { callback: transferBalanceCallback, error: transferBalanceError } =
     useTransferCollateral(typedAmount, TransferTab.DEPOSIT);
-  // const { callback: mintCallback, error: mintCallbackError } = useMintCollateral()
+  const { callback: mintCallback, error: mintCallbackError } =
+    useMintCollateral();
+
   const MULTI_ACCOUNT_ADDRESS = useMultiAccountAddress();
   const spender = useMemo(
     () => MULTI_ACCOUNT_ADDRESS[chainId ?? FALLBACK_CHAIN_ID],
@@ -146,6 +149,27 @@ export default function DepositModal() {
       }
     }
   }, [toggleDepositModal, transferBalanceCallback, transferBalanceError]);
+
+  const handleMintToken = useCallback(async () => {
+    if (!mintCallback) {
+      toast.error(mintCallbackError);
+      return;
+    }
+
+    try {
+      setAwaitingConfirmation(true);
+      await mintCallback();
+      setTypedAmount("");
+      setAwaitingConfirmation(false);
+    } catch (e) {
+      setAwaitingConfirmation(false);
+      if (e instanceof Error) {
+        console.error(e);
+      } else {
+        console.error(e);
+      }
+    }
+  }, [mintCallback, mintCallbackError]);
 
   const handleApprove = async () => {
     try {
@@ -277,6 +301,14 @@ export default function DepositModal() {
 
         {getLabel()}
         {getActionButton()}
+
+        {collateralCurrency.address ===
+          "0x50E88C692B137B8a51b6017026Ef414651e0d5ba" &&
+          toBN(collateralBalance).isLessThanOrEqualTo(9) && (
+            <PrimaryButton onClick={handleMintToken}>
+              Mint Test Token
+            </PrimaryButton>
+          )}
       </Wrapper>
     </Modal>
   );
