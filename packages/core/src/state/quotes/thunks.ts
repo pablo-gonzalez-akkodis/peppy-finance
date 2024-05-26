@@ -1,7 +1,7 @@
 import * as toolkitRaw from "@reduxjs/toolkit/dist/redux-toolkit.cjs.production.min.js";
 const { createAsyncThunk } = ((toolkitRaw as any).default ??
   toolkitRaw) as typeof toolkitRaw;
-import { getOrderHistoryApolloClient } from "../../apollo/client/orderHistory";
+import { ApolloClient, NormalizedCacheObject } from "@apollo/client";
 import { ORDER_HISTORY_DATA } from "../../apollo/queries";
 import { SubGraphData } from "./types";
 import { Quote } from "../../types/quote";
@@ -48,12 +48,14 @@ export const getHistory = createAsyncThunk(
   async ({
     account,
     chainId,
+    client,
     skip,
     first,
     ItemsPerPage,
   }: {
     account: string;
     chainId: number;
+    client: ApolloClient<NormalizedCacheObject>;
     skip: number;
     first: number;
     ItemsPerPage: number;
@@ -64,11 +66,11 @@ export const getHistory = createAsyncThunk(
     if (!chainId) {
       throw new Error("chainId is empty");
     }
+    if (!client) {
+      throw new Error("Apollo client is not provided");
+    }
 
     try {
-      const client = getOrderHistoryApolloClient(chainId);
-      if (!client) return {};
-
       let hasMore = false;
       const {
         data: { resultEntities },

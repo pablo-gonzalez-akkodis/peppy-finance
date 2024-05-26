@@ -1,5 +1,9 @@
 import { useCallback, useMemo } from "react";
-import { useAppSelector, useAppDispatch } from "../declaration";
+import {
+  useAppSelector,
+  useAppDispatch,
+  AppThunkDispatch,
+} from "../declaration";
 import uniqWith from "lodash/uniqWith.js";
 
 import { Quote } from "../../types/quote";
@@ -15,6 +19,9 @@ import {
 } from "./actions";
 import { useActiveAccountAddress } from "../user/hooks";
 import { sortQuotesByModifyTimestamp } from "../../hooks/useQuotes";
+import { useOrderHistoryApolloClient } from "../../apollo/client/orderHistory";
+import { getHistory } from "./thunks";
+import { useOrderHistorySubgraphAddress } from "../chains";
 
 // returns all the histories
 export function useHistoryQuotes(): {
@@ -155,5 +162,28 @@ export function useGetExistedQuoteByIdsCallback() {
       return null;
     },
     [quotes]
+  );
+}
+
+export function useGetOrderHistoryCallback() {
+  const thunkDispatch: AppThunkDispatch = useAppDispatch();
+  const client = useOrderHistoryApolloClient();
+  const subgraphAddress = useOrderHistorySubgraphAddress();
+
+  return useCallback(
+    (
+      account: string,
+      chainId: number,
+      first: number,
+      skip: number,
+      ItemsPerPage: number
+    ) => {
+      if (!chainId || !account) return;
+      thunkDispatch(
+        getHistory({ account, chainId, client, first, skip, ItemsPerPage })
+      );
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [thunkDispatch, subgraphAddress]
   );
 }

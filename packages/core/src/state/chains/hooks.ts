@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { AppState, useAppDispatch, useAppSelector } from "../declaration";
 import { setChains } from "./actions";
 import { ChainsState, MuonDataType } from "./reducer";
+import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 
 function compatibleWithLegacyStructure(chains, v3_ids, parameter_name) {
   return Object.keys(chains)
@@ -166,17 +167,27 @@ export function useAppName() {
 }
 
 export function useOrderHistorySubgraphAddress() {
-  const subgraphAddress = useAppSelector(
-    (state: AppState) => state.chains.ORDER_HISTORY_SUBGRAPH_ADDRESS
-  );
-  return subgraphAddress;
+  const { chainId } = useActiveWagmi();
+
+  const chainsData = useAppSelector((state: AppState) => state.chains.chains);
+  const address =
+    chainId && chainsData[chainId]?.ORDER_HISTORY_SUBGRAPH_ADDRESS
+      ? chainsData[chainId].ORDER_HISTORY_SUBGRAPH_ADDRESS
+      : "";
+
+  return address;
 }
 
 export function useAnalyticsSubgraphAddress() {
-  const subgraphAddress = useAppSelector(
-    (state: AppState) => state.chains.ANALYTICS_SUBGRAPH_ADDRESS
-  );
-  return subgraphAddress;
+  const { chainId } = useActiveWagmi();
+
+  const chainsData = useAppSelector((state: AppState) => state.chains.chains);
+  const address =
+    chainId && chainsData[chainId]?.ANALYTICS_SUBGRAPH_ADDRESS
+      ? chainsData[chainId].ANALYTICS_SUBGRAPH_ADDRESS
+      : "";
+
+  return address;
 }
 
 export function useMuonData(): { [chainId: number]: MuonDataType } {
