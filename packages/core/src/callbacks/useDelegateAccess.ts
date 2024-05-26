@@ -21,7 +21,7 @@ import { SendTransactionResult } from "@wagmi/core";
 import { useActiveAccountAddress } from "../state/user/hooks";
 import { useFallbackChainId, usePartyBWhitelistAddress } from "../state/chains";
 
-export function useClosePosition(): {
+export function useDelegateAccess(): {
   state: TransactionCallbackState;
   callback: null | (() => Promise<SendTransactionResult | undefined>);
   error: string | null;

@@ -97,13 +97,13 @@ function ActionButton({ isTermsAccepted }: { isTermsAccepted: boolean }) {
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false);
 
   const message = useGetMessage();
-  const { callback: signMessageCallback } = useSignMessage(message);
+  const { callback: signMessageCallback } = useSignMessage();
   const { callback: writeSignCallback } = useWriteSign();
 
   const onSignMessage = useCallback(async () => {
     if (!signMessageCallback) return;
     try {
-      const sign = await signMessageCallback();
+      const sign = await signMessageCallback(message);
       return sign;
     } catch (e) {
       if (e instanceof Error) {
@@ -113,7 +113,7 @@ function ActionButton({ isTermsAccepted }: { isTermsAccepted: boolean }) {
       }
       throw new Error(e.message);
     }
-  }, [signMessageCallback]);
+  }, [message, signMessageCallback]);
 
   const onWriteSignCb = useCallback(
     async (sign: string) => {
