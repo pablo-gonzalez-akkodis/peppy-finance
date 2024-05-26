@@ -1,12 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import styled, { useTheme } from "styled-components";
-import { SiweMessage } from "siwe";
 import toast from "react-hot-toast";
 
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
@@ -23,16 +16,14 @@ import {
   formatAmount,
   toBN,
   formatPrice,
+  RoundMode,
 } from "@symmio/frontend-sdk/utils/numbers";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token";
 import { calculateString, calculationPattern } from "utils/calculationalString";
 
-import {
-  useActiveAccount,
-  useActiveAccountAddress,
-} from "@symmio/frontend-sdk/state/user/hooks";
+import { useActiveAccount } from "@symmio/frontend-sdk/state/user/hooks";
 import { useMarketData } from "@symmio/frontend-sdk/state/hedger/hooks";
 
 import { useMarket } from "@symmio/frontend-sdk/hooks/useMarkets";
@@ -43,10 +34,12 @@ import {
   useQuoteUpnlAndPnl,
   useQuoteLeverage,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
+import useInstantClose from "@symmio/frontend-sdk/hooks/useInstantClose";
 import { useHedgerInfo } from "@symmio/frontend-sdk/state/hedger/hooks";
 import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 
 import { useClosePosition } from "@symmio/frontend-sdk/callbacks/useClosePosition";
+import { useDelegateAccess } from "@symmio/frontend-sdk/callbacks/useDelegateAccess";
 import { useAppName } from "@symmio/frontend-sdk/state/chains/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
@@ -62,8 +55,10 @@ import InfoItem, { DataRow, Label } from "components/InfoItem";
 import { PnlValue } from "components/App/UserPanel/Common";
 import GuidesDropDown from "components/App/UserPanel/CloseModal/GuidesDropdown";
 import ErrorButton from "components/Button/ErrorButton";
-import { useSignMessage } from "@symmio/frontend-sdk/callbacks/useMultiAccount";
-import { Address } from "viem";
+import {
+  DEFAULT_PRECISION,
+  MARKET_PRICE_COEFFICIENT,
+} from "@symmio/frontend-sdk/constants/misc";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -102,12 +97,6 @@ const InfoWrapper = styled.div`
 interface FetchPriceRangeResponseType {
   max_price: number;
   min_price: number;
-}
-interface INonceResponseType {
-  nonce: string;
-}
-interface ILoginResponseType {
-  access_token: string;
 }
 
 export default function CloseModal({
@@ -338,6 +327,19 @@ export default function CloseModal({
     }
   }, [closeCallback, error, closeModal]);
 
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
+  const instantClosePrice =
+    positionType === PositionType.SHORT
+      ? toBN(markPriceBN)
+          .times(autoSlippage)
+          .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN)
+      : toBN(markPriceBN)
+          .div(autoSlippage)
+          .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
+
+  const { handleInstantClose, handleCancelClose, text, loading } =
+    useInstantClosePosition(size, instantClosePrice, quote?.id);
+
   function getActionButton(): JSX.Element | null {
     if (!chainId || !account) return <ConnectWallet />;
     else if (isPendingTxs) {
@@ -368,9 +370,30 @@ export default function CloseModal({
     }
 
     return (
-      <MainButton height={"48px"} onClick={handleManage}>
-        Close Position
-      </MainButton>
+      <React.Fragment>
+        <MainButton height={"48px"} onClick={handleManage}>
+          Close Position
+        </MainButton>
+        {activeTab === OrderType.MARKET && (
+          <React.Fragment>
+            <MainButton
+              height={"48px"}
+              marginTop={"10px"}
+              onClick={handleInstantClose}
+            >
+              {text}
+              {loading && <DotFlashing />}
+            </MainButton>
+            <MainButton
+              height={"48px"}
+              marginTop={"10px"}
+              onClick={handleCancelClose}
+            >
+              Cancel Instant close
+            </MainButton>
+          </React.Fragment>
+        )}
+      </React.Fragment>
     );
   }
 
@@ -509,7 +532,6 @@ export default function CloseModal({
         </InfoWrapper>
 
         {getActionButton()}
-        <InstantClose />
 
         {/* <div>* This position cannot be market closed as it may result in direct account liquidation.</div> */}
       </Wrapper>
@@ -517,134 +539,68 @@ export default function CloseModal({
   );
 }
 
-function createSiweMessage(
-  address: Address,
-  statement: string,
-  chainId: number,
-  nonce: string
+function useInstantClosePosition(
+  size: string,
+  price: string | undefined,
+  id: number | undefined
 ) {
-  const domain = "deus.finance";
-  const issuedAt = new Date().toISOString();
-  const expirationTime = new Date(Date.now() + 60 * 60 * 1000).toISOString();
-  console.log({ issuedAt, expirationTime });
-  const message = new SiweMessage({
-    domain,
-    address,
-    statement,
-    chainId,
-    nonce,
-    version: "1",
-    uri: `https://${domain}/`,
-    issuedAt,
-    expirationTime, // 1 hour from now
-  });
-  return { message: message.prepareMessage(), issuedAt, expirationTime };
-}
-
-function InstantClose() {
-  const { account, chainId } = useActiveWagmi();
-  const activeAddress = useActiveAccountAddress();
-  const { baseUrl } = useHedgerInfo() || {};
-  const [nonce, setNonce] = useState("");
-  const Nonce = useRef("");
-  const [issuedAt, setIssuedAt] = useState("");
-  const [expirationTime, setExpirationTime] = useState("");
-
-  const message = useMemo(() => {
-    if (account && chainId && nonce) {
-      const { expirationTime, issuedAt, message } = createSiweMessage(
-        account,
-        `msg: ${activeAddress}`,
-        chainId,
-        nonce
-      );
-      setExpirationTime(expirationTime);
-      setIssuedAt(issuedAt);
-      return message;
-    }
-    setExpirationTime("");
-    setIssuedAt("");
-    return "";
-  }, [nonce, activeAddress, account, chainId]);
-
-  const { callback: signMessageCallback } = useSignMessage(message);
-
-  const getNonce = useCallback(async () => {
-    const { href: nonceUrl } = new URL(`nonce/${activeAddress}`, baseUrl);
-    const nonceResponse = await makeHttpRequest<INonceResponseType>(nonceUrl);
-    if (nonceResponse) {
-      Nonce.current = nonceResponse.nonce;
-      setNonce(nonceResponse.nonce);
-    } else {
-      Nonce.current = "";
-      setNonce("");
-    }
-  }, [activeAddress, baseUrl]);
-
-  const login = useCallback(
-    async (signature: string) => {
-      const { href: loginUrl } = new URL(`siwe`, baseUrl);
-      const body = JSON.stringify({
-        account_address: `${activeAddress}`,
-        expiration_time: expirationTime,
-        issued_at: issuedAt,
-        signature,
-      });
-      const response = await makeHttpRequest<ILoginResponseType>(loginUrl, {
-        method: "POST",
-        headers: [["Content-Type", "application/json"]],
-        body,
-      });
-      if (response) {
-        localStorage.setItem("access_token", response.access_token);
-        localStorage.setItem("expiration_time", expirationTime);
-        localStorage.setItem("issued_at", issuedAt);
-      } else {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("expiration_time");
-        localStorage.removeItem("issued_at");
-      }
-    },
-    [activeAddress, baseUrl, expirationTime, issuedAt]
+  const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
+    size,
+    price,
+    id
   );
+  const { callback: delegateAccessCallback, error } = useDelegateAccess();
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const onSignMessage = useCallback(async () => {
-    // console.log("in the onSignMessage", !signMessageCallback);
-    if (!signMessageCallback) return "";
-    // console.log("in the onSignMessage 2");
+  useEffect(() => {
+    if (isAccessDelegated) setText("Instant Close");
+    else setText("Delegate Access");
+  }, [isAccessDelegated]);
 
+  const handleInstantClose = useCallback(async () => {
     try {
-      console.log("in the try");
-      const sign = await signMessageCallback();
-
-      return sign;
-    } catch (e) {
-      if (e instanceof Error) {
-        console.error(e);
-      } else {
-        console.debug(e);
+      if (!isAccessDelegated && delegateAccessCallback) {
+        setLoading(true);
+        setText("Delegating ...");
+        await delegateAccessCallback();
+        setLoading(false);
       }
-      throw new Error(e.message);
-    }
-  }, [signMessageCallback]);
-
-  const onClickButton = useCallback(async () => {
-    try {
-      await getNonce();
-      onSignMessage()
-        .then(async (sign) => {
-          console.log(sign);
-          if (sign) await login(sign);
-        })
-        .catch((e) => console.log(e));
     } catch (error) {
-      console.log(error);
+      setLoading(false);
+      setText("Delegate Access");
+      console.error(error);
     }
-  }, [getNonce, login, onSignMessage]);
 
-  return (
-    <PrimaryButton height={"48px"} marginTop={"20px"} onClick={onClickButton}>
-      Instant Close
-    </PrimaryButton>
-  );
+    if (!instantClose) {
+      toast.error(error);
+      return;
+    }
+    try {
+      setLoading(true);
+      await instantClose();
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error(e.message);
+      console.error(e);
+    }
+  }, [instantClose, isAccessDelegated, delegateAccessCallback, error]);
+
+  const handleCancelClose = useCallback(async () => {
+    if (!cancelClose) {
+      toast.error(error);
+      return;
+    }
+    try {
+      const res = await cancelClose();
+      res && toast.success(res);
+    } catch (e) {
+      setLoading(false);
+      toast.error(e.message);
+      console.error(e);
+    }
+  }, [cancelClose, error]);
+
+  return { handleInstantClose, handleCancelClose, text, loading };
 }
