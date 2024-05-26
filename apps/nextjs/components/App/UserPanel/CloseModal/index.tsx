@@ -16,6 +16,7 @@ import {
   formatAmount,
   toBN,
   formatPrice,
+  RoundMode,
 } from "@symmio/frontend-sdk/utils/numbers";
 import useActiveWagmi from "@symmio/frontend-sdk/lib/hooks/useActiveWagmi";
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
@@ -33,10 +34,12 @@ import {
   useQuoteUpnlAndPnl,
   useQuoteLeverage,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
+import useInstantClose from "@symmio/frontend-sdk/hooks/useInstantClose";
 import { useHedgerInfo } from "@symmio/frontend-sdk/state/hedger/hooks";
 import { useIsHavePendingTransaction } from "@symmio/frontend-sdk/state/transactions/hooks";
 
 import { useClosePosition } from "@symmio/frontend-sdk/callbacks/useClosePosition";
+import { useDelegateAccess } from "@symmio/frontend-sdk/callbacks/useDelegateAccess";
 import { useAppName } from "@symmio/frontend-sdk/state/chains/hooks";
 
 import ConnectWallet from "components/ConnectWallet";
@@ -52,6 +55,10 @@ import InfoItem, { DataRow, Label } from "components/InfoItem";
 import { PnlValue } from "components/App/UserPanel/Common";
 import GuidesDropDown from "components/App/UserPanel/CloseModal/GuidesDropdown";
 import ErrorButton from "components/Button/ErrorButton";
+import {
+  DEFAULT_PRECISION,
+  MARKET_PRICE_COEFFICIENT,
+} from "@symmio/frontend-sdk/constants/misc";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -86,10 +93,12 @@ const InfoWrapper = styled.div`
   margin-bottom: 18px;
   gap: 16px;
 `;
+
 interface FetchPriceRangeResponseType {
   max_price: number;
   min_price: number;
 }
+
 export default function CloseModal({
   modalOpen,
   toggleModal,
@@ -318,6 +327,19 @@ export default function CloseModal({
     }
   }, [closeCallback, error, closeModal]);
 
+  const autoSlippage = market ? market.autoSlippage : MARKET_PRICE_COEFFICIENT;
+  const instantClosePrice =
+    positionType === PositionType.SHORT
+      ? toBN(markPriceBN)
+          .times(autoSlippage)
+          .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN)
+      : toBN(markPriceBN)
+          .div(autoSlippage)
+          .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
+
+  const { handleInstantClose, handleCancelClose, text, loading } =
+    useInstantClosePosition(size, instantClosePrice, quote?.id);
+
   function getActionButton(): JSX.Element | null {
     if (!chainId || !account) return <ConnectWallet />;
     else if (isPendingTxs) {
@@ -348,9 +370,30 @@ export default function CloseModal({
     }
 
     return (
-      <MainButton height={"48px"} onClick={handleManage}>
-        Close Position
-      </MainButton>
+      <React.Fragment>
+        <MainButton height={"48px"} onClick={handleManage}>
+          Close Position
+        </MainButton>
+        {activeTab === OrderType.MARKET && (
+          <React.Fragment>
+            <MainButton
+              height={"48px"}
+              marginTop={"10px"}
+              onClick={handleInstantClose}
+            >
+              {text}
+              {loading && <DotFlashing />}
+            </MainButton>
+            <MainButton
+              height={"48px"}
+              marginTop={"10px"}
+              onClick={handleCancelClose}
+            >
+              Cancel Instant close
+            </MainButton>
+          </React.Fragment>
+        )}
+      </React.Fragment>
     );
   }
 
@@ -494,4 +537,70 @@ export default function CloseModal({
       </Wrapper>
     </Modal>
   );
+}
+
+function useInstantClosePosition(
+  size: string,
+  price: string | undefined,
+  id: number | undefined
+) {
+  const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
+    size,
+    price,
+    id
+  );
+  const { callback: delegateAccessCallback, error } = useDelegateAccess();
+  const [text, setText] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (isAccessDelegated) setText("Instant Close");
+    else setText("Delegate Access");
+  }, [isAccessDelegated]);
+
+  const handleInstantClose = useCallback(async () => {
+    try {
+      if (!isAccessDelegated && delegateAccessCallback) {
+        setLoading(true);
+        setText("Delegating ...");
+        await delegateAccessCallback();
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      setText("Delegate Access");
+      console.error(error);
+    }
+
+    if (!instantClose) {
+      toast.error(error);
+      return;
+    }
+    try {
+      setLoading(true);
+      await instantClose();
+      setLoading(false);
+    } catch (e) {
+      setLoading(false);
+      toast.error(e.message);
+      console.error(e);
+    }
+  }, [instantClose, isAccessDelegated, delegateAccessCallback, error]);
+
+  const handleCancelClose = useCallback(async () => {
+    if (!cancelClose) {
+      toast.error(error);
+      return;
+    }
+    try {
+      const res = await cancelClose();
+      res && toast.success(res);
+    } catch (e) {
+      setLoading(false);
+      toast.error(e.message);
+      console.error(e);
+    }
+  }, [cancelClose, error]);
+
+  return { handleInstantClose, handleCancelClose, text, loading };
 }

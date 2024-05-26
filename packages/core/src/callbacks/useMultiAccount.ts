@@ -102,9 +102,9 @@ export function useAddAccountToContract(accountName: string): {
   ]);
 }
 
-export function useSignMessage(message: string): {
+export function useSignMessage(): {
   state: TransactionCallbackState;
-  callback: null | (() => Promise<string>);
+  callback: null | ((message: string) => Promise<string>);
   error: string | null;
 } {
   const { account, chainId } = useActiveWagmi();
@@ -119,18 +119,14 @@ export function useSignMessage(message: string): {
         error: "Missing dependencies",
       };
     }
-    if (!message) {
-      return {
-        state: TransactionCallbackState.INVALID,
-        callback: null,
-        error: "No message provided",
-      };
-    }
 
     return {
       state: TransactionCallbackState.VALID,
       error: null,
-      callback: async function onSign(): Promise<string> {
+      callback: async function onSign(message: string): Promise<string> {
+        if (!message) {
+          throw new Error("No message provided");
+        }
         return provider
           .signMessage({ message })
           .then((response) => {
@@ -148,5 +144,5 @@ export function useSignMessage(message: string): {
           });
       },
     };
-  }, [account, chainId, provider, Contract, message]);
+  }, [account, chainId, provider, Contract]);
 }
