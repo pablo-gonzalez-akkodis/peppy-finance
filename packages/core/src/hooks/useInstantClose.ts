@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from "react";
 import { SiweMessage } from "siwe";
 import { Address } from "viem";
+import axios from "axios";
 
 import { makeHttpRequest } from "../utils/http";
 import useActiveWagmi from "../lib/hooks/useActiveWagmi";
@@ -16,20 +17,24 @@ type NonceResponseType = {
   nonce: string;
 };
 
-type LoginResponseType = {
-  access_token: string;
+type ErrorResponse = {
+  error_code: number;
+  error_message: string;
+  error_detail: string[];
 };
+
+type LoginResponseType =
+  | {
+      access_token: string;
+    }
+  | ErrorResponse;
 
 type InstantCloseResponseType =
   | {
       successful: string;
       message: string;
     }
-  | {
-      error_code: number;
-      error_message: string;
-      error_detail: string[];
-    };
+  | ErrorResponse;
 
 export default function useInstantClose(
   quantityToClose: string,
@@ -74,7 +79,7 @@ export default function useInstantClose(
   );
 
   const getNonce = useCallback(async () => {
-    const { href: nonceUrl } = new URL(`nonce/${activeAddress}`, baseUrl);
+    const nonceUrl = new URL(`nonce/${activeAddress}`, baseUrl).href;
     const nonceResponse = await makeHttpRequest<NonceResponseType>(nonceUrl);
     if (nonceResponse) return nonceResponse.nonce;
     return "";
@@ -82,26 +87,41 @@ export default function useInstantClose(
 
   const getAccessToken = useCallback(
     async (signature: string, expirationTime: string, issuedAt: string) => {
-      const { href: loginUrl } = new URL(`siwe`, baseUrl);
-      const body = JSON.stringify({
+      const loginUrl = new URL(`siwe`, baseUrl).href;
+      const body = {
         account_address: `${activeAddress}`,
         expiration_time: expirationTime,
         issued_at: issuedAt,
         signature,
-      });
-      const response = await makeHttpRequest<LoginResponseType>(loginUrl, {
-        method: "POST",
-        headers: [["Content-Type", "application/json"]],
-        body,
-      });
-      if (response) {
-        localStorage.setItem("access_token", response.access_token);
-        localStorage.setItem("expiration_time", expirationTime);
-        localStorage.setItem("issued_at", issuedAt);
-      } else {
-        localStorage.removeItem("access_token");
-        localStorage.removeItem("expiration_time");
-        localStorage.removeItem("issued_at");
+      };
+
+      try {
+        const response = await axios.post<LoginResponseType>(loginUrl, body, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if ("access_token" in response.data) {
+          localStorage.setItem("access_token", response.data.access_token);
+          localStorage.setItem("expiration_time", expirationTime);
+          localStorage.setItem("issued_at", issuedAt);
+        } else {
+          console.error("Login Error:", response.data.error_message);
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("expiration_time");
+          localStorage.removeItem("issued_at");
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.response?.data);
+          throw new Error(
+            error.response?.data.error_message || "An unknown error occurred"
+          );
+        } else {
+          console.error("Unexpected error:", error);
+          throw new Error("An unexpected error occurred");
+        }
       }
     },
     [activeAddress, baseUrl]
@@ -109,37 +129,34 @@ export default function useInstantClose(
 
   const requestToClose = useCallback(
     async (quoteId: number, quantityToClose: string, closePrice: string) => {
-      const { href: instantCloseUrl } = new URL("instant_close", baseUrl);
+      const instantCloseUrl = new URL("instant_close", baseUrl).href;
       const token = localStorage.getItem("access_token");
-      const body = JSON.stringify({
+
+      const body = {
         quote_id: quoteId,
         quantity_to_close: quantityToClose,
         close_price: closePrice,
-      });
-      console.log("request to instant close", {
-        quoteId,
-        quantityToClose,
-        closePrice,
-      });
+      };
 
-      const response = await makeHttpRequest<InstantCloseResponseType>(
-        instantCloseUrl,
-        {
-          method: "POST",
-          headers: [
-            ["Content-Type", "application/json"],
-            ["Authorization", `Bearer ${token}`],
-          ],
-          body,
+      console.log("request to instant close", body);
+
+      try {
+        await axios.post<InstantCloseResponseType>(instantCloseUrl, body, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      } catch (error) {
+        if (axios.isAxiosError(error)) {
+          console.error("Axios error:", error.response?.data);
+          throw new Error(
+            error.response?.data.error_message || "An unknown error occurred"
+          );
+        } else {
+          console.error("Unexpected error:", error);
+          throw new Error("An unexpected error occurred");
         }
-      );
-
-      if (!response) throw new Error("Can't close");
-      if ("successful" in response) {
-        return "position closed";
-      }
-      if ("error_code" in response) {
-        throw new Error(response.error_message);
       }
     },
     [baseUrl]
@@ -149,22 +166,26 @@ export default function useInstantClose(
     if (!quoteId) {
       throw new Error("quote id is required");
     }
-    const { href: cancelCloseUrl } = new URL(
-      `instant_close/${quoteId}`,
-      baseUrl
-    );
+    const cancelCloseUrl = new URL(`instant_close/${quoteId}`, baseUrl).href;
     const token = localStorage.getItem("access_token");
-    const response = await makeHttpRequest<InstantCloseResponseType>(
-      cancelCloseUrl,
-      {
-        method: "DELETE",
-        headers: [
-          ["Content-Type", "application/json"],
-          ["Authorization", `Bearer ${token}`],
-        ],
+    try {
+      await axios.delete(cancelCloseUrl, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error:", error.response?.data);
+        throw new Error(
+          error.response?.data.error_message || "An unknown error occurred"
+        );
+      } else {
+        console.error("Unexpected error:", error);
+        throw new Error("An unexpected error occurred");
       }
-    );
-    if (!response) return "instant close canceled";
+    }
   }, [baseUrl, quoteId]);
 
   const instantClose = useCallback(async () => {
@@ -178,6 +199,8 @@ export default function useInstantClose(
         const expiration_date = new Date(
           localStorage.getItem("expiration_time") ?? "0"
         );
+
+        console.log(token, expiration_date);
 
         if (token && expiration_date > currentDate) {
           await requestToClose(quoteId, quantityToClose, closePrice);

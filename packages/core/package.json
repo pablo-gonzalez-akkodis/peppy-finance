@@ -96,6 +96,10 @@
       "types": "./dist/callbacks/useClosePosition.d.ts",
       "default": "./dist/callbacks/useClosePosition.js"
     },
+    "./callbacks/useDelegateAccess": {
+      "types": "./dist/callbacks/useDelegateAccess.d.ts",
+      "default": "./dist/callbacks/useDelegateAccess.js"
+    },
     "./callbacks/useMintTestCollateral": {
       "types": "./dist/callbacks/useMintTestCollateral.d.ts",
       "default": "./dist/callbacks/useMintTestCollateral.js"
@@ -195,6 +199,14 @@
     "./hooks/useFundingRate": {
       "types": "./dist/hooks/useFundingRate.d.ts",
       "default": "./dist/hooks/useFundingRate.js"
+    },
+    "./hooks/useInstantClose": {
+      "types": "./dist/hooks/useInstantClose.d.ts",
+      "default": "./dist/hooks/useInstantClose.js"
+    },
+    "./hooks/useIsAccessDelegated": {
+      "types": "./dist/hooks/useIsAccessDelegated.d.ts",
+      "default": "./dist/hooks/useIsAccessDelegated.js"
     },
     "./hooks/useIsCooldownActive": {
       "types": "./dist/hooks/useIsCooldownActive.d.ts",
@@ -299,10 +311,6 @@
     "./lib/hooks/transactions/updater": {
       "types": "./dist/lib/hooks/transactions/updater.d.ts",
       "default": "./dist/lib/hooks/transactions/updater.js"
-    },
-    "./lib/muon/config": {
-      "types": "./dist/lib/muon/config.d.ts",
-      "default": "./dist/lib/muon/config.js"
     },
     "./lib/muon": {
       "types": "./dist/lib/muon/index.d.ts",

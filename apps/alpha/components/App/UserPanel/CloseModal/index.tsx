@@ -592,8 +592,7 @@ function useInstantClosePosition(
       return;
     }
     try {
-      const res = await cancelClose();
-      res && toast.success(res);
+      await cancelClose();
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
