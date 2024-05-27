@@ -83,6 +83,7 @@ export function useCollateralLogo(): string {
     switch (chainId) {
       case SupportedChainId.FANTOM:
       case SupportedChainId.BASE:
+      case SupportedChainId.POLYGON:
         setCollateralLogo(LogoMap["USDC"]);
         break;
       case SupportedChainId.BSC:
