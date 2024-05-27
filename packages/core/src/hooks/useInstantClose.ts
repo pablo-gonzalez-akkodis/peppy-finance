@@ -116,6 +116,11 @@ export default function useInstantClose(
         quantity_to_close: quantityToClose,
         close_price: closePrice,
       });
+      console.log("request to instant close", {
+        quoteId,
+        quantityToClose,
+        closePrice,
+      });
 
       const response = await makeHttpRequest<InstantCloseResponseType>(
         instantCloseUrl,
