@@ -211,8 +211,8 @@ export default function useInstantClose(
             `msg: ${activeAddress}`,
             chainId,
             nonceRes,
-            "deus.finance",
-            `https://deus.finance/`
+            "rasa.capital",
+            `https://rase.capital/`
           );
 
           const sign = await onSignMessage(message);
