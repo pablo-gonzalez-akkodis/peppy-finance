@@ -212,7 +212,7 @@ export default function useInstantClose(
             chainId,
             nonceRes,
             "rasa.capital",
-            `https://rase.capital/`
+            `https://rasa.capital/`
           );
 
           const sign = await onSignMessage(message);
