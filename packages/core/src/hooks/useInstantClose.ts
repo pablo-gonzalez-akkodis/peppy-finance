@@ -87,7 +87,7 @@ export default function useInstantClose(
 
   const getAccessToken = useCallback(
     async (signature: string, expirationTime: string, issuedAt: string) => {
-      const loginUrl = new URL(`siwe`, baseUrl).href;
+      const loginUrl = new URL(`login`, baseUrl).href;
       const body = {
         account_address: `${activeAddress}`,
         expiration_time: expirationTime,
@@ -206,13 +206,14 @@ export default function useInstantClose(
           await requestToClose(quoteId, quantityToClose, closePrice);
         } else {
           const nonceRes = await getNonce();
+          const host = window.location.host;
           const { expirationTime, issuedAt, message } = createSiweMessage(
             account,
             `msg: ${activeAddress}`,
             chainId,
             nonceRes,
-            "rasa.capital",
-            `https://rasa.capital/`
+            host,
+            `https://${host}`
           );
 
           const sign = await onSignMessage(message);
