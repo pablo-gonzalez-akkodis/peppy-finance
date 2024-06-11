@@ -86,13 +86,19 @@ export default function useInstantClose(
   }, [activeAddress, baseUrl]);
 
   const getAccessToken = useCallback(
-    async (signature: string, expirationTime: string, issuedAt: string) => {
+    async (
+      signature: string,
+      expirationTime: string,
+      issuedAt: string,
+      nonce: string
+    ) => {
       const loginUrl = new URL(`login`, baseUrl).href;
       const body = {
         account_address: `${activeAddress}`,
         expiration_time: expirationTime,
         issued_at: issuedAt,
         signature,
+        nonce,
       };
 
       try {
@@ -217,7 +223,8 @@ export default function useInstantClose(
           );
 
           const sign = await onSignMessage(message);
-          if (sign) await getAccessToken(sign, expirationTime, issuedAt);
+          if (sign)
+            await getAccessToken(sign, expirationTime, issuedAt, nonceRes);
           await requestToClose(quoteId, quantityToClose, closePrice);
         }
       }

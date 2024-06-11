@@ -435,7 +435,7 @@ function toQuote(quote: any) {
     initialCVA: fromWei(quote["initialLockedValues"]["cva"].toString()),
     initialLF: fromWei(quote["initialLockedValues"]["lf"].toString()),
     initialPartyAMM: fromWei(
-      quote["initialLockedValues"]["partyBmm"].toString()
+      quote["initialLockedValues"]["partyAmm"].toString()
     ),
     initialPartyBMM: fromWei(
       quote["initialLockedValues"]["partyBmm"].toString()
