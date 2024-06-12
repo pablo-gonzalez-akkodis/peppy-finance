@@ -1,6 +1,15 @@
 import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 import { ChainType } from "@symmio/frontend-sdk/state/chains/reducer";
 
+export enum FrontEndsName {
+  ALPHA = "Alpha",
+  INTENT_X = "IntentX",
+  CORE = "Core",
+  MORPHEX = "Morphex",
+  BASED = "Based",
+  CLOVERFIELD = "Cloverfield",
+}
+
 export const FantomChain: ChainType = {
   COLLATERAL_SYMBOL: "lzUSDC",
   COLLATERAL_DECIMALS: 6,
@@ -61,8 +70,14 @@ export const PolygonChain: ChainType = {
     "https://api.studio.thegraph.com/query/62454/main_polygon_8_2/version/latest",
 };
 
-export const contractInfo: { [chainId: number]: ChainType } = {
-  [SupportedChainId.FANTOM]: FantomChain,
-  [SupportedChainId.BSC]: BSCChain,
-  [SupportedChainId.POLYGON]: PolygonChain,
+export const contractInfo: {
+  [chainId: number]: { [name: string]: ChainType };
+} = {
+  [SupportedChainId.FANTOM]: { [FrontEndsName.CLOVERFIELD]: FantomChain },
+  [SupportedChainId.BSC]: {
+    [FrontEndsName.ALPHA]: BSCChain,
+  },
+  [SupportedChainId.POLYGON]: {
+    [FrontEndsName.CLOVERFIELD]: PolygonChain,
+  },
 };

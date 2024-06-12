@@ -25,6 +25,7 @@ export interface UserState {
   depositWithdrawalsState: ApiState;
 
   isTermsAccepted: TermsStatus;
+  frontEndName: string;
 }
 
 export enum BalanceHistoryType {

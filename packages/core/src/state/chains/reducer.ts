@@ -35,7 +35,7 @@ export interface AbisType {
 }
 
 export interface ChainsState {
-  readonly chains: { [chainId: number]: ChainType };
+  readonly chains: { [chainId: number]: { [name: string]: ChainType } };
   readonly V3_CHAIN_IDS: number[];
   readonly FALLBACK_CHAIN_ID: number;
   readonly contract_ABIs: AbisType;

@@ -30,6 +30,7 @@ import {
   updateUserFavorites,
   updateUserExpertMode,
   updateUpnlWebSocketStatus,
+  setFEName,
 } from "./actions";
 import { useHedgerInfo } from "../hedger/hooks";
 import useDebounce from "../../lib/hooks/useDebounce";
@@ -122,6 +123,11 @@ export function useSetLeverageCallback() {
 export function useFavorites(): string[] {
   const favorites = useAppSelector((state) => state.user.favorites);
   return favorites;
+}
+
+export function useFEName(): string {
+  const frontEndName = useAppSelector((state) => state.user.frontEndName);
+  return frontEndName;
 }
 
 export function useToggleUserFavoriteCallback(symbol: string): () => void {
@@ -305,4 +311,14 @@ export function useCustomAccountUpnl(account: string): AccountUpnl | undefined {
   return useAppSelector((state) =>
     (state.user.allAccountsUpnl || []).find((x: any) => x.account === account)
   )?.upnl;
+}
+
+export function useSetFEName() {
+  const dispatch = useAppDispatch();
+  return useCallback(
+    (name: string) => {
+      dispatch(setFEName(name));
+    },
+    [dispatch]
+  );
 }
