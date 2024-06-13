@@ -248,33 +248,30 @@ export function useAppName() {
 export function useOrderHistorySubgraphAddress() {
   const { chainId } = useActiveWagmi();
   const frontEndName = useFEName();
-
   const chainsData = useAppSelector((state: AppState) => state.chains.chains);
-  const address =
-    chainId &&
-    Object.keys(chainsData).length &&
-    frontEndName &&
-    chainsData &&
-    chainsData[chainId][frontEndName]?.ORDER_HISTORY_SUBGRAPH_ADDRESS
-      ? chainsData[chainId][frontEndName].ORDER_HISTORY_SUBGRAPH_ADDRESS
-      : "";
 
+  let address = "";
+  if (chainId && frontEndName && chainsData && chainsData[chainId]) {
+    const frontEndData = chainsData[chainId][frontEndName];
+    if (frontEndData && frontEndData.ORDER_HISTORY_SUBGRAPH_ADDRESS) {
+      address = frontEndData.ORDER_HISTORY_SUBGRAPH_ADDRESS;
+    }
+  }
   return address;
 }
 
 export function useAnalyticsSubgraphAddress() {
   const { chainId } = useActiveWagmi();
   const frontEndName = useFEName();
-
   const chainsData = useAppSelector((state: AppState) => state.chains.chains);
-  const address =
-    chainId &&
-    Object.keys(chainsData).length &&
-    frontEndName &&
-    chainsData &&
-    chainsData[chainId][frontEndName]?.ANALYTICS_SUBGRAPH_ADDRESS
-      ? chainsData[chainId][frontEndName].ANALYTICS_SUBGRAPH_ADDRESS
-      : "";
+
+  let address = "";
+  if (chainId && frontEndName && chainsData && chainsData[chainId]) {
+    const frontEndData = chainsData[chainId][frontEndName];
+    if (frontEndData && frontEndData.ANALYTICS_SUBGRAPH_ADDRESS) {
+      address = frontEndData.ANALYTICS_SUBGRAPH_ADDRESS;
+    }
+  }
 
   return address;
 }

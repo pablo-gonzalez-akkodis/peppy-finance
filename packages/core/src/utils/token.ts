@@ -59,10 +59,15 @@ export function isBSC(chainId: number): boolean {
 export function isFTM(chainId: number): chainId is SupportedChainId.FANTOM {
   return chainId === SupportedChainId.FANTOM;
 }
+
 export function isPolygon(
   chainId: number
 ): chainId is SupportedChainId.POLYGON {
   return chainId === SupportedChainId.POLYGON;
+}
+
+export function isMantle(chainId: number): chainId is SupportedChainId.MANTLE {
+  return chainId === SupportedChainId.MANTLE;
 }
 
 class BscNativeCurrency extends NativeCurrency {
@@ -80,6 +85,24 @@ class BscNativeCurrency extends NativeCurrency {
   public constructor(chainId: number) {
     if (!isBSC(chainId)) throw new Error("Not bnb");
     super(chainId, 18, "BNB", "BNB");
+  }
+}
+
+class MantleNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isMantle(this.chainId)) throw new Error("Not Mantle");
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    invariant(wrapped instanceof Token);
+    return wrapped;
+  }
+
+  public constructor(chainId: number) {
+    if (!isMantle(chainId)) throw new Error("Not Mantle");
+    super(chainId, 18, "MANTLE", "MANTLE");
   }
 }
 
@@ -141,6 +164,8 @@ export function nativeOnChain(chainId: number): NativeCurrency | Token {
     nativeCurrency = new FtmNativeCurrency(chainId);
   } else if (isPolygon(chainId)) {
     nativeCurrency = new PolygonNativeCurrency(chainId);
+  } else if (isMantle(chainId)) {
+    nativeCurrency = new MantleNativeCurrency(chainId);
   } else {
     nativeCurrency = ExtendedEther.onChain(chainId);
   }

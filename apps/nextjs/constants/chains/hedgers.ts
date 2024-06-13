@@ -65,5 +65,21 @@ export const HedgerInfo = {
       clientName: "CLOVERFIELD_TEST",
     },
   ],
+  [SupportedChainId.MANTLE]: [
+    {
+      apiUrl: "https://fapi.binance.com/",
+      webSocketUrl: "wss://fstream.binance.com/stream",
+      baseUrl: `https://${process.env.NEXT_PUBLIC_MANTLE_HEDGER_URL}`,
+      webSocketUpnlUrl: `wss://${process.env.NEXT_PUBLIC_MANTLE_HEDGER_URL}/ws/upnl-ws`,
+      webSocketNotificationUrl: `wss://${process.env.NEXT_PUBLIC_MANTLE_HEDGER_URL}/ws/position-state-ws3`,
+      webSocketFundingRateUrl: `wss://${process.env.NEXT_PUBLIC_MANTLE_HEDGER_URL}/ws/funding-rate-ws`,
+      defaultMarketId: 1,
+      markets: [],
+      openInterest: { total: 0, used: 0 } as OpenInterest,
+      id: "mantle-hedger",
+      fetchData: true,
+      clientName: "CLOVERFIELD_TEST",
+    },
+  ],
   [SupportedChainId.NOT_SET]: [DEFAULT_HEDGER],
 };

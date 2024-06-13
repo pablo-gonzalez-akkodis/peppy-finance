@@ -70,6 +70,25 @@ export const PolygonChain: ChainType = {
     "https://api.studio.thegraph.com/query/62454/main_polygon_8_2/version/latest",
 };
 
+export const MantleChain: ChainType = {
+  COLLATERAL_SYMBOL: "USDe",
+  COLLATERAL_DECIMALS: 18,
+  COLLATERAL_ADDRESS: "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+
+  DIAMOND_ADDRESS: "0x2Ecc7da3Cc98d341F987C85c3D9FC198570838B5",
+  MULTI_ACCOUNT_ADDRESS: "0xECbd0788bB5a72f9dFDAc1FFeAAF9B7c2B26E456",
+  PARTY_B_WHITELIST: "0x50E88C692B137B8a51b6017026Ef414651e0d5ba",
+  SIGNATURE_STORE_ADDRESS: "0x6EA2EffEB3F0F2582DF5aD52cbe847FA50B628B2",
+
+  MULTICALL3_ADDRESS: "0xecAB00fA29A83023910b02d0C92831d3999b982B",
+  USDC_ADDRESS: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+  WRAPPED_NATIVE_ADDRESS: "0x29019c39EC418Ac4e7aFc1d88d6b962Ff172aBf6",
+  ANALYTICS_SUBGRAPH_ADDRESS:
+    "https://subgraph-api.mantle.xyz/subgraphs/name/analytics_mantle_8_2",
+  ORDER_HISTORY_SUBGRAPH_ADDRESS:
+    "https://subgraph-api.mantle.xyz/subgraphs/name/main_mantle_8_2",
+};
+
 export const contractInfo: {
   [chainId: number]: { [name: string]: ChainType };
 } = {
@@ -80,4 +99,5 @@ export const contractInfo: {
   [SupportedChainId.POLYGON]: {
     [FrontEndsName.CLOVERFIELD]: PolygonChain,
   },
+  [SupportedChainId.MANTLE]: { [FrontEndsName.INTENT_X]: MantleChain },
 };
