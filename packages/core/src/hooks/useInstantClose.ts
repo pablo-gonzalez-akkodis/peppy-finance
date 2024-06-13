@@ -212,14 +212,14 @@ export default function useInstantClose(
           await requestToClose(quoteId, quantityToClose, closePrice);
         } else {
           const nonceRes = await getNonce();
-          const host = window.location.host;
+          const host = window.location.hostname;
           const { expirationTime, issuedAt, message } = createSiweMessage(
             account,
             `msg: ${activeAddress}`,
             chainId,
             nonceRes,
             host,
-            `https://${host}`
+            `${baseUrl}/login`
           );
 
           const sign = await onSignMessage(message);
@@ -240,6 +240,7 @@ export default function useInstantClose(
     requestToClose,
     getNonce,
     activeAddress,
+    baseUrl,
     onSignMessage,
     getAccessToken,
   ]);
