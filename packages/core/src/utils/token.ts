@@ -70,6 +70,10 @@ export function isMantle(chainId: number): chainId is SupportedChainId.MANTLE {
   return chainId === SupportedChainId.MANTLE;
 }
 
+export function isBASE(chainId: number): chainId is SupportedChainId.BASE {
+  return chainId === SupportedChainId.BASE;
+}
+
 class BscNativeCurrency extends NativeCurrency {
   equals(other: Currency): boolean {
     return other.isNative && other.chainId === this.chainId;
@@ -142,6 +146,24 @@ class PolygonNativeCurrency extends NativeCurrency {
   }
 }
 
+class BaseNativeCurrency extends NativeCurrency {
+  equals(other: Currency): boolean {
+    return other.isNative && other.chainId === this.chainId;
+  }
+
+  get wrapped(): Token {
+    if (!isBASE(this.chainId)) throw new Error("Not Eth");
+    const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId];
+    invariant(wrapped instanceof Token);
+    return wrapped;
+  }
+
+  public constructor(chainId: number) {
+    if (!isBASE(chainId)) throw new Error("Not Eth");
+    super(chainId, 18, "ETH", "ETH");
+  }
+}
+
 class ExtendedEther extends Ether {
   public get wrapped(): Token {
     const wrapped = WRAPPED_NATIVE_CURRENCY[this.chainId];
@@ -166,6 +188,8 @@ export function nativeOnChain(chainId: number): NativeCurrency | Token {
     nativeCurrency = new PolygonNativeCurrency(chainId);
   } else if (isMantle(chainId)) {
     nativeCurrency = new MantleNativeCurrency(chainId);
+  } else if (isBASE(chainId)) {
+    nativeCurrency = new BaseNativeCurrency(chainId);
   } else {
     nativeCurrency = ExtendedEther.onChain(chainId);
   }

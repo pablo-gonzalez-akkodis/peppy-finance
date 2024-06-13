@@ -28,6 +28,7 @@ export const ClientChain = [
   SupportedChainId.POLYGON,
   SupportedChainId.BSC,
   SupportedChainId.MANTLE,
+  SupportedChainId.BASE,
 ];
 
 export const APP_CHAINS = getWagmiChain(ClientChain);

@@ -18,3 +18,8 @@ export const MANTLE_MUON_BASE_URL = [
   "https://intentx-shield.deus.finance/v1/",
   "https://intentx-shield1.deus.finance/v1/",
 ];
+
+export const BASE_MUON_BASE_URL = [
+  "https://intentx-shield1.deus.finance/v1/",
+  "https://intentx-shield.deus.finance/v1/",
+];
