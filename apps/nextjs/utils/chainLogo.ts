@@ -13,6 +13,7 @@ export const ChainInfo: { [chainId: number]: StaticImageData } = {
   [SupportedChainId.FANTOM]: require("/public/static/images/networks/fantom.svg"),
   [SupportedChainId.ARBITRUM]: require("/public/static/images/networks/arbitrum.png"),
   [SupportedChainId.BASE]: require("/public/static/images/networks/base.png"),
+  [SupportedChainId.MANTLE]: require("/public/static/images/networks/mantle.svg"),
 };
 
 export function getChainLogo(chainId: number | undefined): any {

@@ -1,6 +1,15 @@
 import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 import { ChainType } from "@symmio/frontend-sdk/state/chains/reducer";
 
+export enum FrontEndsName {
+  ALPHA = "Alpha",
+  INTENT_X = "IntentX",
+  CORE = "Core",
+  MORPHEX = "Morphex",
+  BASED = "Based",
+  CLOVERFIELD = "Cloverfield",
+}
+
 export const FantomChain: ChainType = {
   COLLATERAL_SYMBOL: "lzUSDC",
   COLLATERAL_DECIMALS: 6,
@@ -61,8 +70,96 @@ export const PolygonChain: ChainType = {
     "https://api.studio.thegraph.com/query/62454/main_polygon_8_2/version/latest",
 };
 
-export const contractInfo: { [chainId: number]: ChainType } = {
-  [SupportedChainId.FANTOM]: FantomChain,
-  [SupportedChainId.BSC]: BSCChain,
-  [SupportedChainId.POLYGON]: PolygonChain,
+export const MantleChain: ChainType = {
+  COLLATERAL_SYMBOL: "USDe",
+  COLLATERAL_DECIMALS: 18,
+  COLLATERAL_ADDRESS: "0x5d3a1Ff2b6BAb83b63cd9AD0787074081a52ef34",
+
+  DIAMOND_ADDRESS: "0x2Ecc7da3Cc98d341F987C85c3D9FC198570838B5",
+  MULTI_ACCOUNT_ADDRESS: "0xECbd0788bB5a72f9dFDAc1FFeAAF9B7c2B26E456",
+  PARTY_B_WHITELIST: "0x50E88C692B137B8a51b6017026Ef414651e0d5ba",
+  SIGNATURE_STORE_ADDRESS: "0x6EA2EffEB3F0F2582DF5aD52cbe847FA50B628B2",
+
+  MULTICALL3_ADDRESS: "0xecAB00fA29A83023910b02d0C92831d3999b982B",
+  USDC_ADDRESS: "0x2791Bca1f2de4661ED88A30C99A7a9449Aa84174",
+  WRAPPED_NATIVE_ADDRESS: "0x29019c39EC418Ac4e7aFc1d88d6b962Ff172aBf6",
+  ANALYTICS_SUBGRAPH_ADDRESS:
+    "https://subgraph-api.mantle.xyz/subgraphs/name/analytics_mantle_8_2",
+  ORDER_HISTORY_SUBGRAPH_ADDRESS:
+    "https://subgraph-api.mantle.xyz/subgraphs/name/main_mantle_8_2",
+};
+
+export const BaseChainBasedFE: ChainType = {
+  COLLATERAL_SYMBOL: "USDC",
+  COLLATERAL_DECIMALS: 6,
+  COLLATERAL_ADDRESS: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+
+  DIAMOND_ADDRESS: "0x91Cf2D8Ed503EC52768999aA6D8DBeA6e52dbe43",
+  MULTI_ACCOUNT_ADDRESS: "0x1c03B6480a4efC2d4123ba90d7857f0e1878B780",
+  PARTY_B_WHITELIST: "0x9206D9d8F7F1B212A4183827D20De32AF3A23c59",
+  SIGNATURE_STORE_ADDRESS: "0xC19e66D08350Eb88A41377b16C8Ab93EE0FB4996",
+
+  MULTICALL3_ADDRESS: "0x66EC85c6d1971Ea15472754F733fA3F956a0Ec30",
+  USDC_ADDRESS: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+  WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
+  ANALYTICS_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/analytics_base_8_2/version/latest",
+  ORDER_HISTORY_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/main_base_8_2/version/latest",
+};
+
+export const BaseChainIntentXFE: ChainType = {
+  COLLATERAL_SYMBOL: "USDC",
+  COLLATERAL_DECIMALS: 6,
+  COLLATERAL_ADDRESS: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+
+  DIAMOND_ADDRESS: "0x91Cf2D8Ed503EC52768999aA6D8DBeA6e52dbe43",
+  MULTI_ACCOUNT_ADDRESS: "0x8Ab178C07184ffD44F0ADfF4eA2ce6cFc33F3b86",
+  PARTY_B_WHITELIST: "0x9206D9d8F7F1B212A4183827D20De32AF3A23c59",
+  SIGNATURE_STORE_ADDRESS: "0xC19e66D08350Eb88A41377b16C8Ab93EE0FB4996",
+
+  MULTICALL3_ADDRESS: "0x66EC85c6d1971Ea15472754F733fA3F956a0Ec30",
+  USDC_ADDRESS: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+  WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
+  ANALYTICS_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/analytics_base_8_2/version/latest",
+  ORDER_HISTORY_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/main_base_8_2/version/latest",
+};
+
+export const BaseChainMorphexFE: ChainType = {
+  COLLATERAL_SYMBOL: "USDC",
+  COLLATERAL_DECIMALS: 6,
+  COLLATERAL_ADDRESS: "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+
+  DIAMOND_ADDRESS: "0x91Cf2D8Ed503EC52768999aA6D8DBeA6e52dbe43",
+  MULTI_ACCOUNT_ADDRESS: "0x6D63921D8203044f6AbaD8F346d3AEa9A2719dDD",
+  PARTY_B_WHITELIST: "0x9206D9d8F7F1B212A4183827D20De32AF3A23c59",
+  SIGNATURE_STORE_ADDRESS: "0xC19e66D08350Eb88A41377b16C8Ab93EE0FB4996",
+
+  MULTICALL3_ADDRESS: "0x66EC85c6d1971Ea15472754F733fA3F956a0Ec30",
+  USDC_ADDRESS: "0x8AC76a51cc950d9822D68b83fE1Ad97B32Cd580d",
+  WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
+  ANALYTICS_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/analytics_base_8_2/version/latest",
+  ORDER_HISTORY_SUBGRAPH_ADDRESS:
+    "https://api.studio.thegraph.com/query/62454/main_base_8_2/version/latest",
+};
+
+export const contractInfo: {
+  [chainId: number]: { [name: string]: ChainType };
+} = {
+  [SupportedChainId.FANTOM]: { [FrontEndsName.CLOVERFIELD]: FantomChain },
+  [SupportedChainId.BSC]: {
+    [FrontEndsName.ALPHA]: BSCChain,
+  },
+  [SupportedChainId.POLYGON]: {
+    [FrontEndsName.CLOVERFIELD]: PolygonChain,
+  },
+  [SupportedChainId.MANTLE]: { [FrontEndsName.INTENT_X]: MantleChain },
+  [SupportedChainId.BASE]: {
+    [FrontEndsName.BASED]: BaseChainBasedFE,
+    [FrontEndsName.MORPHEX]: BaseChainMorphexFE,
+    [FrontEndsName.INTENT_X]: BaseChainIntentXFE,
+  },
 };

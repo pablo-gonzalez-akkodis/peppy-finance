@@ -17,6 +17,7 @@ import {
   updateAccountPartyAStat,
   updateAcceptTerms,
   updateAllAccountsUpnl,
+  setFEName,
 } from "./actions";
 import {
   getBalanceHistory,
@@ -56,6 +57,7 @@ export const initialState: UserState = {
   depositWithdrawalsData: null,
   depositWithdrawalsState: ApiState.LOADING,
   isTermsAccepted: TermsStatus.NOT_ACCEPTED,
+  frontEndName: "Cloverfield",
 };
 
 export default createReducer(initialState, (builder) =>
@@ -169,5 +171,9 @@ export default createReducer(initialState, (builder) =>
 
     .addCase(updateAcceptTerms, (state, action) => {
       state.isTermsAccepted = action.payload;
+    })
+
+    .addCase(setFEName, (state, { payload }) => {
+      state.frontEndName = payload;
     })
 );
