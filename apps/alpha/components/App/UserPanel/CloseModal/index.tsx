@@ -579,6 +579,7 @@ function useInstantClosePosition(
       setLoading(true);
       await instantClose();
       setLoading(false);
+      toast.success("close sent to hedger");
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
