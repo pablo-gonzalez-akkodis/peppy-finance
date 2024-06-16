@@ -112,6 +112,7 @@ export default function useInstantClose(
           localStorage.setItem("access_token", response.data.access_token);
           localStorage.setItem("expiration_time", expirationTime);
           localStorage.setItem("issued_at", issuedAt);
+          localStorage.setItem("active_address", activeAddress ?? "");
         } else {
           console.error("Login Error:", response.data.error_message);
           localStorage.removeItem("access_token");
@@ -201,6 +202,7 @@ export default function useInstantClose(
         if (!quantityToClose) throw new Error("Amount is too low");
 
         const token = localStorage.getItem("access_token");
+        const sub_account_address = localStorage.getItem("active_address");
         const currentDate = new Date();
         const expiration_date = new Date(
           localStorage.getItem("expiration_time") ?? "0"
@@ -208,7 +210,11 @@ export default function useInstantClose(
 
         console.log(token, expiration_date);
 
-        if (token && expiration_date > currentDate) {
+        if (
+          token &&
+          expiration_date > currentDate &&
+          sub_account_address === activeAddress
+        ) {
           await requestToClose(quoteId, quantityToClose, closePrice);
         } else {
           const nonceRes = await getNonce();

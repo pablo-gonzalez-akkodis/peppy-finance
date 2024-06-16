@@ -11,6 +11,7 @@ export enum LastSeenAction {
   FILL_LIMIT_ORDER_OPEN = "FillLimitOrderOpen",
   FILL_LIMIT_ORDER_CLOSE = "FillLimitOrderClose",
   INSTANT_REQUEST_TO_CLOSE_POSITION = "InstantRequestToClosePosition",
+  FILL_ORDER_INSTANT_CLOSE = "FillOrderInstantClose",
 }
 
 export const NotificationMessages: { [status: string]: string } = {
@@ -24,6 +25,7 @@ export const NotificationMessages: { [status: string]: string } = {
   [LastSeenAction.FILL_LIMIT_ORDER_OPEN]: "Fill Limit Order Open",
   [LastSeenAction.FILL_LIMIT_ORDER_CLOSE]: "Fill Limit Order Close",
   [LastSeenAction.INSTANT_REQUEST_TO_CLOSE_POSITION]: "Instant Close",
+  [LastSeenAction.FILL_ORDER_INSTANT_CLOSE]: "Fill Instant Order Close",
 };
 
 export enum FailureType {

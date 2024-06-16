@@ -33,6 +33,7 @@ import {
   useClosingLastMarketPrice,
   useQuoteUpnlAndPnl,
   useQuoteLeverage,
+  useInstantCloseNotifications,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
 import useInstantClose from "@symmio/frontend-sdk/hooks/useInstantClose";
 import { useHedgerInfo } from "@symmio/frontend-sdk/state/hedger/hooks";
@@ -333,8 +334,25 @@ export default function CloseModal({
           .div(autoSlippage)
           .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
 
-  const { handleInstantClose, handleCancelClose, text, loading } =
-    useInstantClosePosition(size, instantClosePrice, quote?.id);
+  const [instanceCloseEnabled, setInstanceCloseEnabled] = useState(true);
+  const {
+    handleInstantClose,
+    handleCancelClose,
+    closeTimestamp,
+    text,
+    loading,
+  } = useInstantClosePosition(
+    size,
+    instantClosePrice,
+    quote?.id,
+    setInstanceCloseEnabled
+  );
+
+  useInstantCloseNotifications(
+    quote ?? ({} as Quote),
+    closeTimestamp,
+    setInstanceCloseEnabled
+  );
 
   function getActionButton(): JSX.Element | null {
     if (!chainId || !account) return <ConnectWallet />;
@@ -369,7 +387,11 @@ export default function CloseModal({
 
     return (
       <React.Fragment>
-        <PrimaryButton height={"48px"} onClick={handleManage}>
+        <PrimaryButton
+          height={"48px"}
+          onClick={handleManage}
+          disabled={!instanceCloseEnabled}
+        >
           Close Position
         </PrimaryButton>
         {activeTab === OrderType.MARKET && (
@@ -378,9 +400,11 @@ export default function CloseModal({
               height={"48px"}
               marginTop={"10px"}
               onClick={handleInstantClose}
+              disabled={!instanceCloseEnabled}
             >
               {text}
-              {loading && <DotFlashing />}
+
+              {(loading || !instanceCloseEnabled) && <DotFlashing />}
             </PrimaryButton>
             <PrimaryButton
               height={"48px"}
@@ -541,7 +565,8 @@ export default function CloseModal({
 function useInstantClosePosition(
   size: string,
   price: string | undefined,
-  id: number | undefined
+  id: number | undefined,
+  setInstanceCloseEnabled: (value: boolean) => void
 ) {
   const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
     size,
@@ -551,6 +576,7 @@ function useInstantClosePosition(
   const { callback: delegateAccessCallback, error } = useDelegateAccess();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const [closeTimestamp, setCloseTimestamp] = useState(0);
 
   useEffect(() => {
     if (isAccessDelegated) setText("Instant Close");
@@ -579,13 +605,21 @@ function useInstantClosePosition(
       setLoading(true);
       await instantClose();
       setLoading(false);
+      setCloseTimestamp(Math.floor(new Date().getTime() / 1000));
+      setInstanceCloseEnabled(false);
       toast.success("close sent to hedger");
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
       console.error(e);
     }
-  }, [instantClose, isAccessDelegated, delegateAccessCallback, error]);
+  }, [
+    instantClose,
+    isAccessDelegated,
+    delegateAccessCallback,
+    error,
+    setInstanceCloseEnabled,
+  ]);
 
   const handleCancelClose = useCallback(async () => {
     if (!cancelClose) {
@@ -601,5 +635,11 @@ function useInstantClosePosition(
     }
   }, [cancelClose, error]);
 
-  return { handleInstantClose, handleCancelClose, text, loading };
+  return {
+    handleInstantClose,
+    handleCancelClose,
+    closeTimestamp,
+    text,
+    loading,
+  };
 }

@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
 import { OrderType, PositionType } from "../types/trade";
@@ -10,10 +10,14 @@ import {
   useActiveAccountAddress,
 } from "../state/user/hooks";
 import {
+  LastSeenAction,
   NotificationDetails,
   NotificationType,
 } from "../state/notifications/types";
-import { usePartialFillNotifications } from "../state/notifications/hooks";
+import {
+  usePartialFillNotifications,
+  useVisibleNotifications,
+} from "../state/notifications/hooks";
 
 import { useDiamondContract } from "./useContract";
 import { useMarket } from "./useMarkets";
@@ -369,6 +373,34 @@ export function useQuoteFillAmount(quote: Quote): string | null {
       return null;
     }
   }, [foundNotification, orderType, quoteStatus]);
+}
+
+export function useInstantCloseNotifications(
+  quote: Quote,
+  closeTimestamp: number,
+  setInstanceCloseEnabled: (value: boolean) => void
+) {
+  const { id } = quote;
+
+  const notifications = useVisibleNotifications();
+  const foundNotification = useRef<NotificationDetails | undefined>();
+
+  useEffect(() => {
+    try {
+      foundNotification.current = notifications.find(
+        (notification) =>
+          notification.quoteId === id.toString() &&
+          notification.notificationType === NotificationType.SUCCESS &&
+          notification.lastSeenAction ===
+            LastSeenAction.FILL_ORDER_INSTANT_CLOSE &&
+          toBN(closeTimestamp).lt(notification.modifyTime)
+      );
+    } catch (error) {
+      foundNotification.current = undefined;
+    }
+
+    if (foundNotification.current) setInstanceCloseEnabled(true);
+  }, [notifications, id, closeTimestamp, setInstanceCloseEnabled]); // dependencies array
 }
 
 export function useClosingLastMarketPrice(
