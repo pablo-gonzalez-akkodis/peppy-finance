@@ -28,9 +28,12 @@ const Wrapper = styled(RowCenter)`
 
 const SymmetrialText = styled.div`
   gap: 4px;
-  font-size: 12px;
-  font-weight: 400;
+  font-size: 47px;
+  font-weight: 700;
   margin: 0px 4px 4px 4px;
+  background: linear-gradient(180deg, #c7f199 0%, #5cdcf0 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   color: ${({ theme }) => theme.text0};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: 10px;
@@ -44,19 +47,13 @@ export default function NavLogo() {
       <Wrapper>
         <ExternalLink href={APP_URL} target="_self" passHref>
           <NavBarLogo
-            width={mobileVersion ? 84 : undefined}
-            height={mobileVersion ? 18 : undefined}
+            width={mobileVersion ? 68 : 58}
+            height={mobileVersion ? 68 : 58}
           />
         </ExternalLink>
         <ExternalLink href="https://www.symm.io/">
-          <SymmetrialText>
-            Powered by SYMMIO{" "}
-            <Image
-              src={SYMMETRIAL_ICON}
-              width={"16"}
-              height={"12"}
-              alt="Symmetrial Logo"
-            />
+          <SymmetrialText className="space-grotesk">
+            PEPPY FINANCE{" "}
           </SymmetrialText>
         </ExternalLink>
       </Wrapper>

@@ -54,8 +54,9 @@ const BackgroundWrapper = styled(Wrapper)<{ newNotification?: boolean }>`
   height: 72px;
   overflow: hidden;
   position: absolute;
-  background: ${({ theme, newNotification }) =>
-    newNotification ? theme.icons : theme.bg0};
+  background-image: url("/images/neonBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
   animation: ${({ newNotification }) =>
     newNotification ? "fade 1s linear 1" : "none"};
 `;

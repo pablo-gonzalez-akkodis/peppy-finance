@@ -296,4 +296,11 @@ export const ThemedGlobalStyle = createGlobalStyle`
     font-family: 'Spline Sans';
     -moz-appearance: textfield;
   }
+
+  .space-grotesk {
+    font-family: "Space Grotesk", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+  }
 `;
