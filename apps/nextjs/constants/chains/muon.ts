@@ -6,6 +6,7 @@ import {
   POLYGON_MUON_BASE_URL,
   MANTLE_MUON_BASE_URL,
   BASE_MUON_BASE_URL,
+  ARBITRUM_MUON_BASE_URL,
 } from "constants/chains/misc";
 
 export const BSCChain: MuonDataType = {
@@ -28,9 +29,15 @@ export const BaseChain: MuonDataType = {
   Urls: BASE_MUON_BASE_URL,
 };
 
+export const ArbitrumChain: MuonDataType = {
+  AppName: MUON_APP_NAME,
+  Urls: ARBITRUM_MUON_BASE_URL,
+};
+
 export const MuonInfo: { [chainId: number]: MuonDataType } = {
   [SupportedChainId.BSC]: BSCChain,
   [SupportedChainId.POLYGON]: PolygonChain,
   [SupportedChainId.MANTLE]: MantleChain,
   [SupportedChainId.BASE]: BaseChain,
+  [SupportedChainId.ARBITRUM]: ArbitrumChain,
 };
