@@ -44,8 +44,8 @@ export enum PositionType {
 }
 
 export enum OrderType {
-  LIMIT = "Limit",
   MARKET = "Market",
+  LIMIT = "Limit",
 }
 
 export enum TradeState {

@@ -106,24 +106,8 @@ export default function CloseModal({
 }) {
   const theme = useTheme();
   const { chainId } = useActiveWagmi();
-  const [size, setSize] = useState("");
-  const [price, setPrice] = useState("");
-  const [activeTab, setActiveTab] = useState(OrderType.LIMIT);
-  const [priceRange, setPriceRange] = useState<PriceRange | null>(null);
-  const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
-    useState(false);
-  const isPendingTxs = useIsHavePendingTransaction();
-  const appName = useAppName();
-
-  const { accountAddress: account } = useActiveAccount() || {};
   const { CVA, partyAMM, LF, openedPrice, marketId, positionType } =
     quote || {};
-  const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = useGetTokenWithFallbackChainId(
-    COLLATERAL_TOKEN,
-    chainId
-  );
-
   const market = useMarket(marketId);
   const {
     name: marketName,
@@ -132,6 +116,32 @@ export default function CloseModal({
     pricePrecision,
     minAcceptableQuoteValue,
   } = market || {};
+  const availableAmount = useMemo(
+    () =>
+      quote && quantityPrecision !== null && quantityPrecision !== undefined
+        ? toBN(quote.quantity)
+            .minus(quote.closedAmount)
+            .toFixed(quantityPrecision)
+        : "0",
+    [quote, quantityPrecision]
+  );
+
+  const [size, setSize] = useState(availableAmount);
+  const [price, setPrice] = useState("");
+  const [activeTab, setActiveTab] = useState(OrderType.MARKET);
+  const [priceRange, setPriceRange] = useState<PriceRange | null>(null);
+  const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
+    useState(false);
+  const isPendingTxs = useIsHavePendingTransaction();
+  const appName = useAppName();
+
+  const { accountAddress: account } = useActiveAccount() || {};
+  const COLLATERAL_TOKEN = useCollateralToken();
+  const collateralCurrency = useGetTokenWithFallbackChainId(
+    COLLATERAL_TOKEN,
+    chainId
+  );
+
   const correctOpenPrice = formatPrice(openedPrice ?? "0", pricePrecision);
   const marketData = useMarketData(marketName);
 
@@ -226,16 +236,6 @@ export default function CloseModal({
       return "Ask Price:";
     }
   }, [quote]);
-
-  const availableAmount = useMemo(
-    () =>
-      quote && quantityPrecision !== null && quantityPrecision !== undefined
-        ? toBN(quote.quantity)
-            .minus(quote.closedAmount)
-            .toFixed(quantityPrecision)
-        : "0",
-    [quote, quantityPrecision]
-  );
 
   const availableToClose = useMemo(() => {
     if (!minAcceptableQuoteValue) return BN_ZERO.toString();
@@ -335,18 +335,14 @@ export default function CloseModal({
           .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
 
   const [instanceCloseEnabled, setInstanceCloseEnabled] = useState(true);
-  const {
-    handleInstantClose,
-    handleCancelClose,
-    closeTimestamp,
-    text,
-    loading,
-  } = useInstantClosePosition(
-    size,
-    instantClosePrice,
-    quote?.id,
-    setInstanceCloseEnabled
-  );
+  const { handleInstantClose, closeTimestamp, text, loading } =
+    useInstantClosePosition(
+      size,
+      instantClosePrice,
+      quote?.id,
+      setInstanceCloseEnabled,
+      closeModal
+    );
 
   useInstantCloseNotifications(
     quote ?? ({} as Quote),
@@ -405,13 +401,6 @@ export default function CloseModal({
               {text}
 
               {(loading || !instanceCloseEnabled) && <DotFlashing />}
-            </PrimaryButton>
-            <PrimaryButton
-              height={"48px"}
-              marginTop={"10px"}
-              onClick={handleCancelClose}
-            >
-              Cancel Instant close
             </PrimaryButton>
           </React.Fragment>
         )}
@@ -566,7 +555,8 @@ function useInstantClosePosition(
   size: string,
   price: string | undefined,
   id: number | undefined,
-  setInstanceCloseEnabled: (value: boolean) => void
+  setInstanceCloseEnabled: (value: boolean) => void,
+  closeModal: () => void
 ) {
   const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
     size,
@@ -607,6 +597,7 @@ function useInstantClosePosition(
       setLoading(false);
       setCloseTimestamp(Math.floor(new Date().getTime() / 1000));
       setInstanceCloseEnabled(false);
+      closeModal();
       toast.success("close sent to hedger");
     } catch (e) {
       setLoading(false);
@@ -619,6 +610,7 @@ function useInstantClosePosition(
     delegateAccessCallback,
     error,
     setInstanceCloseEnabled,
+    closeModal,
   ]);
 
   const handleCancelClose = useCallback(async () => {
