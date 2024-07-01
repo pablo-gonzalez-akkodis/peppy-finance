@@ -51,6 +51,7 @@ const Row = styled(RowBetween)<{ active?: boolean }>`
 
 const Button = styled(NavButton)`
   padding: 0px 8px;
+  background: transparent !important;
 `;
 
 // const Separator = styled.div`
@@ -92,22 +93,22 @@ export default function Menu() {
       {/* <Image src={BURGER_ICON} alt="burger-icon" onClick={() => toggle()} /> */}
       <div>
         <InlineModal isOpen={isOpen} onClick={() => toggle()}>
-          <Link href="/trade" passHref>
+          <Link href="/trade" passHref className="noDecoration">
             <Row active={router.route.includes("/trade")}>
               <div>Trade</div>
-              <Trade size={20} />
+              {/* <Trade size={20} /> */}
             </Row>
           </Link>
-          <Link href="/my-account" passHref>
+          <Link href="/my-account" passHref className="noDecoration">
             <Row active={router.route.includes("/my-account")}>
               <div>My Account</div>
-              <Client />
+              {/* <Client /> */}
             </Row>
           </Link>
-          <Link href="/markets" passHref>
+          <Link href="/markets" passHref className="noDecoration">
             <Row active={router.route.includes("/markets")}>
               <div>Markets</div>
-              <MarketPair />
+              {/* <MarketPair /> */}
             </Row>
           </Link>
         </InlineModal>

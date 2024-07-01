@@ -318,4 +318,8 @@ export const ThemedGlobalStyle = createGlobalStyle`
     box-shadow: 0px 0px 3px 0px rgba(254, 251, 224, 0.2) inset; 
     border-radius: 10px;
   }
+
+  .noDecoration {
+    text-decoration: none;
+  }
 `;

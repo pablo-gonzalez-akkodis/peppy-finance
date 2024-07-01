@@ -38,7 +38,7 @@ export const NavButton = styled(BaseButton)<{ width?: number | string }>`
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
-  background: ${({ theme }) => theme.bg1};
+  background: transparent !important;
 
   &:hover,
   &:focus {
@@ -57,9 +57,11 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
   width: 100%;
   font-size: 14px;
   font-weight: 600;
+  font-bold: 700;
+  border-radius: 25px;
   height: ${({ height }) => (height ? height : "48px")};
-  background: ${({ theme }) => theme.primaryGrad};
-  color: ${({ theme }) => theme.text0};
+  background: ${({ theme }) => theme.bg9};
+  color: ${({ theme }) => theme.text8};
 
   &:focus,
   &:hover {

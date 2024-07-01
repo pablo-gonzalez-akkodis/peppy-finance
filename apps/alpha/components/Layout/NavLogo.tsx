@@ -47,15 +47,17 @@ export default function NavLogo() {
       <Wrapper>
         <ExternalLink href={APP_URL} target="_self" passHref>
           <NavBarLogo
-            width={mobileVersion ? 68 : 58}
-            height={mobileVersion ? 68 : 58}
+            width={mobileVersion ? 40 : 58}
+            height={mobileVersion ? 40 : 58}
           />
         </ExternalLink>
-        <ExternalLink href="https://www.symm.io/">
-          <SymmetrialText className="space-grotesk">
-            PEPPY FINANCE{" "}
-          </SymmetrialText>
-        </ExternalLink>
+        {!mobileVersion &&
+          <ExternalLink href="">
+            <SymmetrialText className="space-grotesk">
+              PEPPY FINANCE{" "}
+            </SymmetrialText>
+          </ExternalLink>
+        }
       </Wrapper>
     </div>
   );

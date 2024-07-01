@@ -105,6 +105,7 @@ const MainButton = styled(NavButton)`
   width: unset;
   padding: 2px;
   height: 40px;
+  border-radius: 25px;
   display: flex;
   overflow: unset;
   z-index: 0;
@@ -122,12 +123,12 @@ const Button = styled.div`
   height: 36px;
   margin: 2px 0px;
   margin-right: 2px;
-
+  border-radius:25px;
   font-weight: 500;
   font-size: 12px;
   text-align: center;
-  color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.pinkGrad};
+  color: ${({ theme }) => theme.text8};
+  background: ${({ theme }) => theme.bg9};
 
   padding: 10px 0px;
 
@@ -160,6 +161,7 @@ const ConnectWalletWrapper = styled.div`
   flex: 1;
   justify-content: space-between;
   gap: 12px;
+  border-radius: 25px;
 `;
 
 const AccountAddress = styled.div<{ width?: string; color?: string }>`
