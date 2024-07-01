@@ -15,7 +15,9 @@ const Wrapper = styled.div`
   position: relative;
   padding-bottom: 36px;
   flex-flow: column nowrap;
-  background: ${({ theme }) => theme.bg};
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("/images/neonBg.png");
 `;
 const HeaderWrap = styled.div`
   width: 100%;
@@ -23,14 +25,14 @@ const HeaderWrap = styled.div`
   position: sticky;
   top: 0;
   z-index: 300;
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
 `;
 
 const Content = styled.div`
   position: relative;
   height: 100%;
   min-height: calc(100vh - 60px);
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     min-height: calc(100vh - 60px);

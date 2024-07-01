@@ -17,6 +17,7 @@ const Wrapper = styled(Card)`
   width: 100%;
   height: 100%;
   padding: 0;
+  border-radius: 10px;
   position: relative;
   justify-content: center;
   background: ${({ theme }) => theme.bg0};

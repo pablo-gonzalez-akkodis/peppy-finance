@@ -26,15 +26,23 @@ import {
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 import { PrimaryButton } from "components/Button";
 
+// const Wrapper = styled.div<{ modal?: boolean }>`
+//   border: none;
+//   width: 100%;
+//   min-height: 379px;
+//   border-radius: ${({ modal }) => (modal ? "10px" : "4px")};
+//   background: ${({ theme }) => theme.bg0};
+//   ${({ theme }) => theme.mediaWidth.upToLarge`
+//     width: 100%;
+//   `};
+// `;
+
 const Wrapper = styled.div<{ modal?: boolean }>`
   border: none;
   width: 100%;
   min-height: 379px;
   border-radius: ${({ modal }) => (modal ? "10px" : "4px")};
-  background: ${({ theme }) => theme.bg0};
-  ${({ theme }) => theme.mediaWidth.upToLarge`
-    width: 100%;
-  `};
+  boxStyling
 `;
 
 const Title = styled(RowStart)`
@@ -181,7 +189,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <Wrapper modal={onClose ? true : false}>
+    <Wrapper modal={onClose ? true : false} className="boxStyling">
       <Row>
         <Title>Create Account</Title>
         <RowEnd>

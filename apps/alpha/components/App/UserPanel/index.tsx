@@ -27,6 +27,7 @@ import { IconWrapper } from "components/Icons";
 const Wrapper = styled(Card)`
   padding: 0;
   height: 100%;
+  border-radius: 10px;
   position: relative;
 `;
 
@@ -133,7 +134,7 @@ export default function UserPanel(): JSX.Element | null {
   })();
 
   return (
-    <Wrapper>
+    <Wrapper className="boxStyling">
       <OrdersTab
         activeTab={selectedTab}
         setActiveTab={(s: StateTabs) => setSelectedTab(s)}

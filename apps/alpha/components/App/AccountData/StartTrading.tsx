@@ -25,7 +25,6 @@ const Wrapper = styled.div`
   width: 100%;
   min-height: 379px;
   border-radius: 2px;
-  background: ${({ theme }) => theme.bg0};
   ${({ theme }) => theme.mediaWidth.upToLarge`
     width: 100%;
   `};
@@ -79,7 +78,7 @@ export default function StartTrading({ symbol }: { symbol?: string }) {
   const imgSrc = useAssetSrc();
 
   return (
-    <Wrapper>
+    <Wrapper className="boxStyling">
       <Row>
         <Title>Deposit {symbol}</Title>
         <RowEnd style={{ marginRight: "12px" }}>

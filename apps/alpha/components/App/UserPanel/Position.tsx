@@ -66,7 +66,7 @@ import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
 
 const TableStructure = styled(RowBetween)<{ active?: boolean }>`
   width: 100%;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text8};
   font-size: 12px;
   font-weight: 400;
 
@@ -84,7 +84,7 @@ const TableStructure = styled(RowBetween)<{ active?: boolean }>`
 `;
 
 const HeaderWrap = styled(TableStructure)`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text8};
   font-weight: 500;
   margin-bottom: 12px;
 
@@ -139,7 +139,7 @@ const TwoColumn = styled(Column)`
       color: ${({ theme }) => theme.text0};
     }
     &:nth-child(2) {
-      color: ${({ theme }) => theme.text1};
+      color: ${({ theme }) => theme.text};
     }
   }
 `;

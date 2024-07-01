@@ -160,7 +160,7 @@ export default function LiquidatedQuoteDetails({
         )}
       </TopWrap>
       {expanded && (
-        <Wrapper>
+        <Wrapper className="boxStyling">
           <LiquidateWrap>
             <Row>
               <LiquidateLabel>PNL:</LiquidateLabel>

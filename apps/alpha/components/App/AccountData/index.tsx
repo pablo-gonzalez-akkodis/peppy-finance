@@ -12,27 +12,38 @@ import { Tab } from "components/Tab";
 import AccountOverview from "components/App/AccountData/AccountOverview";
 import PositionDetails from "components/App/AccountData/PositionDetails";
 
+// const Wrapper = styled.div`
+//   width: 100%;
+//   max-width: 480px;
+//   min-height: 379px;
+//   display: flex;
+//   flex-flow: column nowrap;
+//   border-radius: 2px;
+//   background: ${({ theme }) => theme.bg0};
+//   & > * {
+//     &:first-child {
+//       border-radius: 0px;
+//       & > * {
+//         &:first-child {
+//           border-bottom-left-radius: 0;
+//         }
+//         &:last-child {
+//           border-bottom-right-radius: 0;
+//         }
+//       }
+//     }
+//   }
+//   ${({ theme }) => theme.mediaWidth.upToMedium`
+//   max-width: unset;
+// `};
+// `;
+
 const Wrapper = styled.div`
   width: 100%;
   max-width: 480px;
   min-height: 379px;
   display: flex;
   flex-flow: column nowrap;
-  border-radius: 2px;
-  background: ${({ theme }) => theme.bg0};
-  & > * {
-    &:first-child {
-      border-radius: 0px;
-      & > * {
-        &:first-child {
-          border-bottom-left-radius: 0;
-        }
-        &:last-child {
-          border-bottom-right-radius: 0;
-        }
-      }
-    }
-  }
   ${({ theme }) => theme.mediaWidth.upToMedium`
   max-width: unset;
 `};
@@ -58,7 +69,7 @@ export default function Overviews() {
     if (mobileVersion) setPanelType(PanelType.ACCOUNT_OVERVIEW);
   }, [mobileVersion]);
   return (
-    <Wrapper>
+    <Wrapper className="boxStyling">
       {!mobileVersion && (
         <Tab
           tabOptions={[PanelType.ACCOUNT_OVERVIEW, PanelType.POSITION_OVERVIEW]}

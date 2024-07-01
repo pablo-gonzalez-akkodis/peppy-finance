@@ -5,7 +5,7 @@ import { Column } from "components/Column";
 export const Wrapper = styled.div`
   overflow-y: scroll;
   margin-bottom: 50px;
-  background: ${({ theme }) => theme.bg0};
+
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     margin-bottom: 44px;
@@ -13,7 +13,6 @@ export const Wrapper = styled.div`
 `;
 
 export const BodyWrap = styled(Column)`
-  background: ${({ theme }) => theme.bg};
   gap: 1px;
 `;
 
@@ -23,7 +22,7 @@ export const PositionTypeWrap = styled(RowCenter)<{
   width: 20px;
   height: 40px;
   background: ${({ theme, liquidatePending }) =>
-    liquidatePending ? theme.red1 : theme.bg0};
+    liquidatePending ? theme.red1 : theme.bg7};
   margin-right: 8px;
 `;
 
@@ -44,7 +43,6 @@ export const EmptyRow = styled(Column)`
   font-size: 14px;
   text-align: center;
   color: ${({ theme }) => theme.text2};
-  background: ${({ theme }) => theme.bg0};
 `;
 
 export const PnlValue = styled.div<{

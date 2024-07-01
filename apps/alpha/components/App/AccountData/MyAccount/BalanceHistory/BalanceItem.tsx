@@ -33,7 +33,6 @@ const Container = styled.div`
   grid-template-columns: 2fr 1fr 1fr;
   column-gap: 4px;
   padding: 12px;
-  background: ${({ theme }) => theme.bg1};
   &:hover {
     cursor: pointer;
     background: ${({ theme }) => theme.bg4};
@@ -131,7 +130,7 @@ export default function BalanceItem({
       </ExplorerLink>
     );
   return (
-    <Container>
+    <Container className="boxStyling">
       <Row gap="14px">
         <ShimmerAnimation width="18px" height="16px" />
         <ShimmerAnimation width="68px" height="16px" />

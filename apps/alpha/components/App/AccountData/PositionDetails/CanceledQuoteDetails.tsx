@@ -112,7 +112,7 @@ export default function CanceledQuoteDetails({
         )}
       </TopWrap>
       {expanded && (
-        <Wrapper>
+        <Wrapper className="boxStyling">
           <DataWrap>
             <Row>
               <Label>Cancel Time:</Label>

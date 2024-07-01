@@ -29,8 +29,7 @@ const InnerContentWrapper = styled(Row)`
   height: 38px;
   max-width: 175px;
   border-radius: 2px;
-  border: 1px solid ${({ theme }) => theme.bg3};
-  background: ${({ theme }) => theme.bg0};
+  border: 1px solid ${({ theme }) => theme.text7};
 `;
 
 const Chevron = styled(ChevronDown)<{ open: boolean }>`
@@ -43,7 +42,7 @@ const MarketText = styled(Row)`
   font-weight: 500;
   font-size: 14px;
   white-space: nowrap;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function MarketSelect() {
@@ -55,7 +54,7 @@ export default function MarketSelect() {
 
   function getInnerContent() {
     return (
-      <InnerContentWrapper>
+      <InnerContentWrapper className="boxStyling">
         <RowStart style={{ marginRight: "39px" }}>
           {market ? (
             <MarketText>

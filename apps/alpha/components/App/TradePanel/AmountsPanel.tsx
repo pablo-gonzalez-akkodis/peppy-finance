@@ -62,8 +62,8 @@ const LeverageWrap = styled.div`
   border-radius: 4px;
   padding: 8px 10px;
   height: 70px;
-  background: ${({ theme }) => theme.bg2};
-  color: ${({ theme }) => theme.text0};
+
+  color: ${({ theme }) => theme.text7};
 `;
 
 const LeverageValue = styled(RowStart)`
@@ -73,8 +73,7 @@ const LeverageValue = styled(RowStart)`
   padding: 8px;
   padding-left: 12px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg2};
-  border: 1px solid ${({ theme }) => theme.bg0};
+  border: 1px solid ${({ theme }) => theme.text7};
 `;
 
 const LeverageInput = styled(InputAmount)`
@@ -82,7 +81,7 @@ const LeverageInput = styled(InputAmount)`
   font-size: 14px;
   text-align: left;
   background: "transparent";
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function AmountsPanel() {

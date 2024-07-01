@@ -67,6 +67,8 @@ function colors(): Colors {
       text3: "#8B8EAF",
       text4: "#5F607F",
       text5: "#4E5273",
+      text7: "rgba(255, 255, 255, 1)",
+      text8: "#FFFFFF",
 
       // these colors aren't for monolith
       text6: "#dce7eb",
@@ -82,6 +84,9 @@ function colors(): Colors {
       bg6: "#323860",
       bg7: "#3C3F72",
       bg8: "#050128",
+      bg9: "#5CDCF0",
+      bgTransparent: "00FFFFFF",
+      bgSelected: "rgba(53, 47, 92, 0.5)",
 
       bgWin: "#20302F",
       bgLoose: "#35232B",
@@ -136,13 +141,16 @@ function colors(): Colors {
       green4: "#97d136",
       greenButton: "#4D9654",
       redButton: "#C92B77",
-
+      peppyGreen: "rgba(158, 231, 77, 0.7)",
+      peppyRed: "#F83590",
       error: "#BC2D36",
       error1: "#9B4C4C",
       success: "#27AE60",
       warning: "#C7166B",
       chartStroke: "#0000AF",
       twitter: "#69a1f5",
+      peppyTransparent: "rgba(233, 232, 237, 0.5)",
+      peppyTransparentSelected: "rgba(53, 47, 92, 0.5)",
 
       usdt: "#50AF95",
 
@@ -261,9 +269,9 @@ export const ThemedGlobalStyle = createGlobalStyle`
   }
 
   body {
-    font-family: 'Spline Sans', monospace;
+    font-family: "Space Grotesk", sans-serif;
     font-size: 16px;
-    font-weight:500;
+    font-weight:700;
   }
 
   button {
@@ -302,5 +310,12 @@ export const ThemedGlobalStyle = createGlobalStyle`
     font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
+  }
+
+
+  .boxStyling{
+    background: rgba(233, 232, 237, 0.5) !important;
+    box-shadow: 0px 0px 3px 0px rgba(254, 251, 224, 0.2) inset; 
+    border-radius: 10px;
   }
 `;

@@ -58,7 +58,7 @@ export const DataWrap = styled.div`
   padding: 4px 12px;
   flex-flow: column nowrap;
   position: relative;
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     background: ${theme.bg1};
   `};
@@ -75,8 +75,7 @@ export const EmptyRow = styled(ColumnCenter)`
   font-weight: 400;
   font-size: 12px;
   padding: 56px 0px;
-  color: ${({ theme }) => theme.text2};
-  background: ${({ theme }) => theme.bg0};
+  color: ${({ theme }) => theme.text8};
 `;
 
 export const FlexColumn = styled(Column)<{ flex: number; alignItems: string }>`

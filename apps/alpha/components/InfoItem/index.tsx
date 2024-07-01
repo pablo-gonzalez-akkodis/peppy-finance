@@ -7,7 +7,7 @@ import { Info as InfoIcon } from "components/Icons";
 import ShimmerAnimation from "components/ShimmerAnimation";
 
 const StyledInfoIcon = styled(InfoIcon)`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text7};
   width: 12px;
   height: 12px;
   margin: 4px 4px 0px 4px;
@@ -24,7 +24,7 @@ export const Label = styled(RowStart)<{ size?: string }>`
   justify-self: start;
   font-weight: 400;
   width: 50%;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text7};
   ${({ theme }) => theme.mediaWidth.upToMedium`
     font-size: 12px;
   `};
@@ -37,7 +37,7 @@ export const Value = styled.div<{
 }>`
   font-size: ${({ size }) => size ?? "12px"};
   justify-self: end;
-  color: ${({ theme, color }) => color ?? theme.text0};
+  color: ${({ theme, color }) => color ?? theme.text7};
   white-space: nowrap;
   cursor: ${({ cursor }) => cursor ?? "default"};
   ${({ theme }) => theme.mediaWidth.upToMedium`

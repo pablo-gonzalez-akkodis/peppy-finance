@@ -17,6 +17,9 @@ const Wrapper = styled.div`
   .rc-slider-mark-text-active:last-chid {
     color: green;
   }
+  .rc-slider-mark-text {
+    color: white;
+  }
 `;
 
 export function LeverageSlider({
@@ -92,7 +95,7 @@ export function LeverageSlider({
           marginLeft: "-4px",
           background: theme.bg6,
         }}
-        activeDotStyle={{ borderColor: theme.text4 }}
+        activeDotStyle={{ borderColor: theme.text7 }}
         onChange={onChange}
       />
     </Wrapper>

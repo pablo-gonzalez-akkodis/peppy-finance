@@ -21,7 +21,6 @@ export const Wrapper = styled.div`
   font-weight: 400;
   border-radius: 2px;
   white-space: nowrap;
-  background: ${({ theme }) => theme.bg2};
   position: relative;
   padding: 8px 12px;
   padding-bottom: 0px;
@@ -32,7 +31,7 @@ const NumericalWrapper = styled(RowBetween)`
   font-size: 16px;
   font-weight: 600;
   position: relative;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
   margin-top: 10px;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 12px;
@@ -43,7 +42,7 @@ const NumericalWrapper = styled(RowBetween)`
 export const CurrencySymbol = styled.div<{ active?: any }>`
   font-size: 16px;
   font-weight: 500;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 12px;
@@ -68,7 +67,7 @@ export const CalculationResult = styled.div`
   font-weight: 500;
   margin-top: 5px;
   margin-bottom: 3px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text7};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 12px;
@@ -78,7 +77,7 @@ export const CalculationResult = styled.div`
 export const RightWrapper = styled.div``;
 
 export const BalanceTitle = styled.span`
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text7};
   margin-right: 4px;
 `;
 
@@ -92,7 +91,7 @@ export const LogoWrapper = styled(RowCenter)<{ active?: any }>`
 export const ChevronDown = styled(ChevronDownIcon)`
   margin-left: 7px;
   width: 16px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.text7};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
       margin-left: 4px;
@@ -104,7 +103,7 @@ const Balance = styled(RowEnd)<{ disabled?: boolean }>`
   margin-left: 5px;
 
   &:hover {
-    color: ${({ theme, disabled }) => !disabled && darken(0.1, theme.text0)};
+    color: ${({ theme, disabled }) => !disabled && darken(0.1, theme.text7)};
     cursor: ${({ disabled }) => (disabled ? "default" : "pointer")};
   }
 `;

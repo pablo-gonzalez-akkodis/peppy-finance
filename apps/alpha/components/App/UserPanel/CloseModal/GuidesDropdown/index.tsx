@@ -15,7 +15,6 @@ import GuideThree from "./GuideThree";
 const ContentContainer = styled(Column)`
   gap: 12px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg0};
 `;
 
 const DropdownHeader = styled(Row)<{ borderBottom?: boolean }>`

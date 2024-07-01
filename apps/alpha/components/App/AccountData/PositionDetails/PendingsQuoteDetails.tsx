@@ -165,7 +165,7 @@ export default function PendingQuoteDetails({
         )}
       </TopWrap>
       {expanded && (
-        <Wrapper>
+        <Wrapper className="boxStyling">
           <DataWrap>
             {expired ? (
               <Row>

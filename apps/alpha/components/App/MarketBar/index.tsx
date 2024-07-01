@@ -20,8 +20,7 @@ import MarketFundingRate from "./MarketFundingRate";
 const Wrapper = styled(Row)`
   min-height: 56px;
   padding: 8px 12px;
-  border-radius: 2px;
-  background: ${({ theme }) => theme.bg0};
+  border-radius: 10px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: column;   
@@ -34,7 +33,6 @@ const DataWrap = styled(Row)`
   gap: 20px;
   border-radius: 4px;
   flex: 2;
-  background: ${({ theme }) => theme.bg0};
 
   ${({ theme }) => theme.mediaWidth.upToMedium` 
     & > * {
@@ -76,7 +74,7 @@ export const Name = styled.div<{
   font-size: 12px;
   margin-bottom: 12px;
   text-align: ${({ textAlign }) => textAlign ?? "left"};
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
     text-align: ${textAlignMedium ?? "left"};
   `};
@@ -89,7 +87,7 @@ export const Value = styled.div<{
   font-weight: 500;
   font-size: 12px;
   text-align: ${({ textAlign }) => textAlign ?? "left"};
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
     text-align: ${textAlignMedium ?? "left"};
   `};
@@ -112,7 +110,7 @@ export default function MarketBar() {
   }, [activeMarket?.name, marketNotionalCapStatus, marketNotionalCap]);
 
   return (
-    <Wrapper>
+    <Wrapper className="boxStyling">
       <DataWrap>
         <MarketInfo />
         <Separator />

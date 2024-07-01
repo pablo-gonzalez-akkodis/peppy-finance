@@ -16,7 +16,7 @@ import TermsAndServices from "components/TermsAndServices";
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
 export const Container = styled(Column)`
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
 
   /* banner + 52px for account bar + 48px for cooldown bar */
 `;
@@ -30,7 +30,7 @@ export const ItemsRow = styled.div<{
   gap: ${({ gap }) => gap ?? "8px"};
   margin: ${({ margin }) => margin ?? "4px 0px"};
   padding: ${({ padding }) => padding ?? "0px 8px"};
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
 
   & > * {
     &:nth-child(2) {
@@ -47,7 +47,7 @@ export const ItemsRow = styled.div<{
 export const LeftColumn = styled(Column)<{ gap?: string }>`
   overflow-y: scroll;
   gap: ${({ gap }) => gap ?? "8px"};
-  background: ${({ theme }) => theme.bg};
+  background: ${({ theme }) => theme.bgTransparent};
   flex: 2;
   & > * {
     width: 100%;

@@ -207,7 +207,7 @@ export default function OpenedQuoteDetails({
       </TopWrap>
 
       {expanded && (
-        <Wrapper>
+        <Wrapper className="boxStyling">
           <ClosePendingDetails quote={quote} />
 
           <DataWrap>

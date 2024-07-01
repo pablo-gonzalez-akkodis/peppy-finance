@@ -33,7 +33,7 @@ const Wrapper = styled(Row)`
   position: relative;
   z-index: ${Z_INDEX.fixed};
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    background-color: ${({ theme }) => theme.bg};
+    background-color: ${({ theme }) => theme.bgTransparent};
     padding: 0px 1.25rem;
   `};
 `;
@@ -66,7 +66,7 @@ const MobileWrapper = styled(Wrapper)`
   font-size: 12px;
   flex-wrap: wrap;
   padding: 16px 16px 8px 16px;
-  background-color: ${({ theme }) => theme.bg};
+  background-color: ${({ theme }) => theme.bgTransparent};
 
   & > * {
     &:first-child {

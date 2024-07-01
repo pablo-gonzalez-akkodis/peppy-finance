@@ -46,7 +46,7 @@ import {
 
 const TableStructure = styled(RowBetween)`
   width: 100%;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text8};
   font-size: 12px;
   font-weight: 400;
 
@@ -64,7 +64,7 @@ const TableStructure = styled(RowBetween)`
 `;
 
 const HeaderWrap = styled(TableStructure)`
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text8};
   font-weight: 500;
   margin-bottom: 12px;
 
@@ -79,8 +79,8 @@ const QuoteWrap = styled(TableStructure)<{
   canceled?: boolean;
 }>`
   height: 40px;
-  color: ${({ theme }) => theme.text1};
-  background: ${({ theme }) => theme.bg};
+  color: ${({ theme }) => theme.text8};
+  background: ${({ theme }) => theme.bgTransparent};
   font-weight: 500;
   cursor: pointer;
   &:hover {

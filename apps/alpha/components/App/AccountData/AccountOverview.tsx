@@ -41,12 +41,18 @@ import DataRow from "components/App/AccountData/DataRow";
 import WithdrawModal from "components/ReviewModal/WithdrawModal";
 import { PrimaryButton } from "components/Button";
 
+// const Wrapper = styled.div`
+//   width: 100%;
+//   display: flex;
+//   flex-flow: column nowrap;
+//   border-radius: 4px;
+//   background: ${({ theme }) => theme.bg0};
+// `;
+
 const Wrapper = styled.div`
   width: 100%;
   display: flex;
   flex-flow: column nowrap;
-  border-radius: 4px;
-  background: ${({ theme }) => theme.bg0};
 `;
 
 const Title = styled(Row)`
@@ -88,7 +94,6 @@ const DataWrap = styled.div`
   padding: 12px;
   flex-flow: column nowrap;
   position: relative;
-  background: ${({ theme }) => theme.bg};
 `;
 
 const TopRow = styled(RowBetween)`
@@ -118,7 +123,7 @@ const DepositButton = styled(PrimaryButton)`
 const ContextText = styled.div`
   font-size: 14px;
   margin-top: 28px;
-  color: ${({ theme }) => theme.text3};
+  color: ${({ theme }) => theme.text8};
 `;
 
 const LiquidatedHealth = styled.span`
@@ -177,7 +182,7 @@ export default function AccountOverview({
   } else {
     return (
       <>
-        <Wrapper>
+        <Wrapper className="boxStyling">
           <TopRow>
             <DeveloperModeTitle
               title={mobileVersion ? "Account Overview" : accountName}

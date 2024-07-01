@@ -17,7 +17,6 @@ export const Wrapper = styled(RowBetween)`
   border-radius: 2px;
   position: relative;
   white-space: nowrap;
-  background: ${({ theme }) => theme.bg1};
 `;
 
 const DisplayLabelWrapper = styled(Wrapper)`
@@ -32,7 +31,7 @@ const NumericalWrapper = styled(RowBetween)`
   height: 100%;
   position: relative;
   margin-left: 12px;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
   padding: 0 12px;
   border-left: 1px solid ${({ theme }) => theme.bg0};
 
@@ -45,7 +44,7 @@ const NumericalWrapper = styled(RowBetween)`
 export const CurrencySymbol = styled.div<{ active?: any }>`
   font-size: 16px;
   font-weight: 500;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
     // font-size: 12px;

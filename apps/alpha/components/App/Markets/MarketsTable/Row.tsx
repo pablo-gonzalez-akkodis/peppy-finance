@@ -67,7 +67,7 @@ const RowWrap = styled(TableStructure)`
   color: ${({ theme }) => theme.text0};
   background: ${({ theme }) => theme.bg0};
   padding: 12px 24px 12px 12px;
-  border-bottom: 1px solid ${({ theme }) => theme.bg};
+  border-bottom: 1px solid ${({ theme }) => theme.bgTransparent};
 
   & > * {
     &:nth-child(1) {
@@ -111,7 +111,7 @@ const ActionBtn = styled.button`
 
   &:hover {
     background: ${({ theme }) => theme.icons};
-    color: ${({ theme }) => theme.bg};
+    color: ${({ theme }) => theme.bgTransparent};
     transition: all 0.3s;
   }
 `;

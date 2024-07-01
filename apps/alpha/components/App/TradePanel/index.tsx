@@ -24,7 +24,6 @@ const Wrapper = styled.div<{ showStopLoss?: boolean }>`
   max-width: 480px;
   height: ${({ showStopLoss }) => (showStopLoss ? "735px" : "635px")};
   overflow: scroll;
-  background: ${({ theme }) => theme.bg0};
   & > * {
     &:first-child {
       border-radius: 0px;
@@ -56,16 +55,12 @@ const Container = styled(Column)`
 `;
 
 const TabWrapper = styled.div`
+padding-left: 12px;
+padding-right: 12px;
   & > * {
     &:first-child {
       border-radius: 0px;
-      & > * {
-        &:first-child {
-          border-bottom-left-radius: 0;
-        }
-        &:last-child {
-          border-bottom-right-radius: 0;
-        }
+ 
       }
     }
   }
@@ -80,7 +75,7 @@ export default function TradePanel() {
   const isBlacklisted = false;
 
   return (
-    <Wrapper showStopLoss={showStopLoss}>
+    <Wrapper showStopLoss={showStopLoss} className="boxStyling">
       <React.Fragment>
         {isBlacklisted && <BlackList />}
         {isSuspended && <Suspend />}

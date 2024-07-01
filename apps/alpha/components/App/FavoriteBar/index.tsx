@@ -13,8 +13,8 @@ import BlinkingPrice from "components/App/FavoriteBar/BlinkingPrice";
 const Wrapper = styled(Row)`
   position: relative;
   min-height: 50px;
+  border-radius: 10px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg0};
 `;
 
 const FavoritesWrap = styled(Row)`
@@ -28,7 +28,6 @@ const FavoritesWrap = styled(Row)`
   flex: 1 1 0%;
   border-radius: 4px;
   margin-left: 12px;
-  background: ${({ theme }) => theme.bg0};
 `;
 
 const Nav = styled.div<{ direction: "right" | "left" }>`
@@ -81,7 +80,7 @@ const Item = styled(RowCenter)`
 
 const Empty = styled(RowCenter)`
   font-size: 12px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.text7};
 `;
 
 const Name = styled.div`
@@ -91,7 +90,7 @@ const Name = styled.div`
   white-space: nowrap;
   margin-right: 8px;
   margin-top: 1px;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function FavoriteBar() {
@@ -121,7 +120,7 @@ export default function FavoriteBar() {
   }, [favorites.length, target, target?.scrollWidth]);
 
   return (
-    <Wrapper>
+    <Wrapper className="boxStyling">
       <GradientStar
         style={{
           zIndex: 99,

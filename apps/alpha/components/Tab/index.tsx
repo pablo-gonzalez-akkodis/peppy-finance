@@ -7,6 +7,9 @@ export const TabWrapper = styled(RowCenter)`
   width: unset;
   font-size: 16px;
   font-weight: 400;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 10px;
   color: ${({ theme }) => theme.text0};
   border-radius: 0px;
   overflow: hidden;
@@ -22,37 +25,33 @@ export const TabButton = styled(RowCenter)<{
   position: relative;
   text-align: center;
   overflow: hidden;
+  border-radius: 10px;
+  margin-right: 10px;
+  text-transform: uppercase;
   font-weight: ${({ active }) => (active ? 500 : 400)};
-  color: ${({ active, theme }) => (active ? theme.text0 : theme.text4)};
-  background: ${({ active, theme }) => (active ? theme.bg0 : theme.bg1)};
-  border: 1px solid
+  color: ${({ active, theme }) => (active ? theme.text8 : theme.text8)};
+  background: ${({ active, theme }) =>
+    active ? theme.bg9 : theme.transparent};
+  border: 3px solid
     ${({ theme, active, hideOuterBorder }) =>
-      hideOuterBorder ? (active ? theme.chartStroke : "transparent") : "none"};
+      hideOuterBorder ? (active ? "none" : "white") : "none"};
 
   &:hover {
     cursor: ${({ active }) => (active ? "default" : "pointer")};
-    background: ${({ active, theme }) =>
-      active ? theme.bg0 : lighten(0.02, theme.bg1)};
-  }
 `;
 
 const ModalTabButton = styled(TabButton)<{ type: string }>`
   border: none;
+  border: 3px solid ${({ active }) => (active ? "none" : "white")};
   background: ${({ active, theme, type }) =>
     active
       ? type === PositionType.LONG
-        ? theme.greenButton
-        : theme.redButton
-      : theme.bg2};
+        ? theme.peppyGreen
+        : theme.peppyRed
+      : theme.transparent};
 
   &:hover {
     cursor: ${({ active }) => (active ? "default" : "pointer")};
-    background: ${({ active, theme, type }) =>
-      active
-        ? type === PositionType.LONG
-          ? theme.greenButton
-          : theme.redButton
-        : lighten(0.02, theme.bg1)};
   }
 `;
 

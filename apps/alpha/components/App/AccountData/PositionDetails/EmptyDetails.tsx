@@ -5,7 +5,7 @@ export default function EmptyDetails() {
   return (
     <EmptyRow>
       <EmptyPositionDetails style={{ marginBottom: "52px" }} />
-      {`<<< Select a position from the list to view all details`}
+      {` Select a position from the list to view all details`}
     </EmptyRow>
   );
 }

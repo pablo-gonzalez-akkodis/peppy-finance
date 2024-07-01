@@ -28,7 +28,6 @@ const CenterWrapper = styled(RowCenter)`
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background-color: ${({ theme }) => theme.bg4};
 `;
 
 const ChartContent = styled.div`
