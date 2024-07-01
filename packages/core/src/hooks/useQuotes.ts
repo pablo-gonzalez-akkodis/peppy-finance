@@ -24,6 +24,11 @@ import { useMarket } from "./useMarkets";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import useBidAskPrice from "./useBidAskPrice";
 import { Market } from "../types/market";
+import {
+  useQuoteInstantCloseData,
+  useUpdateInstantCloseDataCallback,
+} from "../state/quotes/hooks";
+import { InstantCloseStatus } from "../state/quotes/types";
 
 export function getPositionTypeByIndex(x: number): PositionType {
   return PositionType[
@@ -375,32 +380,46 @@ export function useQuoteFillAmount(quote: Quote): string | null {
   }, [foundNotification, orderType, quoteStatus]);
 }
 
-export function useInstantCloseNotifications(
-  quote: Quote,
-  closeTimestamp: number,
-  setInstanceCloseEnabled: (value: boolean) => void
-) {
+export function useInstantCloseNotifications(quote: Quote) {
   const { id } = quote;
+  const updateInstantCloseData = useUpdateInstantCloseDataCallback();
+  const instantCloseData = useQuoteInstantCloseData(quote.id) ?? {};
 
   const notifications = useVisibleNotifications();
   const foundNotification = useRef<NotificationDetails | undefined>();
 
   useEffect(() => {
-    try {
-      foundNotification.current = notifications.find(
-        (notification) =>
-          notification.quoteId === id.toString() &&
-          notification.notificationType === NotificationType.SUCCESS &&
+    notifications.forEach((notification) => {
+      if (
+        notification.quoteId === id.toString() &&
+        ((notification.notificationType === NotificationType.SUCCESS &&
           notification.lastSeenAction ===
-            LastSeenAction.FILL_ORDER_INSTANT_CLOSE &&
-          toBN(closeTimestamp).lt(notification.modifyTime)
-      );
-    } catch (error) {
-      foundNotification.current = undefined;
-    }
+            LastSeenAction.FILL_ORDER_INSTANT_CLOSE) ||
+          (notification.notificationType === NotificationType.HEDGER_ERROR &&
+            (notification.lastSeenAction ===
+              LastSeenAction.INSTANT_REQUEST_TO_CLOSE_POSITION ||
+              notification.lastSeenAction ===
+                LastSeenAction.FILL_ORDER_INSTANT_CLOSE))) &&
+        toBN(instantCloseData.timestamp).lt(notification.modifyTime)
+      ) {
+        if (foundNotification.current !== notification) {
+          foundNotification.current = notification;
+          if (notification.notificationType === NotificationType.SUCCESS) {
+            updateInstantCloseData({
+              id,
+              status: InstantCloseStatus.PROCESSING,
+            });
+          } else if (
+            notification.notificationType === NotificationType.HEDGER_ERROR
+          ) {
+            updateInstantCloseData({ id, status: InstantCloseStatus.FAILED });
+          }
+        }
+      }
+    });
+  }, [notifications, id, updateInstantCloseData, instantCloseData.timestamp]);
 
-    if (foundNotification.current) setInstanceCloseEnabled(true);
-  }, [notifications, id, closeTimestamp, setInstanceCloseEnabled]); // dependencies array
+  // Add more dependencies if needed
 }
 
 export function useClosingLastMarketPrice(

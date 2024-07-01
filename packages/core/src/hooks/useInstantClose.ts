@@ -156,6 +156,14 @@ export default function useInstantClose(
         });
       } catch (error) {
         if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("expiration_time");
+            throw new Error(
+              `${error.response?.data.error_message}, try again` ||
+                "An unknown error occurred"
+            );
+          }
           console.error("Axios error:", error.response?.data);
           throw new Error(
             error.response?.data.error_message || "An unknown error occurred"

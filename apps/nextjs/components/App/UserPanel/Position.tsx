@@ -22,6 +22,7 @@ import {
 import { useIsMobile } from "lib/hooks/useWindowSize";
 import {
   useQuoteDetail,
+  useQuoteInstantCloseData,
   useSetQuoteDetailCallback,
 } from "@symmio/frontend-sdk/state/quotes/hooks";
 import {
@@ -31,6 +32,7 @@ import {
   useQuoteFillAmount,
   useClosingLastMarketPrice,
   useOpeningLastMarketPrice,
+  useInstantCloseNotifications,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
 import { useNotionalValue } from "@symmio/frontend-sdk/hooks/useTradePage";
 import {
@@ -58,11 +60,12 @@ import {
   EmptyRow,
 } from "./Common";
 import { PositionActionButton } from "components/Button";
-import CloseModal from "./CloseModal/index";
+import CloseModal, { useInstantClosePosition } from "./CloseModal/index";
 import CancelModal from "./CancelModal/index";
 import Column from "components/Column";
 import PositionDetails from "components/App/AccountData/PositionDetails";
 import { useCheckQuoteIsExpired } from "lib/hooks/useCheckQuoteIsExpired";
+import { InstantCloseStatus } from "@symmio/frontend-sdk/state/quotes/types";
 
 const TableStructure = styled(RowBetween)<{ active?: boolean }>`
   width: 100%;
@@ -98,7 +101,7 @@ const HeaderWrap = styled(TableStructure)`
 const QuoteWrap = styled(TableStructure)<{
   canceled?: boolean;
   pending?: boolean;
-  expired?: string;
+  custom?: string;
   liquidatePending?: boolean;
 }>`
   @keyframes blinking {
@@ -114,8 +117,8 @@ const QuoteWrap = styled(TableStructure)<{
   opacity: ${({ canceled }) => (canceled ? 0.5 : 1)};
   color: ${({ theme, liquidatePending }) =>
     liquidatePending ? theme.red1 : theme.text0};
-  background: ${({ theme, expired, liquidatePending }) =>
-    liquidatePending ? theme.red5 : expired ? expired : theme.bg2};
+  background: ${({ theme, custom, liquidatePending }) =>
+    liquidatePending ? theme.red5 : custom ? custom : theme.bg2};
   font-weight: 500;
   cursor: pointer;
   animation: ${({ pending, liquidatePending }) =>
@@ -123,8 +126,8 @@ const QuoteWrap = styled(TableStructure)<{
 
   &:hover {
     animation: none;
-    background: ${({ theme, expired }) =>
-      expired ? lighten(0.05, expired) : theme.bg6};
+    background: ${({ theme, custom }) =>
+      custom ? lighten(0.05, custom) : theme.bg6};
   }
 `;
 
@@ -167,6 +170,19 @@ const LiquidatedStatusValue = styled.div`
   font-size: 10px;
 `;
 
+const InstantCloseText = styled.div`
+  position: absolute;
+  width: 100%;
+  height: 40px;
+  font-size: 12px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+`;
+
 const HEADERS = [
   "Symbol-QID",
   "Size",
@@ -207,16 +223,25 @@ function TableRow({
   toggleCancelModal: () => void;
   mobileVersion: boolean;
 }) {
+  const theme = useTheme();
   const { quoteStatus } = quote;
-
   const activeAccountAddress = useActiveAccountAddress();
   const { liquidationStatus } = useAccountPartyAStat(activeAccountAddress);
-
   const { expired, expiredColor } = useCheckQuoteIsExpired(quote);
+  const { handleCancelClose } = useInstantClosePosition("0", "0", quote.id);
+
+  const instantCloseData = useQuoteInstantCloseData(quote.id);
+  useInstantCloseNotifications(quote);
+  const isInstantClose =
+    instantCloseData &&
+    (instantCloseData.status === InstantCloseStatus.PROCESSING ||
+      instantCloseData.status === InstantCloseStatus.STARTED);
 
   const [buttonText, disableButton] = useMemo(() => {
     if (liquidationStatus) {
       return ["Liquidation...", true];
+    } else if (isInstantClose) {
+      return ["Cancel Close", false];
     } else if (quoteStatus === QuoteStatus.CLOSE_PENDING) {
       return ["Cancel Close", false];
     } else if (
@@ -231,12 +256,13 @@ function TableRow({
     }
 
     return ["Close", false];
-  }, [expired, liquidationStatus, quoteStatus]);
+  }, [expired, isInstantClose, liquidationStatus, quoteStatus]);
 
   function onClickCloseButton(event: React.MouseEvent<HTMLDivElement>) {
     event.stopPropagation();
     if (disableButton) return;
-    if (quoteStatus === QuoteStatus.OPENED) toggleCloseModal();
+    else if (isInstantClose) handleCancelClose();
+    else if (quoteStatus === QuoteStatus.OPENED) toggleCloseModal();
     else toggleCancelModal();
     setQuote(quote);
   }
@@ -257,8 +283,9 @@ function TableRow({
       buttonText={buttonText}
       expired={expired}
       liquidatePending={liquidationStatus}
-      expiredColor={expiredColor}
+      customColor={isInstantClose ? theme.bg4 : expiredColor}
       onClickButton={onClickCloseButton}
+      isInstantClose={isInstantClose}
     />
   );
 }
@@ -328,16 +355,18 @@ function QuoteRow({
   buttonText,
   disableButton,
   expired,
-  expiredColor,
+  customColor,
   liquidatePending,
   onClickButton,
+  isInstantClose,
 }: {
   quote: Quote;
   buttonText: string;
   disableButton: boolean;
   expired: boolean;
-  expiredColor: string | undefined;
+  customColor: string | undefined;
   liquidatePending: boolean;
+  isInstantClose: boolean;
   onClickButton: (event: React.MouseEvent<HTMLDivElement>) => void;
 }): JSX.Element | null {
   const theme = useTheme();
@@ -482,12 +511,19 @@ function QuoteRow({
   return useMemo(
     () => (
       <>
+        {" "}
+        {isInstantClose && (
+          <InstantCloseText>
+            The trade has been closed off-chain and is being written on-chain by
+            PartyB
+          </InstantCloseText>
+        )}
         <QuoteWrap
           canceled={quoteStatus === QuoteStatus.CANCELED}
           onClick={() => setQuoteDetail(quote)}
           active={activeDetail}
           pending={pendingQuote}
-          expired={expiredColor}
+          custom={customColor}
           liquidatePending={liquidatePending}
         >
           <RowStart>
@@ -616,10 +652,11 @@ function QuoteRow({
       </>
     ),
     [
+      isInstantClose,
       quoteStatus,
       activeDetail,
       pendingQuote,
-      expiredColor,
+      customColor,
       liquidatePending,
       positionType,
       theme.text0,

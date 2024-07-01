@@ -60,6 +60,11 @@ import {
   DEFAULT_PRECISION,
   MARKET_PRICE_COEFFICIENT,
 } from "@symmio/frontend-sdk/constants/misc";
+import {
+  useInstantCloseDataCallback,
+  useInstantClosesData,
+} from "@symmio/frontend-sdk/state/quotes/hooks";
+import { InstantCloseStatus } from "@symmio/frontend-sdk/state/quotes/types";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -339,21 +344,21 @@ export default function CloseModal({
           .div(autoSlippage)
           .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
 
-  const [instanceCloseEnabled, setInstanceCloseEnabled] = useState(true);
-  const { handleInstantClose, closeTimestamp, text, loading } =
-    useInstantClosePosition(
-      size,
-      instantClosePrice,
-      quote?.id,
-      setInstanceCloseEnabled,
-      closeModal
-    );
-
-  useInstantCloseNotifications(
-    quote ?? ({} as Quote),
-    closeTimestamp,
-    setInstanceCloseEnabled
+  const instantClosesData = useInstantClosesData();
+  const { handleInstantClose, text, loading } = useInstantClosePosition(
+    size,
+    instantClosePrice,
+    quote?.id,
+    closeModal
   );
+  const instantCloseEnabled =
+    quote &&
+    instantClosesData[quote.id] &&
+    instantClosesData[quote.id].status === InstantCloseStatus.STARTED
+      ? false
+      : true;
+
+  useInstantCloseNotifications(quote ?? ({} as Quote));
 
   function getActionButton(): JSX.Element | null {
     if (!chainId || !account) return <ConnectWallet />;
@@ -389,7 +394,7 @@ export default function CloseModal({
         <MainButton
           height={"48px"}
           onClick={handleManage}
-          disabled={!instanceCloseEnabled}
+          disabled={!instantCloseEnabled}
         >
           Close Position
         </MainButton>
@@ -399,10 +404,10 @@ export default function CloseModal({
               height={"48px"}
               marginTop={"10px"}
               onClick={handleInstantClose}
-              disabled={!instanceCloseEnabled}
+              disabled={!instantCloseEnabled}
             >
               {text}
-              {(loading || !instanceCloseEnabled) && <DotFlashing />}
+              {(loading || !instantCloseEnabled) && <DotFlashing />}
             </MainButton>
           </React.Fragment>
         )}
@@ -552,12 +557,11 @@ export default function CloseModal({
   );
 }
 
-function useInstantClosePosition(
+export function useInstantClosePosition(
   size: string,
   price: string | undefined,
   id: number | undefined,
-  setInstanceCloseEnabled: (value: boolean) => void,
-  closeModal: () => void
+  closeModal?: () => void
 ) {
   const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
     size,
@@ -567,7 +571,7 @@ function useInstantClosePosition(
   const { callback: delegateAccessCallback, error } = useDelegateAccess();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
-  const [closeTimestamp, setCloseTimestamp] = useState(0);
+  const addInstantCloseData = useInstantCloseDataCallback();
 
   useEffect(() => {
     if (isAccessDelegated) setText("Instant Close");
@@ -596,9 +600,15 @@ function useInstantClosePosition(
       setLoading(true);
       await instantClose();
       setLoading(false);
-      setCloseTimestamp(Math.floor(new Date().getTime() / 1000));
-      setInstanceCloseEnabled(false);
-      closeModal();
+      const timestamp = Math.floor(new Date().getTime() / 1000);
+      id &&
+        addInstantCloseData({
+          id,
+          timestamp,
+          amount: size,
+          status: InstantCloseStatus.STARTED,
+        });
+      closeModal && closeModal();
       toast.success("close sent to hedger");
     } catch (e) {
       setLoading(false);
@@ -610,7 +620,9 @@ function useInstantClosePosition(
     isAccessDelegated,
     delegateAccessCallback,
     error,
-    setInstanceCloseEnabled,
+    id,
+    addInstantCloseData,
+    size,
     closeModal,
   ]);
 
@@ -631,7 +643,6 @@ function useInstantClosePosition(
   return {
     handleInstantClose,
     handleCancelClose,
-    closeTimestamp,
     text,
     loading,
   };

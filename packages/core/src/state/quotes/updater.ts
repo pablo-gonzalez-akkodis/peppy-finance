@@ -2,6 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useAppDispatch } from "../declaration";
 import find from "lodash/find.js";
 import isEqual from "lodash/isEqual.js";
+import differenceWith from "lodash/differenceWith.js";
 
 import {
   useGetPendingIds,
@@ -17,15 +18,18 @@ import {
 import {
   useAddQuotesToListenerCallback,
   useGetOrderHistoryCallback,
+  useInstantClosesData,
   useListenersQuotes,
   usePendingsQuotes,
   usePositionsQuotes,
+  useUpdateInstantCloseDataCallback,
 } from "./hooks";
 import { QuoteStatus } from "../../types/quote";
 import usePrevious from "../../lib/hooks/usePrevious";
 import { autoRefresh } from "../../utils/retry";
 import { useActiveAccountAddress } from "../user/hooks";
 import useWagmi from "../../lib/hooks/useWagmi";
+import { InstantCloseStatus } from "./types";
 
 export function QuotesUpdater(): null {
   const dispatch = useAppDispatch();
@@ -74,8 +78,35 @@ export function UpdaterListeners(): null {
   const prevPositions = usePrevious(positions);
 
   const listeners = useListenersQuotes();
-
   const { quotes: listenersQuotes } = useGetQuoteByIds(listeners);
+  const instantClosesData = useInstantClosesData();
+  const updateInstantCloseData = useUpdateInstantCloseDataCallback();
+
+  // added to find partial instant closes
+  useEffect(() => {
+    if (!Array.isArray(positions) || !Array.isArray(prevPositions)) {
+      return;
+    }
+    const diff = differenceWith(positions, prevPositions, isEqual);
+
+    if (diff.length > 0) {
+      diff.forEach((d) => {
+        const instantCloseData = instantClosesData[d.id];
+        const prevQuote = prevPositions.find((element) => element.id === d.id);
+        const newQuote = positions.find((element) => element.id === d.id);
+        const partialClose =
+          prevQuote?.quoteStatus === newQuote?.quoteStatus &&
+          prevQuote?.closedAmount !== newQuote?.closedAmount;
+
+        if (instantCloseData && partialClose) {
+          updateInstantCloseData({
+            id: d.id,
+            status: InstantCloseStatus.FINISHED,
+          });
+        }
+      });
+    }
+  }, [instantClosesData, positions, prevPositions, updateInstantCloseData]);
 
   //we don't need add quote to positions because we are getting all live through usePositionsQuotes
   useEffect(() => {

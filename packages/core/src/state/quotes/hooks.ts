@@ -11,17 +11,24 @@ import { ApiState } from "../../types/api";
 import useActiveWagmi from "../../lib/hooks/useActiveWagmi";
 import {
   addQuote,
+  addQuoteInstantCloseData,
   addQuoteToHistory,
   removeQuote,
   setHistory,
   setPendings,
   setQuoteDetail,
+  updateQuoteInstantCloseStatus,
 } from "./actions";
 import { useActiveAccountAddress } from "../user/hooks";
 import { sortQuotesByModifyTimestamp } from "../../hooks/useQuotes";
 import { useOrderHistoryApolloClient } from "../../apollo/client/orderHistory";
 import { getHistory } from "./thunks";
 import { useOrderHistorySubgraphAddress } from "../chains";
+import {
+  InstantCloseItem,
+  InstantCloseObject,
+  InstantCloseStatus,
+} from "./types";
 
 // returns all the histories
 export function useHistoryQuotes(): {
@@ -88,6 +95,18 @@ export function useListenersQuotes(): number[] {
   return listeners;
 }
 
+export function useInstantClosesData(): InstantCloseObject {
+  const data = useAppSelector((state) => state.quotes.instantClosesStates);
+  return data;
+}
+
+export function useQuoteInstantCloseData(id: number): InstantCloseItem {
+  const data: InstantCloseObject = useAppSelector(
+    (state) => state.quotes.instantClosesStates
+  );
+  return data[id] ?? null;
+}
+
 export function useAddQuotesToListenerCallback() {
   const dispatch = useAppDispatch();
   return useCallback(
@@ -147,6 +166,38 @@ export function useAddQuoteToHistoryCallback() {
       if (chainId) dispatch(addQuoteToHistory({ quote, chainId }));
     },
     [dispatch, chainId]
+  );
+}
+
+export function useInstantCloseDataCallback() {
+  const dispatch = useAppDispatch();
+
+  return useCallback(
+    ({
+      id,
+      amount,
+      timestamp,
+      status,
+    }: {
+      id: number;
+      amount: string;
+      timestamp: number;
+      status: InstantCloseStatus;
+    }) => {
+      dispatch(addQuoteInstantCloseData({ id, amount, timestamp, status }));
+    },
+    [dispatch]
+  );
+}
+
+export function useUpdateInstantCloseDataCallback() {
+  const dispatch = useAppDispatch();
+
+  return useCallback(
+    ({ id, status }: { id: number; status: InstantCloseStatus }) => {
+      dispatch(updateQuoteInstantCloseStatus({ id, newStatus: status }));
+    },
+    [dispatch]
   );
 }
 
