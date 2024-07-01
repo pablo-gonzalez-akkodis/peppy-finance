@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { Z_INDEX } from "theme";
 
@@ -13,7 +13,11 @@ import { Card } from "components/Card";
 import { Modal as ModalBody } from "components/Modal";
 import ImageWithFallback from "components/ImageWithFallback";
 import { getChainLogo } from "utils/chainLogo";
-import { useV3Ids } from "@symmio/frontend-sdk/state/chains/hooks";
+import {
+  useAllMultiAccountAddresses,
+  useV3Ids,
+} from "@symmio/frontend-sdk/state/chains/hooks";
+import { useFEName, useSetFEName } from "@symmio/frontend-sdk/state/user/hooks";
 
 const ModalWrapper = styled(Card)`
   padding: 0.6rem;
@@ -34,11 +38,11 @@ const ModalWrapper = styled(Card)`
 const InlineModal = styled(Card)<{ isOpen: boolean; height?: string }>`
   padding: 0px;
   border-radius: 4px;
-  width: clamp(100px, 207px, 99%);
+  width: clamp(100px, 275px, 99%);
   max-height: ${({ height }) => height ?? "554px"};
   position: absolute;
   z-index: ${Z_INDEX.modal};
-  transform: translate(-154px, 29px);
+  transform: translate(-193px, 29px);
   background: ${({ theme }) => theme.bg1};
   border: 2px solid ${({ theme }) => theme.bg6};
   display: ${(props) => (props.isOpen ? "flex" : "none")};
@@ -80,6 +84,11 @@ const Logo = styled.div`
   min-width: 28px;
 `;
 
+interface IFrontEndsInfo {
+  chainId: number;
+  name: string;
+}
+
 export function NetworksModal({
   isModal,
   isOpen,
@@ -93,9 +102,13 @@ export function NetworksModal({
   const rpcChangerCallback = useRpcChangerCallback();
   const callBackFlag = useRef(false);
   const v3_ids = useV3Ids();
+  const MULTI_ACCOUNT_ADDRESS = useAllMultiAccountAddresses();
+  const frontEndName = useFEName();
+  const setFrontEndName = useSetFEName();
 
-  const handleClick = (chainId: SupportedChainId) => {
+  const handleClick = (chainId: SupportedChainId, name: string) => {
     rpcChangerCallback(chainId);
+    setFrontEndName(name);
     callBackFlag.current = true;
   };
 
@@ -106,27 +119,40 @@ export function NetworksModal({
     }
   }, [chainId, onDismiss]);
 
+  const frontEnds = useMemo(() => {
+    const values: IFrontEndsInfo[] = [];
+    v3_ids.forEach((chainId: number) => {
+      const multiAccounts = Object.keys(MULTI_ACCOUNT_ADDRESS[chainId]);
+      multiAccounts.forEach((m) => {
+        values.push({ chainId, name: m });
+      });
+    });
+    return values;
+  }, [MULTI_ACCOUNT_ADDRESS, v3_ids]);
+
   function getInnerContent() {
     return (
       <div>
-        {v3_ids.map((chain: SupportedChainId, index) => {
-          const Chain = ChainInfo[chain];
+        {" "}
+        {frontEnds.map((chain: IFrontEndsInfo, index) => {
+          const Chain = ChainInfo[chain.chainId];
+          const active =
+            chain.chainId === chainId && frontEndName === chain.name;
           return (
             <Network
               key={index}
-              active={chain === chainId}
-              onClick={() => handleClick(chain)}
+              active={active}
+              onClick={() => handleClick(chain.chainId, chain.name)}
             >
               <Logo>
                 <ImageWithFallback
-                  src={getChainLogo(chain)}
+                  src={getChainLogo(chain.chainId)}
                   alt={Chain.label}
                   width={28}
                   height={28}
                 />
               </Logo>
-
-              {Chain.chainName}
+              {Chain.chainName} - {chain.name}
             </Network>
           );
         })}

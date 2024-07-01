@@ -1,4 +1,10 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import styled, { useTheme } from "styled-components";
 import { Activity } from "react-feather";
 import isEqual from "lodash/isEqual";
@@ -8,7 +14,7 @@ import { useConnect } from "wagmi";
 import { useAppDispatch } from "@symmio/frontend-sdk/state";
 import { truncateAddress } from "@symmio/frontend-sdk/utils/address";
 import { ChainInfo } from "@symmio/frontend-sdk/constants/chainInfo";
-import { FALLBACK_CHAIN_ID } from "constants/chains/chains";
+import { FALLBACK_CHAIN_ID, FALLBACK_FE_NAME } from "constants/chains/chains";
 import { WEB_SETTING } from "@symmio/frontend-sdk/config";
 
 import useRpcChangerCallback from "@symmio/frontend-sdk/lib/hooks/useRpcChangerCallback";
@@ -17,6 +23,7 @@ import usePrevious from "@symmio/frontend-sdk/lib/hooks/usePrevious";
 import {
   useAccountPartyAStat,
   useActiveAccount,
+  useSetFEName,
 } from "@symmio/frontend-sdk/state/user/hooks";
 import { updateAccount } from "@symmio/frontend-sdk/state/user/actions";
 
@@ -198,6 +205,7 @@ export default function MultiAccount() {
   const { accounts } = useUserAccounts();
   const previousAccounts = usePrevious(accounts);
   const { openConnectModal } = useConnectModal();
+  const setFrontEndName = useSetFEName();
 
   const { account, chainId } = useActiveWagmi();
 
@@ -250,6 +258,11 @@ export default function MultiAccount() {
 
   const { openAccountModal } = useAccountModal();
 
+  const handleNetwork = useCallback(async () => {
+    const response = await rpcChangerCallback(FALLBACK_CHAIN_ID);
+    if (response) setFrontEndName(FALLBACK_FE_NAME);
+  }, [rpcChangerCallback, setFrontEndName]);
+
   function getInnerContent() {
     return (
       <InnerContentWrapper
@@ -295,14 +308,14 @@ export default function MultiAccount() {
   function getContent() {
     if (showCallbackError) {
       return (
-        <NetworkButton onClick={() => rpcChangerCallback(FALLBACK_CHAIN_ID)}>
+        <NetworkButton onClick={handleNetwork}>
           <ImageWithFallback
             src={getChainLogo(chainId)}
             alt={Chain.label}
             width={28}
             height={28}
           />
-          <SwitchIcon onClick={() => rpcChangerCallback(FALLBACK_CHAIN_ID)}>
+          <SwitchIcon onClick={handleNetwork}>
             <Switch />
           </SwitchIcon>
         </NetworkButton>

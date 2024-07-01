@@ -86,13 +86,19 @@ export default function useInstantClose(
   }, [activeAddress, baseUrl]);
 
   const getAccessToken = useCallback(
-    async (signature: string, expirationTime: string, issuedAt: string) => {
-      const loginUrl = new URL(`siwe`, baseUrl).href;
+    async (
+      signature: string,
+      expirationTime: string,
+      issuedAt: string,
+      nonce: string
+    ) => {
+      const loginUrl = new URL(`login`, baseUrl).href;
       const body = {
         account_address: `${activeAddress}`,
         expiration_time: expirationTime,
         issued_at: issuedAt,
         signature,
+        nonce,
       };
 
       try {
@@ -106,6 +112,7 @@ export default function useInstantClose(
           localStorage.setItem("access_token", response.data.access_token);
           localStorage.setItem("expiration_time", expirationTime);
           localStorage.setItem("issued_at", issuedAt);
+          localStorage.setItem("active_address", activeAddress ?? "");
         } else {
           console.error("Login Error:", response.data.error_message);
           localStorage.removeItem("access_token");
@@ -149,6 +156,14 @@ export default function useInstantClose(
         });
       } catch (error) {
         if (axios.isAxiosError(error)) {
+          if (error.response?.status === 401) {
+            localStorage.removeItem("access_token");
+            localStorage.removeItem("expiration_time");
+            throw new Error(
+              `${error.response?.data.error_message}, try again` ||
+                "An unknown error occurred"
+            );
+          }
           console.error("Axios error:", error.response?.data);
           throw new Error(
             error.response?.data.error_message || "An unknown error occurred"
@@ -195,6 +210,7 @@ export default function useInstantClose(
         if (!quantityToClose) throw new Error("Amount is too low");
 
         const token = localStorage.getItem("access_token");
+        const sub_account_address = localStorage.getItem("active_address");
         const currentDate = new Date();
         const expiration_date = new Date(
           localStorage.getItem("expiration_time") ?? "0"
@@ -202,21 +218,27 @@ export default function useInstantClose(
 
         console.log(token, expiration_date);
 
-        if (token && expiration_date > currentDate) {
+        if (
+          token &&
+          expiration_date > currentDate &&
+          sub_account_address === activeAddress
+        ) {
           await requestToClose(quoteId, quantityToClose, closePrice);
         } else {
           const nonceRes = await getNonce();
+          const host = window.location.hostname;
           const { expirationTime, issuedAt, message } = createSiweMessage(
             account,
             `msg: ${activeAddress}`,
             chainId,
             nonceRes,
-            "rasa.capital",
-            `https://rasa.capital/`
+            host,
+            `${baseUrl}/login`
           );
 
           const sign = await onSignMessage(message);
-          if (sign) await getAccessToken(sign, expirationTime, issuedAt);
+          if (sign)
+            await getAccessToken(sign, expirationTime, issuedAt, nonceRes);
           await requestToClose(quoteId, quantityToClose, closePrice);
         }
       }
@@ -232,6 +254,7 @@ export default function useInstantClose(
     requestToClose,
     getNonce,
     activeAddress,
+    baseUrl,
     onSignMessage,
     getAccessToken,
   ]);

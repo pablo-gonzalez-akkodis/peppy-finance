@@ -1,6 +1,15 @@
 import { SupportedChainId } from "@symmio/frontend-sdk/constants/chains";
 import { ChainType } from "@symmio/frontend-sdk/state/chains/reducer";
 
+export enum FrontEndsName {
+  ALPHA = "Alpha",
+  INTENT_X = "IntentX",
+  CORE = "Core",
+  MORPHEX = "Morphex",
+  BASED = "Based",
+  CLOVERFIELD = "Cloverfield",
+}
+
 export const BSCChain: ChainType = {
   // COLLATERAL
   COLLATERAL_SYMBOL: "USDT",
@@ -22,6 +31,10 @@ export const BSCChain: ChainType = {
     "https://api.studio.thegraph.com/query/62454/main_bnb_8_2/version/latest",
 };
 
-export const contractInfo: { [chainId: number]: ChainType } = {
-  [SupportedChainId.BSC]: BSCChain,
+export const contractInfo: {
+  [chainId: number]: { [name: string]: ChainType };
+} = {
+  [SupportedChainId.BSC]: {
+    [FrontEndsName.ALPHA]: BSCChain,
+  },
 };

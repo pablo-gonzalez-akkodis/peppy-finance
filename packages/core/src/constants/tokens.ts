@@ -93,4 +93,12 @@ export const WRAPPED_NATIVE_CURRENCY: { [chainId: number]: Token | undefined } =
       "tBNB",
       "test BNB"
     ),
+
+    [SupportedChainId.MANTLE]: new Token(
+      SupportedChainId.MANTLE,
+      ChainInfo[SupportedChainId.MANTLE].WRAPPED_NATIVE_ADDRESS,
+      18,
+      "WMANTLE",
+      "Wrapped MANTLE"
+    ),
   };

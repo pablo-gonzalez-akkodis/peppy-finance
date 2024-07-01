@@ -33,6 +33,7 @@ import {
   useClosingLastMarketPrice,
   useQuoteUpnlAndPnl,
   useQuoteLeverage,
+  useInstantCloseNotifications,
 } from "@symmio/frontend-sdk/hooks/useQuotes";
 import useInstantClose from "@symmio/frontend-sdk/hooks/useInstantClose";
 import { useHedgerInfo } from "@symmio/frontend-sdk/state/hedger/hooks";
@@ -59,6 +60,11 @@ import {
   DEFAULT_PRECISION,
   MARKET_PRICE_COEFFICIENT,
 } from "@symmio/frontend-sdk/constants/misc";
+import {
+  useInstantCloseDataCallback,
+  useInstantClosesData,
+} from "@symmio/frontend-sdk/state/quotes/hooks";
+import { InstantCloseStatus } from "@symmio/frontend-sdk/state/quotes/types";
 
 const Wrapper = styled(Column)`
   padding: 12px;
@@ -105,24 +111,8 @@ export default function CloseModal({
 }) {
   const theme = useTheme();
   const { chainId } = useActiveWagmi();
-  const [size, setSize] = useState("");
-  const [price, setPrice] = useState("");
-  const [activeTab, setActiveTab] = useState(OrderType.LIMIT);
-  const [priceRange, setPriceRange] = useState<PriceRange | null>(null);
-  const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
-    useState(false);
-  const isPendingTxs = useIsHavePendingTransaction();
-  const appName = useAppName();
-
-  const { accountAddress: account } = useActiveAccount() || {};
   const { CVA, partyAMM, LF, openedPrice, marketId, positionType } =
     quote || {};
-  const COLLATERAL_TOKEN = useCollateralToken();
-  const collateralCurrency = useGetTokenWithFallbackChainId(
-    COLLATERAL_TOKEN,
-    chainId
-  );
-
   const market = useMarket(marketId);
   const {
     name: marketName,
@@ -131,6 +121,32 @@ export default function CloseModal({
     pricePrecision,
     minAcceptableQuoteValue,
   } = market || {};
+  const availableAmount = useMemo(
+    () =>
+      quote && quantityPrecision !== null && quantityPrecision !== undefined
+        ? toBN(quote.quantity)
+            .minus(quote.closedAmount)
+            .toFixed(quantityPrecision)
+        : "0",
+    [quote, quantityPrecision]
+  );
+
+  const [size, setSize] = useState(availableAmount);
+  const [price, setPrice] = useState("");
+  const [activeTab, setActiveTab] = useState(OrderType.MARKET);
+  const [priceRange, setPriceRange] = useState<PriceRange | null>(null);
+  const [awaitingCloseConfirmation, setAwaitingCloseConfirmation] =
+    useState(false);
+  const isPendingTxs = useIsHavePendingTransaction();
+  const appName = useAppName();
+
+  const { accountAddress: account } = useActiveAccount() || {};
+  const COLLATERAL_TOKEN = useCollateralToken();
+  const collateralCurrency = useGetTokenWithFallbackChainId(
+    COLLATERAL_TOKEN,
+    chainId
+  );
+
   const correctOpenPrice = formatPrice(openedPrice ?? "0", pricePrecision);
   const marketData = useMarketData(marketName);
 
@@ -225,16 +241,6 @@ export default function CloseModal({
       return "Ask Price:";
     }
   }, [quote]);
-
-  const availableAmount = useMemo(
-    () =>
-      quote && quantityPrecision !== null && quantityPrecision !== undefined
-        ? toBN(quote.quantity)
-            .minus(quote.closedAmount)
-            .toFixed(quantityPrecision)
-        : "0",
-    [quote, quantityPrecision]
-  );
 
   const availableToClose = useMemo(() => {
     if (!minAcceptableQuoteValue) return BN_ZERO.toString();
@@ -333,8 +339,21 @@ export default function CloseModal({
           .div(autoSlippage)
           .toFixed(pricePrecision ?? DEFAULT_PRECISION, RoundMode.ROUND_DOWN);
 
-  const { handleInstantClose, handleCancelClose, text, loading } =
-    useInstantClosePosition(size, instantClosePrice, quote?.id);
+  const instantClosesData = useInstantClosesData();
+  const { handleInstantClose, text, loading } = useInstantClosePosition(
+    size,
+    instantClosePrice,
+    quote?.id,
+    closeModal
+  );
+  const instantCloseEnabled =
+    quote &&
+    instantClosesData[quote.id] &&
+    instantClosesData[quote.id].status === InstantCloseStatus.STARTED
+      ? false
+      : true;
+
+  useInstantCloseNotifications(quote ?? ({} as Quote));
 
   function getActionButton(): JSX.Element | null {
     if (!chainId || !account) return <ConnectWallet />;
@@ -369,7 +388,11 @@ export default function CloseModal({
 
     return (
       <React.Fragment>
-        <PrimaryButton height={"48px"} onClick={handleManage}>
+        <PrimaryButton
+          height={"48px"}
+          onClick={handleManage}
+          disabled={!instantCloseEnabled}
+        >
           Close Position
         </PrimaryButton>
         {activeTab === OrderType.MARKET && (
@@ -378,16 +401,11 @@ export default function CloseModal({
               height={"48px"}
               marginTop={"10px"}
               onClick={handleInstantClose}
+              disabled={!instantCloseEnabled}
             >
               {text}
-              {loading && <DotFlashing />}
-            </PrimaryButton>
-            <PrimaryButton
-              height={"48px"}
-              marginTop={"10px"}
-              onClick={handleCancelClose}
-            >
-              Cancel Instant close
+
+              {(loading || !instantCloseEnabled) && <DotFlashing />}
             </PrimaryButton>
           </React.Fragment>
         )}
@@ -538,10 +556,11 @@ export default function CloseModal({
   );
 }
 
-function useInstantClosePosition(
+export function useInstantClosePosition(
   size: string,
   price: string | undefined,
-  id: number | undefined
+  id: number | undefined,
+  closeModal?: () => void
 ) {
   const { instantClose, isAccessDelegated, cancelClose } = useInstantClose(
     size,
@@ -551,6 +570,7 @@ function useInstantClosePosition(
   const { callback: delegateAccessCallback, error } = useDelegateAccess();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
+  const addInstantCloseData = useInstantCloseDataCallback();
 
   useEffect(() => {
     if (isAccessDelegated) setText("Instant Close");
@@ -579,12 +599,31 @@ function useInstantClosePosition(
       setLoading(true);
       await instantClose();
       setLoading(false);
+      const timestamp = Math.floor(new Date().getTime() / 1000);
+      id &&
+        addInstantCloseData({
+          id,
+          timestamp,
+          amount: size,
+          status: InstantCloseStatus.STARTED,
+        });
+      closeModal && closeModal();
+      toast.success("close sent to hedger");
     } catch (e) {
       setLoading(false);
       toast.error(e.message);
       console.error(e);
     }
-  }, [instantClose, isAccessDelegated, delegateAccessCallback, error]);
+  }, [
+    instantClose,
+    isAccessDelegated,
+    delegateAccessCallback,
+    error,
+    id,
+    addInstantCloseData,
+    size,
+    closeModal,
+  ]);
 
   const handleCancelClose = useCallback(async () => {
     if (!cancelClose) {
@@ -600,5 +639,10 @@ function useInstantClosePosition(
     }
   }, [cancelClose, error]);
 
-  return { handleInstantClose, handleCancelClose, text, loading };
+  return {
+    handleInstantClose,
+    handleCancelClose,
+    text,
+    loading,
+  };
 }

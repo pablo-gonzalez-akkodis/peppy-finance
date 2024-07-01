@@ -36,6 +36,18 @@ export function usePartialFillNotifications() {
   );
 }
 
+export function useVisibleNotifications() {
+  const readNotification: NotificationDetails[] = useAppSelector(
+    (state) => state.notifications.readNotification
+  );
+  const unreadNotification: NotificationDetails[] = useAppSelector(
+    (state) => state.notifications.unreadNotification
+  );
+  return [...readNotification, ...unreadNotification].filter(
+    (notification) => notification.showInModal
+  );
+}
+
 export function useLastUpdateTimestamp() {
   const lastUpdateTimestamp = useAppSelector(
     (state) => state.notifications.lastUpdateTimestamp

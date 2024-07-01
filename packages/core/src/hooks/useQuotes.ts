@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 import { useSingleContractMultipleMethods } from "../lib/hooks/multicall";
 import { OrderType, PositionType } from "../types/trade";
@@ -10,16 +10,25 @@ import {
   useActiveAccountAddress,
 } from "../state/user/hooks";
 import {
+  LastSeenAction,
   NotificationDetails,
   NotificationType,
 } from "../state/notifications/types";
-import { usePartialFillNotifications } from "../state/notifications/hooks";
+import {
+  usePartialFillNotifications,
+  useVisibleNotifications,
+} from "../state/notifications/hooks";
 
 import { useDiamondContract } from "./useContract";
 import { useMarket } from "./useMarkets";
 import { useSupportedChainId } from "../lib/hooks/useSupportedChainId";
 import useBidAskPrice from "./useBidAskPrice";
 import { Market } from "../types/market";
+import {
+  useQuoteInstantCloseData,
+  useUpdateInstantCloseDataCallback,
+} from "../state/quotes/hooks";
+import { InstantCloseStatus } from "../state/quotes/types";
 
 export function getPositionTypeByIndex(x: number): PositionType {
   return PositionType[
@@ -371,6 +380,48 @@ export function useQuoteFillAmount(quote: Quote): string | null {
   }, [foundNotification, orderType, quoteStatus]);
 }
 
+export function useInstantCloseNotifications(quote: Quote) {
+  const { id } = quote;
+  const updateInstantCloseData = useUpdateInstantCloseDataCallback();
+  const instantCloseData = useQuoteInstantCloseData(quote.id) ?? {};
+
+  const notifications = useVisibleNotifications();
+  const foundNotification = useRef<NotificationDetails | undefined>();
+
+  useEffect(() => {
+    notifications.forEach((notification) => {
+      if (
+        notification.quoteId === id.toString() &&
+        ((notification.notificationType === NotificationType.SUCCESS &&
+          notification.lastSeenAction ===
+            LastSeenAction.FILL_ORDER_INSTANT_CLOSE) ||
+          (notification.notificationType === NotificationType.HEDGER_ERROR &&
+            (notification.lastSeenAction ===
+              LastSeenAction.INSTANT_REQUEST_TO_CLOSE_POSITION ||
+              notification.lastSeenAction ===
+                LastSeenAction.FILL_ORDER_INSTANT_CLOSE))) &&
+        toBN(instantCloseData.timestamp).lt(notification.modifyTime)
+      ) {
+        if (foundNotification.current !== notification) {
+          foundNotification.current = notification;
+          if (notification.notificationType === NotificationType.SUCCESS) {
+            updateInstantCloseData({
+              id,
+              status: InstantCloseStatus.PROCESSING,
+            });
+          } else if (
+            notification.notificationType === NotificationType.HEDGER_ERROR
+          ) {
+            updateInstantCloseData({ id, status: InstantCloseStatus.FAILED });
+          }
+        }
+      }
+    });
+  }, [notifications, id, updateInstantCloseData, instantCloseData.timestamp]);
+
+  // Add more dependencies if needed
+}
+
 export function useClosingLastMarketPrice(
   quote: Quote | null,
   market?: Market
@@ -435,7 +486,7 @@ function toQuote(quote: any) {
     initialCVA: fromWei(quote["initialLockedValues"]["cva"].toString()),
     initialLF: fromWei(quote["initialLockedValues"]["lf"].toString()),
     initialPartyAMM: fromWei(
-      quote["initialLockedValues"]["partyBmm"].toString()
+      quote["initialLockedValues"]["partyAmm"].toString()
     ),
     initialPartyBMM: fromWei(
       quote["initialLockedValues"]["partyBmm"].toString()

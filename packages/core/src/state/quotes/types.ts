@@ -9,6 +9,7 @@ export interface QuotesState {
   quoteDetail: Quote | null;
   historyState: ApiState;
   hasMoreHistory?: boolean;
+  instantClosesStates: InstantCloseObject;
 }
 
 export interface SubGraphData {
@@ -47,4 +48,19 @@ export interface SubGraphData {
     partyBmm: string;
     timeStamp: string;
   };
+}
+
+export enum InstantCloseStatus {
+  STARTED,
+  PROCESSING,
+  FINISHED,
+  FAILED,
+}
+export interface InstantCloseItem {
+  amount: string;
+  timestamp: number;
+  status: InstantCloseStatus;
+}
+export interface InstantCloseObject {
+  [id: number]: InstantCloseItem;
 }

@@ -12,6 +12,7 @@ import {
   addPending,
   addPosition,
   addQuote,
+  addQuoteInstantCloseData,
   addQuoteToHistory,
   removePosition,
   removeQuote,
@@ -19,6 +20,7 @@ import {
   setPendings,
   setPositions,
   setQuoteDetail,
+  updateQuoteInstantCloseStatus,
 } from "./actions";
 import { getHistory } from "./thunks";
 
@@ -30,6 +32,7 @@ export const initialState: QuotesState = {
   quoteDetail: null,
   historyState: ApiState.LOADING,
   hasMoreHistory: false,
+  instantClosesStates: {},
 };
 
 export default createReducer(initialState, (builder) =>
@@ -131,4 +134,18 @@ export default createReducer(initialState, (builder) =>
       state.historyState = ApiState.ERROR;
       console.error("Unable to fetch from The Graph Network");
     })
+
+    .addCase(
+      addQuoteInstantCloseData,
+      (state, { payload: { id, amount, timestamp, status } }) => {
+        state.instantClosesStates[id] = { amount, timestamp, status };
+      }
+    )
+    .addCase(
+      updateQuoteInstantCloseStatus,
+      (state, { payload: { id, newStatus } }) => {
+        const data = state.instantClosesStates[id];
+        state.instantClosesStates[id] = { ...data, status: newStatus };
+      }
+    )
 );

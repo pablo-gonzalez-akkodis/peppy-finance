@@ -9,6 +9,7 @@ export enum SupportedChainId {
   POLYGON = 137,
   FANTOM = 250,
   ARBITRUM = 42161,
+  MANTLE = 5000,
 }
 
 export const SUPPORTED_CHAIN_IDS: SupportedChainId[] = Object.values(
@@ -31,6 +32,7 @@ export const CHAIN_IDS_TO_NAMES = {
   [SupportedChainId.BSC]: "bsc",
   [SupportedChainId.BSC_TESTNET]: "bsc-testnet",
   [SupportedChainId.BASE]: "base",
+  [SupportedChainId.MANTLE]: "mantle",
 };
 
 /**
@@ -55,6 +57,7 @@ export const L2_CHAIN_IDS = [
   SupportedChainId.BSC,
   SupportedChainId.FANTOM,
   SupportedChainId.BSC_TESTNET,
+  SupportedChainId.MANTLE,
 ] as const;
 
 export type SupportedL2ChainId = (typeof L2_CHAIN_IDS)[number];

@@ -133,4 +133,17 @@ export const ChainInfo: { [chainId: number]: Info } = {
     blockExplorerUrl: "https://basescan.org/",
     WRAPPED_NATIVE_ADDRESS: "0x4200000000000000000000000000000000000006",
   },
+  [SupportedChainId.MANTLE]: {
+    chainId: "0x1388",
+    chainName: "Mantle",
+    label: "Mantle",
+    nativeCurrency: {
+      name: "MANTLE",
+      symbol: "Mantle",
+      decimals: 18,
+    },
+    rpcUrl: "https://mantle.drpc.org",
+    blockExplorerUrl: "https://mantlescan.info/",
+    WRAPPED_NATIVE_ADDRESS: "0x29019c39EC418Ac4e7aFc1d88d6b962Ff172aBf6",
+  },
 };
