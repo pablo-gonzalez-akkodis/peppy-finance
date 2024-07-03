@@ -31,7 +31,6 @@ const TabButton = styled(RowCenter)<{ active: boolean }>`
 
   ${({ theme, active }) => theme.mediaWidth.upToMedium`
     flex: 1;
-    background: ${active ? theme.bg3 : theme.bg1};
   `};
 `;
 

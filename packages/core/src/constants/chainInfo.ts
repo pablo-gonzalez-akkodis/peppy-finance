@@ -146,4 +146,13 @@ export const ChainInfo: { [chainId: number]: Info } = {
     blockExplorerUrl: "https://mantlescan.info/",
     WRAPPED_NATIVE_ADDRESS: "0x29019c39EC418Ac4e7aFc1d88d6b962Ff172aBf6",
   },
+  [SupportedChainId.SHIMMER]: {
+    chainId: "1073",
+    chainName: "ShimmerEVM Testnet",
+    label: "Shimmer Testnet",
+    nativeCurrency: { name: "Shimmer", symbol: "SMR", decimals: 18 },
+    rpcUrl: "https://json-rpc.evm.testnet.shimmer.network",
+    blockExplorerUrl: "https://explorer.evm.testnet.shimmer.network",
+    WRAPPED_NATIVE_ADDRESS: "0x29019c39EC418Ac4e7aFc1d88d6b962Ff172aBf6",
+  },
 };

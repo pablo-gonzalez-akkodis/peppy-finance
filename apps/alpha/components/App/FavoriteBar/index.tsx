@@ -14,7 +14,6 @@ const Wrapper = styled(Row)`
   position: relative;
   min-height: 50px;
   border-radius: 10px;
-  border-radius: 4px;
 `;
 
 const FavoritesWrap = styled(Row)`

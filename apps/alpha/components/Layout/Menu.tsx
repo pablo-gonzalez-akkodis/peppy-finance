@@ -93,6 +93,12 @@ export default function Menu() {
       {/* <Image src={BURGER_ICON} alt="burger-icon" onClick={() => toggle()} /> */}
       <div>
         <InlineModal isOpen={isOpen} onClick={() => toggle()}>
+        <Link href="/" passHref className="noDecoration">
+            <Row active={router.asPath === "/"}>
+              <div>Home</div>
+              {/* <MarketPair /> */}
+            </Row>
+          </Link>
           <Link href="/trade" passHref className="noDecoration">
             <Row active={router.route.includes("/trade")}>
               <div>Trade</div>

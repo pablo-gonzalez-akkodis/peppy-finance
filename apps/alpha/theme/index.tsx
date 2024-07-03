@@ -319,7 +319,14 @@ export const ThemedGlobalStyle = createGlobalStyle`
     border-radius: 10px;
   }
 
+  .boxStylingDarker {
+    background: rgba(76, 70, 110, 0.3);
+    box-shadow: 0px 4px 4px 0px #00000040;
+    border-radius: 10px;
+  }
+
   .noDecoration {
     text-decoration: none;
   }
+  
 `;

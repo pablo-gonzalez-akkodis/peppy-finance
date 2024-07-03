@@ -87,7 +87,7 @@ export default createReducer(initialState, (builder) =>
       state.markets = [];
       state.marketsStatus = ApiState.ERROR;
       state.errorMessages = {};
-      console.error("Unable to fetch getMarkets");
+      console.error("Unable to fetch getMarkets", state);
     })
 
     .addCase(getOpenInterest.pending, (state) => {
@@ -100,7 +100,7 @@ export default createReducer(initialState, (builder) =>
     .addCase(getOpenInterest.rejected, (state) => {
       state.openInterestStatus = ApiState.ERROR;
       state.openInterest = { total: -1, used: -1 };
-      console.error("Unable to fetch openInterest");
+      console.error("Unable to fetch openInterest", state);
     })
 
     .addCase(getNotionalCap.pending, (state) => {
