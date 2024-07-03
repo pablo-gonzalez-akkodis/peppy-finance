@@ -11,7 +11,7 @@ const keyframesShimmer = keyframes`
 `;
 
 const shimmerAnimation = css`
-  background: linear-gradient(to right, #323847 30%, #4e505e 100%);
+  background: linear-gradient(to right, #d8d7df80 30%, #e9e8ed4d 100%);
   background-size: 80vw 100%;
   animation: ${keyframesShimmer} 5s infinite linear;
 `;

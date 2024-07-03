@@ -90,9 +90,9 @@ export default function CanceledQuoteDetails({
               <QuoteData>
                 {positionType}
                 {positionType === PositionType.LONG ? (
-                  <LongArrow width={16} height={12} color={theme.green1} />
+                  <LongArrow width={16} height={12} color={theme.peppyGreen} />
                 ) : (
-                  <ShortArrow width={16} height={12} color={theme.red1} />
+                  <ShortArrow width={16} height={12} color={theme.peppyRed} />
                 )}
               </QuoteData>
             </RowComponent>

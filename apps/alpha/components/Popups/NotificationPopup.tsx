@@ -44,7 +44,7 @@ export default function NotificationPopup({
 
   const [bg, border] =
     notificationType === NotificationType.LIQUIDATION_ALERT
-      ? [theme.bgLoose, theme.red1]
+      ? [theme.bgLoose, theme.peppyRed]
       : notificationType === NotificationType.EXPIRED_ORDER ||
         notificationType === NotificationType.HEDGER_ERROR
       ? [theme.bgWarning, theme.warning]

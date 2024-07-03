@@ -33,7 +33,6 @@ const Container = styled(DefaultContainer)`
 const TopContainer = styled(Column)`
   min-height: 150px;
   padding-bottom: 16px;
-  background-color: ${({ theme }) => theme.bg1};
 `;
 
 const ContentWrapper = styled(Column)`
@@ -61,7 +60,7 @@ export default function AccountBalance() {
 
   return (
     <>
-      <Container>
+      <Container className="boxStyling">
         <TopContainer>
           <DefaultHeader>Balance Overview</DefaultHeader>
           <ContentWrapper>

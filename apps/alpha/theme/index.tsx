@@ -64,7 +64,7 @@ function colors(): Colors {
       text0: "#F1F1F1",
       text1: "#A0A2C5",
       text2: "#8B8E9F",
-      text3: "#8B8EAF",
+      text3: "#FFFFFF",
       text4: "#5F607F",
       text5: "#4E5273",
       text7: "rgba(255, 255, 255, 1)",
@@ -314,9 +314,10 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
 
   .boxStyling{
-    background: rgba(233, 232, 237, 0.5) !important;
+    background: rgba(233, 232, 237, 0.3);
     box-shadow: 0px 0px 3px 0px rgba(254, 251, 224, 0.2) inset; 
     border-radius: 10px;
+    backdrop-filter: blur(15px);
   }
 
   .boxStylingDarker {

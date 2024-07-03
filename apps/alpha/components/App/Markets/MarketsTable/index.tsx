@@ -13,7 +13,6 @@ const TableWrapper = styled.div`
 const Title = styled(RowBetween)`
   padding: 8px 12px 0 16px;
   border-radius: 4px 4px 0 0;
-  background-color: ${({ theme }) => theme.bg0};
 `;
 
 const InputWrapper = styled.div`

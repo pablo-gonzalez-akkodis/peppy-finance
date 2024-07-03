@@ -28,13 +28,12 @@ import ShimmerAnimation from "components/ShimmerAnimation";
 
 const Wrapper = styled(RowBetween)<{ color?: string }>`
   margin-top: 5px;
-  background: ${({ theme, color }) => color ?? theme.bg0};
 `;
 
 const UPNLText = styled.p`
   font-size: 20px;
   font-weight: 400;
-  color: ${({ theme }) => theme.text4};
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function UPNLBar() {
@@ -101,7 +100,7 @@ function usePnlValues(currency: Token) {
   else if (pnlBN.isLessThan(0))
     return {
       value: `- ${formatAmount(Math.abs(pnlBN.toNumber()))}`,
-      color: theme.red1,
+      color: theme.peppyRed,
       bgColor: theme.bgLoose,
       isLoading: false,
     };

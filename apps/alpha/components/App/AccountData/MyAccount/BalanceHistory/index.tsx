@@ -88,7 +88,7 @@ export default function BalanceHistory() {
   }, [balanceHistory, isLoaded]);
 
   return (
-    <Container>
+    <Container className="boxStyling">
       <DefaultHeader>Deposit/Withdraw History</DefaultHeader>
       {isLoaded ? (
         <BalanceHistoryBody />

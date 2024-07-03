@@ -19,7 +19,6 @@ const Container = styled(RowBetween)`
   height: 59px;
   border-radius: 4px;
   padding: 0px 12px 0px 16px;
-  background-color: ${({ theme }) => theme.bg1};
 
   & > * {
     &:nth-child(2) {
@@ -60,7 +59,7 @@ export default function Statusbar() {
     chainId
   );
   return (
-    <Container>
+    <Container className="boxStyling">
       <WithdrawAmount>
         <span>Withdraw</span>
         <span>

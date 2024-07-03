@@ -57,9 +57,9 @@ export default function ClosedAmountDetails({
   const [value, color] = useMemo(() => {
     const pnlBN = toBN(pnl);
     if (pnlBN.isGreaterThan(0))
-      return [`+ $${formatAmount(pnlBN)}`, theme.green1];
+      return [`+ $${formatAmount(pnlBN)}`, theme.peppyGreen];
     else if (pnlBN.isLessThan(0))
-      return [`- $${formatAmount(Math.abs(pnlBN.toNumber()))}`, theme.red1];
+      return [`- $${formatAmount(Math.abs(pnlBN.toNumber()))}`, theme.peppyRed];
     return [`$${formatAmount(pnlBN)}`, theme.text1];
   }, [pnl, theme]);
   const pnlPercent = useMemo(() => {

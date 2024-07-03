@@ -39,7 +39,7 @@ export default function AccountOverview() {
   const loading = chainId ? accountLoading : true;
 
   return (
-    <Container>
+    <Container className="boxStyling">
       <AccountHealth />
       <Row flexDirection={"column"} gap={"16px"} align={"stretch"}>
         <UPNLBar />

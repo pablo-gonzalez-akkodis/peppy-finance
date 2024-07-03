@@ -81,7 +81,7 @@ export default function AccountPositions() {
   const loading = upnlLoadingStatus === ConnectionStatus.CLOSED;
 
   return (
-    <Container>
+    <Container className="boxStyling">
       <Header>Account Open Positions Overview</Header>
       {quotes.length || loading ? (
         <AccountPositionsBody positions={quotes} />

@@ -98,7 +98,7 @@ export const SecondaryButton = styled(PrimaryButton)`
 
 export const ButtonEmpty = styled(BaseButton)`
   background-color: transparent;
-  color: ${({ theme }) => theme.red1};
+  color: ${({ theme }) => theme.peppyRed};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -254,9 +254,9 @@ export const PositionActionButton = styled(SecondaryButton)<{
   ${({ liquidatePending, theme }) =>
     liquidatePending &&
     `
-    color: ${theme.red1};
+    color: ${theme.peppyRed};
     background: ${theme.red5};
-    border-color: ${theme.red1};
+    border-color: ${theme.peppyRed};
 
     &:hover {
     background: ${lighten(0.05, theme.red5)};

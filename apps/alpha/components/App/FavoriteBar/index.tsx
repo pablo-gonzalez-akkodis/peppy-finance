@@ -45,7 +45,7 @@ const StyledNavButton = styled.button<{ direction: "right" | "left" }>`
   width: 48px;
   height: 100%;
   background: ${({ theme }) => css`
-    linear-gradient(90deg, ${theme.bg0} 50%, #ffffff00 100%);
+    linear-gradient(90deg, rgba(76, 70, 110, 0.3) 50%, #ffffff00 100%);
   `};
   transform: ${({ direction }) =>
     direction === "left" ? "rotate(0deg)" : "rotate(180deg)"};
@@ -69,7 +69,7 @@ const Item = styled(RowCenter)`
 
   &:hover {
     cursor: pointer;
-    background: ${({ theme }) => theme.hover};
+    background: rgba(76, 70, 110, 0.3);
   }
 
   ${({ theme }) => theme.mediaWidth.upToMedium`

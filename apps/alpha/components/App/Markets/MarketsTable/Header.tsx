@@ -51,8 +51,7 @@ const TableStructure = styled(RowBetween)`
 `;
 
 const HeaderWrap = styled(TableStructure)`
-  color: ${({ theme }) => theme.text4};
-  background-color: ${({ theme }) => theme.bg0};
+  color: ${({ theme }) => theme.text7};
   padding: 24px 24px 15px 12px;
   border-bottom: 1px solid ${({ theme }) => theme.border3};
 

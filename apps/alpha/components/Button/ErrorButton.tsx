@@ -14,7 +14,7 @@ const LiquidationButton = styled(PrimaryButton).attrs({
   cursor: default;
   font-weight: 700;
   border-radius: 8px;
-  color: ${({ theme }) => theme.red1};
+  color: ${({ theme }) => theme.peppyRed};
   background: ${({ theme }) => theme.bgLoose};
   &:focus,
   &:hover {
@@ -70,7 +70,7 @@ export default function ErrorButton({
       {text}
       <IconWrap>
         <a data-tip data-for={"PARTIAL_CLOSE_WITH_SLIPPAGE"}>
-          <ExclamationMark bg={theme.bgLoose} color={theme.red1} />
+          <ExclamationMark bg={theme.bgLoose} color={theme.peppyRed} />
           <ToolTipLeft id={"PARTIAL_CLOSE_WITH_SLIPPAGE"} aria-haspopup="true">
             You cannot close this amount via market order, as it may result in
             direct

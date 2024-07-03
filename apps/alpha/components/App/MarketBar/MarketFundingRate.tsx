@@ -121,6 +121,6 @@ function useColor(value: string) {
   const valueBN = toBN(value);
 
   if (valueBN.isEqualTo(0)) return theme.text0;
-  else if (valueBN.isGreaterThan(0)) return theme.green1;
-  else return theme.red1;
+  else if (valueBN.isGreaterThan(0)) return theme.peppyGreen;
+  else return theme.peppyRed;
 }

@@ -13,7 +13,6 @@ import { RowBetween } from "components/Row";
 
 const FooterWrapper = styled(RowBetween)`
   height: 56px;
-  background: ${({ theme }) => theme.bg0};
   border-radius: 0 0 4px 4px;
 `;
 

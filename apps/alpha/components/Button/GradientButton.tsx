@@ -4,14 +4,14 @@ import { BaseButton } from "components/Button";
 import { useCallback } from "react";
 
 export const GradientColorButton = styled(BaseButton)`
-  height: 40px;
-  background: ${({ theme }) => theme.secondaryButton};
-  border: 1px solid ${({ theme }) => theme.CTAPink};
+  height: 40px; 
+  border-radius: 25px;
+  background: ${({ theme }) => theme.bg9};
 
   &:focus,
   &:hover,
   &:active {
-    background: ${({ theme }) => theme.hoverSecondaryButton};
+    background: ${({ theme }) => theme.pinkGrad};
 
     cursor: ${({ disabled }) => !disabled && "pointer"};
   }
@@ -28,7 +28,8 @@ export const GradientButtonLabel = styled.span<{ whiteText?: boolean }>`
   font-weight: 600;
   font-size: 12px;
   line-height: 14px;
-  color: ${({ theme }) => theme.text0};
+  text-transform: uppercase;
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function GradientButton({

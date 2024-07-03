@@ -11,7 +11,7 @@ export const LiquidationText = styled(RowStart)`
       color: ${({ theme }) => theme.text0};
     }
     &:last-child {
-      color: ${({ theme }) => theme.red1};
+      color: ${({ theme }) => theme.peppyRed};
     }
   }
 `;

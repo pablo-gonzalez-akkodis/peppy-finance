@@ -5,17 +5,17 @@ import { Search as SearchIcon } from "components/Icons";
 
 const SearchWrapper = styled(RowStart)`
   flex-flow: row nowrap;
-  background: ${({ theme }) => theme.bg2};
   border-radius: 4px;
   padding: 0.2rem 0;
   height: 36px;
+  border: 1px solid ${({ theme }) => theme.text8};
   gap: 5px;
 
   & > * {
     &:first-child {
       width: fit-content;
       padding: 0 0.5rem;
-      border-right: 1px solid ${({ theme }) => theme.border1};
+      border-right: 1px solid ${({ theme }) => theme.bg8};
     }
   }
 `;
@@ -28,15 +28,15 @@ const Input = styled.input<{
   border: none;
   background: transparent;
   font-size: 0.8rem;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text8};
   padding-left: 2px;
 
   &::placeholder {
-    color: ${({ theme }) => theme.text1};
+    color: ${({ theme }) => theme.text8};
   }
   &:focus,
   &:hover {
-    color: ${({ theme }) => theme.text0};
+    color: ${({ theme }) => theme.text8};
     outline: none;
   }
 

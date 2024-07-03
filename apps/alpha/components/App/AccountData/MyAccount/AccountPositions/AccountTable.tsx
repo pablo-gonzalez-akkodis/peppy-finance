@@ -185,9 +185,9 @@ function PositionRow({
     <RowWrap>
       <ImageWrapper>
         {positionType === PositionType.LONG ? (
-          <LongArrow width={15} height={12} color={theme.green1} />
+          <LongArrow width={15} height={12} color={theme.peppyGreen} />
         ) : (
-          <ShortArrow width={15} height={12} color={theme.red1} />
+          <ShortArrow width={15} height={12} color={theme.peppyRed} />
         )}
       </ImageWrapper>
       <div>

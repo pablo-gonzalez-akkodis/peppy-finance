@@ -38,15 +38,15 @@ export default function GuideOne({
     ? "Available"
     : "Unavailable";
   const maxOrLiquidColor = toBN(liquidationAfterClose).isEqualTo(0)
-    ? theme.green1
-    : theme.red1;
+    ? theme.peppyGreen
+    : theme.peppyRed;
 
   const partialCloseText = !toBN(maxPartiallyClose).isLessThanOrEqualTo(0)
     ? "Available"
     : "Unavailable";
   const partialCloseColor = !toBN(maxPartiallyClose).isLessThanOrEqualTo(0)
-    ? theme.green1
-    : theme.red1;
+    ? theme.peppyGreen
+    : theme.peppyRed;
 
   function getItemLabel(
     text: string,

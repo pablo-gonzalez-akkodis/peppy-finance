@@ -17,7 +17,7 @@ export default function Status({
         cx="4"
         cy="4"
         r="4"
-        fill={connected ? theme.green1 : theme.red1}
+        fill={connected ? theme.peppyGreen : theme.peppyRed}
       />
     </svg>
   );

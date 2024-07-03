@@ -16,7 +16,10 @@ const BigMarketsLabel = styled(RowCenter)`
   color: ${({ theme }) => theme.bg1};
   font-size: 136px;
   font-weight: 700;
-
+  margin-bottom: 80px;
+  background: linear-gradient(180deg, #c7f199 0%, #5cdcf0 100%);
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     font-size: 100px;
   `}
@@ -43,7 +46,7 @@ export default function Markets() {
     <Container>
       <WrapperBanner />
       <BigMarketsLabel>MARKETS</BigMarketsLabel>
-      <TableWrapper>
+      <TableWrapper className="boxStyling">
         <MarketsTable />
       </TableWrapper>
     </Container>

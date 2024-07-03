@@ -30,7 +30,7 @@ export const Price = styled.div<{
     }
   }
 
-  color: ${({ theme, positive }) => (positive ? theme.green1 : theme.red1)};
+  color: ${({ theme, positive }) => (positive ? theme.peppyGreen : theme.peppyRed)};
   animation: ${({ visible }) => (visible ? "blink 0.5s linear 1" : "none")};
 
   ${({ width }) =>

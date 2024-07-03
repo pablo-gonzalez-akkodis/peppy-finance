@@ -110,14 +110,14 @@ export const ModalHeader = ({
             <LongArrow
               width={15}
               height={12}
-              color={theme.green1}
+              color={theme.peppyGreen}
               style={{ marginLeft: "10px" }}
             />
           ) : (
             <ShortArrow
               width={15}
               height={12}
-              color={theme.red1}
+              color={theme.peppyRed}
               style={{ marginLeft: "10px" }}
             />
           )}

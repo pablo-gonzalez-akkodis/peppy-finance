@@ -35,7 +35,7 @@ export default function LiquidationAlertCard({
       loading={loading}
       accountName={account.name}
       bg={theme.bgLoose}
-      border={theme.red1}
+      border={theme.peppyRed}
     />
   );
 }

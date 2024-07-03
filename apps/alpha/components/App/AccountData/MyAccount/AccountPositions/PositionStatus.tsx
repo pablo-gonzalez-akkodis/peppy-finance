@@ -21,8 +21,6 @@ const Container = styled.div`
   grid-template-columns: repeat(3, auto) 1fr;
   column-gap: 60px;
   row-gap: 24px;
-
-  background-color: ${({ theme }) => theme.bg1};
   padding: 16px 24px;
   border-radius: 4px;
 
@@ -121,14 +119,14 @@ function PositionStatusBody() {
         <PositionNumber>{longPositionNumber}</PositionNumber>
         <PositionText gap={"4px"}>
           Longs
-          <LongArrow width={12} height={8} color={theme.green1} />
+          <LongArrow width={12} height={8} color={theme.peppyGreen} />
         </PositionText>
       </PositionInfo>
       <PositionInfo>
         <PositionNumber>{shortPositionNumber}</PositionNumber>
         <PositionText gap={"4px"}>
           Shorts
-          <ShortArrow width={12} height={8} color={theme.red1} />
+          <ShortArrow width={12} height={8} color={theme.peppyRed} />
         </PositionText>
       </PositionInfo>
       <PositionTotalValue>

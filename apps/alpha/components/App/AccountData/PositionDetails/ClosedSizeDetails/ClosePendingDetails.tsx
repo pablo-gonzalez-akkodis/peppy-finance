@@ -85,12 +85,12 @@ export default function ClosePendingDetails({
       .toFixed(2);
 
     if (valueBN.isGreaterThan(0))
-      return [`+ $${formatAmount(valueBN)}`, valuePercent, theme.green1];
+      return [`+ $${formatAmount(valueBN)}`, valuePercent, theme.peppyGreen];
     else if (valueBN.isLessThan(0))
       return [
         `- $${formatAmount(Math.abs(valueBN.toNumber()))}`,
         valuePercent,
-        theme.red1,
+        theme.peppyRed,
       ];
     return [`$${formatAmount(valueBN)}`, valuePercent, theme.text1];
   }

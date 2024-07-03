@@ -64,8 +64,7 @@ const TableStructure = styled(RowBetween)`
 
 const RowWrap = styled(TableStructure)`
   height: 56px;
-  color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg0};
+  color: ${({ theme }) => theme.text7};
   padding: 12px 24px 12px 12px;
   border-bottom: 1px solid ${({ theme }) => theme.bgTransparent};
 
@@ -93,9 +92,9 @@ const MarketName = styled.span`
 const ColorLabel = styled(Row)<{ color: "green" | "red" | "gray" }>`
   color: ${({ color, theme }) =>
     color === "green"
-      ? theme.green1
+      ? theme.peppyGreen
       : color === "red"
-      ? theme.red1
+      ? theme.peppyRed
       : theme.text2};
 `;
 
@@ -104,13 +103,13 @@ const ActionBtn = styled.button`
   width: 80px;
   height: 30px;
   padding: 8px 24px;
-  color: ${({ theme }) => theme.icons};
-  border: 1px solid ${({ theme }) => theme.icons};
+  color: ${({ theme }) => theme.text8};
+  border: 1px solid ${({ theme }) => theme.text8};
   border-radius: 6px;
   font-weight: 600;
 
   &:hover {
-    background: ${({ theme }) => theme.icons};
+    background: ${({ theme }) => theme.bg9};
     color: ${({ theme }) => theme.bgTransparent};
     transition: all 0.3s;
   }
