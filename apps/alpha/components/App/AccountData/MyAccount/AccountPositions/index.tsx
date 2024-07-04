@@ -19,6 +19,7 @@ import { useUpnlWebSocketStatus } from "@symmio/frontend-sdk/state/user/hooks";
 const Container = styled(DefaultContainer)`
   padding: 20px 16px 24px;
   position: relative;
+  border-radius: 10px;
   min-height: 442px;
 `;
 

@@ -32,7 +32,7 @@ const ModalWrapper = styled(Card)`
 const Wrapper = styled(Row)`
   height: 36px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.bg2};
+  z-index: 100;
 `;
 
 const InlineModal = styled(Card)<{ isOpen: boolean; height?: string }>`
@@ -42,8 +42,8 @@ const InlineModal = styled(Card)<{ isOpen: boolean; height?: string }>`
   position: absolute;
   z-index: ${Z_INDEX.modal};
   transform: translate(-1px, 29px);
-  background: ${({ theme }) => theme.bg1};
-  border: 2px solid ${({ theme }) => theme.bg6};
+  border-radius: 10px;
+  border: 2px solid ${({ theme }) => theme.text8};
   display: ${(props) => (props.isOpen ? "flex" : "none")};
 
   & > * {
@@ -83,7 +83,6 @@ const Close = styled.div`
   cursor: pointer;
   border-radius: 4px;
   margin: 2px 2px 1px 0px;
-  background: ${({ theme }) => theme.bg1};
 `;
 
 export function MarketsModal({
@@ -129,6 +128,8 @@ export function MarketsModal({
       <ModalWrapper>{getInnerContent()}</ModalWrapper>
     </Modal>
   ) : (
-    <InlineModal isOpen={isOpen}>{getInnerContent()}</InlineModal>
+    <InlineModal className="boxStyling" isOpen={isOpen}>
+      {getInnerContent()}
+    </InlineModal>
   );
 }

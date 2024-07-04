@@ -19,8 +19,10 @@ const Wrapper = styled(Card)`
   padding: 0;
   border-radius: 10px;
   position: relative;
+  background: rgba(233, 232, 237, 0.3) !important;
+  box-shadow: 0px 0px 3px 0px rgba(254, 251, 224, 0.2) inset;
+  backdrop-filter: blur(15px);
   justify-content: center;
-  background: ${({ theme }) => theme.bg0};
 `;
 
 const AdBlockText = styled(RowCenter)`

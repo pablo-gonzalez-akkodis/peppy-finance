@@ -28,6 +28,7 @@ import WithdrawModal from "components/ReviewModal/WithdrawModal";
 
 const Container = styled(DefaultContainer)`
   overflow: hidden;
+  border-radius: 10px;
 `;
 
 const TopContainer = styled(Column)`

@@ -22,7 +22,6 @@ const Container = styled.div`
   column-gap: 60px;
   row-gap: 24px;
   padding: 16px 24px;
-  border-radius: 4px;
 
   ${({ theme }) => theme.mediaWidth.upToLarge`
     grid-template-columns: 1fr 1fr;

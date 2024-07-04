@@ -314,7 +314,7 @@ export const ThemedGlobalStyle = createGlobalStyle`
 
 
   .boxStyling{
-    background: rgba(233, 232, 237, 0.3);
+    background: rgba(233, 232, 237, 0.3) !important;
     box-shadow: 0px 0px 3px 0px rgba(254, 251, 224, 0.2) inset; 
     border-radius: 10px;
     backdrop-filter: blur(15px);

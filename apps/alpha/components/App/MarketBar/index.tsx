@@ -21,7 +21,8 @@ const Wrapper = styled(Row)`
   min-height: 56px;
   padding: 8px 12px;
   border-radius: 10px;
-
+  z-index: 10;
+  
   ${({ theme }) => theme.mediaWidth.upToMedium`
     flex-direction: column;   
     min-height: unset;

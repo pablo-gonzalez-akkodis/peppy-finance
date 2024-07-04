@@ -189,7 +189,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <Wrapper modal={onClose ? true : false} className="boxStyling">
+    <Wrapper modal={onClose ? true : false}>
       <Row>
         <Title>Create Account</Title>
         <RowEnd>

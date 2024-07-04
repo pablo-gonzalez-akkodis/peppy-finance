@@ -17,6 +17,7 @@ const Container = styled(DefaultContainer)`
   position: relative;
   overflow: hidden;
   min-height: 442px;
+  border-radius: 10px;
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     grid-row: 3;

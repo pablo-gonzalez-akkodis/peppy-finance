@@ -18,7 +18,7 @@ const Title = styled.div`
   font-weight: 500;
   font-size: 12px;
   margin: 12px 0px 4px 14px;
-  color: ${({ theme }) => theme.text2};
+  color: ${({ theme }) => theme.text8};
 `;
 
 export default function Markets({

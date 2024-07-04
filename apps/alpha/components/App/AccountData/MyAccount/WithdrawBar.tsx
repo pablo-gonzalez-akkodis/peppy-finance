@@ -17,7 +17,7 @@ import WithdrawCooldown from "components/App/AccountData/WithdrawCooldown";
 
 const Container = styled(RowBetween)`
   height: 59px;
-  border-radius: 4px;
+  border-radius: 10px;
   padding: 0px 12px 0px 16px;
 
   & > * {

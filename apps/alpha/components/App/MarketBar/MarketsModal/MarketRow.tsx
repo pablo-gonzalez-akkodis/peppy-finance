@@ -18,7 +18,7 @@ const Row = styled(RowStart)<{ active: boolean }>`
   background: ${({ theme, active }) => (active ? theme.bg3 : "inherit")};
   &:hover {
     cursor: pointer;
-    background: ${({ theme }) => theme.bg3};
+    background: ${({ theme }) => theme.bg9};
   }
 `;
 
@@ -27,7 +27,6 @@ const StarWrap = styled.div`
   height: 36px;
   padding: 10px;
   border-radius: 4px;
-  background: ${({ theme }) => theme.black2};
 `;
 
 const Text = styled.div<{ active?: boolean; width?: string }>`
@@ -37,7 +36,7 @@ const Text = styled.div<{ active?: boolean; width?: string }>`
   padding: 14px;
 
   width: ${({ width }) => width ?? "100%"};
-  color: ${({ theme, active }) => (active ? theme.text0 : theme.text1)};
+  color: ${({ theme, active }) => (active ? theme.text0 : theme.text8)};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
       font-size: 12px;

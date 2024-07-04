@@ -16,6 +16,7 @@ import { useGetTokenWithFallbackChainId } from "@symmio/frontend-sdk/utils/token
 
 const Container = styled(DefaultContainer)`
   padding-bottom: 16px;
+  border-radius: 10px;
 `;
 
 const InfoWrapper = styled(Column)`

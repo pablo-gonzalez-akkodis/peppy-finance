@@ -7,7 +7,7 @@ export const GeneralContainer = styled.div<{ height?: string; width?: string }>`
 `;
 
 export const DefaultContainer = styled(GeneralContainer)`
-  border-radius: 4px;
+  border-radius: 10px;
 `;
 
 export const DefaultHeader = styled.h2`
