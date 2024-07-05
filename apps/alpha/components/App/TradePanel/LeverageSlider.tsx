@@ -77,7 +77,7 @@ export function LeverageSlider({
           borderRadius: "4px",
           height: "8px",
           width: "1px",
-          borderColor: theme.text4,
+          borderColor: theme.text8,
         }}
         handleStyle={{
           borderColor: theme.bg,
@@ -86,14 +86,14 @@ export function LeverageSlider({
           height: 12,
           width: 12,
           marginTop: -4,
-          borderRadius: 2,
           boxShadow: "none",
           backgroundColor: mixedColor,
+          borderRadius: "25px",
         }}
         railStyle={{
           width: "calc(100% + 8px)",
           marginLeft: "-4px",
-          background: theme.bg6,
+          background: theme.text8,
         }}
         activeDotStyle={{ borderColor: theme.text7 }}
         onChange={onChange}

@@ -78,6 +78,7 @@ export const TabHome = styled(RowCenter)`
   text-align: center;
   overflow: hidden;
   border-radius: 10px;
+  box-shadow: 0px 0px 6px 0px #c2f2f9, 0px 4px 4px 0px #00000040;
   text-transform: uppercase;
   font-weight: 400;
   color: ${({ theme }) => theme.text8};
@@ -96,7 +97,7 @@ const SymmetrialText = styled.div`
     rgba(199, 241, 153, 1),
     rgba(92, 220, 240, 1) 100%
   );
-  text-shadow: 0px 2px 0px #00000040;
+  text-shadow: rgb(255, 255, 255) 0px 0px 4px, rgba(0, 0, 0, 0.25) 0px 4px 4px;
   font-family: Space Grotesk;
   font-size: 66px;
   font-weight: 700;
@@ -133,28 +134,40 @@ export default function MyFunction() {
       }}
     >
       <Wrapper>
-        <TabHome style={!mobileVersion ? { width: "100%" } : { width: "85%" }}>
-          <Link href="/trade">
-            <p>Start Trading</p>
+        <TabHome style={!mobileVersion ? { width: "50%" } : { width: "85%" }}>
+          <Link
+            href="/trade"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <p
+              style={{
+                fontSize: "20px",
+                textTransform: "uppercase",
+                textDecoration: "none",
+                lineHeight: "25.52px",
+                letterSpacing: "11%",
+              }}
+            >
+              Start Trading
+            </p>
           </Link>
         </TabHome>
         <div
           className="boxStylingDarker"
           style={
             !mobileVersion
-              ? { width: "100%", padding: "20px" }
-              : { width: "85%", padding: "20px" }
+              ? { width: "100%", padding: "20px", backdropFilter: "blur(15px)" }
+              : { width: "85%", padding: "20px", backdropFilter: "blur(15px)" }
           }
         >
-          <p>
-            Trade BTC, ETH and native Shimmer tokens with up to 100x leverage
-            directly from your wallet
-          </p>
+          <p>Trade yourself to the moon with up to 100x leverage 🐸</p>
         </div>
 
         <NavBarLogo
-          width={mobileVersion ? 208 : 208}
-          height={mobileVersion ? 208 : 208}
+          width={mobileVersion ? 258 : 308}
+          height={mobileVersion ? 258 : 308}
         />
         <SymmetrialText className="space-grotesk">
           PEPPY FINANCE{" "}
