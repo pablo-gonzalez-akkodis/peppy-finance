@@ -123,7 +123,6 @@ export default function MyFunction() {
       dispatch(updateAccount(lastSubAccount));
     }
   }, [accounts, dispatch]);
-  console.log("accounts", accounts);
   return (
     <div
       style={{

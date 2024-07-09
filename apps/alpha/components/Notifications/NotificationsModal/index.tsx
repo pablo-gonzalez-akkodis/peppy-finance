@@ -19,8 +19,6 @@ import OldNotificationsDropdown from "./OldNotificationsDropdown";
 const ModalWrapper = styled(Card)`
   padding: 0.6rem;
   border: none;
-  background: ${({ theme }) => theme.bg3};
-
   & > * {
     &:last-child {
       overflow-y: scroll;
@@ -38,12 +36,12 @@ const InlineModal = styled(Card)<{
 }>`
   padding: 10px;
   width: 404px;
+  border-radius: 10px;
   max-height: ${({ height }) => height ?? "554px"};
   display: ${(props) => (props.isOpen ? "flex" : "none")};
   position: absolute;
   z-index: ${Z_INDEX.modal};
   transform: translate(-364px, 10px);
-  background: ${({ theme }) => theme.bg1};
 
   & > * {
     &:last-child {
@@ -58,7 +56,7 @@ const EmptyRow = styled(ColumnCenter)`
   font-size: 14px;
   margin-bottom: 70px;
   font-weight: 400;
-  color: ${({ theme }) => theme.text1};
+  color: ${({ theme }) => theme.text8};
 `;
 
 const InfoBox = styled(RowCenter)`
@@ -113,7 +111,7 @@ export default function NotificationsModal({
             <Bell
               width={48}
               height={50}
-              color={theme.bg5}
+              color={theme.bg9}
               style={{ margin: "10px auto 20px auto" }}
             />
             you have no notifications!
@@ -158,6 +156,7 @@ export default function NotificationsModal({
     </Modal>
   ) : (
     <InlineModal
+      className="boxStyling"
       isOpen={isOpen}
       height={emptyNotification ? "288px" : undefined}
     >

@@ -29,17 +29,16 @@ const InlineModal = styled(Card)<{ isOpen: boolean }>`
   gap: 8px;
   padding: 11px;
   margin-top: 10px;
-  background: ${({ theme }) => theme.bg1};
-  border-radius: 4px;
+  border-radius: 10px;
 `;
 
 const Row = styled(RowBetween)<{ active?: boolean }>`
   width: unset;
   height: 40px;
-  color: ${({ theme }) => theme.text0};
+  color: ${({ theme }) => theme.text7};
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.text1};
+    color: ${({ theme }) => theme.bg9};
   }
 
   ${({ active, theme }) =>
@@ -92,8 +91,12 @@ export default function Menu() {
       </Button>
       {/* <Image src={BURGER_ICON} alt="burger-icon" onClick={() => toggle()} /> */}
       <div>
-        <InlineModal isOpen={isOpen} onClick={() => toggle()}>
-        <Link href="/" passHref className="noDecoration">
+        <InlineModal
+          className="boxStyling"
+          isOpen={isOpen}
+          onClick={() => toggle()}
+        >
+          <Link href="/" passHref className="noDecoration">
             <Row active={router.asPath === "/"}>
               <div>Home</div>
               {/* <MarketPair /> */}
