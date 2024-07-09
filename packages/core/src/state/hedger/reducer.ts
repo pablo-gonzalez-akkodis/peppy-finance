@@ -75,33 +75,33 @@ export default createReducer(initialState, (builder) =>
       console.error("Unable to fetch getMarketsDepth");
     })
 
-    // .addCase(getMarkets.pending, (state) => {
-    //   state.marketsStatus = ApiState.LOADING;
-    // })
-    // .addCase(getMarkets.fulfilled, (state, { payload }) => {
-    //   state.markets = payload.markets;
-    //   state.errorMessages = payload.errorMessages;
-    //   state.marketsStatus = ApiState.OK;
-    // })
-    // .addCase(getMarkets.rejected, (state) => {
-    //   state.markets = [];
-    //   state.marketsStatus = ApiState.ERROR;
-    //   state.errorMessages = {};
-    //   console.error("Unable to fetch getMarkets", state);
-    // })
+    .addCase(getMarkets.pending, (state) => {
+      state.marketsStatus = ApiState.LOADING;
+    })
+    .addCase(getMarkets.fulfilled, (state, { payload }) => {
+      state.markets = payload.markets;
+      state.errorMessages = payload.errorMessages;
+      state.marketsStatus = ApiState.OK;
+    })
+    .addCase(getMarkets.rejected, (state) => {
+      state.markets = [];
+      state.marketsStatus = ApiState.ERROR;
+      state.errorMessages = {};
+      console.error("Unable to fetch getMarkets", state);
+    })
 
-    // .addCase(getOpenInterest.pending, (state) => {
-    //   state.openInterestStatus = ApiState.LOADING;
-    // })
-    // .addCase(getOpenInterest.fulfilled, (state, { payload }) => {
-    //   state.openInterest = payload.openInterest;
-    //   state.openInterestStatus = ApiState.OK;
-    // })
-    // .addCase(getOpenInterest.rejected, (state) => {
-    //   state.openInterestStatus = ApiState.ERROR;
-    //   state.openInterest = { total: -1, used: -1 };
-    //   console.error("Unable to fetch openInterest", state);
-    // })
+    .addCase(getOpenInterest.pending, (state) => {
+      state.openInterestStatus = ApiState.LOADING;
+    })
+    .addCase(getOpenInterest.fulfilled, (state, { payload }) => {
+      state.openInterest = payload.openInterest;
+      state.openInterestStatus = ApiState.OK;
+    })
+    .addCase(getOpenInterest.rejected, (state) => {
+      state.openInterestStatus = ApiState.ERROR;
+      state.openInterest = { total: -1, used: -1 };
+      console.error("Unable to fetch openInterest", state);
+    })
 
     .addCase(getNotionalCap.pending, (state) => {
       state.marketNotionalCapStatus = ApiState.LOADING;
