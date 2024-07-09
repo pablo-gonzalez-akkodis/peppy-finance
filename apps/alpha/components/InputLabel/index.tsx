@@ -79,11 +79,11 @@ const DataWrap = styled(RowEnd)`
   font-weight: 500;
   padding-right: 10px;
   border-radius: 0px;
-  color: ${({ theme }) => theme.text0};
-  background: ${({ theme }) => theme.bg2};
+  color: ${({ theme }) => theme.text8};
+  border: 1px solid white;
   & > * {
     &:first-child {
-      color: ${({ theme }) => theme.text5};
+      color: ${({ theme }) => theme.text8};
     }
   }
 `;

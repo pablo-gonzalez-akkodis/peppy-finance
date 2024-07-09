@@ -70,13 +70,15 @@ const AccountWrapper = styled(Row)`
   padding: 10px 12px;
   font-weight: 500;
   font-size: 12px;
-  background: ${({ theme }) => theme.bg2};
+  border: 1px solid white;
+  border-radius: 10px;
   color: ${({ theme }) => theme.text0};
 `;
 
 const AccountNameWrapper = styled(AccountWrapper)`
-  background: ${({ theme }) => theme.bg2};
   color: ${({ theme }) => theme.text3};
+  border: 1px solid white;
+  border-radius: 10px;
 `;
 
 const Input = styled.input<{ [x: string]: any }>`
@@ -109,7 +111,6 @@ const Close = styled.div`
   cursor: pointer;
   border-radius: 4px;
   margin: 2px 12px 1px 0px;
-  background: ${({ theme }) => theme.bg1};
 `;
 
 const DescriptionText = styled.div`
@@ -117,7 +118,7 @@ const DescriptionText = styled.div`
   text-align: center;
   margin-top: 16px;
 
-  color: ${({ theme }) => theme.text4};
+  color: ${({ theme }) => theme.text7};
 `;
 
 export default function CreateAccount({ onClose }: { onClose?: () => void }) {
@@ -189,7 +190,7 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
   }
 
   return (
-    <Wrapper modal={onClose ? true : false}>
+    <Wrapper className={onClose && "boxStyling"} modal={onClose ? true : false}>
       <Row>
         <Title>Create Account</Title>
         <RowEnd>

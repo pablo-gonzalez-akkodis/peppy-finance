@@ -30,7 +30,6 @@ const Pagination = styled(Row)`
 const RowPerPage = styled(Pagination)`
   width: 200px;
   font-weight: 400;
-  background-color: ${({ theme }) => theme.bg2};
   border-radius: 4px;
   padding: 12px;
   font-size: 12px;
@@ -190,6 +189,7 @@ function PaginationPerPageCard() {
       <RowPerPage
         gap="4px"
         onClick={() => setCardOpen((prevCardOpen) => !prevCardOpen)}
+        className="boxStyling"
       >
         <RowBetween>
           <RowPerPageText>Rows per page</RowPerPageText>

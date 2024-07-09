@@ -29,6 +29,7 @@ const Wrapper = styled(Column)`
   margin-top: -11px;
   overflow-y: scroll;
   height: auto;
+  border-radius: 10px;
 `;
 
 export default function OpenPositionModal() {
@@ -63,6 +64,7 @@ export default function OpenPositionModal() {
       isOpen={modalOpen}
       onBackgroundClick={toggleModal}
       onEscapeKeydown={toggleModal}
+      className="boxStyling"
     >
       <ModalHeader
         onClose={toggleModal}
