@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import styled from "styled-components";
 import Image from "next/legacy/image";
 
-import GRADIENT_THENA_LOGO from "/public/static/images/etc/GradientThena.svg";
+import PEPPY_FINANCE_LOGO from "/public/static/images/peppyFinanceLogo.svg";
 
 import { useCollateralToken } from "@symmio/frontend-sdk/constants/tokens";
 import { truncateAddress } from "@symmio/frontend-sdk/utils/address";
@@ -59,8 +59,8 @@ const ContentWrapper = styled(Column)`
 `;
 
 const ImageWrapper = styled(RowCenter)`
-  margin-top: 30px;
-  margin-bottom: 64px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const AccountWrapper = styled(Row)`
@@ -209,10 +209,10 @@ export default function CreateAccount({ onClose }: { onClose?: () => void }) {
       <ContentWrapper>
         <ImageWrapper>
           <Image
-            src={GRADIENT_THENA_LOGO}
+            src={PEPPY_FINANCE_LOGO}
             alt="thena_logo"
-            width={314}
-            height={65}
+            width={150}
+            height={150}
           />
         </ImageWrapper>
         <AccountWrapper>
