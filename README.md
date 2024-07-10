@@ -1,8 +1,8 @@
 # note:
 - Navigate to frontend-sdk > packages > core > src > state > hedger > reducer.ts
-        .addCase getMarkets
-        .addCase openInterest
-  - Comment these two cases to enable wallet connection. App crashes in a loop calling these two cases. 
+- .addCase getMarkets
+- .addCase openInterest
+- Comment these two cases to enable wallet connection. App crashes in a loop calling these two cases. 
 
 # @symmio/frontend-sdk
 
