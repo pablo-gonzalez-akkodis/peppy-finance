@@ -128,7 +128,7 @@ export function MarketsModal({
       <ModalWrapper>{getInnerContent()}</ModalWrapper>
     </Modal>
   ) : (
-    <InlineModal className="boxStyling" isOpen={isOpen}>
+    <InlineModal className="boxStylingDarker" isOpen={isOpen}>
       {getInnerContent()}
     </InlineModal>
   );
