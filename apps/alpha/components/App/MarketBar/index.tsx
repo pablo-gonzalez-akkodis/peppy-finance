@@ -47,7 +47,7 @@ const DataWrap = styled(Row)`
 const HedgerInfos = styled(RowBetween)`
   gap: 25px;
   width: unset;
-  justify-content: baseline;
+  justify-content: center;
 
   ${({ theme }) => theme.mediaWidth.upToSmall` 
     gap: 10px;
@@ -65,7 +65,10 @@ const Separator = styled.div`
   height: 40px;
   border-radius: 4px;
   margin-right: 2px;
-  background: #363954;
+  background: white;
+  ${({ theme }) => theme.mediaWidth.upToSmall` 
+    display: none;
+  `}
 `;
 
 export const Name = styled.div<{
@@ -75,10 +78,10 @@ export const Name = styled.div<{
   font-weight: 400;
   font-size: 12px;
   margin-bottom: 12px;
-  text-align: ${({ textAlign }) => textAlign ?? "left"};
+  text-align: ${({ textAlign }) => textAlign ?? "center"};
   color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
-    text-align: ${textAlignMedium ?? "left"};
+    text-align: ${textAlignMedium ?? "center"};
   `};
 `;
 
@@ -88,10 +91,10 @@ export const Value = styled.div<{
 }>`
   font-weight: 500;
   font-size: 12px;
-  text-align: ${({ textAlign }) => textAlign ?? "left"};
+  text-align: ${({ textAlign }) => textAlign ?? "center"};
   color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
-    text-align: ${textAlignMedium ?? "left"};
+    text-align: ${textAlignMedium ?? "center"};
   `};
 `;
 
@@ -125,9 +128,10 @@ export default function MarketBar() {
               <Loader size={"12px"} stroke="#EBEBEC" />
             )}
           </Column>
+          <Separator />
           <Column>
-            <Name textAlignMedium={"right"}>Open Interest</Name>
-            <Value textAlignMedium={"right"}>
+            <Name textAlignMedium={"center"}>Open Interest</Name>
+            <Value textAlignMedium={"center"}>
               {used === -1 ? (
                 <Loader size={"12px"} stroke="#EBEBEC" />
               ) : (
@@ -141,6 +145,7 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
+          <Separator />
           <Column>
             <Name>{activeMarket?.symbol} Notional Cap</Name>
             <Value>
@@ -157,7 +162,9 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
+          <Separator />
           <MarketFundingRate />
+          <Separator />
         </HedgerInfos>
       </DataWrap>
       <MarketDepths />

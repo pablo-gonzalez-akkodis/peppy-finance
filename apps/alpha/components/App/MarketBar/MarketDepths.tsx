@@ -16,6 +16,17 @@ const MarginColumn = styled(Column)`
   `};
 `;
 
+const Separator = styled.div`
+  width: 2px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 2px;
+  background: white;
+    ${({ theme }) => theme.mediaWidth.upToSmall` 
+    display: none;
+  `}
+`;
+
 const MarketInfos = styled(RowEnd)`
   gap: 10px;
   flex: 1;
@@ -30,9 +41,9 @@ const MarketInfos = styled(RowEnd)`
 const MarketDepth = styled(RowEnd)`
   gap: 20px;
   width: unset;
-
+ justify-content: center;
   ${({ theme }) => theme.mediaWidth.upToMedium`
-    justify-content: flex-start;
+    justify-content: center;
 
   `};
 `;
@@ -51,11 +62,13 @@ export default function MarketDepths() {
           {spread}
         </Value>
       </MarginColumn>
+      <Separator />
       <MarketDepth>
         <Column>
           <Name textAlign={"center"}>Bid</Name>
           <BlinkingPrice data={bid} textSize={"12px"} textAlign={"center"} />
         </Column>
+        <Separator />
         <Column>
           <Name textAlign={"center"}>Ask</Name>
           <BlinkingPrice data={ask} textSize={"center"} textAlign={"center"} />
