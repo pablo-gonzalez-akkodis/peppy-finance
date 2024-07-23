@@ -19,11 +19,10 @@ import MarketFundingRate from "./MarketFundingRate";
 
 const Wrapper = styled(Row)`
   min-height: 56px;
-  padding: 8px 12px;
+  padding: 16px 12px;
   border-radius: 10px;
   z-index: 10;
-  
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     flex-direction: column;   
     min-height: unset;
     gap:16px; 
@@ -35,20 +34,22 @@ const DataWrap = styled(Row)`
   border-radius: 4px;
   flex: 2;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium` 
+  ${({ theme }) => theme.mediaWidth.upToLarge` 
     & > * {
       &:nth-child(2) {
         display: none;
       }
     }
+         flex-direction: column;   
   `};
 `;
 
 const HedgerInfos = styled(RowBetween)`
-  gap: 10px;
+  gap: 25px;
   width: unset;
+  justify-content: baseline;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium` 
+  ${({ theme }) => theme.mediaWidth.upToSmall` 
     gap: 10px;
     width: 100%;
     & > * {

@@ -1,5 +1,5 @@
 import styled from "styled-components";
-
+import React, { useState } from "react";
 import { RowStart } from "components/Row";
 import { Search as SearchIcon } from "components/Icons";
 
@@ -57,11 +57,9 @@ export function InputField({
       <SearchIcon size={15} />
       <Input
         {...searchProps}
-        autoFocus
         type="text"
         placeholder={placeholder}
         spellCheck="false"
-        onBlur={() => null}
       />
     </SearchWrapper>
   );

@@ -19,10 +19,9 @@ const MarginColumn = styled(Column)`
 const MarketInfos = styled(RowEnd)`
   gap: 10px;
   flex: 1;
-
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     gap: 10px;
-    justify-content: space-between;
+  justify-content: center;
     flex-direction: row-reverse;
     width:100%;
   `};
@@ -45,21 +44,21 @@ export default function MarketDepths() {
   return (
     <MarketInfos>
       <MarginColumn>
-        <Name textAlign={"right"} textAlignMedium={"right"}>
+        <Name textAlign={"center"} textAlignMedium={"center"}>
           Spread(bps)
         </Name>
-        <Value textAlign={"right"} textAlignMedium={"right"}>
+        <Value textAlign={"center"} textAlignMedium={"center"}>
           {spread}
         </Value>
       </MarginColumn>
       <MarketDepth>
         <Column>
-          <Name textAlign={"right"}>Bid</Name>
-          <BlinkingPrice data={bid} textSize={"12px"} textAlign={"right"} />
+          <Name textAlign={"center"}>Bid</Name>
+          <BlinkingPrice data={bid} textSize={"12px"} textAlign={"center"} />
         </Column>
         <Column>
-          <Name textAlign={"right"}>Ask</Name>
-          <BlinkingPrice data={ask} textSize={"12px"} textAlign={"right"} />
+          <Name textAlign={"center"}>Ask</Name>
+          <BlinkingPrice data={ask} textSize={"center"} textAlign={"center"} />
         </Column>
       </MarketDepth>
     </MarketInfos>
