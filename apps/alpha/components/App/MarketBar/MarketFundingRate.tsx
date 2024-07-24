@@ -52,7 +52,7 @@ const Separator = styled.div`
   border-radius: 4px;
   margin-right: 2px;
   background: white;
-    ${({ theme }) => theme.mediaWidth.upToSmall` 
+    ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
     display: none;
   `}
 `;

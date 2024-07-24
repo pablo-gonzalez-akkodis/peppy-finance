@@ -49,7 +49,7 @@ const HedgerInfos = styled(RowBetween)`
   width: unset;
   justify-content: center;
 
-  ${({ theme }) => theme.mediaWidth.upToSmall` 
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
     gap: 10px;
     width: 100%;
     & > * {
@@ -66,7 +66,7 @@ const Separator = styled.div`
   border-radius: 4px;
   margin-right: 2px;
   background: white;
-  ${({ theme }) => theme.mediaWidth.upToSmall` 
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
     display: none;
   `}
 `;

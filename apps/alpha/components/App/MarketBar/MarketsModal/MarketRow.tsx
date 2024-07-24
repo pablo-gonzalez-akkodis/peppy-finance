@@ -16,6 +16,7 @@ import { Star } from "components/Icons";
 const Row = styled(RowStart)<{ active: boolean }>`
   z-index: 0;
   background: ${({ theme, active }) => (active ? theme.bg3 : "inherit")};
+  text-align: start;
   &:hover {
     cursor: pointer;
     background: ${({ theme }) => theme.bg9};
