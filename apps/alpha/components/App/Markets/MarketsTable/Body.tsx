@@ -20,6 +20,13 @@ const LoaderWrapper = styled.div`
   margin: 16px auto;
 `;
 
+const NoMarkets = styled.div`
+  text-align: center;
+  padding-top: 100px;
+  padding-bottom: 100px;
+  font-size: 25px;
+`;
+
 export default function TableBody({
   markets,
   searchValue,
@@ -67,6 +74,7 @@ export default function TableBody({
         Math.min(page * marketsPerPage, markets.length)
       )
     );
+    console.log(markets.length);
   }, [markets, page, marketsPerPage]);
 
   useEffect(() => {
@@ -74,31 +82,63 @@ export default function TableBody({
   }, [searchValue]);
 
   return (
-    <Column>
-      {infoStatus === ApiState.LOADING ? (
-        <LoaderWrapper>
-          <Loader />
-        </LoaderWrapper>
-      ) : infoStatus === ApiState.OK ? (
-        visibleMarkets.map((market) => (
-          <MarketRow
-            key={market.id}
-            market={market}
-            marketInfo={marketsInfo[market.name]}
-          />
-        ))
+    <>
+      {markets.length === 0 ? (
+        <NoMarkets>No available markets</NoMarkets>
       ) : (
-        <h1>error</h1>
+        <Column>
+          {infoStatus === ApiState.LOADING ? (
+            <LoaderWrapper>
+              <Loader />
+            </LoaderWrapper>
+          ) : infoStatus === ApiState.OK ? (
+            visibleMarkets.map((market) => (
+              <MarketRow
+                key={market.id}
+                market={market}
+                marketInfo={marketsInfo[market.name]}
+              />
+            ))
+          ) : (
+            <h1>error</h1>
+          )}
+          <FooterWrapper>
+            <Footer
+              pageCount={pageCount}
+              currentPage={page}
+              onPageChange={onPageChange}
+              rowsPerPage={marketsPerPage}
+              onRowsPerPageChange={onMarketsPerPageChange}
+            />
+          </FooterWrapper>
+        </Column>
       )}
-      <FooterWrapper>
-        <Footer
-          pageCount={pageCount}
-          currentPage={page}
-          onPageChange={onPageChange}
-          rowsPerPage={marketsPerPage}
-          onRowsPerPageChange={onMarketsPerPageChange}
-        />
-      </FooterWrapper>
-    </Column>
+      {/* <Column>
+        {infoStatus === ApiState.LOADING ? (
+          <LoaderWrapper>
+            <Loader />
+          </LoaderWrapper>
+        ) : infoStatus === ApiState.OK ? (
+          visibleMarkets.map((market) => (
+            <MarketRow
+              key={market.id}
+              market={market}
+              marketInfo={marketsInfo[market.name]}
+            />
+          ))
+        ) : (
+          <h1>error</h1>
+        )}
+        <FooterWrapper>
+          <Footer
+            pageCount={pageCount}
+            currentPage={page}
+            onPageChange={onPageChange}
+            rowsPerPage={marketsPerPage}
+            onRowsPerPageChange={onMarketsPerPageChange}
+          />
+        </FooterWrapper>
+      </Column> */}
+    </>
   );
 }
