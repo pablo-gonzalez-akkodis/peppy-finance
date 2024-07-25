@@ -25,6 +25,7 @@ const Value = styled.div<{
   color?: string;
   size?: string;
 }>`
+  text-align:center;
   color: ${({ theme, color }) => color ?? theme.text0};
   ${({ size }) =>
     size &&
@@ -43,6 +44,17 @@ const StyledInfoIcon = styled(InfoIcon)`
   height: 12px;
   margin: 4px 4px 0px 4px;
   cursor: default;
+`;
+
+const Separator = styled.div`
+  width: 2px;
+  height: 40px;
+  border-radius: 4px;
+  margin-right: 2px;
+  background: white;
+    ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
+    display: none;
+  `}
 `;
 
 export default function MarketFundingRate() {
@@ -99,6 +111,7 @@ export default function MarketFundingRate() {
           </DataRow>
         </Column>
       </Column>
+      <Separator />
       <Column>
         <Name>Next funding</Name>
         <Value size={"12px"}>

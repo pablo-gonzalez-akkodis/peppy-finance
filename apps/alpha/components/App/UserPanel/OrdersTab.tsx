@@ -17,7 +17,7 @@ const TabButton = styled(RowCenter)<{ active: boolean }>`
   width: fit-content;
   white-space: nowrap;
   padding: 16px;
-  color: ${({ active, theme }) => (active ? theme.text8 : theme.text4)};
+  color: ${({ active, theme }) => (active ? theme.text8 : theme.text2)};
 
   &:hover {
     cursor: pointer;

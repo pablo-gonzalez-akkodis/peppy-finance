@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 import { RowStart } from "components/Row";
 import { Search as SearchIcon } from "components/Icons";
+import { useState, useEffect } from "react";
 
 const SearchWrapper = styled(RowStart)`
   flex-flow: row nowrap;
@@ -52,16 +53,37 @@ export function InputField({
   searchProps: any;
   placeholder: string;
 }) {
+  const [inputValue, setInputValue] = useState("");
+  const [isInputFocused, setIsInputFocused] = useState(false);
+  useEffect(() => {
+    if (isInputFocused && searchProps.onChange) {
+      searchProps.onChange({ target: { value: inputValue } });
+    }
+  }, [inputValue, isInputFocused, searchProps.onChange]);
+
+  const handleInputChange = (e) => {
+    setInputValue(e.target.value);
+  };
+
+  const handleFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleBlur = () => {
+    setIsInputFocused(false);
+  };
   return (
     <SearchWrapper>
       <SearchIcon size={15} />
       <Input
         {...searchProps}
-        autoFocus
+        value={inputValue}
+        onChange={handleInputChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
         type="text"
         placeholder={placeholder}
         spellCheck="false"
-        onBlur={() => null}
       />
     </SearchWrapper>
   );

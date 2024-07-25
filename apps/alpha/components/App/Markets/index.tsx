@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import MarketsTable from "./MarketsTable";
 import WrapperBanner from "components/Banner";
-import { RowCenter } from "components/Row";
 
 const Container = styled.div`
   width: 100%;
@@ -12,32 +11,16 @@ const Container = styled.div`
   border-radius: 4px;
 `;
 
-const BigMarketsLabel = styled(RowCenter)`
-  color: ${({ theme }) => theme.bg1};
-  font-size: 136px;
-  font-weight: 700;
-  margin-bottom: 80px;
-  background: linear-gradient(180deg, #c7f199 0%, #5cdcf0 100%);
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  ${({ theme }) => theme.mediaWidth.upToSmall`
-    font-size: 100px;
-  `}
-  ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    font-size: 64px;
-  `}
-`;
-
 const TableWrapper = styled.div`
   position: relative;
-  margin-top: -85px;
+  margin-top: 60px;
   z-index: 9;
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    margin-top: -65px;
+    margin-top: 15px;
   `}
   ${({ theme }) => theme.mediaWidth.upToExtraSmall`
-    margin-top: -35px;
+    margin-top: 20px;
   `}
 `;
 
@@ -45,7 +28,6 @@ export default function Markets() {
   return (
     <Container>
       <WrapperBanner />
-      <BigMarketsLabel>MARKETS</BigMarketsLabel>
       <TableWrapper className="boxStyling">
         <MarketsTable />
       </TableWrapper>

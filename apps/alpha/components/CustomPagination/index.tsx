@@ -75,11 +75,10 @@ const HoverWrapper = styled(Card)`
   padding: 0px;
   width: 200px;
   position: absolute;
-  transform: translateY(-4px);
+  transform: translateY(-168px);
   z-index: 1;
-  background: ${({ theme }) => theme.bg2};
   border-top: 1px solid ${({ theme }) => theme.bg5};
-  border-radius: 0 0 4px 4px;
+  border-radius: 4px 4px 0 0;
   ${({ theme }) => theme.mediaWidth.upToSmall`
     width: 64px;
   `};

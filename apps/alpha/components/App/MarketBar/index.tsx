@@ -19,11 +19,10 @@ import MarketFundingRate from "./MarketFundingRate";
 
 const Wrapper = styled(Row)`
   min-height: 56px;
-  padding: 8px 12px;
+  padding: 16px 12px;
   border-radius: 10px;
   z-index: 10;
-  
-  ${({ theme }) => theme.mediaWidth.upToMedium`
+  ${({ theme }) => theme.mediaWidth.upToLarge`
     flex-direction: column;   
     min-height: unset;
     gap:16px; 
@@ -35,20 +34,22 @@ const DataWrap = styled(Row)`
   border-radius: 4px;
   flex: 2;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium` 
+  ${({ theme }) => theme.mediaWidth.upToLarge` 
     & > * {
       &:nth-child(2) {
         display: none;
       }
     }
+         flex-direction: column;   
   `};
 `;
 
 const HedgerInfos = styled(RowBetween)`
-  gap: 10px;
+  gap: 25px;
   width: unset;
+  justify-content: center;
 
-  ${({ theme }) => theme.mediaWidth.upToMedium` 
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
     gap: 10px;
     width: 100%;
     & > * {
@@ -64,7 +65,10 @@ const Separator = styled.div`
   height: 40px;
   border-radius: 4px;
   margin-right: 2px;
-  background: #363954;
+  background: white;
+  ${({ theme }) => theme.mediaWidth.upToExtraLarge` 
+    display: none;
+  `}
 `;
 
 export const Name = styled.div<{
@@ -74,10 +78,10 @@ export const Name = styled.div<{
   font-weight: 400;
   font-size: 12px;
   margin-bottom: 12px;
-  text-align: ${({ textAlign }) => textAlign ?? "left"};
+  text-align: ${({ textAlign }) => textAlign ?? "center"};
   color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
-    text-align: ${textAlignMedium ?? "left"};
+    text-align: ${textAlignMedium ?? "center"};
   `};
 `;
 
@@ -87,10 +91,10 @@ export const Value = styled.div<{
 }>`
   font-weight: 500;
   font-size: 12px;
-  text-align: ${({ textAlign }) => textAlign ?? "left"};
+  text-align: ${({ textAlign }) => textAlign ?? "center"};
   color: ${({ theme }) => theme.text7};
   ${({ theme, textAlignMedium }) => theme.mediaWidth.upToMedium`
-    text-align: ${textAlignMedium ?? "left"};
+    text-align: ${textAlignMedium ?? "center"};
   `};
 `;
 
@@ -124,9 +128,10 @@ export default function MarketBar() {
               <Loader size={"12px"} stroke="#EBEBEC" />
             )}
           </Column>
+          <Separator />
           <Column>
-            <Name textAlignMedium={"right"}>Open Interest</Name>
-            <Value textAlignMedium={"right"}>
+            <Name textAlignMedium={"center"}>Open Interest</Name>
+            <Value textAlignMedium={"center"}>
               {used === -1 ? (
                 <Loader size={"12px"} stroke="#EBEBEC" />
               ) : (
@@ -140,6 +145,7 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
+          <Separator />
           <Column>
             <Name>{activeMarket?.symbol} Notional Cap</Name>
             <Value>
@@ -156,7 +162,9 @@ export default function MarketBar() {
               )}
             </Value>
           </Column>
+          <Separator />
           <MarketFundingRate />
+          <Separator />
         </HedgerInfos>
       </DataWrap>
       <MarketDepths />

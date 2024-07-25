@@ -16,7 +16,7 @@ export const Price = styled.div<{
   font-style: normal;
   font-weight: 500;
   font-size: ${({ size }) => (size ? size : "12px")};
-  text-align: ${({ textAlign }) => textAlign ?? "left"};
+  text-align: "center";
 
   @keyframes blink {
     25% {

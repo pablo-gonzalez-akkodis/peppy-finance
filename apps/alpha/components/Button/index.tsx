@@ -58,7 +58,7 @@ export const PrimaryButton = styled(BaseButton)<{ height?: string | number }>`
   font-size: 14px;
   font-weight: 600;
   font-bold: 700;
-  border-radius: 25px;
+  border-radius: 10px;
   box-shadow: 0px 0px 6px 0px #c2f2f9, 0px 4px 4px 0px #00000040;
   text-transform: uppercase;
   height: ${({ height }) => (height ? height : "48px")};
