@@ -57,7 +57,7 @@ export const initialState: UserState = {
   depositWithdrawalsData: null,
   depositWithdrawalsState: ApiState.LOADING,
   isTermsAccepted: TermsStatus.NOT_ACCEPTED,
-  frontEndName: "Cloverfield",
+  frontEndName: "Alpha", //TODO revert to Cloverfield once it is integrated
 };
 
 export default createReducer(initialState, (builder) =>
